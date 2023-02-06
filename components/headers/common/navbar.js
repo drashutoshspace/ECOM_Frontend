@@ -3,12 +3,10 @@ import Link from "next/link";
 import { MENUITEMS } from "../../constant/menu";
 import { Container, Row } from "reactstrap";
 import { useTranslation } from "react-i18next";
-import { useRouter } from "next/router";
 
 const NavBar = () => {
   const { t } = useTranslation();
   const [navClose, setNavClose] = useState({ right: "0px" });
-  const router = useRouter();
 
   useEffect(() => {
     if (window.innerWidth < 750) {
@@ -21,14 +19,10 @@ const NavBar = () => {
 
   const openNav = () => {
     setNavClose({ right: "0px" });
-    if (router.asPath == "/layouts/Gym")
-      document.querySelector("#topHeader").classList.add("zindex-class");
   };
 
   const closeNav = () => {
     setNavClose({ right: "-410px" });
-    if (router.asPath == "/layouts/Gym")
-      document.querySelector("#topHeader").classList.remove("zindex-class");
   };
   // eslint-disable-next-line
 

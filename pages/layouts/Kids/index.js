@@ -9,7 +9,6 @@ import Instagram from "../../../components/common/instagram/instagram1";
 import ProductSlider from "../../../components/common/Collections/Collection9";
 import { Product5 } from "../../../services/script";
 import Paragraph from "../../../components/common/Paragraph";
-import ModalComponent from "../../../components/common/Modal";
 import Helmet from "react-helmet";
 import favicon from "../../../public/assets/images/favicon/10.png";
 import MasterParallaxBanner from "../Fashion/Components/MasterParallaxBanner";

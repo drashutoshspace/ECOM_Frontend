@@ -166,7 +166,7 @@ const FooterFive = ({ layoutClass, logoName }) => {
                             <li>
                               Multikart Demo Store, Demo store India 345-659
                             </li>
-                            <li>Call Us: 123-456-7898</li>
+                            <li>Call Us: +91-011-44-45-9085</li>
                             <li>
                               Email Us: <a href="#">Support@Fiot.com</a>
                             </li>
