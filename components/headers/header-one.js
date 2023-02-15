@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import NavBar from "./common/navbar";
 import SideBar from "./common/sidebar";
 import Cart from "../containers/Cart";
@@ -7,7 +7,6 @@ import TopBarDark from "./common/topbar-dark";
 import { Media, Container, Row, Col } from "reactstrap";
 import LogoImage from "./common/logo";
 import search from "../../public/assets/images/icon/search.png";
-import settings from "../../public/assets/images/icon/setting.png";
 import cart from "../../public/assets/images/icon/cart.png";
 import { useRouter } from "next/router";
 import SearchOverlay from "./common/search-overlay";

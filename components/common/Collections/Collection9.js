@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { Media, Container, Col, Row } from "reactstrap";
 import { useQuery } from "@apollo/client";
 import { gql } from "@apollo/client";
-import { CurrencyContext } from "../../../helpers/Currency/CurrencyContext";
 
 const GET_PRODUCTS = gql`
 	query products($type: _CategoryType!, $indexFrom: Int!, $limit: Int!) {
@@ -40,8 +39,6 @@ const GET_PRODUCTS = gql`
 `;
 
 const ProductSlider = ({ type }) => {
-	const curContext = useContext(CurrencyContext);
-	const currency = curContext.state;
 	const router = useRouter();
 
 	var { data } = useQuery(GET_PRODUCTS, {
@@ -120,18 +117,14 @@ const ProductSlider = ({ type }) => {
 																</h6>
 															</a>
 															<h4>
-																{
-																	currency.symbol
-																}
+																{"₹"}
 																{product.price -
 																	(product.price *
 																		product.discount) /
 																		100}
 																<del>
 																	<span className="money">
-																		{
-																			currency.symbol
-																		}
+																		{"₹"}
 																		{
 																			product.price
 																		}
@@ -190,25 +183,17 @@ const ProductSlider = ({ type }) => {
 																</h6>
 															</a>
 															<h4>
-																{
-																	currency.symbol
-																}
+																{"₹"}
 																{(
-																	(product.price -
-																		(product.price *
-																			product.discount) /
-																			100) *
-																	currency.value
+																	product.price -
+																	(product.price *
+																		product.discount) /
+																		100
 																).toFixed(2)}
 																<del>
 																	<span className="money">
-																		{
-																			currency.symbol
-																		}
-																		{(
-																			product.price *
-																			currency.value
-																		).toFixed(
+																		{"₹"}
+																		{product.price.toFixed(
 																			2
 																		)}
 																	</span>
@@ -275,25 +260,17 @@ const ProductSlider = ({ type }) => {
 																</h6>
 															</a>
 															<h4>
-																{
-																	currency.symbol
-																}
+																{"₹"}
 																{(
-																	(product.price -
-																		(product.price *
-																			product.discount) /
-																			100) *
-																	currency.value
+																	product.price -
+																	(product.price *
+																		product.discount) /
+																		100
 																).toFixed(2)}
 																<del>
 																	<span className="money">
-																		{
-																			currency.symbol
-																		}
-																		{(
-																			product.price *
-																			currency.value
-																		).toFixed(
+																		{"₹"}
+																		{product.price.toFixed(
 																			2
 																		)}
 																	</span>
@@ -351,25 +328,17 @@ const ProductSlider = ({ type }) => {
 																</h6>
 															</a>
 															<h4>
-																{
-																	currency.symbol
-																}
+																{"₹"}
 																{(
-																	(product.price -
-																		(product.price *
-																			product.discount) /
-																			100) *
-																	currency.value
+																	product.price -
+																	(product.price *
+																		product.discount) /
+																		100
 																).toFixed(2)}
 																<del>
 																	<span className="money">
-																		{
-																			currency.symbol
-																		}
-																		{(
-																			product.price *
-																			currency.value
-																		).toFixed(
+																		{"₹"}
+																		{product.price.toFixed(
 																			2
 																		)}
 																	</span>
@@ -434,25 +403,17 @@ const ProductSlider = ({ type }) => {
 																</h6>
 															</a>
 															<h4>
-																{
-																	currency.symbol
-																}
+																{"₹"}
 																{(
-																	(product.price -
-																		(product.price *
-																			product.discount) /
-																			100) *
-																	currency.value
+																	product.price -
+																	(product.price *
+																		product.discount) /
+																		100
 																).toFixed(2)}
 																<del>
 																	<span className="money">
-																		{
-																			currency.symbol
-																		}
-																		{(
-																			product.price *
-																			currency.value
-																		).toFixed(
+																		{"₹"}
+																		{product.price.toFixed(
 																			2
 																		)}
 																	</span>
@@ -510,25 +471,17 @@ const ProductSlider = ({ type }) => {
 																</h6>
 															</a>
 															<h4>
-																{
-																	currency.symbol
-																}
+																{"₹"}
 																{(
-																	(product.price -
-																		(product.price *
-																			product.discount) /
-																			100) *
-																	currency.value
+																	product.price -
+																	(product.price *
+																		product.discount) /
+																		100
 																).toFixed(2)}
 																<del>
 																	<span className="money">
-																		{
-																			currency.symbol
-																		}
-																		{(
-																			product.price *
-																			currency.value
-																		).toFixed(
+																		{"₹"}
+																		{product.price.toFixed(
 																			2
 																		)}
 																	</span>
@@ -594,25 +547,17 @@ const ProductSlider = ({ type }) => {
 																</h6>
 															</a>
 															<h4>
-																{
-																	currency.symbol
-																}
+																{"₹"}
 																{(
-																	(product.price -
-																		(product.price *
-																			product.discount) /
-																			100) *
-																	currency.value
+																	product.price -
+																	(product.price *
+																		product.discount) /
+																		100
 																).toFixed(2)}
 																<del>
 																	<span className="money">
-																		{
-																			currency.symbol
-																		}
-																		{(
-																			product.price *
-																			currency.value
-																		).toFixed(
+																		{"₹"}
+																		{product.price.toFixed(
 																			2
 																		)}
 																	</span>
@@ -670,25 +615,17 @@ const ProductSlider = ({ type }) => {
 																</h6>
 															</a>
 															<h4>
-																{
-																	currency.symbol
-																}
+																{"₹"}
 																{(
-																	(product.price -
-																		(product.price *
-																			product.discount) /
-																			100) *
-																	currency.value
+																	product.price -
+																	(product.price *
+																		product.discount) /
+																		100
 																).toFixed(2)}
 																<del>
 																	<span className="money">
-																		{
-																			currency.symbol
-																		}
-																		{(
-																			product.price *
-																			currency.value
-																		).toFixed(
+																		{"₹"}
+																		{product.price.toFixed(
 																			2
 																		)}
 																	</span>

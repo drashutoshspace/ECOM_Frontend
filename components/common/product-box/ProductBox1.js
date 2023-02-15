@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Row, Col, Media, Modal, ModalBody } from "reactstrap";
 import CartContext from "../../../helpers/cart";
-import { CurrencyContext } from "../../../helpers/Currency/CurrencyContext";
 import MasterProductDetail from "./MasterProductDetail";
 
 const ProductItem = ({
@@ -20,8 +19,6 @@ const ProductItem = ({
 	// eslint-disable-next-line
 	const router = useRouter();
 	const cartContext = useContext(CartContext);
-	const curContext = useContext(CurrencyContext);
-	const currency = curContext.state;
 	const plusQty = cartContext.plusQty;
 	const minusQty = cartContext.minusQty;
 	const quantity = cartContext.quantity;
@@ -186,7 +183,6 @@ const ProductItem = ({
 			<MasterProductDetail
 				product={product}
 				productDetail={productDetail}
-				currency={currency}
 				uniqueTags={uniqueTags}
 				title={title}
 				des={des}
@@ -216,12 +212,7 @@ const ProductItem = ({
 						<Col lg="6" className="rtl-text">
 							<div className="product-right">
 								<h2> {product.title} </h2>
-								<h3>
-									{currency.symbol}
-									{(product.price * currency.value).toFixed(
-										2
-									)}
-								</h3>
+								<h3>₹{product.price.toFixed(2)}</h3>
 								{product.variants ? (
 									<ul className="color-variant">
 										{uniqueTags ? (

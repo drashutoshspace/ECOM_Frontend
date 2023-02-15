@@ -3,12 +3,9 @@ import Link from "next/link";
 import CartHeader from "../headers/common/cart-header";
 import CartContext from "../../helpers/cart";
 import { Media } from "reactstrap";
-import { CurrencyContext } from "../../helpers/Currency/CurrencyContext";
 
 const CartContainer = ({ icon }) => {
 	const context = useContext(CartContext);
-	const currContext = useContext(CurrencyContext);
-	const symbol = currContext.state.symbol;
 	const cartList = context.state;
 	const total = context.cartTotal;
 
@@ -28,7 +25,7 @@ const CartContainer = ({ icon }) => {
 							key={index}
 							item={item}
 							total={total}
-							symbol={symbol}
+							symbol={"₹"}
 						/>
 					))}
 					{cartList.length > 0 ? (
@@ -36,11 +33,7 @@ const CartContainer = ({ icon }) => {
 							<li>
 								<div className="total">
 									<h5>
-										subtotal :
-										<span>
-											{symbol}
-											{total}
-										</span>
+										subtotal :<span>₹ {total}</span>
 									</h5>
 								</div>
 							</li>
