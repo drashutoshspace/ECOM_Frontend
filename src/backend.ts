@@ -1,4 +1,4 @@
-const BACKEND = "https://kiranaforhome.herokuapp.com/";
+const BACKEND = "https://backend.meemokidz.com/";
 
 //AUTHENTICATION APIs
 export const Login_API = `${BACKEND}auth/login/`;

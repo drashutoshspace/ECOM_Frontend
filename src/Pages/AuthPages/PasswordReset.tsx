@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import CSRFToken from "../../CSRFToken";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { PasswordReset_API } from "../../backend";
 import Base from "../../Base";
@@ -10,7 +9,7 @@ import { Link } from "react-router-dom";
 const PasswordReset = () => {
 	const [email, setEmail] = useState("");
 	const [loading, setLoading] = useState(false);
-	const forgotPassword = (e) => {
+	const forgotPassword = (e: any) => {
 		e.preventDefault();
 		setLoading(true);
 		return fetch(PasswordReset_API, {
@@ -72,20 +71,39 @@ const PasswordReset = () => {
 				<section className="section">
 					<div className="container">
 						<div className="row align-items-center">
-							<div className="col-lg-6 col-md-6" onMouseEnter={handleChangeImage} onMouseLeave={handleChangeImage}>
+							<div
+								className="col-lg-6 col-md-6"
+								onMouseEnter={handleChangeImage}
+								onMouseLeave={handleChangeImage}
+							>
 								<div className="me-lg-5 mb-5 mb-lg-0">
-									<img src={changeImage ? "images/Forgot_Password_Yellow.svg" : "images/Forgot_Password_LightBlue.svg"} className="loginsvg" alt="Reset_Password" />
+									<img
+										src={
+											changeImage
+												? "images/Forgot_Password_Yellow.svg"
+												: "images/Forgot_Password_LightBlue.svg"
+										}
+										className="loginsvg"
+										alt="Reset_Password"
+									/>
 								</div>
 							</div>
 							<div className="col-lg-6 col-md-6">
 								<div className="card mx-2 bgcolorgreyish border-0 border5px p-4">
 									<div className="card-body">
-										<h2 className="card-title colorblue pb-2 text-center">Reset Password</h2>
+										<h2 className="card-title colorblue pb-2 text-center">
+											Reset Password
+										</h2>
 										<form className="mt-2">
-											<CSRFToken />
 											<div className="row">
 												<div className="col-lg-12">
-													<p className="colorblue text-center">Please enter your email address. You will receive a link to create a new password via email.</p>
+													<p className="colorblue text-center">
+														Please enter your email
+														address. You will
+														receive a link to create
+														a new password via
+														email.
+													</p>
 													<div className="position-relative mb-4">
 														<input
 															className="input100 w-100 border5px border-0 colorblue"
@@ -93,7 +111,10 @@ const PasswordReset = () => {
 															placeholder="Registered Email"
 															value={email.toLowerCase()}
 															onChange={(e) => {
-																setEmail(e.target.value);
+																setEmail(
+																	e.target
+																		.value
+																);
 															}}
 															required
 														/>
@@ -108,18 +129,40 @@ const PasswordReset = () => {
 												<div className="col-lg-12 mb-0">
 													<div className="d-grid">
 														<button
-															disabled={loading ? true : false}
-															onClick={forgotPassword}
+															disabled={
+																loading
+																	? true
+																	: false
+															}
+															onClick={
+																forgotPassword
+															}
 															className="mybtnsame fontsize16 bglightblue colorblue bgyellow border5px border-0 text-uppercase d-inline-block"
 														>
-															{loading ? <DataLoader2 loaderSize={15} loaderType="ScaleLoader" loaderColor="#00214d" /> : "Send"}
+															{loading ? (
+																<DataLoader2
+																	loaderSize={
+																		15
+																	}
+																	loaderType="ScaleLoader"
+																	loaderColor="#00214d"
+																/>
+															) : (
+																"Send"
+															)}
 														</button>
 													</div>
 												</div>
 												<div className="col-12 text-center">
 													<p className="mb-0 mt-4">
-														<span className="colorblue me-2">Remember your password ?</span>
-														<Link to="/signin" className="colorblue lightbluehover cursorpointer">
+														<span className="colorblue me-2">
+															Remember your
+															password ?
+														</span>
+														<Link
+															to="/signin"
+															className="colorblue lightbluehover cursorpointer"
+														>
 															Sign In
 														</Link>
 													</p>

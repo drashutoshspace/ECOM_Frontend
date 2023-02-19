@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import Routes from "./Routes";
 import { ToastContainer } from "react-toastify";
 import { CookiesProvider } from "react-cookie";
@@ -11,27 +11,25 @@ import SingleEntityProvider from "./Contexts/SingleEntityContext";
 import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-	<React.StrictMode>
-		<HelmetProvider>
-			<CookiesProvider>
-				<CartProvider>
-					<SingleEntityProvider>
-						<WishlistProvider>
-							<OrderDetailProvider>
-								<Routes />
-								<ToastContainer
-									theme="colored"
-									position="bottom-center"
-									autoClose={5000}
-									hideProgressBar={true}
-									pauseOnFocusLoss
-									pauseOnHover
-								/>
-							</OrderDetailProvider>
-						</WishlistProvider>
-					</SingleEntityProvider>
-				</CartProvider>
-			</CookiesProvider>
-		</HelmetProvider>
-	</React.StrictMode>
+	<HelmetProvider>
+		<CookiesProvider>
+			<CartProvider>
+				<SingleEntityProvider>
+					<WishlistProvider>
+						<OrderDetailProvider>
+							<Routes />
+							<ToastContainer
+								theme="colored"
+								position="bottom-center"
+								autoClose={5000}
+								hideProgressBar={true}
+								pauseOnFocusLoss
+								pauseOnHover
+							/>
+						</OrderDetailProvider>
+					</WishlistProvider>
+				</SingleEntityProvider>
+			</CartProvider>
+		</CookiesProvider>
+	</HelmetProvider>
 );

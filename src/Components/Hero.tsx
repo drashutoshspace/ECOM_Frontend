@@ -11,7 +11,7 @@ function useDragDetection() {
 		function handleMouseUp() {
 			setMouseDown(false);
 		}
-		function handleMouseMove(e) {
+		function handleMouseMove(e: any) {
 			mouseMove += Math.abs(e.movementX) + Math.abs(e.movementY);
 			setDragging(mouseMove > MoveDragThreshold);
 		}
@@ -34,14 +34,14 @@ function useDragDetection() {
 	};
 }
 const Hero = () => {
-	const NextArrow = ({ className, onClick }) => {
+	const NextArrow = ({ className, onClick }: any) => {
 		return (
 			<button className={className} onClick={onClick}>
 				<i className="fas fa-2x fa-angle-right"></i>
 			</button>
 		);
 	};
-	const PrevArrow = ({ className, onClick }) => {
+	const PrevArrow = ({ className, onClick }: any) => {
 		return (
 			<button className={className} onClick={onClick}>
 				<i className="fas fa-2x fa-angle-left"></i>
@@ -74,7 +74,7 @@ const Hero = () => {
 		],
 	};
 	const { handleMouseDown, dragging } = useDragDetection();
-	function handleChildClick(e) {
+	function handleChildClick(e: any) {
 		if (dragging) {
 			e.preventDefault();
 		}
@@ -86,7 +86,11 @@ const Hero = () => {
 				<Slider {...settings}>
 					{heroVar.map((heroVar, index) => {
 						return (
-							<div onMouseDownCapture={handleMouseDown} onClickCapture={handleChildClick} key={index}>
+							<div
+								onMouseDownCapture={handleMouseDown}
+								onClickCapture={handleChildClick}
+								key={index}
+							>
 								<HeroSlide key={index} heroVar={heroVar} />
 							</div>
 						);

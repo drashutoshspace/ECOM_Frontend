@@ -1,4 +1,4 @@
-const Storage = (wishlistItems) => {
+const Storage = (wishlistItems: any) => {
 	localStorage.setItem(
 		"wishlist",
 		JSON.stringify(
@@ -10,18 +10,25 @@ const Storage = (wishlistItems) => {
 		)
 	);
 };
-export const setStorage = (allWishlistItems, filteredWishlistItems) => {
+export const setStorage = (allWishlistItems: any, filteredWishlistItems: any) => {
 	Storage(allWishlistItems);
 	let productsCount = 0;
 	let totalWishlistItemsCount = 0;
-	if (filteredWishlistItems.products.length > 0) productsCount = filteredWishlistItems?.products.length;
+	if (filteredWishlistItems.products.length > 0)
+		productsCount = filteredWishlistItems?.products.length;
 	totalWishlistItemsCount = productsCount;
 	return { totalWishlistItemsCount, productsCount };
 };
-export const WishlistReducer = (state, action) => {
+export const WishlistReducer = (state: any, action: any) => {
 	switch (action.type) {
 		case "ADD_PRODUCT":
-			if (!state.wishlistItems.products.find((item) => item.product.guid === action.payload.product.guid && item.userID === action.payload.userID)) {
+			if (
+				!state.wishlistItems.products.find(
+					(item: any) =>
+						item.product.guid === action.payload.product.guid &&
+						item.userID === action.payload.userID
+				)
+			) {
 				state.wishlistItems.products.push({
 					...action.payload,
 					userID: action.payload.userID,
@@ -29,22 +36,38 @@ export const WishlistReducer = (state, action) => {
 			}
 			return {
 				...state,
-				...setStorage(state.wishlistItems, { products: state.wishlistItems.products.filter((item) => item.userID === action.payload.userID) }),
+				...setStorage(state.wishlistItems, {
+					products: state.wishlistItems.products.filter(
+						(item: any) => item.userID === action.payload.userID
+					),
+				}),
 				wishlistItems: { ...state.wishlistItems },
 			};
 		case "REMOVE_PRODUCT":
-			let newProductsArray = state.wishlistItems.products.filter((item) => item.product.guid !== action.payload.guid && item.userID === action.payload.userID);
+			let newProductsArray = state.wishlistItems.products.filter(
+				(item: any) =>
+					item.product.guid !== action.payload.guid &&
+					item.userID === action.payload.userID
+			);
 			state.wishlistItems = {
 				...state.wishlistItems,
 				products: newProductsArray,
 			};
 			return {
 				...state,
-				...setStorage(state.wishlistItems, { products: state.wishlistItems.products.filter((item) => item.userID === action.payload.userID) }),
+				...setStorage(state.wishlistItems, {
+					products: state.wishlistItems.products.filter(
+						(item: any) => item.userID === action.payload.userID
+					),
+				}),
 				wishlistItems: { ...state.wishlistItems },
 			};
 		case "CLEAR_WISHLIST":
-			state.cartItems = { products: state.wishlistItems.products.filter((item) => item.userID !== action.payload) };
+			state.cartItems = {
+				products: state.wishlistItems.products.filter(
+					(item: any) => item.userID !== action.payload
+				),
+			};
 			return {
 				...state,
 				...setStorage(state.wishlistItems, { products: [] }),
@@ -53,7 +76,11 @@ export const WishlistReducer = (state, action) => {
 		case "UPDATE_WISHLIST_ON_AUTH":
 			return {
 				...state,
-				...setStorage(state.wishlistItems, { products: state.wishlistItems.products.filter((item) => item.userID === action.payload) }),
+				...setStorage(state.wishlistItems, {
+					products: state.wishlistItems.products.filter(
+						(item: any) => item.userID === action.payload
+					),
+				}),
 				wishlistItems: { ...state.wishlistItems },
 			};
 		default:

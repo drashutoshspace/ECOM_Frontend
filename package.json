@@ -46,8 +46,13 @@
     "web-vitals": "^3.1.1"
   },
   "devDependencies": {
+    "@types/aos": "^3.0.4",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
+    "@types/react-image-magnify": "^2.7.1",
+    "@types/react-scrollspy": "^3.3.5",
+    "@types/react-slick": "^0.23.10",
+    "@types/sanitize-html": "^2.8.0",
     "@vitejs/plugin-react": "^3.1.0",
     "typescript": "^4.9.3",
     "vite": "^4.1.0",

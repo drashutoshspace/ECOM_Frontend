@@ -1,5 +1,5 @@
 import { CouponValidity_API, RazorpayKey_API } from "../../backend";
-export const coupon = async (coupon) => {
+export const coupon = async (coupon: any) => {
 	return await fetch(CouponValidity_API, {
 		method: "POST",
 		headers: {
@@ -13,8 +13,8 @@ export const coupon = async (coupon) => {
 		})
 		.catch((err) => console.log(err));
 };
-export const razorpaykey = async (next) => {
-	const tokenValue = localStorage.getItem("token").replace(/['"]+/g, "");
+export const razorpaykey = async () => {
+	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 	await fetch(RazorpayKey_API, {
 		method: "GET",
 		headers: {
@@ -23,9 +23,6 @@ export const razorpaykey = async (next) => {
 	})
 		.then((resp) => {
 			return resp.json();
-		})
-		.then((data) => {
-			next(data);
 		})
 		.catch((err) => console.log(err));
 };

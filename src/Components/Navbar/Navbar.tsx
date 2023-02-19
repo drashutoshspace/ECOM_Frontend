@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useContext, useEffect, useState, useRef } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "hover.css";
 import { isAuthenticated } from "../../helpers/auth/authentication";
 import { BaseContext } from "../../Context";
@@ -8,18 +8,18 @@ import { CartContext } from "../../Contexts/CartContext";
 import { WishlistContext } from "../../Contexts/WishlistContext";
 import { useMediaQuery } from "react-responsive";
 const Navbar = () => {
-	const { logoutUser, cookies } = useContext(BaseContext);
+	const { logoutUser, cookies }: any = useContext(BaseContext);
 	const { allItemsCount, cartItems } = useContext(CartContext);
 	const { productsCount } = useContext(WishlistContext);
-	const { allProductCategories } = useContext(BaseContext);
+	const { allProductCategories }: any = useContext(BaseContext);
 	const [isToggled, setIsToggled] = useState(false);
-	const history = useHistory();
+	const navigate = useNavigate();
 	const navbarToggler = () => {
 		setIsToggled(!isToggled);
 	};
-	const logoutUser2 = (event) => {
+	const logoutUser2 = (event: any) => {
 		logoutUser(event);
-		history.push("/signin");
+		navigate("/signin");
 	};
 	const location = useLocation();
 	useEffect(() => {
@@ -32,7 +32,7 @@ const Navbar = () => {
 			window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 		}
 	}, [location]);
-	function truncate(str, n) {
+	function truncate(str: any, n: any) {
 		return str?.length > n ? str.substr(0, n - 1) + "..." : str;
 	}
 
@@ -43,18 +43,22 @@ const Navbar = () => {
 			setMySearchInput(location.pathname.split("/").reverse()[0] || "");
 		}
 	}, []);
-	const mySearch = (event, searchInput) => {
+	const mySearch = (event: any, searchInput: any) => {
 		event.preventDefault();
-		history.push(`/searchresults/${searchInput}`);
+		navigate(`/searchresults/${searchInput}`);
 	};
 	const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
 	const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 	const [onHoverDropdown1, setOnHoverDropdown1] = useState(false);
-	var dropdownToggle1 = useRef(null);
+	var dropdownToggle1 = useRef<HTMLDivElement>(null);
 	const [onHoverDropdown2, setOnHoverDropdown2] = useState(false);
-	var dropdownToggle2 = useRef(null);
+	var dropdownToggle2 = useRef<HTMLDivElement>(null);
 	useEffect(() => {
-		if (isDesktopOrLaptop) {
+		if (
+			isDesktopOrLaptop &&
+			dropdownToggle1.current &&
+			dropdownToggle2.current
+		) {
 			const mouseOver1 = () => {
 				setOnHoverDropdown1(true);
 			};
@@ -73,18 +77,19 @@ const Navbar = () => {
 			dropdownToggle2.current.addEventListener("mouseleave", mouseLeave2);
 			if (dropdownToggle1 === null && dropdownToggle2 === null) {
 				return () => {
-					dropdownToggle1.current.removeEventListener("mouseover", mouseOver1);
-					dropdownToggle1.current.removeEventListener("mouseleave", mouseLeave1);
-					dropdownToggle2.current.removeEventListener("mouseover", mouseOver2);
-					dropdownToggle2.current.removeEventListener("mouseleave", mouseLeave2);
+					removeEventListener("mouseover", mouseOver1);
+					removeEventListener("mouseleave", mouseLeave1);
+					removeEventListener("mouseover", mouseOver2);
+					removeEventListener("mouseleave", mouseLeave2);
 				};
 			}
 		}
 	});
 	const [onHoverDropdown3, setOnHoverDropdown3] = useState(false);
-	var dropdownToggle3 = useRef(null);
+	var dropdownToggle3 = useRef<HTMLDivElement>(null);
+	var dropdownToggle4 = useRef<HTMLUListElement>(null);
 	useEffect(() => {
-		if (isDesktopOrLaptop && isAuthenticated()) {
+		if (isDesktopOrLaptop && isAuthenticated() && dropdownToggle3.current) {
 			const mouseOver3 = () => {
 				setOnHoverDropdown3(true);
 			};
@@ -95,8 +100,24 @@ const Navbar = () => {
 			dropdownToggle3.current.addEventListener("mouseleave", mouseLeave3);
 			if (dropdownToggle3 === null) {
 				return () => {
-					dropdownToggle3.current.removeEventListener("mouseover", mouseOver3);
-					dropdownToggle3.current.removeEventListener("mouseleave", mouseLeave3);
+					removeEventListener("mouseover", mouseOver3);
+					removeEventListener("mouseleave", mouseLeave3);
+				};
+			}
+		}
+		if (isDesktopOrLaptop && isAuthenticated() && dropdownToggle4.current) {
+			const mouseOver3 = () => {
+				setOnHoverDropdown3(true);
+			};
+			const mouseLeave3 = () => {
+				setOnHoverDropdown3(false);
+			};
+			dropdownToggle4.current.addEventListener("mouseover", mouseOver3);
+			dropdownToggle4.current.addEventListener("mouseleave", mouseLeave3);
+			if (dropdownToggle4 === null) {
+				return () => {
+					removeEventListener("mouseover", mouseOver3);
+					removeEventListener("mouseleave", mouseLeave3);
 				};
 			}
 		}
@@ -106,7 +127,11 @@ const Navbar = () => {
 			{isDesktopOrLaptop && (
 				<nav className="navbar navbar-expand-lg justify-content-between px-5">
 					<Link to="/">
-						<img className="brandlogo" alt="Kirana For Home Logo" src="images/Brand_Logo.svg" />
+						<img
+							className="brandlogo"
+							alt="Kirana For Home Logo"
+							src="images/Brand_Logo.svg"
+						/>
 					</Link>
 					<div className="nav-item ms-1 w-25 pe-0 my-3">
 						<form className="d-flex justify-content-between">
@@ -136,7 +161,10 @@ const Navbar = () => {
 						</form>
 					</div>
 					<div className="nav-item align-items-center my-3">
-						<Link className="nav-link underlineanimation fontsize14 colorblue text-uppercase lightbluehover hvr-icon-grow" to="/">
+						<Link
+							className="nav-link underlineanimation fontsize14 colorblue text-uppercase lightbluehover hvr-icon-grow"
+							to="/"
+						>
 							<i className="fas fa-home hvr-icon" />
 							&nbsp;&nbsp;Home
 						</Link>
@@ -151,7 +179,7 @@ const Navbar = () => {
 						<Link
 							to=""
 							onClick={() => {
-								history.push("/shop/allproducts");
+								navigate("/shop/allproducts");
 							}}
 							className={
 								onHoverDropdown1
@@ -168,7 +196,11 @@ const Navbar = () => {
 							<i className="fas fa-caret-down hvr-icon" />
 						</Link>
 						<ul
-							className={onHoverDropdown1 ? "dropdown-menu mt-0 pt-4 ms-2 border5px animate slideIn border-0 show" : "dropdown-menu mt-0 pt-4 ms-2 border5px animate slideIn border-0"}
+							className={
+								onHoverDropdown1
+									? "dropdown-menu mt-0 pt-4 ms-2 border5px animate slideIn border-0 show"
+									: "dropdown-menu mt-0 pt-4 ms-2 border5px animate slideIn border-0"
+							}
 							id="mydropdownitem"
 							aria-labelledby="navbarDropdown"
 							data-bs-popper={onHoverDropdown1 ? "none" : ""}
@@ -176,27 +208,37 @@ const Navbar = () => {
 							<li>
 								<Link
 									to="/shop/allproducts"
-									className={location.pathname.includes("/shop/allproducts") ? "colorblue fontsize14 bgyellow dropdown-item" : "colorblue fontsize14 lightbluehover dropdown-item"}
+									className={
+										location.pathname.includes(
+											"/shop/allproducts"
+										)
+											? "colorblue fontsize14 bgyellow dropdown-item"
+											: "colorblue fontsize14 lightbluehover dropdown-item"
+									}
 								>
 									&nbsp;&nbsp;All Products
 								</Link>
 							</li>
-							{allProductCategories.map((item, index) => {
-								return (
-									<li key={index}>
-										<Link
-											to={`/shop/${item.category}`}
-											className={
-												location.pathname.includes(`/shop/${item.category}`)
-													? "colorblue fontsize14 bgyellow dropdown-item"
-													: "colorblue fontsize14 lightbluehover dropdown-item"
-											}
-										>
-											&nbsp;&nbsp;{item.category}
-										</Link>
-									</li>
-								);
-							})}
+							{allProductCategories.map(
+								(item: any, index: any) => {
+									return (
+										<li key={index}>
+											<Link
+												to={`/shop/${item.category}`}
+												className={
+													location.pathname.includes(
+														`/shop/${item.category}`
+													)
+														? "colorblue fontsize14 bgyellow dropdown-item"
+														: "colorblue fontsize14 lightbluehover dropdown-item"
+												}
+											>
+												&nbsp;&nbsp;{item.category}
+											</Link>
+										</li>
+									);
+								}
+							)}
 						</ul>
 					</div>
 					<div
@@ -208,7 +250,7 @@ const Navbar = () => {
 					>
 						<Link
 							to=""
-							onClick={() => history.push("/cart")}
+							onClick={() => navigate("/cart")}
 							className={
 								onHoverDropdown2
 									? "nav-link underlineanimation fontsize14 colorblue text-uppercase lightbluehover hvr-icon-grow dropdown-toggle show"
@@ -220,14 +262,22 @@ const Navbar = () => {
 							aria-expanded={onHoverDropdown2}
 						>
 							<i className="fas fa-shopping-cart hvr-icon" />
-							{isAuthenticated() && allItemsCount > 0 && <span className="topnumbercart">{allItemsCount}</span>}&nbsp;&nbsp;Cart &nbsp;
+							{isAuthenticated() && allItemsCount > 0 && (
+								<span className="topnumbercart">
+									{allItemsCount}
+								</span>
+							)}
+							&nbsp;&nbsp;Cart &nbsp;
 							<i className="fas fa-caret-down hvr-icon" />
 						</Link>
 						<ul
 							className={
 								onHoverDropdown2
 									? `dropdown-menu dropdown-menu-end mt-0 pt-4 ms-2 border5px animate slideIn border-0 show ${
-											cartItems.products.length > 0 && isAuthenticated() ? "cartdropdown" : ""
+											cartItems.products.length > 0 &&
+											isAuthenticated()
+												? "cartdropdown"
+												: ""
 									  }`
 									: "dropdown-menu dropdown-menu-end mt-0 pt-4 ms-2 border5px animate slideIn border-0"
 							}
@@ -237,48 +287,112 @@ const Navbar = () => {
 						>
 							{!isAuthenticated() && (
 								<li>
-									<div style={{ width: "200px" }} className="mb-0 px-3 py-1 colorblue fontsize14">
-										Your cart is empty. Sign in to start learning!
+									<div
+										style={{ width: "200px" }}
+										className="mb-0 px-3 py-1 colorblue fontsize14"
+									>
+										Your cart is empty. Sign in to start
+										learning!
 									</div>
 								</li>
 							)}
-							{cartItems.products.filter((item) => item.userID === cookies?.user?.[0]?.id).length > 0 && (
+							{cartItems.products.filter(
+								(item: any) =>
+									item.userID === cookies?.user?.[0]?.id
+							).length > 0 && (
 								<li>
 									<div className="row px-4">
-										{cartItems.products.filter((item) => item.userID === cookies?.user?.[0].id).length > 0 && (
-											<div className={`${cartItems.products.filter((item) => item.userID === cookies?.user?.[0]?.id).length > 0 && "col-lg-12"}`}>
+										{cartItems.products.filter(
+											(item: any) =>
+												item.userID ===
+												cookies?.user?.[0].id
+										).length > 0 && (
+											<div
+												className={`${
+													cartItems.products.filter(
+														(item: any) =>
+															item.userID ===
+															cookies?.user?.[0]
+																?.id
+													).length > 0 && "col-lg-12"
+												}`}
+											>
 												<div className="row">
 													<div className="col">
-														<h5 className="colorblue">Products</h5>
+														<h5 className="colorblue">
+															Products
+														</h5>
 													</div>
 												</div>
 												{cartItems?.products
-													.filter((item) => item.userID === cookies?.user?.[0]?.id)
+													.filter(
+														(item: any) =>
+															item.userID ===
+															cookies?.user?.[0]
+																?.id
+													)
 													.slice(0, 3)
-													.map((item, index) => {
-														const { product } = item;
-														return (
-															<div key={index} className="row">
-																<div className="col">
-																	<h6 className="colorblue fontsize12">{`${truncate(product.Product_Name, 20)} = ₹ ${(Math.abs(
-																		parseInt(product?.Product_SellingPrice) - parseFloat(product?.Product_SellingPrice)
-																	) > 0.5
-																		? parseInt(product?.Product_SellingPrice) + 1
-																		: parseInt(product?.Product_SellingPrice)
-																	).toLocaleString(undefined, { maximumFractionDigits: 2 })}`}</h6>
+													.map(
+														(
+															item: any,
+															index: any
+														) => {
+															const { product } =
+																item;
+															return (
+																<div
+																	key={index}
+																	className="row"
+																>
+																	<div className="col">
+																		<h6 className="colorblue fontsize12">{`${truncate(
+																			product.Product_Name,
+																			20
+																		)} = ₹ ${(Math.abs(
+																			parseInt(
+																				product?.Product_SellingPrice
+																			) -
+																				parseFloat(
+																					product?.Product_SellingPrice
+																				)
+																		) > 0.5
+																			? parseInt(
+																					product?.Product_SellingPrice
+																			  ) +
+																			  1
+																			: parseInt(
+																					product?.Product_SellingPrice
+																			  )
+																		).toLocaleString(
+																			undefined,
+																			{
+																				maximumFractionDigits: 2,
+																			}
+																		)}`}</h6>
+																	</div>
 																</div>
-															</div>
-														);
-													})}
+															);
+														}
+													)}
 											</div>
 										)}
-										{cartItems?.products.filter((item) => item.userID === cookies?.user?.[0]?.id).length >= 4 && (
+										{cartItems?.products.filter(
+											(item: any) =>
+												item.userID ===
+												cookies?.user?.[0]?.id
+										).length >= 4 && (
 											<>
 												<li>
 													<hr className="mt-0 dropdown-divider dropdowndividernav" />
 												</li>
-												<h6 className="mb-0 colorblue lightbluehover cursorpointer fontsize12" onClick={() => history.push("/cart")}>
-													Click Here To See Rest Of The Items
+												<h6
+													className="mb-0 colorblue lightbluehover cursorpointer fontsize12"
+													onClick={() =>
+														navigate("/cart")
+													}
+												>
+													Click Here To See Rest Of
+													The Items
 												</h6>
 											</>
 										)}
@@ -308,21 +422,33 @@ const Navbar = () => {
 								aria-expanded={onHoverDropdown3}
 							>
 								<i className="fas fa-user hvr-icon" />
-								&nbsp;&nbsp;Hi, {truncate(cookies?.user?.[0]?.first_name !== "" ? cookies?.user?.[0]?.first_name : cookies?.user?.[0]?.username || "User", 10)}
+								&nbsp;&nbsp;Hi,{" "}
+								{truncate(
+									cookies?.user?.[0]?.first_name !== ""
+										? cookies?.user?.[0]?.first_name
+										: cookies?.user?.[0]?.username ||
+												"User",
+									10
+								)}
 								&nbsp;
 								<i className="fas fa-caret-down hvr-icon" />
 							</Link>
 							<ul
-								ref={dropdownToggle3}
+								ref={dropdownToggle4}
 								className={
-									onHoverDropdown3 ? "dropdown-menu mt-0 pt-4 ms-2 border5px animate slideIn border-0 show" : "dropdown-menu mt-0 pt-4 ms-2 border5px animate slideIn border-0"
+									onHoverDropdown3
+										? "dropdown-menu mt-0 pt-4 ms-2 border5px animate slideIn border-0 show"
+										: "dropdown-menu mt-0 pt-4 ms-2 border5px animate slideIn border-0"
 								}
 								id="mydropdownitem"
 								aria-labelledby="navbarDropdown"
 								data-bs-popper={onHoverDropdown3 ? "none" : ""}
 							>
 								<li>
-									<Link to="/profile/account" className="colorblue fontsize12 lightbluehover dropdown-item">
+									<Link
+										to="/profile/account"
+										className="colorblue fontsize12 lightbluehover dropdown-item"
+									>
 										<i className="fas fa-user" />
 										&nbsp;&nbsp;Account
 									</Link>
@@ -331,19 +457,31 @@ const Navbar = () => {
 									<hr className="dropdown-divider dropdowndividernav" />
 								</li>
 								<li>
-									<Link to="/profile/myorders" className="colorblue fontsize12 lightbluehover dropdown-item">
+									<Link
+										to="/profile/myorders"
+										className="colorblue fontsize12 lightbluehover dropdown-item"
+									>
 										<i className="fas fa-shopping-cart" />
 										&nbsp;&nbsp;My Orders
 									</Link>
 								</li>
 								<li>
-									<Link to="/profile/productwishlist" className="colorblue fontsize12 lightbluehover dropdown-item">
+									<Link
+										to="/profile/productwishlist"
+										className="colorblue fontsize12 lightbluehover dropdown-item"
+									>
 										<i className="fas fa-box-heart" />
-										<span className="topnumbercart">{productsCount}</span>&nbsp;&nbsp;Product Wishlist
+										<span className="topnumbercart">
+											{productsCount}
+										</span>
+										&nbsp;&nbsp;Product Wishlist
 									</Link>
 								</li>
 								<li>
-									<Link to="/profile/buyagain" className="colorblue fontsize12 lightbluehover dropdown-item">
+									<Link
+										to="/profile/buyagain"
+										className="colorblue fontsize12 lightbluehover dropdown-item"
+									>
 										<i className="fas fa-cart-plus" />
 										&nbsp;&nbsp;Buy Again
 									</Link>
@@ -354,13 +492,19 @@ const Navbar = () => {
 								{!!!cookies?.user?.[0]?.is_social && (
 									<>
 										<li>
-											<Link to="/profile/changepassword" className="colorblue fontsize14 lightbluehover dropdown-item">
+											<Link
+												to="/profile/changepassword"
+												className="colorblue fontsize14 lightbluehover dropdown-item"
+											>
 												<i className="fas fa-lock" />
 												&nbsp;&nbsp;Change Password
 											</Link>
 										</li>
 										<li>
-											<Link to="/profile/changeemail" className="colorblue fontsize14 lightbluehover dropdown-item">
+											<Link
+												to="/profile/changeemail"
+												className="colorblue fontsize14 lightbluehover dropdown-item"
+											>
 												<i className="fas fa-envelope" />
 												&nbsp;&nbsp;Change Email
 											</Link>
@@ -368,7 +512,10 @@ const Navbar = () => {
 									</>
 								)}
 								<li>
-									<small className="cursorpointer colorblue fontsize14 lightbluehover dropdown-item" onClick={logoutUser2}>
+									<small
+										className="cursorpointer colorblue fontsize14 lightbluehover dropdown-item"
+										onClick={logoutUser2}
+									>
 										<i className="fas fa-portal-exit" />
 										&nbsp;&nbsp;Sign Out
 									</small>
@@ -377,7 +524,10 @@ const Navbar = () => {
 						</div>
 					) : (
 						<div className="nav-item align-items-center my-3">
-							<Link className="nav-link transitionease fontsize14 bglightblue bgyellow text-uppercase border5px colorblue" to="/signin">
+							<Link
+								className="nav-link transitionease fontsize14 bglightblue bgyellow text-uppercase border5px colorblue"
+								to="/signin"
+							>
 								Login / Signup
 							</Link>
 						</div>
@@ -388,7 +538,9 @@ const Navbar = () => {
 				<nav className="navbar navbar-expand-lg py-3 justify-content-center">
 					<button
 						className={
-							isToggled ? "hamburger hamburger--slider is-active navbar-toggler position-absolute m-0 p-0" : "hamburger hamburger--slider navbar-toggler position-absolute m-0 p-0"
+							isToggled
+								? "hamburger hamburger--slider is-active navbar-toggler position-absolute m-0 p-0"
+								: "hamburger hamburger--slider navbar-toggler position-absolute m-0 p-0"
 						}
 						type="button"
 						data-bs-toggle="collapse"
@@ -403,7 +555,11 @@ const Navbar = () => {
 						</span>
 					</button>
 					<Link className="ms-4 ps-5" to="/">
-						<img className="brandlogo" alt="Kirana For Home Logo" src="images/Brand_Logo.svg" />
+						<img
+							className="brandlogo"
+							alt="Kirana For Home Logo"
+							src="images/Brand_Logo.svg"
+						/>
 					</Link>
 					<div className="collapse navbar-collapse" id="myown-nav">
 						<ul className="navbar-nav px-3">
@@ -425,7 +581,10 @@ const Navbar = () => {
 										className="colorblue lightbluehover fontsize12 bgcolorwhite rounded-circle hvr-icon-grow"
 										id="mysearchbutton"
 										type="submit"
-										style={{ width: "36px", height: "36px" }}
+										style={{
+											width: "36px",
+											height: "36px",
+										}}
 										onClick={(e) => {
 											mySearch(e, mySearchInput);
 										}}
@@ -435,7 +594,10 @@ const Navbar = () => {
 								</form>
 							</li>
 							<li className="nav-item px-4 my-1">
-								<Link className="nav-link fontsize12 p-1 text-uppercase colorblue lightbluehover hvr-icon-grow" to="/">
+								<Link
+									className="nav-link fontsize12 p-1 text-uppercase colorblue lightbluehover hvr-icon-grow"
+									to="/"
+								>
 									<i className="fas fa-home hvr-icon" />
 									&nbsp;&nbsp;Home
 								</Link>
@@ -452,33 +614,46 @@ const Navbar = () => {
 									<i className="fas fa-store hvr-icon" />
 									&nbsp;&nbsp;Shop
 								</Link>
-								<ul className="dropdown-menu border5px border-0" id="mydropdownitem" aria-labelledby="navbarDropdown">
+								<ul
+									className="dropdown-menu border5px border-0"
+									id="mydropdownitem"
+									aria-labelledby="navbarDropdown"
+								>
 									<li>
 										<Link
 											to="/shop/allproducts"
 											className={
-												location.pathname.includes("/shop/allproducts") ? "colorblue fontsize14 bgyellow dropdown-item" : "colorblue fontsize14 lightbluehover dropdown-item"
+												location.pathname.includes(
+													"/shop/allproducts"
+												)
+													? "colorblue fontsize14 bgyellow dropdown-item"
+													: "colorblue fontsize14 lightbluehover dropdown-item"
 											}
 										>
 											&nbsp;&nbsp;All Products
 										</Link>
 									</li>
-									{allProductCategories.map((item, index) => {
-										return (
-											<li key={index}>
-												<Link
-													to={`/shop/${item.category}`}
-													className={
-														location.pathname.includes(`/shop/${item.category}`)
-															? "colorblue fontsize14 bgyellow dropdown-item"
-															: "colorblue fontsize14 lightbluehover dropdown-item"
-													}
-												>
-													&nbsp;&nbsp;{item.category}
-												</Link>
-											</li>
-										);
-									})}
+									{allProductCategories.map(
+										(item: any, index: any) => {
+											return (
+												<li key={index}>
+													<Link
+														to={`/shop/${item.category}`}
+														className={
+															location.pathname.includes(
+																`/shop/${item.category}`
+															)
+																? "colorblue fontsize14 bgyellow dropdown-item"
+																: "colorblue fontsize14 lightbluehover dropdown-item"
+														}
+													>
+														&nbsp;&nbsp;
+														{item.category}
+													</Link>
+												</li>
+											);
+										}
+									)}
 								</ul>
 							</li>
 							<li className="nav-item dropdown px-4 my-1">
@@ -491,50 +666,112 @@ const Navbar = () => {
 									aria-expanded="false"
 								>
 									<i className="fas fa-shopping-cart hvr-icon" />
-									{isAuthenticated() && allItemsCount > 0 && <span className="topnumbercart">{allItemsCount}</span>}&nbsp;&nbsp;Cart
+									{isAuthenticated() && allItemsCount > 0 && (
+										<span className="topnumbercart">
+											{allItemsCount}
+										</span>
+									)}
+									&nbsp;&nbsp;Cart
 								</Link>
-								<ul className="dropdown-menu border5px border-0 cartdropdown" id="mydropdownitem" aria-labelledby="navbarDropdown">
+								<ul
+									className="dropdown-menu border5px border-0 cartdropdown"
+									id="mydropdownitem"
+									aria-labelledby="navbarDropdown"
+								>
 									{cartItems.products.length > 0 && (
 										<li>
 											<div className="row px-4">
 												<div className="col-lg-12">
 													<div className="row">
 														<div className="col">
-															<h5 className="colorblue">Products</h5>
+															<h5 className="colorblue">
+																Products
+															</h5>
 														</div>
 													</div>
 													{cartItems?.products
-														.filter((item) => item.userID === cookies?.user?.[0]?.id)
+														.filter(
+															(item: any) =>
+																item.userID ===
+																cookies
+																	?.user?.[0]
+																	?.id
+														)
 														.slice(0, 3)
-														.map((item, index) => {
-															const { product } = item;
-															return (
-																<div key={index} className="row">
-																	<div className="col">
-																		<h6 className="colorblue fontsize12">{`${truncate(product.Product_Name, 20)} = ₹ ${(Math.abs(
-																			parseInt(product?.Product_SellingPrice) - parseFloat(product?.Product_SellingPrice)
-																		) > 0.5
-																			? parseInt(product?.Product_SellingPrice) + 1
-																			: parseInt(product?.Product_SellingPrice)
-																		).toLocaleString(undefined, { maximumFractionDigits: 2 })}`}</h6>
+														.map(
+															(
+																item: any,
+																index: any
+															) => {
+																const {
+																	product,
+																} = item;
+																return (
+																	<div
+																		key={
+																			index
+																		}
+																		className="row"
+																	>
+																		<div className="col">
+																			<h6 className="colorblue fontsize12">{`${truncate(
+																				product.Product_Name,
+																				20
+																			)} = ₹ ${(Math.abs(
+																				parseInt(
+																					product?.Product_SellingPrice
+																				) -
+																					parseFloat(
+																						product?.Product_SellingPrice
+																					)
+																			) >
+																			0.5
+																				? parseInt(
+																						product?.Product_SellingPrice
+																				  ) +
+																				  1
+																				: parseInt(
+																						product?.Product_SellingPrice
+																				  )
+																			).toLocaleString(
+																				undefined,
+																				{
+																					maximumFractionDigits: 2,
+																				}
+																			)}`}</h6>
+																		</div>
 																	</div>
-																</div>
-															);
-														})}
+																);
+															}
+														)}
 												</div>
 											</div>
 										</li>
 									)}
-									{cartItems.products.filter((item) => item.userID === cookies?.user?.[0]?.id).length > 0 && (
+									{cartItems.products.filter(
+										(item: any) =>
+											item.userID ===
+											cookies?.user?.[0]?.id
+									).length > 0 && (
 										<>
 											<li>
 												<hr className="dropdown-divider dropdowndividernav" />
 											</li>
 											<li>
-												<Link to="/cart" className="colorblue fontsize12 lightbluehover dropdown-item">
+												<Link
+													to="/cart"
+													className="colorblue fontsize12 lightbluehover dropdown-item"
+												>
 													<i className="fas fa-shopping-cart" />
 													&nbsp;&nbsp;
-													{cartItems?.products.filter((item) => item.userID === cookies?.user?.[0]?.id).length >= 4 ? "Click Here To See Rest Of The Items" : "Cart"}
+													{cartItems?.products.filter(
+														(item: any) =>
+															item.userID ===
+															cookies?.user?.[0]
+																?.id
+													).length >= 4
+														? "Click Here To See Rest Of The Items"
+														: "Cart"}
 												</Link>
 											</li>
 										</>
@@ -552,11 +789,22 @@ const Navbar = () => {
 										aria-expanded="false"
 									>
 										<i className="fas fa-user hvr-icon" />
-										&nbsp;&nbsp;Hi, {cookies?.user?.[0]?.first_name !== "" ? cookies?.user?.[0]?.first_name : cookies?.user?.[0]?.username || "User"}
+										&nbsp;&nbsp;Hi,{" "}
+										{cookies?.user?.[0]?.first_name !== ""
+											? cookies?.user?.[0]?.first_name
+											: cookies?.user?.[0]?.username ||
+											  "User"}
 									</Link>
-									<ul className="dropdown-menu border5px border-0" id="mydropdownitem" aria-labelledby="navbarDropdown">
+									<ul
+										className="dropdown-menu border5px border-0"
+										id="mydropdownitem"
+										aria-labelledby="navbarDropdown"
+									>
 										<li>
-											<Link to="/profile/account" className="colorblue fontsize12 lightbluehover dropdown-item">
+											<Link
+												to="/profile/account"
+												className="colorblue fontsize12 lightbluehover dropdown-item"
+											>
 												<i className="fas fa-user" />
 												&nbsp;&nbsp;Account
 											</Link>
@@ -565,19 +813,31 @@ const Navbar = () => {
 											<hr className="dropdown-divider dropdowndividernav" />
 										</li>
 										<li>
-											<Link to="/profile/myorders" className="colorblue fontsize12 lightbluehover dropdown-item">
+											<Link
+												to="/profile/myorders"
+												className="colorblue fontsize12 lightbluehover dropdown-item"
+											>
 												<i className="fas fa-shopping-cart" />
 												&nbsp;&nbsp;My Orders
 											</Link>
 										</li>
 										<li>
-											<Link to="/profile/productwishlist" className="colorblue fontsize12 lightbluehover dropdown-item">
+											<Link
+												to="/profile/productwishlist"
+												className="colorblue fontsize12 lightbluehover dropdown-item"
+											>
 												<i className="fas fa-box-heart" />
-												<span className="topnumbercart">{productsCount}</span>&nbsp;&nbsp;Product Wishlist
+												<span className="topnumbercart">
+													{productsCount}
+												</span>
+												&nbsp;&nbsp;Product Wishlist
 											</Link>
 										</li>
 										<li>
-											<Link to="/profile/buyagain" className="colorblue fontsize12 lightbluehover dropdown-item">
+											<Link
+												to="/profile/buyagain"
+												className="colorblue fontsize12 lightbluehover dropdown-item"
+											>
 												<i className="fas fa-cart-plus" />
 												&nbsp;&nbsp;Buy Again
 											</Link>
@@ -588,13 +848,20 @@ const Navbar = () => {
 										{!!!cookies?.user?.[0]?.is_social && (
 											<>
 												<li>
-													<Link to="/profile/changepassword" className="colorblue fontsize12 lightbluehover dropdown-item">
+													<Link
+														to="/profile/changepassword"
+														className="colorblue fontsize12 lightbluehover dropdown-item"
+													>
 														<i className="fas fa-lock" />
-														&nbsp;&nbsp;Change Password
+														&nbsp;&nbsp;Change
+														Password
 													</Link>
 												</li>
 												<li>
-													<Link to="/profile/changeemail" className="colorblue fontsize12 lightbluehover dropdown-item">
+													<Link
+														to="/profile/changeemail"
+														className="colorblue fontsize12 lightbluehover dropdown-item"
+													>
 														<i className="fas fa-envelope" />
 														&nbsp;&nbsp;Change Email
 													</Link>
@@ -602,7 +869,10 @@ const Navbar = () => {
 											</>
 										)}
 										<li>
-											<small className="cursorpointer colorblue fontsize12 lightbluehover dropdown-item" onClick={logoutUser2}>
+											<small
+												className="cursorpointer colorblue fontsize12 lightbluehover dropdown-item"
+												onClick={logoutUser2}
+											>
 												<i className="fas fa-sign-out-alt" />
 												&nbsp;&nbsp;Sign Out
 											</small>
@@ -611,7 +881,10 @@ const Navbar = () => {
 								</li>
 							) : (
 								<li className="nav-item px-4 my-1">
-									<Link className="nav-link w-50 px-2 text-center transitionease fontsize14 bglightblue bgyellow text-uppercase border5px colorblue" to="/signin">
+									<Link
+										className="nav-link w-50 px-2 text-center transitionease fontsize14 bglightblue bgyellow text-uppercase border5px colorblue"
+										to="/signin"
+									>
 										Login / Signup
 									</Link>
 								</li>

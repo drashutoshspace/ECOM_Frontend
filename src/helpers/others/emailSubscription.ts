@@ -1,5 +1,5 @@
 import { EmailSubscription_API } from "../../backend";
-export const emailSubscriber = async (email) => {
+export const emailSubscriber = async (email: any) => {
 	return await fetch(EmailSubscription_API, {
 		method: "POST",
 		headers: {

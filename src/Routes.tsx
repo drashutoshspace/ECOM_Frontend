@@ -1,4 +1,9 @@
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import {
+	BrowserRouter,
+	Route,
+	Routes as RouterRoutes,
+	Navigate,
+} from "react-router-dom";
 import Home from "./Pages/Home";
 import { toast } from "react-toastify";
 import AboutUs from "./Pages/AboutUs";
@@ -17,7 +22,6 @@ import { isAuthenticated, signout } from "./helpers/auth/authentication";
 import VerifyEmail from "./Pages/AuthPages/VerifyEmail";
 import PasswordReset from "./Pages/AuthPages/PasswordReset";
 import PasswordResetConfirm from "./Pages/AuthPages/PasswordResetConfirm";
-import PrivateRoutes from "./helpers/auth/PrivateRoutes";
 import { profileData } from "./data/users/profileData";
 import { BaseContext, TestimonialsContext, ProductsContext } from "./Context";
 import AllProducts from "./Pages/EcommercePages/AllProducts";
@@ -25,7 +29,10 @@ import CartPage from "./Pages/EcommercePages/CartPage";
 import ProductSingle from "./Pages/EcommercePages/ProductSingle";
 import PreLoader from "./PreLoader";
 import Checkout from "./Pages/EcommercePages/Checkout";
-import { categoryWiseProducts, productsCategory } from "../src/data/products/products";
+import {
+	categoryWiseProducts,
+	productsCategory,
+} from "../src/data/products/products";
 import { MyOrder } from "../src/data/users/myOrders";
 import { ourteamdata } from "../src/data/others/ourteam";
 import { cnrdata } from "../src/data/others/cnr";
@@ -40,20 +47,38 @@ import Testimonials from "./Pages/Testimonials";
 import Policies from "./Pages/Policies";
 import VerifyEmailConfirm from "./Pages/AuthPages/VerifyEmailConfirm";
 const Routes = () => {
+	function PrivateRoute({
+		children,
+	}: {
+		children: JSX.Element;
+	}): JSX.Element {
+		if (isAuthenticated()) {
+			return children;
+		} else {
+			return <Navigate to="/signin" replace={true} />;
+		}
+	}
 	// ANCHOR Contexts
-	const { wishlistItems, updateWishlistOnAuth } = useContext(WishlistContext);
-	const { updateCartOnAuth } = useContext(CartContext);
+	const { wishlistItems, updateWishlistOnAuth }: any =
+		useContext(WishlistContext);
+	const { updateCartOnAuth }: any = useContext(CartContext);
 
 	// ANCHOR Local Storage For Cart
 	useEffect(() => {
 		var mounted = true;
 		if (mounted) {
 			if (localStorage.getItem("cart")) {
-				JSON.parse(localStorage.getItem("cart")).products.map((item) => {
-					if (item.userID === undefined || item.product === undefined || item.quantity === undefined) {
-						localStorage.removeItem("cart");
+				JSON.parse(localStorage.getItem("cart")!).products.map(
+					(item: any) => {
+						if (
+							item.userID === undefined ||
+							item.product === undefined ||
+							item.quantity === undefined
+						) {
+							localStorage.removeItem("cart");
+						}
 					}
-				});
+				);
 			}
 		}
 		return () => {
@@ -66,11 +91,16 @@ const Routes = () => {
 		var mounted = true;
 		if (mounted) {
 			localStorage.getItem("wishlist") &&
-				JSON.parse(localStorage.getItem("wishlist")).products.map((item) => {
-					if (item.userID === undefined || item.product === undefined) {
-						localStorage.removeItem("wishlist");
+				JSON.parse(localStorage.getItem("wishlist")!).products.map(
+					(item: any) => {
+						if (
+							item.userID === undefined ||
+							item.product === undefined
+						) {
+							localStorage.removeItem("wishlist");
+						}
 					}
-				});
+				);
 		}
 		return () => {
 			mounted = false;
@@ -82,8 +112,14 @@ const Routes = () => {
 		var mounted = true;
 		if (mounted) {
 			localStorage.getItem("orderdetail") &&
-				JSON.parse(localStorage.getItem("orderdetail"))?.orderdetailItems.map((item) => {
-					if (item.userID === undefined || item.products === undefined || item.order_id === undefined) {
+				JSON.parse(
+					localStorage.getItem("orderdetail")!
+				)?.orderdetailItems.map((item: any) => {
+					if (
+						item.userID === undefined ||
+						item.products === undefined ||
+						item.order_id === undefined
+					) {
 						localStorage.removeItem("orderdetail");
 					}
 				});
@@ -95,20 +131,30 @@ const Routes = () => {
 
 	// ANCHOR User & Auth
 	const [cookies, setCookie, removeCookie] = useCookies(["user"]);
-	const logoutUser = (event) => {
+	const logoutUser = (event: any) => {
 		event.preventDefault();
-		signout((data) => {
+		signout((data: any) => {
 			removeCookie("user", { path: "/" });
-			return toast(data?.detail, { type: "success", autoClose: 5000, position: "bottom-center", hideProgressBar: false, pauseOnHover: true, pauseOnFocusLoss: true });
+			return toast(data?.detail, {
+				type: "success",
+				autoClose: 5000,
+				position: "bottom-center",
+				hideProgressBar: false,
+				pauseOnHover: true,
+				pauseOnFocusLoss: true,
+			});
 		});
 	};
 	useEffect(() => {
 		if (isAuthenticated()) {
-			profileData((statusText, status) => {
+			profileData((statusText: any, status: any) => {
 				if (status === 403 || status === 401) {
 					localStorage.removeItem("token");
 					removeCookie("user", { path: "/" });
-					handleNotification(`Something went wrong! Status: ${statusText}`, "error");
+					handleNotification(
+						`Something went wrong! Status: ${statusText}`,
+						"error"
+					);
 				}
 			}).then((data) => {
 				setCookie("user", data, { path: "/" });
@@ -121,7 +167,7 @@ const Routes = () => {
 			removeCookie("user", { path: "/" });
 		}
 	}, [isAuthenticated()]);
-	function requireAuth(nextState, replace, next) {
+	function requireAuth(nextState: any, replace: any, next: any) {
 		if (!(isAuthenticated() && cookies.user)) {
 			replace({
 				pathname: "/signin",
@@ -135,32 +181,53 @@ const Routes = () => {
 	const [notification, setNotification] = useState("");
 	const [notificationType, setNotificationType] = useState("");
 	const [toggleNotification, setToggleNotification] = useState(false);
-	const handleNotification = (message, type) => {
+	const handleNotification = (message: any, type: any) => {
 		setNotification(message);
 		setNotificationType(type);
 		setToggleNotification(!toggleNotification);
 	};
-	useEffect(() => {
+	useEffect((): any => {
 		if (notificationType === "success") {
-			return toast(notification, { type: "success", autoClose: 5000, position: "bottom-center", hideProgressBar: false, pauseOnHover: true, pauseOnFocusLoss: true });
+			return toast(notification, {
+				type: "success",
+				autoClose: 5000,
+				position: "bottom-center",
+				hideProgressBar: false,
+				pauseOnHover: true,
+				pauseOnFocusLoss: true,
+			});
 		}
 		if (notificationType === "error") {
-			return toast(notification, { type: "error", autoClose: 5000, position: "bottom-center", hideProgressBar: false, pauseOnHover: true, pauseOnFocusLoss: true });
+			return toast(notification, {
+				type: "error",
+				autoClose: 5000,
+				position: "bottom-center",
+				hideProgressBar: false,
+				pauseOnHover: true,
+				pauseOnFocusLoss: true,
+			});
 		}
 		if (notificationType === "warning") {
-			return toast(notification, { type: "warning", autoClose: 5000, position: "bottom-center", hideProgressBar: false, pauseOnHover: true, pauseOnFocusLoss: true });
+			return toast(notification, {
+				type: "warning",
+				autoClose: 5000,
+				position: "bottom-center",
+				hideProgressBar: false,
+				pauseOnHover: true,
+				pauseOnFocusLoss: true,
+			});
 		}
 	}, [toggleNotification]);
 
 	// ANCHOR Testimonials
 	const [testimonials, setTestimonials] = useState([]);
-	const handleTestimonials = (list) => {
+	const handleTestimonials = (list: any) => {
 		setTestimonials(list);
 	};
 
 	// ANCHOR Remember Me
 	const [rememberMe, setRememberMe] = useState(true);
-	const handleRememberMe = (e) => {
+	const handleRememberMe = (e: any) => {
 		// e.preventDefault();
 		const input = e.target;
 		const value = input.type === "checkbox" ? input.checked : input.value;
@@ -186,34 +253,39 @@ const Routes = () => {
 	// ANCHOR Products
 	const [allProducts, setAllProducts] = useState([]);
 	const [product, setProduct] = useState({});
-	const handleAllProducts = (list) => {
+	const handleAllProducts = (list: any) => {
 		setAllProducts(list);
 	};
-	const findProduct = (data) => {
+	const findProduct = (data: any) => {
 		setProduct(data);
 	};
 
 	// ANCHOR Categorywise Products
-	const selectProducts = async (category, PER_PAGE, offset, next) => {
-		await categoryWiseProducts(category, PER_PAGE, offset, (data) => {
+	const selectProducts = async (
+		category: any,
+		PER_PAGE: any,
+		offset: any,
+		next: any
+	) => {
+		await categoryWiseProducts(category, PER_PAGE, offset, (data: any) => {
 			handleAllProducts(data?.results);
 			next(data);
 		});
 	};
 	const [allProductCategories, setAllProductCategories] = useState([]);
-	const handleAllProductCategories = (list) => {
+	const handleAllProductCategories = (list: any) => {
 		setAllProductCategories(list);
 	};
-	useEffect(async () => {
-		await productsCategory((data) => {
+	useEffect(() => {
+		productsCategory((data: any) => {
 			handleAllProductCategories(data);
 		});
 	}, []);
 
 	const [myOrders, setMyOrders] = useState([]);
-	useEffect(async () => {
+	useEffect(() => {
 		if (isAuthenticated()) {
-			await MyOrder((data) => {
+			MyOrder((data: any) => {
 				setMyOrders(data);
 			});
 		}
@@ -224,40 +296,40 @@ const Routes = () => {
 
 	// ANCHOR Our Team
 	const [ourTeam, setOurTeam] = useState([]);
-	useEffect(async () => {
-		await ourteamdata((data) => {
+	useEffect(() => {
+		ourteamdata((data: any) => {
 			setOurTeam(data);
 		});
 	}, []);
 
 	// ANCHOR CNR
 	const [cnrDoc, setCnrDoc] = useState([]);
-	useEffect(async () => {
-		await cnrdata((data) => {
+	useEffect(() => {
+		cnrdata((data: any) => {
 			setCnrDoc(data);
 		});
 	}, []);
 
 	// ANCHOR FAQ
 	const [faqDoc, setFaqDoc] = useState([]);
-	useEffect(async () => {
-		await faqdata((data) => {
+	useEffect(() => {
+		faqdata((data: any) => {
 			setFaqDoc(data);
 		});
 	}, []);
 
 	// ANCHOR PrivP
 	const [privpDoc, setPrivpDoc] = useState([]);
-	useEffect(async () => {
-		await privpdata((data) => {
+	useEffect(() => {
+		privpdata((data: any) => {
 			setPrivpDoc(data);
 		});
 	}, []);
 
 	// ANCHOR TNC
 	const [tncDoc, setTncDoc] = useState([]);
-	useEffect(async () => {
-		await tncdata((data) => {
+	useEffect(() => {
+		tncdata((data: any) => {
 			setTncDoc(data);
 		});
 	}, []);
@@ -278,11 +350,10 @@ const Routes = () => {
 				}}
 			>
 				<BrowserRouter>
-					<Switch>
+					<RouterRoutes>
 						<Route
 							path="/"
-							exact={true}
-							render={() => (
+							element={
 								<ProductsContext.Provider
 									value={{
 										product,
@@ -297,16 +368,27 @@ const Routes = () => {
 											handleTestimonials,
 										}}
 									>
-										{!!!sessionStorage.getItem("loader") ? <PreLoader /> : <Home />}
+										{!!!sessionStorage.getItem("loader") ? (
+											<PreLoader />
+										) : (
+											<Home />
+										)}
 									</TestimonialsContext.Provider>
 								</ProductsContext.Provider>
-							)}
+							}
 						/>
-						<Route path="/signin" exact={true} render={() => <LoginPage rememberMe={rememberMe} handleRememberMe={handleRememberMe} />} />
+						<Route
+							path="/signin"
+							element={
+								<LoginPage
+									rememberMe={rememberMe}
+									handleRememberMe={handleRememberMe}
+								/>
+							}
+						/>
 						<Route
 							path="/shop/:category"
-							exact={true}
-							render={(props) => (
+							element={
 								<ProductsContext.Provider
 									value={{
 										product,
@@ -316,16 +398,29 @@ const Routes = () => {
 										selectProducts,
 									}}
 								>
-									<AllProducts {...props} />
+									<AllProducts />
 								</ProductsContext.Provider>
-							)}
+							}
 						/>
-						<PrivateRoutes path="/checkout" exact={true} component={Checkout} />
-						<PrivateRoutes path="/cart" exact={true} component={CartPage} />
+						<Route
+							path="/checkout"
+							element={
+								<PrivateRoute>
+									<Checkout />
+								</PrivateRoute>
+							}
+						/>
+						<Route
+							path="/cart"
+							element={
+								<PrivateRoute>
+									<CartPage />
+								</PrivateRoute>
+							}
+						/>
 						<Route
 							path="/shop/products/:id"
-							exact={true}
-							render={(props) => (
+							element={
 								<ProductsContext.Provider
 									value={{
 										product,
@@ -334,14 +429,13 @@ const Routes = () => {
 										findProduct,
 									}}
 								>
-									<ProductSingle {...props} />
+									<ProductSingle />
 								</ProductsContext.Provider>
-							)}
+							}
 						/>
 						<Route
 							path="/aboutus"
-							exact={true}
-							render={() => (
+							element={
 								<TestimonialsContext.Provider
 									value={{
 										testimonials,
@@ -350,26 +444,80 @@ const Routes = () => {
 								>
 									<AboutUs ourTeam={ourTeam} />
 								</TestimonialsContext.Provider>
-							)}
+							}
 						/>
-						<Route path="/emailconfirm" exact={true} component={VerifyEmailConfirm} />
-						<Route path="/testimonials" exact={true} render={() => <Testimonials handleTestimonials={handleTestimonials} testimonials={testimonials} />} />
-						<Route path="/searchresults/:input" exact={true} render={(props) => <SearchPage {...props} searchResults={searchResults} setSearchResults={setSearchResults} />} />
-						<Route path="/contactus" exact={true} component={ContactUs} />
-						<Route path="/policiesandfaqs" exact={true} component={Policies} />
-						<Route path="/termsandconditions" exact={true} render={() => <TermsCond tncDoc={tncDoc} />} />
-						<Route path="/cancellationandrefunds" exact={true} render={() => <CancRef cnrDoc={cnrDoc} />} />
-						<Route path="/privacypolicy" exact={true} render={() => <PrivPol privpDoc={privpDoc} />} />
-						<Route path="/faqs" exact={true} render={() => <Faqs faqDoc={faqDoc} />} />
-						<Route path="/reportabug" exact={true} component={RepBug} />
-						<Route path="/feedback" exact={true} component={Feedback} />
-						<Route path="/auth/forgot-password" exact={true} component={PasswordReset} />
-						<Route path="/auth/password/reset/confirm/:params" exact={true} render={() => <PasswordResetConfirm />} />
-						<Route path="/auth/verify-email/:key" exact={true} render={() => <VerifyEmail />} />
-						<PrivateRoutes path="/profile/:option" component={Profile} exact={true} onEnter={requireAuth} />
-						<PrivateRoutes path="/profile/orderdetail/:id" component={Profile} exact={true} onEnter={requireAuth} />
-						<Route component={NotFound404} exact={true} />
-					</Switch>
+						<Route
+							path="/emailconfirm"
+							element={<VerifyEmailConfirm />}
+						/>
+						<Route
+							path="/testimonials"
+							element={
+								<Testimonials
+									handleTestimonials={handleTestimonials}
+									testimonials={testimonials}
+								/>
+							}
+						/>
+						<Route
+							path="/searchresults/:input"
+							element={
+								<SearchPage
+									searchResults={searchResults}
+									setSearchResults={setSearchResults}
+								/>
+							}
+						/>
+						<Route path="/contactus" element={<ContactUs />} />
+						<Route path="/policiesandfaqs" element={<Policies />} />
+						<Route
+							path="/termsandconditions"
+							element={<TermsCond tncDoc={tncDoc} />}
+						/>
+						<Route
+							path="/cancellationandrefunds"
+							element={<CancRef cnrDoc={cnrDoc} />}
+						/>
+						<Route
+							path="/privacypolicy"
+							element={<PrivPol privpDoc={privpDoc} />}
+						/>
+						<Route
+							path="/faqs"
+							element={<Faqs faqDoc={faqDoc} />}
+						/>
+						<Route path="/reportabug" element={<RepBug />} />
+						<Route path="/feedback" element={<Feedback />} />
+						<Route
+							path="/auth/forgot-password"
+							element={<PasswordReset />}
+						/>
+						<Route
+							path="/auth/password/reset/confirm/:params"
+							element={<PasswordResetConfirm />}
+						/>
+						<Route
+							path="/auth/verify-email/:key"
+							element={<VerifyEmail />}
+						/>
+						<Route
+							path="/profile/:option"
+							element={
+								<PrivateRoute>
+									<Profile />
+								</PrivateRoute>
+							}
+						/>
+						<Route
+							path="/profile/orderdetail/:id"
+							element={
+								<PrivateRoute>
+									<Profile />
+								</PrivateRoute>
+							}
+						/>
+						<Route element={<NotFound404 />} />
+					</RouterRoutes>
 				</BrowserRouter>
 			</BaseContext.Provider>
 		</>

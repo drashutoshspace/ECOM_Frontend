@@ -1,13 +1,11 @@
 import Breadcrumb from "../../Components/Breadcrumb";
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { CartContext } from "../../Contexts/CartContext";
 import Base from "../../Base";
 import { coupon, razorpaykey } from "../../helpers/ecom/checkout";
-import { useHistory } from "react-router-dom";
-import CSRFToken from "../../CSRFToken";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Payment_API, PaymentSuccess_API } from "../../backend";
 import { Helmet } from "react-helmet-async";
-import { Link, Redirect } from "react-router-dom";
 import { BaseContext } from "../../Context";
 import { toast } from "react-toastify";
 import DataLoader2 from "../../Components/DataLoaders/DataLoader2";
@@ -15,12 +13,25 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { SingleEntityContext } from "../../Contexts/SingleEntityContext";
 import { profileDataUpdate } from "../../data/users/profileData";
+declare global {
+	interface Window {
+		Razorpay: any;
+	}
+}
+
 const Checkout = () => {
-	const history = useHistory();
-	const { cookies, setCookie, handleNotification } = useContext(BaseContext);
-	const { cartItems, allItemsTotalPrice, allItemsTotalDiscount, handleCheckout } = useContext(CartContext);
-	const { singleEntityValue, handleSingleCheckout } = useContext(SingleEntityContext);
-	const [changeRZKey, setChangeRZKey] = useState("123");
+	const navigate = useNavigate();
+	const { cookies, setCookie, handleNotification }: any =
+		useContext(BaseContext);
+	const {
+		cartItems,
+		allItemsTotalPrice,
+		allItemsTotalDiscount,
+		handleCheckout,
+	}: any = useContext(CartContext);
+	const { singleEntityValue, handleSingleCheckout }: any =
+		useContext(SingleEntityContext);
+	const [changeRZKey, setChangeRZKey] = useState<any>("123");
 	const [checkBoxState, setCheckBoxState] = useState(true);
 	const [loading, setLoading] = useState(false);
 	const [couponApplied, setCouponApplied] = useState(false);
@@ -52,9 +63,16 @@ const Checkout = () => {
 		};
 	}, [couponDiscount]);
 	const checkoutData1 = () => {
-		let newProductsArray = [];
+		let newProductsArray: any = [];
 		if (!!!singleEntityValue?.guid) {
-			cartItems.products.filter((item) => item.userID === cookies?.user?.[0]?.id).map((item) => newProductsArray.push({ product: item.product.guid, quantity: item.quantity }));
+			cartItems.products
+				.filter((item: any) => item.userID === cookies?.user?.[0]?.id)
+				.map((item: any) =>
+					newProductsArray.push({
+						product: item.product.guid,
+						quantity: item.quantity,
+					})
+				);
 			setDataObj({
 				products: newProductsArray,
 				coupon_code: mycoupon,
@@ -78,7 +96,11 @@ const Checkout = () => {
 					shippingAddress.email,
 			});
 		} else {
-			singleEntityValue?.Product_Name && newProductsArray.push({ product: singleEntityValue.product.guid, quantity: singleEntityValue.quantity });
+			singleEntityValue?.Product_Name &&
+				newProductsArray.push({
+					product: singleEntityValue.product.guid,
+					quantity: singleEntityValue.quantity,
+				});
 			setDataObj({
 				products: newProductsArray,
 				coupon_code: mycoupon,
@@ -128,15 +150,25 @@ const Checkout = () => {
 					email: cookies.user[0].email,
 				});
 			} else {
-				setShippingAddress({ first_name: "", last_name: "", address_line_1: "", address_line_2: "", city: "", state: "", pin_code: "", country: "", mobile: "", email: "" });
+				setShippingAddress({
+					first_name: "",
+					last_name: "",
+					address_line_1: "",
+					city: "",
+					state: "",
+					pin_code: "",
+					country: "",
+					mobile: "",
+					email: "",
+				});
 			}
 		}
 		return () => {
 			mounted = false;
 		};
 	}, [checkBoxState]);
-	const handlePaymentSuccess = async (response) => {
-		const tokenValue = localStorage.getItem("token").replace(/['"]+/g, "");
+	const handlePaymentSuccess = async (response: any) => {
+		const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 		try {
 			await fetch(PaymentSuccess_API, {
 				method: "POST",
@@ -149,8 +181,10 @@ const Checkout = () => {
 			})
 				.then((res) => {
 					if (res.ok) {
-						history.push("/profile/myorders");
-						!!singleEntityValue?.guid ? handleSingleCheckout() : handleCheckout(cookies?.user?.[0]?.id);
+						navigate("/profile/myorders");
+						!!singleEntityValue?.guid
+							? handleSingleCheckout()
+							: handleCheckout(cookies?.user?.[0]?.id);
 						setDataObj({
 							products: [],
 							coupon_code: "",
@@ -176,7 +210,7 @@ const Checkout = () => {
 			console.log(error);
 		}
 	};
-	function loadScript(src) {
+	function loadScript(src: any) {
 		return new Promise((resolve) => {
 			const script = document.createElement("script");
 			script.src = src;
@@ -190,8 +224,10 @@ const Checkout = () => {
 		});
 	}
 	const showRazorpay = async () => {
-		const tokenValue = localStorage.getItem("token").replace(/['"]+/g, "");
-		const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+		const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
+		const res = await loadScript(
+			"https://checkout.razorpay.com/v1/checkout.js"
+		);
 		if (!res) {
 			alert("Razorpay SDK failed to load. Are you online?");
 			return;
@@ -222,16 +258,32 @@ const Checkout = () => {
 			name: "Kirana For Home",
 			image: "https://www.kiranaforhome.com/images/Meta_Image.jpg",
 			order_id: data?.payment?.id,
-			handler: function (response) {
+			handler: function (response: any) {
 				handlePaymentSuccess(response);
 			},
 			prefill: {
-				name: `${cookies.user[0].first_name !== "" || cookies.user[0].last_name !== "" ? cookies.user[0].first_name + " " + cookies.user[0].last_name : cookies.user[0].username}`,
+				name: `${
+					cookies.user[0].first_name !== "" ||
+					cookies.user[0].last_name !== ""
+						? cookies.user[0].first_name +
+						  " " +
+						  cookies.user[0].last_name
+						: cookies.user[0].username
+				}`,
 				email: cookies.user[0].email,
 				contact: `+${cookies.user[0].mobile}`,
 			},
 			notes: {
-				address: cookies.user[0].address_line_1 + ", " + cookies.user[0].city + ", " + cookies.user[0].state + " - " + cookies.user[0].pin_code + ", " + cookies.user[0].country,
+				address:
+					cookies.user[0].address_line_1 +
+					", " +
+					cookies.user[0].city +
+					", " +
+					cookies.user[0].state +
+					" - " +
+					cookies.user[0].pin_code +
+					", " +
+					cookies.user[0].country,
 			},
 			theme: {
 				color: "#00214d",
@@ -240,23 +292,55 @@ const Checkout = () => {
 		var rzp1 = new window.Razorpay(options);
 		rzp1.open();
 	};
-	const CouponValidity = async (e) => {
+	const CouponValidity = async (e: any) => {
 		e.preventDefault();
 		setLoading(true);
 		await coupon({ coupon_code: mycoupon }).then((data) => {
 			if (data?.cashback) {
 				setLoading(false);
 				if (singleEntityValue?.guid) {
-					if ((data?.discount / 100) * parseFloat(singleEntityValue?.Product_SellingPrice).toFixed(2) > data?.cashback) {
+					if (
+						(data?.discount / 100) *
+							parseFloat(
+								parseFloat(
+									singleEntityValue?.Product_SellingPrice
+								).toFixed(2)
+							) >
+						data?.cashback
+					) {
 						setCouponDiscount(data.cashback);
 					} else {
-						setCouponDiscount((data?.discount / 100) * parseFloat(singleEntityValue?.Product_SellingPrice).toFixed(2));
+						setCouponDiscount(
+							(data?.discount / 100) *
+								parseFloat(
+									parseFloat(
+										singleEntityValue?.Product_SellingPrice
+									).toFixed(2)
+								)
+						);
 					}
 				} else {
-					if ((data?.discount / 100) * parseFloat(allItemsTotalPrice - allItemsTotalDiscount).toFixed(2) > data?.cashback) {
+					if (
+						(data?.discount / 100) *
+							parseFloat(
+								parseFloat(allItemsTotalPrice).toFixed(2)
+							) -
+							parseFloat(
+								parseFloat(allItemsTotalDiscount).toFixed(2)
+							) >
+						data?.cashback
+					) {
 						setCouponDiscount(data.cashback);
 					} else {
-						setCouponDiscount((data?.discount / 100) * parseFloat(allItemsTotalPrice - allItemsTotalDiscount).toFixed(2));
+						setCouponDiscount(
+							(data?.discount / 100) *
+								parseFloat(
+									parseFloat(allItemsTotalPrice).toFixed(2)
+								) -
+								parseFloat(
+									parseFloat(allItemsTotalDiscount).toFixed(2)
+								)
+						);
 					}
 				}
 				setCouponApplied(true);
@@ -277,7 +361,7 @@ const Checkout = () => {
 	useEffect(() => {
 		var mounted = true;
 		if (mounted) {
-			razorpaykey((data) => {
+			razorpaykey((data: any) => {
 				setChangeRZKey(data);
 			});
 		}
@@ -285,14 +369,14 @@ const Checkout = () => {
 			mounted = false;
 		};
 	}, []);
-	function truncate(str, n) {
+	function truncate(str: any, n: any) {
 		return str?.length > n ? str.substr(0, n - 1) + "..." : str;
 	}
-	const redirect = (value) => {
+	const redirect = (value: any) => {
 		if (value === "/profile/account") {
 			handleNotification("Enter Your Billing Address.", "error");
 		}
-		return <Redirect to={`${value}`} />;
+		return <Navigate to={`${value}`} />;
 	};
 	// REVIEW
 	return cookies.user[0]?.address_line_1 !== "" &&
@@ -318,10 +402,19 @@ const Checkout = () => {
 								<div className="col-lg-6 bgcolorgreyish border5px p-4 h-100">
 									<div className="row mb-4 pb-3">
 										<div className="col-lg-12">
-											<h2 className="colorblue mb-3 text-center">Shipping Details</h2>
+											<h2 className="colorblue mb-3 text-center">
+												Shipping Details
+											</h2>
 											<div className="text-center">
-												<p className="colorblue pb-3">If you want to update your billing address click the button below.</p>
-												<Link to="/profile/account" className="mybtnsame fontsize16 h-100 w-100 bglightblue colorblue bgyellow border5px border-0 text-uppercase">
+												<p className="colorblue pb-3">
+													If you want to update your
+													billing address click the
+													button below.
+												</p>
+												<Link
+													to="/profile/account"
+													className="mybtnsame fontsize16 h-100 w-100 bglightblue colorblue bgyellow border5px border-0 text-uppercase"
+												>
 													Update Billing Address
 												</Link>
 												<p className="colorblue pt-4 mt-1 mb-4">
@@ -330,10 +423,14 @@ const Checkout = () => {
 														type="checkbox"
 														checked={checkBoxState}
 														onChange={() => {
-															setCheckBoxState(!checkBoxState);
+															setCheckBoxState(
+																!checkBoxState
+															);
 														}}
 													/>
-													&nbsp;&nbsp;Is your shipping address same as billing address?
+													&nbsp;&nbsp;Is your shipping
+													address same as billing
+													address?
 												</p>
 											</div>
 										</div>
@@ -342,7 +439,9 @@ const Checkout = () => {
 										<div className="row">
 											<div className="col-lg-6">
 												<div className="mb-4 pb-1">
-													<h5 className="colorblue text-start mb-3 fontsize16">First Name</h5>
+													<h5 className="colorblue text-start mb-3 fontsize16">
+														First Name
+													</h5>
 													<input
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														type="text"
@@ -350,17 +449,23 @@ const Checkout = () => {
 														onChange={(e) => {
 															setShippingAddress({
 																...shippingAddress,
-																first_name: e.target.value,
+																first_name:
+																	e.target
+																		.value,
 															});
 														}}
-														value={shippingAddress?.first_name}
+														value={
+															shippingAddress?.first_name
+														}
 														required
 													/>
 												</div>
 											</div>
 											<div className="col-lg-6">
 												<div className="mb-4 pb-1">
-													<h5 className="colorblue text-start mb-3 fontsize16">Last Name</h5>
+													<h5 className="colorblue text-start mb-3 fontsize16">
+														Last Name
+													</h5>
 													<input
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														type="text"
@@ -368,10 +473,14 @@ const Checkout = () => {
 														onChange={(e) => {
 															setShippingAddress({
 																...shippingAddress,
-																last_name: e.target.value,
+																last_name:
+																	e.target
+																		.value,
 															});
 														}}
-														value={shippingAddress?.last_name}
+														value={
+															shippingAddress?.last_name
+														}
 														required
 													/>
 												</div>
@@ -380,7 +489,9 @@ const Checkout = () => {
 										<div className="row">
 											<div className="col-lg-12">
 												<div className="mb-4 pb-1">
-													<h5 className="colorblue text-start mb-3 fontsize16">Address</h5>
+													<h5 className="colorblue text-start mb-3 fontsize16">
+														Address
+													</h5>
 													<input
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														type="text"
@@ -388,10 +499,17 @@ const Checkout = () => {
 														onChange={(e) => {
 															setShippingAddress({
 																...shippingAddress,
-																address_line_1: e.target.value,
+																address_line_1:
+																	e.target
+																		.value,
 															});
 														}}
-														value={shippingAddress?.address_line_1 === " " ? "" : shippingAddress?.address_line_1}
+														value={
+															shippingAddress?.address_line_1 ===
+															" "
+																? ""
+																: shippingAddress?.address_line_1
+														}
 														required
 													/>
 												</div>
@@ -400,7 +518,9 @@ const Checkout = () => {
 										<div className="row">
 											<div className="col-lg-12">
 												<div className="mb-4 pb-1">
-													<h5 className="colorblue text-start mb-3 fontsize16">Pincode</h5>
+													<h5 className="colorblue text-start mb-3 fontsize16">
+														Pincode
+													</h5>
 													<input
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														type="number"
@@ -408,10 +528,14 @@ const Checkout = () => {
 														onChange={(e) => {
 															setShippingAddress({
 																...shippingAddress,
-																pin_code: e.target.value,
+																pin_code:
+																	e.target
+																		.value,
 															});
 														}}
-														value={shippingAddress?.pin_code}
+														value={
+															shippingAddress?.pin_code
+														}
 														required
 													/>
 												</div>
@@ -420,7 +544,9 @@ const Checkout = () => {
 										<div className="row">
 											<div className="col-lg-12">
 												<div className="mb-4 pb-1">
-													<h5 className="colorblue text-start mb-3 fontsize16">City</h5>
+													<h5 className="colorblue text-start mb-3 fontsize16">
+														City
+													</h5>
 													<input
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														type="text"
@@ -428,10 +554,16 @@ const Checkout = () => {
 														onChange={(e) => {
 															setShippingAddress({
 																...shippingAddress,
-																city: e.target.value,
+																city: e.target
+																	.value,
 															});
 														}}
-														value={shippingAddress?.city === " " ? "" : shippingAddress?.city}
+														value={
+															shippingAddress?.city ===
+															" "
+																? ""
+																: shippingAddress?.city
+														}
 														required
 													/>
 												</div>
@@ -440,7 +572,9 @@ const Checkout = () => {
 										<div className="row">
 											<div className="col-lg-6">
 												<div className="mb-4 pb-1">
-													<h5 className="colorblue text-start mb-3 fontsize16">State</h5>
+													<h5 className="colorblue text-start mb-3 fontsize16">
+														State
+													</h5>
 													<input
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														type="text"
@@ -448,17 +582,25 @@ const Checkout = () => {
 														onChange={(e) => {
 															setShippingAddress({
 																...shippingAddress,
-																state: e.target.value,
+																state: e.target
+																	.value,
 															});
 														}}
-														value={shippingAddress?.state === " " ? "" : shippingAddress?.state}
+														value={
+															shippingAddress?.state ===
+															" "
+																? ""
+																: shippingAddress?.state
+														}
 														required
 													/>
 												</div>
 											</div>
 											<div className="col-lg-6">
 												<div className="mb-4 pb-1">
-													<h5 className="colorblue text-start mb-3 fontsize16">Country</h5>
+													<h5 className="colorblue text-start mb-3 fontsize16">
+														Country
+													</h5>
 													<input
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														type="text"
@@ -466,10 +608,17 @@ const Checkout = () => {
 														onChange={(e) => {
 															setShippingAddress({
 																...shippingAddress,
-																country: e.target.value,
+																country:
+																	e.target
+																		.value,
 															});
 														}}
-														value={shippingAddress?.country === " " ? "" : shippingAddress?.country}
+														value={
+															shippingAddress?.country ===
+															" "
+																? ""
+																: shippingAddress?.country
+														}
 														required
 													/>
 												</div>
@@ -478,14 +627,21 @@ const Checkout = () => {
 										<div className="row">
 											<div className="col-lg-6">
 												<div className="mb-4 mb-lg-0">
-													<h5 className="colorblue text-start mb-3 fontsize16">Mobile Number</h5>
+													<h5 className="colorblue text-start mb-3 fontsize16">
+														Mobile Number
+													</h5>
 													<PhoneInput
 														inputClass="input100 w-100 shadow-none border5px pe-5 border-0 colorblue"
 														buttonClass="border5px border-0 ps-2 colorblue bgcolorwhite"
-														inputStyle={{ height: "50px" }}
+														inputStyle={{
+															height: "50px",
+														}}
 														specialLabel={""}
 														country={"in"}
-														value={shippingAddress?.mobile || ""}
+														value={
+															shippingAddress?.mobile ||
+															""
+														}
 														onChange={(value) => {
 															setShippingAddress({
 																...shippingAddress,
@@ -497,7 +653,9 @@ const Checkout = () => {
 											</div>
 											<div className="col-lg-6">
 												<div className="">
-													<h5 className="colorblue text-start mb-3 fontsize16">Email</h5>
+													<h5 className="colorblue text-start mb-3 fontsize16">
+														Email
+													</h5>
 													<input
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														type="email"
@@ -520,39 +678,95 @@ const Checkout = () => {
 								<div className="col-lg-5">
 									<div className="row position-sticky sticky-bar">
 										<div className="col-lg-12 bgcolorgreyish border5px p-4 h-100 mt-4 mt-lg-0">
-											<h2 className="colorblue mb-3 text-center">Your Order Summary</h2>
+											<h2 className="colorblue mb-3 text-center">
+												Your Order Summary
+											</h2>
 											{!!!singleEntityValue?.guid ? (
 												<>
-													{cartItems.products.filter((item) => item.userID === cookies?.user?.[0]?.id).length > 0 && (
+													{cartItems.products.filter(
+														(item: any) =>
+															item.userID ===
+															cookies?.user?.[0]
+																?.id
+													).length > 0 && (
 														<>
-															<h5 className="colorblue mb-2 text-start">Products</h5>
+															<h5 className="colorblue mb-2 text-start">
+																Products
+															</h5>
 															<ul className="list-unstyled colorblue fontsize14">
 																{cartItems.products
-																	.filter((item) => item.userID === cookies?.user?.[0]?.id)
-																	.map((item, index) => {
-																		const { product } = item;
-																		return (
-																			<li
-																				key={index}
-																				className="d-flex justify-content-between"
-																				data-bs-toggle="tooltip"
-																				data-bs-placement="top"
-																				title={product?.Product_Name}
-																			>
-																				<Link to={`/shop/products/${product?.slug}`} className="colorblue lightbluehover">
-																					{truncate(product?.Product_Name, 25)}
-																				</Link>
-																				x&nbsp;{item?.quantity}
-																				<span>
-																					₹&nbsp;
-																					{(Math.abs(parseInt(product?.Product_SellingPrice) - parseFloat(product?.Product_SellingPrice)) > 0.5
-																						? parseInt(product?.Product_SellingPrice) + 1
-																						: parseInt(product?.Product_SellingPrice)
-																					).toLocaleString(undefined, { maximumFractionDigits: 2 })}
-																				</span>
-																			</li>
-																		);
-																	})}
+																	.filter(
+																		(
+																			item: any
+																		) =>
+																			item.userID ===
+																			cookies
+																				?.user?.[0]
+																				?.id
+																	)
+																	.map(
+																		(
+																			item: any,
+																			index: any
+																		) => {
+																			const {
+																				product,
+																			} =
+																				item;
+																			return (
+																				<li
+																					key={
+																						index
+																					}
+																					className="d-flex justify-content-between"
+																					data-bs-toggle="tooltip"
+																					data-bs-placement="top"
+																					title={
+																						product?.Product_Name
+																					}
+																				>
+																					<Link
+																						to={`/shop/products/${product?.slug}`}
+																						className="colorblue lightbluehover"
+																					>
+																						{truncate(
+																							product?.Product_Name,
+																							25
+																						)}
+																					</Link>
+																					x&nbsp;
+																					{
+																						item?.quantity
+																					}
+																					<span>
+																						₹&nbsp;
+																						{(Math.abs(
+																							parseInt(
+																								product?.Product_SellingPrice
+																							) -
+																								parseFloat(
+																									product?.Product_SellingPrice
+																								)
+																						) >
+																						0.5
+																							? parseInt(
+																									product?.Product_SellingPrice
+																							  ) +
+																							  1
+																							: parseInt(
+																									product?.Product_SellingPrice
+																							  )
+																						).toLocaleString(
+																							undefined,
+																							{
+																								maximumFractionDigits: 2,
+																							}
+																						)}
+																					</span>
+																				</li>
+																			);
+																		}
+																	)}
 															</ul>
 														</>
 													)}
@@ -561,16 +775,45 @@ const Checkout = () => {
 												<>
 													<ul className="list-unstyled colorblue fontsize14">
 														{
-															<li className="d-flex justify-content-between" data-bs-toggle="tooltip" data-bs-placement="top" title={singleEntityValue?.Product_Name}>
-																<Link to={`/shop/products/${singleEntityValue?.slug}`} className="colorblue lightbluehover">
-																	{truncate(singleEntityValue?.Product_Name, 25)}
+															<li
+																className="d-flex justify-content-between"
+																data-bs-toggle="tooltip"
+																data-bs-placement="top"
+																title={
+																	singleEntityValue?.Product_Name
+																}
+															>
+																<Link
+																	to={`/shop/products/${singleEntityValue?.slug}`}
+																	className="colorblue lightbluehover"
+																>
+																	{truncate(
+																		singleEntityValue?.Product_Name,
+																		25
+																	)}
 																</Link>
 																<span>
 																	₹&nbsp;
-																	{(Math.abs(parseInt(singleEntityValue?.Product_SellingPrice) - parseFloat(singleEntityValue?.Product_SellingPrice)) > 0.5
-																		? parseInt(singleEntityValue?.Product_SellingPrice) + 1
-																		: parseInt(singleEntityValue?.Product_SellingPrice)
-																	).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+																	{(Math.abs(
+																		parseInt(
+																			singleEntityValue?.Product_SellingPrice
+																		) -
+																			parseFloat(
+																				singleEntityValue?.Product_SellingPrice
+																			)
+																	) > 0.5
+																		? parseInt(
+																				singleEntityValue?.Product_SellingPrice
+																		  ) + 1
+																		: parseInt(
+																				singleEntityValue?.Product_SellingPrice
+																		  )
+																	).toLocaleString(
+																		undefined,
+																		{
+																			maximumFractionDigits: 2,
+																		}
+																	)}
 																</span>
 															</li>
 														}
@@ -579,75 +822,158 @@ const Checkout = () => {
 											)}
 											{!!!singleEntityValue?.guid ? (
 												<div className="d-flex py-3 justify-content-between align-items-center bordertopcheckout">
-													<h3 className="mb-0 colorblue">Subtotal</h3>
+													<h3 className="mb-0 colorblue">
+														Subtotal
+													</h3>
 													<p className="mb-0 colorblue">
-														₹ {(parseFloat(allItemsTotalPrice).toFixed(2) - allItemsTotalDiscount).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+														₹{" "}
+														{(
+															parseFloat(
+																parseFloat(
+																	allItemsTotalPrice
+																).toFixed(2)
+															) -
+															allItemsTotalDiscount
+														).toLocaleString(
+															undefined,
+															{
+																maximumFractionDigits: 2,
+															}
+														)}
 													</p>
 												</div>
 											) : (
 												<div className="d-flex py-3 justify-content-between align-items-center bordertopcheckout">
-													<h3 className="mb-0 colorblue">Subtotal</h3>
-													<p className="mb-0 colorblue">₹ {(singleEntityValue?.Product_SellingPrice).toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
+													<h3 className="mb-0 colorblue">
+														Subtotal
+													</h3>
+													<p className="mb-0 colorblue">
+														₹{" "}
+														{(singleEntityValue?.Product_SellingPrice).toLocaleString(
+															undefined,
+															{
+																maximumFractionDigits: 2,
+															}
+														)}
+													</p>
 												</div>
 											)}
 											{couponApplied ? (
 												<div className="py-3 bordertopcheckout">
-													<h3 className="mb-0 colorblue">Discount</h3>
+													<h3 className="mb-0 colorblue">
+														Discount
+													</h3>
 													<div className="d-flex justify-content-between align-items-center">
-														<p className="mt-1 mb-0 colorblue">Coupon Code "{mycoupon}" applied!</p>
+														<p className="mt-1 mb-0 colorblue">
+															Coupon Code "
+															{mycoupon}" applied!
+														</p>
 														{couponDiscount > 0 && (
 															<button
 																className="ms-2 colorblue border-0 border5px bgyellow bglightblue"
 																onClick={() => {
-																	setCouponDiscount(0);
-																	setCouponApplied(false);
+																	setCouponDiscount(
+																		0
+																	);
+																	setCouponApplied(
+																		false
+																	);
 																}}
-																style={{ width: 25, height: 25 }}
+																style={{
+																	width: 25,
+																	height: 25,
+																}}
 															>
 																<i className="fas fa-times" />
 															</button>
 														)}
-														<p className="mb-0 accepted">-&nbsp;&nbsp;&nbsp;₹ {couponDiscount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
+														<p className="mb-0 accepted">
+															-&nbsp;&nbsp;&nbsp;₹{" "}
+															{couponDiscount.toLocaleString(
+																undefined,
+																{
+																	maximumFractionDigits: 2,
+																}
+															)}
+														</p>
 													</div>
 												</div>
 											) : (
 												<div className="d-flex py-3 justify-content-between align-items-center bordertopcheckout">
-													<h3 className="mb-0 colorblue">Discount</h3>
-													<p className="mb-0 accepted">-&nbsp;&nbsp;&nbsp;₹ {couponDiscount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
+													<h3 className="mb-0 colorblue">
+														Discount
+													</h3>
+													<p className="mb-0 accepted">
+														-&nbsp;&nbsp;&nbsp;₹{" "}
+														{couponDiscount.toLocaleString(
+															undefined,
+															{
+																maximumFractionDigits: 2,
+															}
+														)}
+													</p>
 												</div>
 											)}
 											<div className="d-flex py-3 justify-content-between align-items-center bordertopcheckout">
-												<h3 className="mb-0 colorblue">Total</h3>
+												<h3 className="mb-0 colorblue">
+													Total
+												</h3>
 												{!!!singleEntityValue?.guid ? (
 													<p className="mb-0 colorblue">
 														₹&nbsp;
-														{Math.abs(parseFloat(allItemsTotalPrice).toFixed(2) - allItemsTotalDiscount - couponDiscount).toLocaleString(undefined, {
-															maximumFractionDigits: 2,
-														})}
+														{Math.abs(
+															parseFloat(
+																parseFloat(
+																	allItemsTotalPrice
+																).toFixed(2)
+															) -
+																allItemsTotalDiscount -
+																couponDiscount
+														).toLocaleString(
+															undefined,
+															{
+																maximumFractionDigits: 2,
+															}
+														)}
 													</p>
 												) : (
 													<p className="mb-0 colorblue">
 														₹&nbsp;
-														{Math.abs(singleEntityValue?.Product_SellingPrice - couponDiscount).toLocaleString(undefined, {
-															maximumFractionDigits: 2,
-														})}
+														{Math.abs(
+															singleEntityValue?.Product_SellingPrice -
+																couponDiscount
+														).toLocaleString(
+															undefined,
+															{
+																maximumFractionDigits: 2,
+															}
+														)}
 													</p>
 												)}
 											</div>
 											<div className="py-3 bordertopcheckout">
 												<div className="row d-flex justify-content-center align-items-center">
-													<h4 className="mb-3 text-center colorblue">Discount Code</h4>
+													<h4 className="mb-3 text-center colorblue">
+														Discount Code
+													</h4>
 													<form action="#">
-														<CSRFToken />
 														<div className="row">
 															<div className="col-lg-9 col-7">
 																<input
 																	className="input100 w-100 border5px ps-3 border-0 colorblue"
 																	type="text"
 																	placeholder="Coupon Code"
-																	value={mycoupon}
-																	onChange={(e) => {
-																		setMyCoupon(e.target.value);
+																	value={
+																		mycoupon
+																	}
+																	onChange={(
+																		e
+																	) => {
+																		setMyCoupon(
+																			e
+																				.target
+																				.value
+																		);
 																	}}
 																	required
 																/>
@@ -655,19 +981,40 @@ const Checkout = () => {
 															<div className="col-lg-3 col-5">
 																<button
 																	className="mybtnsame fontsize16 w-100 h-100 bglightblue colorblue bgyellow border5px border-0 text-uppercase"
-																	onClick={(e) => {
-																		CouponValidity(e);
+																	onClick={(
+																		e
+																	) => {
+																		CouponValidity(
+																			e
+																		);
 																	}}
-																	disabled={loading ? true : false}
+																	disabled={
+																		loading
+																			? true
+																			: false
+																	}
 																>
-																	{loading ? <DataLoader2 loaderSize={15} loaderType="ScaleLoader" loaderColor="#00214d" /> : "Apply"}
+																	{loading ? (
+																		<DataLoader2
+																			loaderSize={
+																				15
+																			}
+																			loaderType="ScaleLoader"
+																			loaderColor="#00214d"
+																		/>
+																	) : (
+																		"Apply"
+																	)}
 																</button>
 															</div>
 														</div>
 													</form>
 												</div>
 											</div>
-											<button className="mt-2 mybtnsame fontsize16 w-100 bglightblue colorblue bgyellow border5px border-0 text-uppercase" onClick={showRazorpay}>
+											<button
+												className="mt-2 mybtnsame fontsize16 w-100 bglightblue colorblue bgyellow border5px border-0 text-uppercase"
+												onClick={showRazorpay}
+											>
 												PAY
 											</button>
 										</div>

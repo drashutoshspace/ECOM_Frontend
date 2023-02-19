@@ -1,5 +1,5 @@
 import { PrivP_API } from "../../backend";
-export const privpdata = async (next) => {
+export const privpdata = async () => {
 	await fetch(`${PrivP_API}`, {
 		method: "GET",
 		headers: {
@@ -8,9 +8,6 @@ export const privpdata = async (next) => {
 	})
 		.then((resp) => {
 			return resp.json();
-		})
-		.then((data) => {
-			next(data);
 		})
 		.catch((err) => console.log(err));
 };

@@ -1,5 +1,5 @@
 import { ContactUsForm_API } from "../../backend";
-export const contactusForm = async ({ name, email, subject, message }, next) => {
+export const contactusForm = async ({ name, email, subject, message }: any) => {
 	return await fetch(ContactUsForm_API, {
 		method: "POST",
 		headers: {
@@ -9,9 +9,6 @@ export const contactusForm = async ({ name, email, subject, message }, next) => 
 	})
 		.then((res) => {
 			return res.json();
-		})
-		.then((data) => {
-			next(data);
 		})
 		.catch((err) => console.log(err));
 };

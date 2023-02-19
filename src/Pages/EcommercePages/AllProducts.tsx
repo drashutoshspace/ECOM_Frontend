@@ -6,11 +6,11 @@ import Base from "../../Base";
 import { BaseContext, ProductsContext } from "../../Context";
 import { categoryWiseProducts } from "../../data/products/products";
 import { products } from "../../data/products/products";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import ReactPaginate from "react-paginate";
 import DataLoader from "../../Components/DataLoaders/DataLoader";
-import { useHistory } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumb from "../../Components/Breadcrumb";
 
 // ANCHOR Drag Detection
@@ -52,9 +52,10 @@ import Breadcrumb from "../../Components/Breadcrumb";
 // 	};
 // }
 // ANCHOR Main Function
-const AllProducts = (props) => {
+const AllProducts = () => {
+	const { category } = useParams();
 	// ANCHOR All States
-	const history = useHistory();
+	const navigate = useNavigate();
 	const [allCategoryWiseProducts, setCategoryWiseProducts] = useState([]);
 	// const [home_products, setHome_Products] = useState([]);
 	const [currentPage, setCurrentPage] = useState(0);
@@ -62,8 +63,9 @@ const AllProducts = (props) => {
 	const [allprodCategory, setallprodCategory] = useState(true);
 	const [toggleAllProducts, setToggleAllProducts] = useState(false);
 	const [activeCategory, setActiveCategory] = useState(-1);
-	const { allProductCategories } = useContext(BaseContext);
-	const { handleAllProducts, allProducts, selectProducts } = useContext(ProductsContext);
+	const { allProductCategories }: any = useContext(BaseContext);
+	const { handleAllProducts, allProducts, selectProducts }: any =
+		useContext(ProductsContext);
 	/* -------------------------------------------------------------------------- */
 	/*                             ANCHOR data loader                             */
 	/* -------------------------------------------------------------------------- */
@@ -72,20 +74,20 @@ const AllProducts = (props) => {
 	/*                              ANCHOR Pagination                             */
 	/* -------------------------------------------------------------------------- */
 	const PER_PAGE = 9;
-	function handlePageClick({ selected: selectedPage }) {
+	function handlePageClick({ selected: selectedPage }: any) {
 		setCurrentPage(selectedPage);
 	}
 	const offset = currentPage * PER_PAGE;
 	/* -------------------------------------------------------------------------- */
 	/*                        ANCHOR Fetching Product Data                        */
 	/* -------------------------------------------------------------------------- */
-	useEffect(async () => {
+	useEffect(() => {
 		var mounted = true;
 		if (mounted) {
-			await products(PER_PAGE, offset, (data) => {
+			products(PER_PAGE, offset, (data: any) => {
 				setLoading(true);
-				if (props.match.params.category !== "allproducts") {
-					selectProducts(props.match.params.category, PER_PAGE, offset, (data) => {
+				if (category !== "allproducts") {
+					selectProducts(category, PER_PAGE, offset, (data: any) => {
 						setCurrentPage(0);
 						setPageCount(data?.count / PER_PAGE);
 					});
@@ -98,7 +100,7 @@ const AllProducts = (props) => {
 		return () => {
 			mounted = false;
 		};
-	}, [currentPage, props.match.params.category]);
+	}, [currentPage, category]);
 
 	// const handleHomeProducts = (array) => {
 	// 	setHome_Products(array);
@@ -178,14 +180,14 @@ const AllProducts = (props) => {
 	// }
 
 	// ANCHOR Category Wise Products
-	const selectProductsCategoryWise = (category) => {
-		selectProducts(category, PER_PAGE, offset, (data) => {
+	const selectProductsCategoryWise = (category: any) => {
+		selectProducts(category, PER_PAGE, offset, (data: any) => {
 			setCurrentPage(0);
 			setPageCount(data?.count / PER_PAGE);
 		});
 	};
 
-	const handleActiveCategory = (val) => {
+	const handleActiveCategory = (val: any) => {
 		setActiveCategory(val);
 		setallprodCategory(false);
 	};
@@ -200,49 +202,71 @@ const AllProducts = (props) => {
 					<section className="section overflow-hidden">
 						<div className="row">
 							<div className="col-lg-2 text-center">
-								<h2 className="mb-3 colorblue" style={{ fontSize: "35px" }}>
+								<h2
+									className="mb-3 colorblue"
+									style={{ fontSize: "35px" }}
+								>
 									Browse
 								</h2>
 								<ul className="text-lg-left list-unstyled text-center">
 									<li>
 										<button
 											className={
-												props.match.params.category === "allproducts" && allprodCategory
+												category === "allproducts" &&
+												allprodCategory
 													? "colorlightblue fontsize20 bgnone border-0 lightbluehover"
 													: "colorblue fontsize20 bgnone border-0 lightbluehover"
 											}
 											onClick={() => {
-												setCategoryWiseProducts(allProducts);
+												setCategoryWiseProducts(
+													allProducts
+												);
 												handleActiveCategory(-1);
 												setallprodCategory(true);
 												setCurrentPage(0);
-												setToggleAllProducts(!toggleAllProducts);
-												history.push("/shop/allproducts");
+												setToggleAllProducts(
+													!toggleAllProducts
+												);
+												navigate("/shop/allproducts");
 											}}
 										>
 											All Products
 										</button>
 									</li>
 									{allProductCategories &&
-										allProductCategories.map((item, index) => {
-											return (
-												<li key={index}>
-													<button
-														className={`colorblue fontsize20 bgnone border-0 lightbluehover ${
-															(index === activeCategory || props.match.params.category === item?.category) && "colorlightblue"
-														}`}
-														onClick={() => {
-															selectProductsCategoryWise(item?.category);
-															handleActiveCategory(index);
-															setToggleAllProducts(!toggleAllProducts);
-															history.push(`/shop/${item?.category}`);
-														}}
-													>
-														{item?.category}
-													</button>
-												</li>
-											);
-										})}
+										allProductCategories.map(
+											(item: any, index: any) => {
+												return (
+													<li key={index}>
+														<button
+															className={`colorblue fontsize20 bgnone border-0 lightbluehover ${
+																(index ===
+																	activeCategory ||
+																	category ===
+																		item?.category) &&
+																"colorlightblue"
+															}`}
+															onClick={() => {
+																selectProductsCategoryWise(
+																	item?.category
+																);
+																handleActiveCategory(
+																	index
+																);
+																setToggleAllProducts(
+																	!toggleAllProducts
+																);
+																navigate(
+																	`/shop/${item?.category}`
+																);
+															}}
+														>
+															{item?.category}
+														</button>
+													</li>
+												);
+											}
+										)}
 								</ul>
 							</div>
 							<div className="col-lg-10">
@@ -266,27 +290,54 @@ const AllProducts = (props) => {
 								</div> */}
 								<div className="row mx-2 justify-content-center">
 									{allProducts ? (
-										allProducts.map((product, index) => {
-											return <ShopCard product={product} key={index} />;
-										})
+										allProducts.map(
+											(product: any, index: any) => {
+												return (
+													<ShopCard
+														product={product}
+														key={index}
+													/>
+												);
+											}
+										)
 									) : (
 										<h1>No Products To Show</h1>
 									)}
 									<ReactPaginate
-										previousLabel={<i className="fas fa-arrow-left"></i>}
-										nextLabel={<i className="fas fa-arrow-right"></i>}
+										previousLabel={
+											<i className="fas fa-arrow-left"></i>
+										}
+										nextLabel={
+											<i className="fas fa-arrow-right"></i>
+										}
 										pageCount={pageCount}
 										pageRangeDisplayed={1}
 										marginPagesDisplayed={2}
 										onPageChange={handlePageClick}
-										containerClassName={"pagination fontsize18 d-flex justify-content-center align-items-center mb-0 pb-0 mt-4 pt-4 p-0"}
-										pageClassName={"colorblue hovergoup fw-bold h-100 bgyellow border5px mx-2 bglightblue px-2"}
-										nextClassName={"bgyellow hovergoup d-flex align-items-center mx-2 fontsize16 h-100 px-2 border5px bglightblue"}
-										previousClassName={"bgyellow hovergoup d-flex align-items-center mx-2 fontsize16 h-100 px-2 border5px bglightblue"}
-										previousLinkClassName={"pagination__link colorblue"}
-										nextLinkClassName={"pagination__link colorblue"}
-										disabledClassName={"pagination__link--disabled"}
-										activeClassName={"pagination__link--active lightbluebg"}
+										containerClassName={
+											"pagination fontsize18 d-flex justify-content-center align-items-center mb-0 pb-0 mt-4 pt-4 p-0"
+										}
+										pageClassName={
+											"colorblue hovergoup fw-bold h-100 bgyellow border5px mx-2 bglightblue px-2"
+										}
+										nextClassName={
+											"bgyellow hovergoup d-flex align-items-center mx-2 fontsize16 h-100 px-2 border5px bglightblue"
+										}
+										previousClassName={
+											"bgyellow hovergoup d-flex align-items-center mx-2 fontsize16 h-100 px-2 border5px bglightblue"
+										}
+										previousLinkClassName={
+											"pagination__link colorblue"
+										}
+										nextLinkClassName={
+											"pagination__link colorblue"
+										}
+										disabledClassName={
+											"pagination__link--disabled"
+										}
+										activeClassName={
+											"pagination__link--active lightbluebg"
+										}
 									/>
 								</div>
 							</div>

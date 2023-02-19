@@ -1,26 +1,25 @@
-import React, { useState, useRef } from "react";
-import CSRFToken from "../../CSRFToken";
+import { useState } from "react";
 import { signup } from "../../helpers/auth/authentication";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GoogleLogin from "react-google-login";
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+// import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import googleLogin from "../../helpers/auth/googleLogin";
 import facebookLogin from "../../helpers/auth/facebookLogin";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 import DataLoader2 from "../DataLoaders/DataLoader2";
 // import ReCAPTCHA from "react-google-recaptcha";
-const Signup = ({ handleToggle, isAuthenticated, handleNotification }) => {
+const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 	const [values, setValues] = useState({
 		username: "",
 		email: "",
 		password1: "",
 		password2: "",
-		error: "",
+		error: false,
 		success: false,
 	});
 	const { username, email, password1, password2 } = values;
-	const handleChange = (name) => (event) => {
+	const handleChange = (name: any) => (event: any) => {
 		setValues({ ...values, error: false, [name]: event.target.value });
 	};
 	const [loading, setLoading] = useState(false);
@@ -31,13 +30,13 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }) => {
 	// 		setDisable(false);
 	// 	}
 	// };
-	function isUserNameValid(username) {
+	function isUserNameValid(username: any) {
 		const res = /^[a-zA-Z0-9_\.]+$/.exec(username);
 		const valid = !!res;
 		return valid;
 	}
-	const history = useHistory();
-	const signupUser = (e) => {
+	const navigate = useNavigate();
+	const signupUser = (e: any) => {
 		e.preventDefault();
 		setLoading(true);
 		// if (disable) {
@@ -60,7 +59,12 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }) => {
 					pauseOnFocusLoss: true,
 				});
 			}
-			signup({ username: username, email: email.toLowerCase(), password1, password2 })
+			signup({
+				username: username,
+				email: email.toLowerCase(),
+				password1,
+				password2,
+			})
 				.then((data) => {
 					if (data?.detail) {
 						setValues({
@@ -72,8 +76,8 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }) => {
 						});
 						handleToggle(false);
 						setLoading(false);
-						localStorage.setItem("emailV", true);
-						history.push("/emailconfirm");
+						localStorage.setItem("emailV", "true");
+						navigate("/emailconfirm");
 					} else {
 						if (data?.non_field_errors?.[0]) {
 							setLoading(false);
@@ -148,22 +152,22 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }) => {
 			});
 		}
 	};
-	const responseGoogle = (response) => {
-		googleLogin(response.accessToken, () => {
-			if (isAuthenticated()) {
-				handleNotification("Login Successful", "success");
-				return <Redirect to="/" />;
-			}
-		});
-	};
-	const fbResponse = (response) => {
-		facebookLogin(response.accessToken, () => {
-			if (isAuthenticated()) {
-				handleNotification("Login Successful", "success");
-				return <Redirect to="/" />;
-			}
-		});
-	};
+	// const responseGoogle = (response) => {
+	// 	googleLogin(response.accessToken, () => {
+	// 		if (isAuthenticated()) {
+	// 			handleNotification("Login Successful", "success");
+	// 			return <Redirect to="/" />;
+	// 		}
+	// 	});
+	// };
+	// const fbResponse = (response) => {
+	// 	facebookLogin(response.accessToken, () => {
+	// 		if (isAuthenticated()) {
+	// 			handleNotification("Login Successful", "success");
+	// 			return <Redirect to="/" />;
+	// 		}
+	// 	});
+	// };
 	const [showPassword1, setShowPassword1] = useState(false);
 	const seePassword1 = () => {
 		setShowPassword1(!showPassword1);
@@ -180,9 +184,10 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }) => {
 			<div className="col-lg-6 col-md-6">
 				<div className="card mx-2 bgcolorgreyish border-0 border5px p-4">
 					<div className="card-body p-0">
-						<h2 className="card-title colorblue pb-2 text-center">Sign Up</h2>
+						<h2 className="card-title colorblue pb-2 text-center">
+							Sign Up
+						</h2>
 						<form className="mt-4">
-							<CSRFToken />
 							<div className="row">
 								<div className="col-lg-12">
 									<div className="position-relative mb-4">
@@ -224,7 +229,11 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }) => {
 									<div className="position-relative mb-4">
 										<input
 											className="input100 w-100 border5px border-0 colorblue"
-											type={showPassword1 ? "text" : "password"}
+											type={
+												showPassword1
+													? "text"
+													: "password"
+											}
 											placeholder="Password"
 											value={password1}
 											onChange={handleChange("password1")}
@@ -236,9 +245,18 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }) => {
 												<i className="far fa-lock" />
 											</span>
 										</span>
-										<span onClick={seePassword1} className="symbol-input1000 d-flex align-items-center position-absolute colorblue h-100">
+										<span
+											onClick={seePassword1}
+											className="symbol-input1000 d-flex align-items-center position-absolute colorblue h-100"
+										>
 											<span>
-												<i className={showPassword1 ? "far fa-eye-slash" : "far fa-eye"} />
+												<i
+													className={
+														showPassword1
+															? "far fa-eye-slash"
+															: "far fa-eye"
+													}
+												/>
 											</span>
 										</span>
 									</div>
@@ -247,7 +265,11 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }) => {
 									<div className="position-relative mb-4">
 										<input
 											className="input100 w-100 border5px border-0 colorblue"
-											type={showPassword2 ? "text" : "password"}
+											type={
+												showPassword2
+													? "text"
+													: "password"
+											}
 											placeholder="Confirm Password"
 											value={password2}
 											onChange={handleChange("password2")}
@@ -259,9 +281,18 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }) => {
 												<i className="far fa-lock" />
 											</span>
 										</span>
-										<span onClick={seePassword2} className="symbol-input1000 d-flex align-items-center position-absolute colorblue h-100">
+										<span
+											onClick={seePassword2}
+											className="symbol-input1000 d-flex align-items-center position-absolute colorblue h-100"
+										>
 											<span>
-												<i className={showPassword2 ? "far fa-eye-slash" : "far fa-eye"} />
+												<i
+													className={
+														showPassword2
+															? "far fa-eye-slash"
+															: "far fa-eye"
+													}
+												/>
 											</span>
 										</span>
 									</div>
@@ -269,12 +300,21 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }) => {
 								<div className="col-lg-12">
 									<div className="mb-3 pb-1 mx-1 text-center">
 										<div className="colorblue">
-											By signing up, you accept Kirana For Home's&nbsp;
-											<Link to="/privacypolicy" className="lightbluehover fw-bold colorblue" target="_blank">
+											By signing up, you accept Kirana For
+											Home's&nbsp;
+											<Link
+												to="/privacypolicy"
+												className="lightbluehover fw-bold colorblue"
+												target="_blank"
+											>
 												Privacy Policy
 											</Link>
 											&nbsp;and&nbsp;
-											<Link to="/termsandconditions" className="lightbluehover fw-bold colorblue" target="_blank">
+											<Link
+												to="/termsandconditions"
+												className="lightbluehover fw-bold colorblue"
+												target="_blank"
+											>
 												Terms &amp; Conditions
 											</Link>
 										</div>
@@ -296,29 +336,46 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }) => {
 											className="mybtnsame fontsize16 bglightblue colorblue bgyellow border5px border-0 text-uppercase d-inline-block"
 											disabled={loading ? true : false}
 										>
-											{loading ? <DataLoader2 loaderSize={15} loaderType="ScaleLoader" loaderColor="#00214d" /> : "Register"}
+											{loading ? (
+												<DataLoader2
+													loaderSize={15}
+													loaderType="ScaleLoader"
+													loaderColor="#00214d"
+												/>
+											) : (
+												"Register"
+											)}
 										</button>
 									</div>
 								</div>
 								<div className="col-lg-12 mt-4 text-center">
-									<h3 className="colorblue my-1">Or Sign Up With</h3>
+									<h3 className="colorblue my-1">
+										Or Sign Up With
+									</h3>
 									<div className="row">
 										<div className="col-6 mt-3">
 											<div className="d-grid">
-												<FacebookLogin
+												{/* <FacebookLogin
 													appId="876288792967969"
 													render={(renderProps) => (
 														<button
-															onClick={renderProps.onClick}
+															onClick={
+																renderProps.onClick
+															}
 															className="socialbutton bglightblue border-0 colorblue bgyellow cursorpointer border5px d-flex justify-content-center align-items-center px-2 my-2"
 														>
-															<img src="images/FB_Button.svg" height="20px" alt="Facebook" />
-															&nbsp;&nbsp;<b>Facebook</b>
+															<img
+																src="images/FB_Button.svg"
+																height="20px"
+																alt="Facebook"
+															/>
+															&nbsp;&nbsp;
+															<b>Facebook</b>
 														</button>
 													)}
 													fields="name,email,picture"
 													callback={fbResponse}
-												/>
+												/> */}
 											</div>
 										</div>
 										<div className="col-6 mt-3">
@@ -327,15 +384,30 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }) => {
 													clientId="643639185226-rqi76uj45a2pbvmqrsvku1mqg4kgspvf.apps.googleusercontent.com"
 													render={(renderProps) => (
 														<button
-															onClick={renderProps.onClick}
+															onClick={
+																renderProps.onClick
+															}
 															className="socialbutton bglightblue border-0 colorblue bgyellow cursorpointer border5px d-flex justify-content-center align-items-center px-2 my-2"
 														>
-															<img src="images/Google_Button.svg" height="20px" alt="Google" style={{ backgroundColor: "#fff", padding: "2px", borderRadius: "2px" }} />
-															&nbsp;&nbsp;<b>Google</b>
+															<img
+																src="images/Google_Button.svg"
+																height="20px"
+																alt="Google"
+																style={{
+																	backgroundColor:
+																		"#fff",
+																	padding:
+																		"2px",
+																	borderRadius:
+																		"2px",
+																}}
+															/>
+															&nbsp;&nbsp;
+															<b>Google</b>
 														</button>
 													)}
-													onSuccess={responseGoogle}
-													onFailure={responseGoogle}
+													// onSuccess={responseGoogle}
+													// onFailure={responseGoogle}
 												/>
 											</div>
 										</div>
@@ -343,7 +415,9 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }) => {
 								</div>
 								<div className="col-12 text-center">
 									<p className="mb-0 fontsize16 mt-4">
-										<span className="colorblue me-2">Regular Here ?</span>
+										<span className="colorblue me-2">
+											Regular Here ?
+										</span>
 										<button
 											onClick={() => {
 												handleToggle(false);

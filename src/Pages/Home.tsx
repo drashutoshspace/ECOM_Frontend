@@ -1,9 +1,8 @@
 import Hero from "../Components/Hero";
 import Info1 from "../Components/Info1";
-import Info3 from "../Components/Info3";
 import Counter from "../Components/Counter";
 import TestimonialsList from "../Components/TestimonialsList";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Base from "../Base";
 import ProductList from "../Components/EcommerceComp/ProductList";
 import AOS from "aos";
@@ -16,7 +15,7 @@ import { isAuthenticated } from "../helpers/auth/authentication";
 const Home = () => {
 	const [toggleAOS, setToggleAOS] = useState(false);
 	const [home_products, setHome_Products] = useState([]);
-	const handleHomeProducts = (array) => {
+	const handleHomeProducts = (array: any) => {
 		setHome_Products(array);
 	};
 	useEffect(() => {
@@ -41,8 +40,14 @@ const Home = () => {
 		<>
 			<Helmet>
 				<title>Kirana For Home | Home</title>
-				<meta name="description" content="Spaceonova is an online learning portal by Spaceonova!" />
-				<meta property="og:image" content="https://www.spaceonova.space/images/Meta_Image.jpg" />
+				<meta
+					name="description"
+					content="Spaceonova is an online learning portal by Spaceonova!"
+				/>
+				<meta
+					property="og:image"
+					content="https://www.spaceonova.space/images/Meta_Image.jpg"
+				/>
 			</Helmet>
 			<Base>
 				<Hero />
@@ -63,7 +68,10 @@ const Home = () => {
 						setToggleAOS(!toggleAOS);
 					}}
 				>
-					<ProductList home_products={home_products} handleHomeProducts={handleHomeProducts} />
+					<ProductList
+						home_products={home_products}
+						handleHomeProducts={handleHomeProducts}
+					/>
 				</VisibilitySensor>
 				<VisibilitySensor
 					onChange={() => {

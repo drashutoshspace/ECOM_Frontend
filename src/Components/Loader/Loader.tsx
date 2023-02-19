@@ -3,11 +3,18 @@ import LoaderSVG from "../../Assets/images/Loader.svg";
 const Loader = () => {
 	return (
 		<>
-			<section className="section d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+			<section
+				className="section d-flex justify-content-center align-items-center"
+				style={{ height: "100vh" }}
+			>
 				<div className="container">
 					<div className="row">
 						<div className="col-lg-12 pe-5 d-flex justify-content-center">
-							<object type="image/svg+xml" width="300px" data={LoaderSVG} />
+							<object
+								type="image/svg+xml"
+								width="300px"
+								data={LoaderSVG}
+							/>
 						</div>
 					</div>
 					<div className="row">

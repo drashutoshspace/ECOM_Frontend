@@ -1,8 +1,7 @@
 import Breadcrumb from "../Components/Breadcrumb";
-import React, { useState } from "react";
+import { useState } from "react";
 import Base from "../Base";
 import { Helmet } from "react-helmet-async";
-import CSRFToken from "../CSRFToken";
 import { feedbackForm } from "../../src/helpers/others/feedbackForm";
 import { toast } from "react-toastify";
 import DataLoader2 from "../Components/DataLoaders/DataLoader2";
@@ -15,24 +14,38 @@ const Feedback = () => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [message, setMessage] = useState("");
-	const feedback = async (e) => {
+	const feedback = async (e: any) => {
 		e.preventDefault();
 		setdDataLoading(true);
 		if (email.includes("@")) {
-			await feedbackForm({ name, email, message }).then((data) => {
+			await feedbackForm(name, email, message).then((data) => {
 				if (data.id) {
 					setName("");
 					setEmail("");
 					setMessage("");
 					setdDataLoading(false);
-					return toast("Feedback Posted", { type: "success", autoClose: 5000, position: "bottom-center", hideProgressBar: false, pauseOnHover: true, pauseOnFocusLoss: true });
+					return toast("Feedback Posted", {
+						type: "success",
+						autoClose: 5000,
+						position: "bottom-center",
+						hideProgressBar: false,
+						pauseOnHover: true,
+						pauseOnFocusLoss: true,
+					});
 				} else {
 					setdDataLoading(false);
 				}
 			});
 		} else {
 			setdDataLoading(false);
-			return toast("You have not entered an email.", { type: "error", autoClose: 5000, position: "bottom-center", hideProgressBar: false, pauseOnHover: true, pauseOnFocusLoss: true });
+			return toast("You have not entered an email.", {
+				type: "error",
+				autoClose: 5000,
+				position: "bottom-center",
+				hideProgressBar: false,
+				pauseOnHover: true,
+				pauseOnFocusLoss: true,
+			});
 		}
 	};
 	return (
@@ -45,20 +58,38 @@ const Feedback = () => {
 				<section className="section feedback">
 					<div className="container">
 						<div className="row align-items-center">
-							<div className="col-lg-6 col-md-6" onMouseEnter={handleChangeImage} onMouseLeave={handleChangeImage}>
+							<div
+								className="col-lg-6 col-md-6"
+								onMouseEnter={handleChangeImage}
+								onMouseLeave={handleChangeImage}
+							>
 								<div className="me-lg-5 mb-3 mb-lg-0">
-									<img src={changeImage ? "images/Feedback_Yellow.svg" : "images/Feedback_LightBlue.svg"} className="loginsvg" alt="Feedback" />
+									<img
+										src={
+											changeImage
+												? "images/Feedback_Yellow.svg"
+												: "images/Feedback_LightBlue.svg"
+										}
+										className="loginsvg"
+										alt="Feedback"
+									/>
 								</div>
 							</div>
 							<div className="col-lg-6 col-md-6">
 								<div className="card mx-2 bgcolorgreyish border-0 border5px p-4">
 									<div className="card-body p-0">
 										<p className="text-center mb-0 colorblue fontsize16 pt-0 p-3">
-											Thank you for visiting Kirana For Home! Please share your experience with us, it will help us grow. <b className="colorlightblue">Keep Exploring!</b>
+											Thank you for visiting Kirana For
+											Home! Please share your experience
+											with us, it will help us grow.{" "}
+											<b className="colorlightblue">
+												Keep Exploring!
+											</b>
 										</p>
-										<p className="text-center mb-0 colorblue fontsize16 mb-3">- Team Kirana For Home</p>
+										<p className="text-center mb-0 colorblue fontsize16 mb-3">
+											- Team Kirana For Home
+										</p>
 										<form className="mt-4">
-											<CSRFToken />
 											<div className="row">
 												<div className="col-lg-12">
 													<div className="position-relative mb-4">
@@ -68,7 +99,10 @@ const Feedback = () => {
 															placeholder="Name"
 															value={name}
 															onChange={(e) => {
-																setName(e.target.value);
+																setName(
+																	e.target
+																		.value
+																);
 															}}
 															required
 														/>
@@ -88,7 +122,10 @@ const Feedback = () => {
 															placeholder="Email"
 															value={email}
 															onChange={(e) => {
-																setEmail(e.target.value);
+																setEmail(
+																	e.target
+																		.value
+																);
 															}}
 															required
 														/>
@@ -104,11 +141,17 @@ const Feedback = () => {
 													<div className="position-relative mb-4">
 														<textarea
 															className="colorblue bgcolorwhite p-3 border5px border-0 w-100"
-															style={{ height: "150px", resize: "none" }}
+															style={{
+																height: "150px",
+																resize: "none",
+															}}
 															placeholder="Your message"
 															value={message}
 															onChange={(e) => {
-																setMessage(e.target.value);
+																setMessage(
+																	e.target
+																		.value
+																);
 															}}
 															required
 														/>
@@ -122,9 +165,20 @@ const Feedback = () => {
 															onClick={(e) => {
 																feedback(e);
 															}}
-															disabled={dataLoading ? true : false}
+															disabled={
+																dataLoading
+																	? true
+																	: false
+															}
 														>
-															{dataLoading ? <DataLoader2 loaderSize={15} loaderType="ScaleLoader" loaderColor="#00214d" /> : "Submit"}
+															{dataLoading ? (
+																<DataLoader2
+																	loaderType="ScaleLoader"
+																	loaderColor="#00214d"
+																/>
+															) : (
+																"Submit"
+															)}
 														</button>
 													</div>
 												</div>

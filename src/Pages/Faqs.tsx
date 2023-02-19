@@ -1,10 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Breadcrumb from "../Components/Breadcrumb";
 import Scrollspy from "react-scrollspy";
 import { Helmet } from "react-helmet-async";
 import Base from "../Base";
-const Faqs = ({ faqDoc }) => {
+const Faqs = ({ faqDoc }: any) => {
 	const [headingState, setHeadingState] = useState([]);
 	const location = useLocation();
 	useEffect(() => {
@@ -18,8 +18,8 @@ const Faqs = ({ faqDoc }) => {
 		}
 	}, [location]);
 	useEffect(() => {
-		let newArray = [];
-		faqDoc.forEach((info, index) => {
+		let newArray: any = [];
+		faqDoc.forEach((info: any, index: any) => {
 			if (!newArray.includes(info.heading)) {
 				newArray.push(info.heading);
 			}
@@ -32,7 +32,7 @@ const Faqs = ({ faqDoc }) => {
 				<title>Kirana For Home | FAQs</title>
 			</Helmet>
 			<Base>
-				<Breadcrumb title="FAQs" myowntoggle="true" />
+				<Breadcrumb title="FAQs" myowntoggle={true} />
 				<section className="section mx-4">
 					<div className="container colorblue border5px border-0 pb-3 px-4">
 						<div className="row justify-content-center faqpage">
@@ -41,63 +41,99 @@ const Faqs = ({ faqDoc }) => {
 									<Scrollspy
 										className="list-unstyled sidebar-nav mb-0 py-0"
 										items={[
-											...headingState.map((value) => {
-												return value.replace(" ", "");
-											}),
+											...headingState.map(
+												(value: string) => {
+													return value.replace(
+														" ",
+														""
+													);
+												}
+											),
 										]}
 										currentClassName="activefaq"
 									>
-										{headingState.map((heading, index) => {
-											return (
-												<li key={index} className="navbar-item my-2 px-0">
-													<Link to={`/faqs#${heading.replace(" ", "")}`} className="colorblue lightbluehover">
-														{heading}
-													</Link>
-												</li>
-											);
-										})}
+										{headingState.map(
+											(heading: string, index) => {
+												return (
+													<li
+														key={index}
+														className="navbar-item my-2 px-0"
+													>
+														<Link
+															to={`/faqs#${heading.replace(
+																" ",
+																""
+															)}`}
+															className="colorblue lightbluehover"
+														>
+															{heading}
+														</Link>
+													</li>
+												);
+											}
+										)}
 									</Scrollspy>
 								</div>
 							</div>
 							<div className="col-lg-9 col-md-7 col-12">
-								{headingState.map((heading, index) => {
+								{headingState.map((heading: string, index) => {
 									return (
 										<div key={index} className="mb-4">
-											<h4 className="colorblue text-center text-lg-start" id={heading.replace(" ", "")}>
+											<h4
+												className="colorblue text-center text-lg-start"
+												id={heading.replace(" ", "")}
+											>
 												{heading}
 											</h4>
-											{faqDoc.map((info, index) => {
-												if (info.heading === heading) {
-													return (
-														<>
-															<div key={index} className="accordion mt-4 pt-2" id={`section${index}`}>
-																<div className="accordion-item border-0">
-																	<h2 className="accordion-header" id={`heading${index}`}>
-																		<button
-																			className="border5px colorlightblue bgcolorgreyish shadow-none accordion-button border-0"
-																			type="button"
-																			data-bs-toggle="collapse"
-																			data-bs-target={`#collapse${index}`}
-																			aria-expanded="true"
-																			aria-controls={`collapse${index}`}
+											{faqDoc.map(
+												(info: any, index: any) => {
+													if (
+														info.heading === heading
+													) {
+														return (
+															<>
+																<div
+																	key={index}
+																	className="accordion mt-4 pt-2"
+																	id={`section${index}`}
+																>
+																	<div className="accordion-item border-0">
+																		<h2
+																			className="accordion-header"
+																			id={`heading${index}`}
 																		>
-																			{info.question}
-																		</button>
-																	</h2>
-																	<div
-																		id={`collapse${index}`}
-																		className="accordion-collapse border-0 collapse show"
-																		aria-labelledby={`heading${index}`}
-																		data-bs-parent={`#section${index}`}
-																	>
-																		<div className="accordion-body">{info.answer}</div>
+																			<button
+																				className="border5px colorlightblue bgcolorgreyish shadow-none accordion-button border-0"
+																				type="button"
+																				data-bs-toggle="collapse"
+																				data-bs-target={`#collapse${index}`}
+																				aria-expanded="true"
+																				aria-controls={`collapse${index}`}
+																			>
+																				{
+																					info.question
+																				}
+																			</button>
+																		</h2>
+																		<div
+																			id={`collapse${index}`}
+																			className="accordion-collapse border-0 collapse show"
+																			aria-labelledby={`heading${index}`}
+																			data-bs-parent={`#section${index}`}
+																		>
+																			<div className="accordion-body">
+																				{
+																					info.answer
+																				}
+																			</div>
+																		</div>
 																	</div>
 																</div>
-															</div>
-														</>
-													);
+															</>
+														);
+													}
 												}
-											})}
+											)}
 										</div>
 									);
 								})}

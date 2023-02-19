@@ -1,5 +1,5 @@
 import Breadcrumb from "../Components/Breadcrumb";
-import React, { useMemo, useState, useCallback, useEffect } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import Base from "../Base";
 import { Helmet } from "react-helmet-async";
@@ -70,7 +70,13 @@ function StyledDropzone(props) {
 			)
 		);
 	}, []);
-	const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
+	const {
+		getRootProps,
+		getInputProps,
+		isDragActive,
+		isDragAccept,
+		isDragReject,
+	} = useDropzone({
 		maxFiles: 1,
 		accept: "image/*,video/*",
 		onDrop,
@@ -79,7 +85,15 @@ function StyledDropzone(props) {
 		<div style={thumb} key={file.name}>
 			<div style={thumbInner}>
 				<img
-					src={file.name.includes("mp4") || file.name.includes("mov") || file.name.includes("mkv") || file.name.includes("avi") || file.name.includes("3gpp") ? tempImg : file.preview}
+					src={
+						file.name.includes("mp4") ||
+						file.name.includes("mov") ||
+						file.name.includes("mkv") ||
+						file.name.includes("avi") ||
+						file.name.includes("3gpp")
+							? tempImg
+							: file.preview
+					}
 					style={img}
 				/>
 			</div>
@@ -107,10 +121,20 @@ function StyledDropzone(props) {
 		<div {...getRootProps({ style })}>
 			<input {...getInputProps()} />
 			<p className="m-0 p-2 colorblue">
-				<i className={isDragAccept ? "far fa-3x fa-photo-video accepted" : isDragReject ? "far fa-3x fa-times-circle notaccepted" : "far fa-3x fa-photo-video"}></i>
+				<i
+					className={
+						isDragAccept
+							? "far fa-3x fa-photo-video accepted"
+							: isDragReject
+							? "far fa-3x fa-times-circle notaccepted"
+							: "far fa-3x fa-photo-video"
+					}
+				></i>
 			</p>
 			<p className="m-0 p-2 text-center colorblue">
-				Drop your image or video here, or <span className="colorlightblue">browse!</span> Please add only 1 item.
+				Drop your image or video here, or{" "}
+				<span className="colorlightblue">browse!</span> Please add only
+				1 item.
 			</p>
 			<aside style={thumbsContainer}>{thumbs}</aside>
 		</div>
@@ -167,34 +191,68 @@ const RepBug = () => {
 				<section className="section feedback">
 					<div className="container">
 						<div className="row align-items-center">
-							<div className="col-lg-6 col-md-6" onMouseEnter={handleChangeImage} onMouseLeave={handleChangeImage}>
+							<div
+								className="col-lg-6 col-md-6"
+								onMouseEnter={handleChangeImage}
+								onMouseLeave={handleChangeImage}
+							>
 								<div className="me-lg-5 mb-3 mb-lg-0">
-									<img src={changeImage ? "images/Report_A_Bug_Yellow.svg" : "images/Report_A_Bug_LightBlue.svg"} className="loginsvg" alt="Report_A_Bug" />
+									<img
+										src={
+											changeImage
+												? "images/Report_A_Bug_Yellow.svg"
+												: "images/Report_A_Bug_LightBlue.svg"
+										}
+										className="loginsvg"
+										alt="Report_A_Bug"
+									/>
 								</div>
 							</div>
 							<div className="col-lg-6 col-md-6">
 								<div className="card bgcolorgreyish border-0 border5px p-4">
 									<div className="card-body p-0">
 										<p className="text-center mb-0 colorblue fontsize16 pt-0 p-3">
-											To give you the best possible experience, we are constantly evolving and making changes to our site/app. If you find any bug, we will be happy to correct
-											it.<b className="colorlightblue"> Thanks! Keep Shopping!</b>
+											To give you the best possible
+											experience, we are constantly
+											evolving and making changes to our
+											site/app. If you find any bug, we
+											will be happy to correct it.
+											<b className="colorlightblue">
+												{" "}
+												Thanks! Keep Shopping!
+											</b>
 										</p>
-										<p className="text-center mb-0 colorblue fontsize16 mb-3">- Team Kirana For Home</p>
+										<p className="text-center mb-0 colorblue fontsize16 mb-3">
+											- Team Kirana For Home
+										</p>
 										<form className="mt-3">
 											<div className="row">
 												<div className="col-lg-12">
 													<div className="position-relative mb-3">
 														<p className="text-center fontsize16 colorblue mb-4">
-															Describe the bug you saw while you were using our site/app? (Please mention the action you were doing and the location at which you were
-															doing the action.)
+															Describe the bug you
+															saw while you were
+															using our site/app?
+															(Please mention the
+															action you were
+															doing and the
+															location at which
+															you were doing the
+															action.)
 														</p>
 														<textarea
 															className="colorblue bgcolorwhite p-3 border5px border-0 w-100"
-															style={{ height: "150px", resize: "none" }}
+															style={{
+																height: "150px",
+																resize: "none",
+															}}
 															placeholder="Comments"
 															value={text}
 															onChange={(e) => {
-																setText(e.target.value);
+																setText(
+																	e.target
+																		.value
+																);
 															}}
 															required
 														/>
@@ -203,19 +261,44 @@ const RepBug = () => {
 												<div className="col-lg-12">
 													<div className="position-relative mb-4">
 														<p className="text-center fontsize16 colorblue mb-4">
-															If you can add a screenshot or a screen recording of the bug, we will be able to find it and correct it, swiftly!
+															If you can add a
+															screenshot or a
+															screen recording of
+															the bug, we will be
+															able to find it and
+															correct it, swiftly!
 														</p>
-														<StyledDropzone handleDropImage={handleDropImage} />
+														<StyledDropzone
+															handleDropImage={
+																handleDropImage
+															}
+														/>
 													</div>
 												</div>
 												<div className="col-lg-12">
 													<div className="d-grid">
 														<button
-															disabled={loading ? true : false}
-															onClick={handleReportBug}
+															disabled={
+																loading
+																	? true
+																	: false
+															}
+															onClick={
+																handleReportBug
+															}
 															className="mybtnsame fontsize16 bglightblue colorblue bgyellow border5px border-0 text-uppercase d-inline-block"
 														>
-															{loading ? <DataLoader2 loaderSize={15} loaderType="ScaleLoader" loaderColor="#00214d" /> : "Submit"}
+															{loading ? (
+																<DataLoader2
+																	loaderSize={
+																		15
+																	}
+																	loaderType="ScaleLoader"
+																	loaderColor="#00214d"
+																/>
+															) : (
+																"Submit"
+															)}
 														</button>
 													</div>
 												</div>

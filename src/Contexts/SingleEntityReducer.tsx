@@ -1,18 +1,21 @@
-const Storage = (singleEntityValue) => {
-	sessionStorage.setItem("singleEntity", JSON.stringify(singleEntityValue !== null ? singleEntityValue : {}));
+const Storage = (singleEntityValue: any) => {
+	sessionStorage.setItem(
+		"singleEntity",
+		JSON.stringify(singleEntityValue !== null ? singleEntityValue : {})
+	);
 };
-export const sum = (obj) => {
+export const sum = (obj: any) => {
 	Storage(obj);
 	return;
 };
-export const SingleEntityReducer = (state, action) => {
+export const SingleEntityReducer = (state: any, action: any) => {
 	switch (action.type) {
 		case "ADD_COURSE":
 			state.singleEntityValue = action.payload;
 
 			return {
 				...state,
-				...sum(state.singleEntityValue),
+				...(sum(state.singleEntityValue) as unknown as object),
 				singleEntityValue: state.singleEntityValue,
 			};
 
@@ -20,7 +23,7 @@ export const SingleEntityReducer = (state, action) => {
 			state.singleEntityValue = {};
 			return {
 				...state,
-				...sum(state.singleEntityValue),
+				...(sum(state.singleEntityValue) as unknown as object),
 				singleEntityValue: state.singleEntityValue,
 			};
 		default:

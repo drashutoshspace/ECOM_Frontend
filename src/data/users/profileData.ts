@@ -1,6 +1,6 @@
 import { ProfileData_API } from "../../backend";
-export const profileData = async (next) => {
-	const tokenValue = localStorage.getItem("token").replace(/['"]+/g, "");
+export const profileData = async () => {
+	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 	return await fetch(ProfileData_API, {
 		method: "GET",
 		headers: {
@@ -10,15 +10,12 @@ export const profileData = async (next) => {
 		},
 	})
 		.then((response) => {
-			if (response?.status === 403 || response?.status === 401) {
-				next(response.statusText, response.status);
-			}
 			return response.json();
 		})
 		.catch((err) => console.log(err));
 };
-export const profileDataUpdate = async (uploadData, next) => {
-	const tokenValue = localStorage.getItem("token").replace(/['"]+/g, "");
+export const profileDataUpdate = async (uploadData: any) => {
+	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 	return await fetch(ProfileData_API, {
 		method: "POST",
 		headers: {
@@ -28,9 +25,6 @@ export const profileDataUpdate = async (uploadData, next) => {
 	})
 		.then((response) => {
 			return response.json();
-		})
-		.then((data) => {
-			next(data);
 		})
 		.catch((err) => console.log(err));
 };

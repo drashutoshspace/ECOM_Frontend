@@ -8,18 +8,28 @@ import tempImg from "../../Assets/images/Product_3.webp";
 import { BaseContext } from "../../Context";
 import { toast } from "react-toastify";
 import { isAuthenticated } from "../../helpers/auth/authentication";
-const ProfileWishlistCard = ({ item }) => {
+const ProfileWishlistCard = ({ item }: any) => {
 	const [addStatus, setAddStatus] = useState("");
 	const [plusMinus, setPlusMinus] = useState(1);
 	const [animateButton, setAnimateButton] = useState(false);
-	const { addProductToWishlist, removeProductFromWishlist, wishlistItems } = useContext(WishlistContext);
-	const { addProduct, cartItems, increase } = useContext(CartContext);
-	const { cookies } = useContext(BaseContext);
-	const isProductInWishlist = (guid) => {
-		return wishlistItems.products.find((item) => item.product.guid === guid && item.userID === cookies?.user?.[0]?.id);
+	const {
+		addProductToWishlist,
+		removeProductFromWishlist,
+		wishlistItems,
+	}: any = useContext(WishlistContext);
+	const { addProduct, cartItems, increase }: any = useContext(CartContext);
+	const { cookies }: any = useContext(BaseContext);
+	const isProductInWishlist = (guid: any) => {
+		return wishlistItems.products.find(
+			(item: any) =>
+				item.product.guid === guid &&
+				item.userID === cookies?.user?.[0]?.id
+		);
 	};
-	const isProductInCart = (id, userID) => {
-		return !!!cartItems.products.find((item) => item.product.guid === id && item.userID === userID);
+	const isProductInCart = (id: any, userID: any) => {
+		return !!!cartItems.products.find(
+			(item: any) => item.product.guid === id && item.userID === userID
+		);
 	};
 	const handlePlus = () => {
 		setPlusMinus(plusMinus + 1);
@@ -48,13 +58,23 @@ const ProfileWishlistCard = ({ item }) => {
 			<div className="row px-2 py-3">
 				<div className="col-4">
 					<Link to={`/shop/products/${item?.guid}`}>
-						<img className="border5px shadow w-100 h-auto" src={item?.product?.Product_Images?.[0]?.dbImage || tempImg} alt="Product_Image" />
+						<img
+							className="border5px shadow w-100 h-auto"
+							src={
+								item?.product?.Product_Images?.[0]?.dbImage ||
+								tempImg
+							}
+							alt="Product_Image"
+						/>
 					</Link>
 				</div>
 				<div className="col-8 text-start">
 					<div className="row">
 						<div className="col-lg-12">
-							<Link className="colorblue fw-bold fontsize20 lightbluehover" to={`/shop/products/${item?.guid}`}>
+							<Link
+								className="colorblue fw-bold fontsize20 lightbluehover"
+								to={`/shop/products/${item?.guid}`}
+							>
 								{item?.Product_Name}
 							</Link>
 						</div>
@@ -63,23 +83,34 @@ const ProfileWishlistCard = ({ item }) => {
 						<>
 							<div className="row mt-3">
 								<div className="col-lg-12">
-									<button className="colorblue border-0 border5px bgyellow bglightblue" onClick={handleMinus} style={{ width: 40, height: 40 }}>
+									<button
+										className="colorblue border-0 border5px bgyellow bglightblue"
+										onClick={handleMinus}
+										style={{ width: 40, height: 40 }}
+									>
 										<i className="fas fa-minus" />
 									</button>
 									<input
 										className="bgcolorgreyish text-center colorblue border-0 border5px mx-2"
 										type="number"
 										value={plusMinus}
-										onChange={(e) => {
+										onChange={(e: any) => {
 											setPlusMinus(e.target.value);
 										}}
 										style={{ width: 50, height: 40 }}
 									/>
-									<button className="colorblue border-0 border5px bgyellow bglightblue" onClick={handlePlus} style={{ width: 40, height: 40 }}>
+									<button
+										className="colorblue border-0 border5px bgyellow bglightblue"
+										onClick={handlePlus}
+										style={{ width: 40, height: 40 }}
+									>
 										<i className="fas fa-plus" />
 									</button>
 									<div className="col mt-3 me-3 d-flex align-items-center">
-										{isProductInCart(item?.guid, cookies?.user?.[0]?.id) ? (
+										{isProductInCart(
+											item?.guid,
+											cookies?.user?.[0]?.id
+										) ? (
 											<button
 												className={`${
 													animateButton
@@ -92,17 +123,31 @@ const ProfileWishlistCard = ({ item }) => {
 														addProduct({
 															product: item,
 															quantity: plusMinus,
-															userID: cookies.user[0].id,
+															userID: cookies
+																.user[0].id,
 														});
 													} else {
-														return toast("Please login to access Cart!", { type: "warning" });
+														return toast(
+															"Please login to access Cart!",
+															{ type: "warning" }
+														);
 													}
 												}}
 											>
 												<span>Add to Cart</span>
-												<svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
+												<svg
+													x="0px"
+													y="0px"
+													width="32px"
+													height="32px"
+													viewBox="0 0 32 32"
+												>
 													<path
-														className={`${animateButton ? "pathatc" : ""}`}
+														className={`${
+															animateButton
+																? "pathatc"
+																: ""
+														}`}
 														strokeDasharray="19.79 19.79"
 														strokeDashoffset="19.79"
 														fill="none"
@@ -126,14 +171,27 @@ const ProfileWishlistCard = ({ item }) => {
 														setAnimateButton(true);
 														setAddStatus("add");
 													} else {
-														return toast("Please login first!", { type: "warning" });
+														return toast(
+															"Please login first!",
+															{ type: "warning" }
+														);
 													}
 												}}
 											>
 												<span>Add More</span>
-												<svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32">
+												<svg
+													x="0px"
+													y="0px"
+													width="32px"
+													height="32px"
+													viewBox="0 0 32 32"
+												>
 													<path
-														className={`${animateButton ? "pathatc" : ""}`}
+														className={`${
+															animateButton
+																? "pathatc"
+																: ""
+														}`}
 														strokeDasharray="19.79 19.79"
 														strokeDashoffset="19.79"
 														fill="none"
@@ -151,7 +209,9 @@ const ProfileWishlistCard = ({ item }) => {
 							</div>
 							<div className="row mt-3">
 								<div className="col-lg-12">
-									<p className="colorblue mypara mb-0 fontsize20">₹ {item?.Product_SellingPrice}</p>
+									<p className="colorblue mypara mb-0 fontsize20">
+										₹ {item?.Product_SellingPrice}
+									</p>
 								</div>
 							</div>
 						</>
@@ -163,11 +223,23 @@ const ProfileWishlistCard = ({ item }) => {
 								style={{ verticalAlign: "baseline" }}
 								onClick={() => {
 									isProductInWishlist(item?.guid)
-										? removeProductFromWishlist({ guid: item?.guid, userID: cookies?.user?.[0]?.id })
-										: addProductToWishlist({ product: item, userID: cookies?.user?.[0].id });
+										? removeProductFromWishlist({
+												guid: item?.guid,
+												userID: cookies?.user?.[0]?.id,
+										  })
+										: addProductToWishlist({
+												product: item,
+												userID: cookies?.user?.[0].id,
+										  });
 								}}
 							>
-								<i className={`${isProductInWishlist(item?.guid) ? "fas fa-heart heartred hvr-icon" : "far fa-heart"}`} />
+								<i
+									className={`${
+										isProductInWishlist(item?.guid)
+											? "fas fa-heart heartred hvr-icon"
+											: "far fa-heart"
+									}`}
+								/>
 							</button>
 						</div>
 					</div>

@@ -1,5 +1,5 @@
 import { Testimonials_API } from "../../backend";
-export const testimonialsData = async (next) => {
+export const testimonialsData = async (next: any) => {
 	await fetch(Testimonials_API)
 		.then((resp) => {
 			return resp.json();

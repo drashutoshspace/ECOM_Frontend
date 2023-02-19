@@ -8,7 +8,7 @@ import CookiePolicyModal from "./Components/CookiePolicyModal";
 import HomeShape from "./Components/HomeShape";
 import AOS from "aos";
 import "aos/dist/aos.css";
-const Base = ({ children }) => {
+const Base = ({ children }: any) => {
 	useEffect(() => {
 		var mounted = true;
 		if (mounted) {
@@ -33,7 +33,13 @@ const Base = ({ children }) => {
 			{children}
 			<ScrollButton />
 			<CookiePolicyModal />
-			<ToastContainer position="bottom-center" autoClose={5000} hideProgressBar={false} pauseOnFocusLoss pauseOnHover />
+			<ToastContainer
+				position="bottom-center"
+				autoClose={5000}
+				hideProgressBar={false}
+				pauseOnFocusLoss
+				pauseOnHover
+			/>
 			<HomeShape backcolor="colorblue" />
 			<Footer />
 		</>

@@ -1,7 +1,8 @@
 import { ReviewRatingForm_API, RatingCountAPI } from "../../backend";
-export const reviews = async (next) => {
+export const reviews = async () => {
 	let tokenValue = "";
-	if (localStorage.getItem("token")) tokenValue = localStorage.getItem("token").replace(/['"]+/g, "");
+	if (localStorage.getItem("token"))
+		tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 	return await fetch(ReviewRatingForm_API, {
 		method: "GET",
 		headers: {
@@ -12,13 +13,10 @@ export const reviews = async (next) => {
 		.then((res) => {
 			return res.json();
 		})
-		.then((data) => {
-			next(data);
-		})
 		.catch((err) => console.log(err));
 };
-export const singleReview = async (id, next) => {
-	const tokenValue = localStorage.getItem("token").replace(/['"]+/g, "");
+export const singleReview = async (id: any) => {
+	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 	return await fetch(`${ReviewRatingForm_API}${id}`, {
 		method: "GET",
 		headers: {
@@ -29,12 +27,9 @@ export const singleReview = async (id, next) => {
 		.then((res) => {
 			return res.json();
 		})
-		.then((data) => {
-			next(data);
-		})
 		.catch((err) => console.log(err));
 };
-export const ratingCount = async (id, next) => {
+export const ratingCount = async (id: any) => {
 	return await fetch(`${RatingCountAPI}?guid=${id}`, {
 		method: "GET",
 		headers: {
@@ -43,9 +38,6 @@ export const ratingCount = async (id, next) => {
 	})
 		.then((res) => {
 			return res.json();
-		})
-		.then((data) => {
-			next(data);
 		})
 		.catch((err) => console.log(err));
 };

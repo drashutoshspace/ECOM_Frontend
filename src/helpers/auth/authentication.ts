@@ -1,6 +1,6 @@
 import { Login_API, Logout_API, Register_API } from "../../backend";
 import { toast } from "react-toastify";
-export const signup = (user) => {
+export const signup = (user: any) => {
 	return fetch(Register_API, {
 		method: "POST",
 		headers: {
@@ -14,7 +14,7 @@ export const signup = (user) => {
 		})
 		.catch((err) => console.log(err));
 };
-export const signin = (user) => {
+export const signin = (user: any) => {
 	const formData = new FormData();
 	for (const name in user) {
 		formData.append(name, user[name]);
@@ -28,7 +28,7 @@ export const signin = (user) => {
 		})
 		.catch((err) => console.log(err));
 };
-export const authenticate = (data, next) => {
+export const authenticate = (data: any, next: any) => {
 	if (typeof window !== undefined) {
 		localStorage.setItem("token", JSON.stringify(data));
 		next();
@@ -44,8 +44,8 @@ export const isAuthenticated = () => {
 		return false;
 	}
 };
-export const signout = (next) => {
-	const tokenValue = localStorage.getItem("token").replace(/['"]+/g, "");
+export const signout = () => {
+	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 	if (typeof window !== undefined) {
 		localStorage.removeItem("token");
 		return fetch(Logout_API, {
@@ -53,23 +53,23 @@ export const signout = (next) => {
 			headers: {
 				Authorization: "Token " + tokenValue,
 			},
-			body: {},
+			body: null,
 		})
 			.then((response) => {
 				if (response?.status === 403 || response?.status === 401) {
-					return toast(`Something went wrong! Status: ${response.statusText}`, {
-						type: "error",
-						autoClose: 5000,
-						position: "bottom-center",
-						hideProgressBar: false,
-						pauseOnHover: true,
-						pauseOnFocusLoss: true,
-					});
+					return toast(
+						`Something went wrong! Status: ${response.statusText}`,
+						{
+							type: "error",
+							autoClose: 5000,
+							position: "bottom-center",
+							hideProgressBar: false,
+							pauseOnHover: true,
+							pauseOnFocusLoss: true,
+						}
+					);
 				}
 				return response.json();
-			})
-			.then((data) => {
-				next(data);
 			})
 			.catch((err) => console.log(err));
 	}

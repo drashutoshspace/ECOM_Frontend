@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 const ScrollButton = () => {
 	const [visible, setVisible] = useState(false);
 	const toggleVisible = () => {
@@ -27,7 +27,10 @@ const ScrollButton = () => {
 	return (
 		<>
 			{visible && (
-				<button className="go-top position-fixed bgyellow border-0 bglightblue rounded-circle p-0 colorblue" onClick={scrollToTop}>
+				<button
+					className="go-top position-fixed bgyellow border-0 bglightblue rounded-circle p-0 colorblue"
+					onClick={scrollToTop}
+				>
 					<i className="fas fa-1x fa-chevron-up" />
 				</button>
 			)}

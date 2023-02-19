@@ -1,16 +1,20 @@
 import Breadcrumb from "../Components/Breadcrumb";
 import Base from "../Base";
-import React from "react";
 import { Helmet } from "react-helmet-async";
 import sanitizeHtml from "sanitize-html";
-const PrivPol = ({ privpDoc }) => {
+const PrivPol = ({ privpDoc }: any) => {
 	const defaultOptions = {
 		allowedTags: ["b", "i", "em", "strong", "a", "p", "br"],
 	};
-	const sanitize = (dirty, options) => ({
-		__html: sanitizeHtml(dirty, (options = { ...defaultOptions, ...options })),
+	const sanitize = (dirty: any, options: any) => ({
+		__html: sanitizeHtml(
+			dirty,
+			(options = { ...defaultOptions, ...options })
+		),
 	});
-	const SanitizeHTML = ({ html, options }) => <div dangerouslySetInnerHTML={sanitize(html, options)} />;
+	const SanitizeHTML = ({ html, options }: any) => (
+		<div dangerouslySetInnerHTML={sanitize(html, options)} />
+	);
 	return (
 		<>
 			<Helmet>
@@ -24,14 +28,20 @@ const PrivPol = ({ privpDoc }) => {
 							<div className="col-lg-9">
 								<div className="card colorblue border5px border-0">
 									<div className="card-body">
-										{privpDoc.map((info, index) => {
-											return (
-												<div key={index}>
-													<h4 className="card-title colorlightblue">{info.heading}</h4>
-													<SanitizeHTML html={`<p className="">${info.content}</p>`} />
-												</div>
-											);
-										})}
+										{privpDoc.map(
+											(info: any, index: any) => {
+												return (
+													<div key={index}>
+														<h4 className="card-title colorlightblue">
+															{info.heading}
+														</h4>
+														<SanitizeHTML
+															html={`<p className="">${info.content}</p>`}
+														/>
+													</div>
+												);
+											}
+										)}
 									</div>
 								</div>
 							</div>

@@ -1,12 +1,11 @@
 import Breadcrumb from "../Components/Breadcrumb";
-// import TestimonialsVideoCard from "../Components/TestimonialsVideoCard";
 import { testimonialsData } from "../data/others/testimonials";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Base from "../Base";
-const Testimonials = ({ handleTestimonials, testimonials }) => {
+const Testimonials = ({ handleTestimonials, testimonials }: any) => {
 	useEffect(() => {
-		testimonialsData((data) => {
+		testimonialsData((data: any) => {
 			handleTestimonials(data);
 		});
 	}, []);
@@ -23,12 +22,28 @@ const Testimonials = ({ handleTestimonials, testimonials }) => {
 				<Breadcrumb title="Testimonials" />
 				<section className="section overflow-hidden">
 					<div className="container">
-						<div className="row" onMouseEnter={handleChangeImage1} onMouseLeave={handleChangeImage1}>
+						<div
+							className="row"
+							onMouseEnter={handleChangeImage1}
+							onMouseLeave={handleChangeImage1}
+						>
 							{testimonials?.length >= 0 ? (
 								<div className="row mt-2">
 									<div className="col-lg-12 text-center">
-										<img width="300px" src={changeImage1 ? "images/Feedback_Yellow.svg" : "images/Feedback_LightBlue.svg"} className="loginsvg" alt="" />
-										<h3 className="mt-4 mb-0 pt-3 text-center colorblue">No testimonials have been added by the administrator yet!</h3>
+										<img
+											width="300px"
+											src={
+												changeImage1
+													? "images/Feedback_Yellow.svg"
+													: "images/Feedback_LightBlue.svg"
+											}
+											className="loginsvg"
+											alt=""
+										/>
+										<h3 className="mt-4 mb-0 pt-3 text-center colorblue">
+											No testimonials have been added by
+											the administrator yet!
+										</h3>
 									</div>
 								</div>
 							) : (

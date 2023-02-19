@@ -5,10 +5,12 @@ import { testimonialsData } from "../data/others/testimonials";
 import { useContext, useEffect } from "react";
 import { TestimonialsContext } from "../Context";
 const TestimonialsList = () => {
-	const { testimonials, handleTestimonials } = useContext(TestimonialsContext);
+	const { testimonials, handleTestimonials }: any =
+		useContext(TestimonialsContext);
 	var settings = {
 		dots: true,
-		dotsClass: "d-flex mb-0 mt-3 dotcss list-unstyled justify-content-center",
+		dotsClass:
+			"d-flex mb-0 mt-3 dotcss list-unstyled justify-content-center",
 		arrows: false,
 		infinite: false,
 		speed: 500,
@@ -42,7 +44,7 @@ const TestimonialsList = () => {
 		],
 	};
 	useEffect(() => {
-		testimonialsData((data) => {
+		testimonialsData((data: any) => {
 			handleTestimonials(data);
 		});
 	}, []);
@@ -52,17 +54,31 @@ const TestimonialsList = () => {
 				<div className="container">
 					<div className="row justify-content-center">
 						<div className="col-12">
-							<div className="section-title mb-2" data-aos="zoom-in" data-aos-duration="1000" data-aos-once="true">
-								<h4 className="title colorblue">Our Testimonials</h4>
+							<div
+								className="section-title mb-2"
+								data-aos="zoom-in"
+								data-aos-duration="1000"
+								data-aos-once="true"
+							>
+								<h4 className="title colorblue">
+									Our Testimonials
+								</h4>
 							</div>
 						</div>
 					</div>
 					<div className="row justify-content-center">
 						<div className="col-lg-12 mt-4">
 							<Slider {...settings}>
-								{testimonials.map((testimonial, index) => {
-									return <TestimonialsCard key={index} testimonial={testimonial} />;
-								})}
+								{testimonials.map(
+									(testimonial: any, index: any) => {
+										return (
+											<TestimonialsCard
+												key={index}
+												testimonial={testimonial}
+											/>
+										);
+									}
+								)}
 							</Slider>
 						</div>
 					</div>

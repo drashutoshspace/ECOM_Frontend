@@ -1,14 +1,18 @@
-import React, { createContext, useReducer } from "react";
+import { createContext, useReducer } from "react";
 import { SingleEntityReducer, sum } from "./SingleEntityReducer";
-export const SingleEntityContext = createContext();
-const storage = sessionStorage.getItem("singleEntity") ? JSON.parse(sessionStorage.getItem("singleEntity")) : {};
+const storage = sessionStorage.getItem("singleEntity")
+	? JSON.parse(sessionStorage.getItem("singleEntity")!)
+	: {};
+
 const initialState = {
 	singleEntityValue: storage,
-	...sum(storage),
+	...(sum(storage) as unknown as object),
 };
-const SingleEntityProvider = ({ children }) => {
+export const SingleEntityContext = createContext(initialState);
+
+const SingleEntityProvider = ({ children }: any) => {
 	const [state, dispatch] = useReducer(SingleEntityReducer, initialState);
-	const addSingleCourse = (payload) => {
+	const addSingleCourse = (payload: any) => {
 		dispatch({ type: "ADD_COURSE", payload });
 	};
 	const handleSingleCheckout = () => {
@@ -20,6 +24,10 @@ const SingleEntityProvider = ({ children }) => {
 		handleSingleCheckout,
 		...state,
 	};
-	return <SingleEntityContext.Provider value={contextValues}>{children}</SingleEntityContext.Provider>;
+	return (
+		<SingleEntityContext.Provider value={contextValues}>
+			{children}
+		</SingleEntityContext.Provider>
+	);
 };
 export default SingleEntityProvider;
