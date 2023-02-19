@@ -1,0 +1,2 @@
+2. google login
+9. two categories turning blue if one selected from sidebar then another selected from navbar.
