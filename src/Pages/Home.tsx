@@ -39,14 +39,14 @@ const Home = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Home</title>
+				<title>MeeMo Kidz | Home</title>
 				<meta
 					name="description"
 					content="Spaceonova is an online learning portal by Spaceonova!"
 				/>
 				<meta
 					property="og:image"
-					content="https://www.spaceonova.space/images/Meta_Image.jpg"
+					content="https://www.spaceonova.space/images/Meta_Image.png"
 				/>
 			</Helmet>
 			<Base>

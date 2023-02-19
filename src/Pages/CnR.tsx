@@ -19,7 +19,7 @@ const CancRef = ({ cnrDoc }: any) => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Cancellation & Refunds</title>
+				<title>MeeMo Kidz | Cancellation & Refunds</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="Cancellation & Refunds" />

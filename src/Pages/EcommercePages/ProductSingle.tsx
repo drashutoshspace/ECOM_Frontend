@@ -237,9 +237,7 @@ const ProductSingle = () => {
 	};
 	return (
 		<>
-			<Helmet
-				title={`Kirana For Home | ${product?.Product_Name}`}
-			></Helmet>
+			<Helmet title={`MeeMo Kidz | ${product?.Product_Name}`}></Helmet>
 			<Base>
 				{loading ? (
 					<DataLoader />
@@ -617,7 +615,7 @@ const ProductSingle = () => {
 										<li className="mt-3 mt-lg-2 text-center">
 											<WhatsappShareButton
 												className="me-3 hvr-icon-float"
-												url={`https://www.kiranaforhome.com${location.pathname}`}
+												url={`https://www.meemokidz.com${location.pathname}`}
 											>
 												<img
 													className="hvr-icon"
@@ -628,7 +626,7 @@ const ProductSingle = () => {
 											</WhatsappShareButton>
 											<FacebookShareButton
 												className="me-3 hvr-icon-float"
-												url={`https://www.kiranaforhome.com${location.pathname}`}
+												url={`https://www.meemokidz.com${location.pathname}`}
 											>
 												<img
 													className="hvr-icon"
@@ -639,7 +637,7 @@ const ProductSingle = () => {
 											</FacebookShareButton>
 											<TelegramShareButton
 												className="me-3 hvr-icon-float"
-												url={`https://www.kiranaforhome.com${location.pathname}`}
+												url={`https://www.meemokidz.com${location.pathname}`}
 											>
 												<img
 													className="hvr-icon"
@@ -650,7 +648,7 @@ const ProductSingle = () => {
 											</TelegramShareButton>
 											<TwitterShareButton
 												className="me-3 hvr-icon-float"
-												url={`https://www.kiranaforhome.com${location.pathname}`}
+												url={`https://www.meemokidz.com${location.pathname}`}
 											>
 												<img
 													className="hvr-icon"
@@ -661,7 +659,7 @@ const ProductSingle = () => {
 											</TwitterShareButton>
 											<LinkedinShareButton
 												className="hvr-icon-float"
-												url={`https://www.kiranaforhome.com${location.pathname}`}
+												url={`https://www.meemokidz.com${location.pathname}`}
 											>
 												<img
 													className="hvr-icon"

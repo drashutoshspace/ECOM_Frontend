@@ -152,7 +152,7 @@ const Login = ({ handleToggle, handleRememberMe, rememberMe }: any) => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Sign In</title>
+				<title>MeeMo Kidz | Sign In</title>
 			</Helmet>
 			{isDesktopOrLaptop && (
 				<div className="col-lg-6 col-md-6">

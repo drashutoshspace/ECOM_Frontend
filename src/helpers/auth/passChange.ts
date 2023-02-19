@@ -1,5 +1,5 @@
 import { PasswordChange_API } from "../../backend";
-export const passwordChange = (user: any) => {
+export const passwordChange = (user: any, next: any) => {
 	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 	return fetch(PasswordChange_API, {
 		method: "POST",
@@ -12,6 +12,9 @@ export const passwordChange = (user: any) => {
 	})
 		.then((response) => {
 			return response.json();
+		})
+		.then((data) => {
+			next(data);
 		})
 		.catch((err) => console.log(err));
 };

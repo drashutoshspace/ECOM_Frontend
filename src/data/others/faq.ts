@@ -1,5 +1,5 @@
 import { FAQs_API } from "../../backend";
-export const faqdata = async () => {
+export const faqdata = async (next: any) => {
 	await fetch(`${FAQs_API}`, {
 		method: "GET",
 		headers: {
@@ -8,6 +8,9 @@ export const faqdata = async () => {
 	})
 		.then((resp) => {
 			return resp.json();
+		})
+		.then((data) => {
+			next(data);
 		})
 		.catch((err) => console.log(err));
 };

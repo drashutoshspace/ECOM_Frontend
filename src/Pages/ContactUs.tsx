@@ -75,7 +75,7 @@ const ContactUs = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Contact Us</title>
+				<title>MeeMo Kidz | Contact Us</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="Contact Us" />
@@ -263,7 +263,7 @@ const ContactUs = () => {
 									<a
 										target="_blank"
 										rel="noreferrer noopener"
-										href="tel:+91 8130626971"
+										href="tel:+91 9910446228"
 									>
 										<div className="icons text-center hvr-icon-grow">
 											<i className="fas colorblue border5px icon fa-2x fa-phone-alt hvr-icon" />
@@ -275,12 +275,12 @@ const ContactUs = () => {
 										</p>
 										<div className="mt-4">
 											<a
-												href="tel:+91 8130626971"
+												href="tel:+91 9910446228"
 												className="lightbluehover text-uppercase contactus"
 												target="_blank"
 												rel="noreferrer noopener"
 											>
-												+91 8130626971
+												+91 9910446228
 											</a>
 										</div>
 									</div>
@@ -291,7 +291,7 @@ const ContactUs = () => {
 									<a
 										target="_blank"
 										rel="noreferrer noopener"
-										href="mailto:support@kiranaforhome.com"
+										href="mailto:panglossiantoys@gmail.com"
 									>
 										<div className="icons text-center hvr-icon-grow">
 											<i className="fas colorblue border5px icon fa-2x fa-envelope hvr-icon" />
@@ -304,12 +304,12 @@ const ContactUs = () => {
 										</p>
 										<div className="mt-4">
 											<a
-												href="mailto:support@kiranaforhome.com"
+												href="mailto:panglossiantoys@gmail.com"
 												className="lightbluehover text-uppercase contactus"
 												target="_blank"
 												rel="noreferrer noopener"
 											>
-												support@kiranaforhome.com
+												panglossiantoys@gmail.com
 											</a>
 										</div>
 									</div>
@@ -320,7 +320,7 @@ const ContactUs = () => {
 									<a
 										target="_blank"
 										rel="noreferrer noopener"
-										href="https://g.page/manglam-traders-delhi?share"
+										href="https://www.facebook.com/profile.php?id=100086897816897"
 									>
 										<div className="icons text-center hvr-icon-grow">
 											<i className="fas colorblue border5px icon fa-2x fa-map-marker-alt hvr-icon" />
@@ -332,15 +332,14 @@ const ContactUs = () => {
 											address.
 										</p>
 										<a
-											href="https://g.page/manglam-traders-delhi?share"
+											href="https://www.facebook.com/profile.php?id=100086897816897"
 											className="lightbluehover text-uppercase contactus"
 											target="_blank"
 											rel="noreferrer noopener"
 										>
-											Shop No - 28, Sukhlal Market,
-											Naharpur,
+											E-339/A, Ground Floor
 											<br />
-											Sector 7, Rohini, Delhi - 110085
+											New Ashok Nagar, Delhi - 110096
 										</a>
 									</div>
 								</div>

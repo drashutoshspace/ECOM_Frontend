@@ -21,7 +21,7 @@ const Loader = () => {
 						<div className="col-lg-12">
 							<div className="loader mt-5 d-flex justify-content-center">
 								<div className="content">
-									<p>Welcome To Kirana For Home!</p>
+									<p>Welcome To MeeMo Kidz!</p>
 								</div>
 							</div>
 						</div>

@@ -18,7 +18,7 @@ const TermsCond = ({ tncDoc }: any) => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Terms & Conditions</title>
+				<title>MeeMo Kidz | Terms & Conditions</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="Terms & Conditions" />

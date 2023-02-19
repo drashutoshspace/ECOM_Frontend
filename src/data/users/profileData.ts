@@ -1,5 +1,5 @@
 import { ProfileData_API } from "../../backend";
-export const profileData = async () => {
+export const profileData = async (next: any) => {
 	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 	return await fetch(ProfileData_API, {
 		method: "GET",
@@ -12,9 +12,12 @@ export const profileData = async () => {
 		.then((response) => {
 			return response.json();
 		})
+		.then((data) => {
+			next(data);
+		})
 		.catch((err) => console.log(err));
 };
-export const profileDataUpdate = async (uploadData: any) => {
+export const profileDataUpdate = async (uploadData: any, next: any) => {
 	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 	return await fetch(ProfileData_API, {
 		method: "POST",
@@ -25,6 +28,9 @@ export const profileDataUpdate = async (uploadData: any) => {
 	})
 		.then((response) => {
 			return response.json();
+		})
+		.then((data) => {
+			next(data);
 		})
 		.catch((err) => console.log(err));
 };

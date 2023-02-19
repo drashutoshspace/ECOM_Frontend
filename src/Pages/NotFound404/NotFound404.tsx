@@ -10,7 +10,7 @@ const NotFound404 = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Error 404</title>
+				<title>MeeMo Kidz | Error 404</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="404 Error" />

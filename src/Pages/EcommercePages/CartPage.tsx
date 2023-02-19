@@ -78,7 +78,7 @@ const CartPage = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Cart</title>
+				<title>MeeMo Kidz | Cart</title>
 			</Helmet>
 			<Base>
 				{loading ? (

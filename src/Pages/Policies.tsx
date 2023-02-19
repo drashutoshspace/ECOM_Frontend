@@ -14,7 +14,7 @@ const Policies = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Policies & FAQs</title>
+				<title>MeeMo Kidz | Policies & FAQs</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="Policies & FAQs" myowntoggle={true} />

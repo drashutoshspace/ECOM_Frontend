@@ -82,7 +82,7 @@ const AboutUs = ({ ourTeam }: any) => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | About Us</title>
+				<title>MeeMo Kidz | About Us</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="About Us" />
@@ -111,30 +111,9 @@ const AboutUs = ({ ourTeam }: any) => {
 										data-aos-once="true"
 									>
 										<h1 className="mb-4">
-											Welcome to Kirana For Home!
+											Welcome to MeeMo Kidz!
 										</h1>
-										<p className="mb-2">
-											<b>Kirana For Home</b> is an online
-											grocery store by{" "}
-											<b>
-												Manglam Traders. Manglam Traders{" "}
-											</b>
-											is an{" "}
-											<b>
-												old and trusted wholesaler and
-												retailer
-											</b>{" "}
-											from Rohini, Delhi. We are a well
-											<b> known name</b> to many
-											households across the district. We
-											always try to fulfill the needs of
-											our customers by supplying them the
-											<b>
-												{" "}
-												best quality goods and services
-											</b>{" "}
-											in the<b> lowest cost possible.</b>
-										</p>
+										<p className="mb-2"></p>
 										<p className="mb-2">
 											We have strict{" "}
 											<b>quality control</b> measures in

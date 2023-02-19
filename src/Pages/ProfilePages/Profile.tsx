@@ -232,7 +232,7 @@ const Profile = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Your Account</title>
+				<title>MeeMo Kidz | Your Account</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="Your Account" />
@@ -1257,9 +1257,9 @@ const Profile = () => {
 												className="fw-bold lightbluehover colorblue"
 												target="_blank"
 												rel="noreferrer noopener"
-												href="mailto:support@kiranaforhome.com"
+												href="mailto:panglossiantoys@gmail.com"
 											>
-												&nbsp;support@kiranaforhome.com&nbsp;
+												&nbsp;panglossiantoys@gmail.com&nbsp;
 											</a>
 											for account recovery.
 										</p>

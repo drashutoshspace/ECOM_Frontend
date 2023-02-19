@@ -129,8 +129,8 @@ const Navbar = () => {
 					<Link to="/">
 						<img
 							className="brandlogo"
-							alt="Kirana For Home Logo"
-							src="images/Brand_Logo.svg"
+							alt="MeeMo Kidz Logo"
+							src="images/Brand_Logo.png"
 						/>
 					</Link>
 					<div className="nav-item ms-1 w-25 pe-0 my-3">
@@ -557,8 +557,8 @@ const Navbar = () => {
 					<Link className="ms-4 ps-5" to="/">
 						<img
 							className="brandlogo"
-							alt="Kirana For Home Logo"
-							src="images/Brand_Logo.svg"
+							alt="MeeMo Kidz Logo"
+							src="images/Brand_Logo.png"
 						/>
 					</Link>
 					<div className="collapse navbar-collapse" id="myown-nav">

@@ -1,5 +1,5 @@
 import { ReviewRatingForm_API, RatingCountAPI } from "../../backend";
-export const reviews = async () => {
+export const reviews = async (next: any) => {
 	let tokenValue = "";
 	if (localStorage.getItem("token"))
 		tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
@@ -13,9 +13,12 @@ export const reviews = async () => {
 		.then((res) => {
 			return res.json();
 		})
+		.then((data) => {
+			next(data);
+		})
 		.catch((err) => console.log(err));
 };
-export const singleReview = async (id: any) => {
+export const singleReview = async (id: any, next: any) => {
 	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 	return await fetch(`${ReviewRatingForm_API}${id}`, {
 		method: "GET",
@@ -26,6 +29,9 @@ export const singleReview = async (id: any) => {
 	})
 		.then((res) => {
 			return res.json();
+		})
+		.then((data) => {
+			next(data);
 		})
 		.catch((err) => console.log(err));
 };

@@ -97,7 +97,7 @@ const PasswordResetConfirm = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Password Reset Confirm</title>
+				<title>MeeMo Kidz | Password Reset Confirm</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="Password Reset Confirm" />

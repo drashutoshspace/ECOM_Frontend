@@ -255,8 +255,8 @@ const Checkout = () => {
 			key: changeRZKey.razorpay_id,
 			amount: data?.payment?.amount,
 			currency: "INR",
-			name: "Kirana For Home",
-			image: "https://www.kiranaforhome.com/images/Meta_Image.jpg",
+			name: "MeeMo Kidz",
+			image: "https://www.meemokidz.com/images/Meta_Image.png",
 			order_id: data?.payment?.id,
 			handler: function (response: any) {
 				handlePaymentSuccess(response);
@@ -392,7 +392,7 @@ const Checkout = () => {
 		!!singleEntityValue?.guid || cartItems.products.length > 0 ? (
 			<>
 				<Helmet>
-					<title>Kirana For Home | Checkout</title>
+					<title>MeeMo Kidz | Checkout</title>
 				</Helmet>
 				<Base>
 					<Breadcrumb title="Checkout" />

@@ -58,12 +58,12 @@ const rejectStyle = {
 	borderColor: "#ff1744",
 	backgroundColor: "rgba(255, 23, 68, 0.4)",
 };
-function StyledDropzone(props) {
+function StyledDropzone(props: any) {
 	const [files, setFiles] = useState([]);
-	const onDrop = useCallback((acceptedFiles) => {
+	const onDrop = useCallback((acceptedFiles: any) => {
 		props.handleDropImage(acceptedFiles);
 		setFiles(
-			acceptedFiles.map((file) =>
+			acceptedFiles.map((file: any) =>
 				Object.assign(file, {
 					preview: URL.createObjectURL(file),
 				})
@@ -81,7 +81,7 @@ function StyledDropzone(props) {
 		accept: "image/*,video/*",
 		onDrop,
 	});
-	const thumbs = files.map((file) => (
+	const thumbs = files.map((file: any) => (
 		<div style={thumb} key={file.name}>
 			<div style={thumbInner}>
 				<img
@@ -102,7 +102,7 @@ function StyledDropzone(props) {
 	useEffect(() => {
 		var mounted = true;
 		if (mounted) {
-			files.forEach((file) => URL.revokeObjectURL(file.preview));
+			files.forEach((file: any) => URL.revokeObjectURL(file.preview));
 		}
 		return () => {
 			mounted = false;
@@ -148,7 +148,7 @@ const RepBug = () => {
 	const [text, setText] = useState("");
 	const [image, setImage] = useState("");
 	const [loading, setloading] = useState(false);
-	const handleReportBug = (e) => {
+	const handleReportBug = (e: any) => {
 		e.preventDefault();
 		setloading(true);
 		const uploadData = new FormData();
@@ -178,13 +178,13 @@ const RepBug = () => {
 			});
 		});
 	};
-	const handleDropImage = async (drop) => {
+	const handleDropImage = async (drop: any) => {
 		setImage(drop[0]);
 	};
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Report A Bug</title>
+				<title>MeeMo Kidz | Report A Bug</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="Report A Bug" />
@@ -223,7 +223,7 @@ const RepBug = () => {
 											</b>
 										</p>
 										<p className="text-center mb-0 colorblue fontsize16 mb-3">
-											- Team Kirana For Home
+											- Team MeeMo Kidz
 										</p>
 										<form className="mt-3">
 											<div className="row">

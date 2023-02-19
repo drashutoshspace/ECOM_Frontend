@@ -13,7 +13,7 @@ export const coupon = async (coupon: any) => {
 		})
 		.catch((err) => console.log(err));
 };
-export const razorpaykey = async () => {
+export const razorpaykey = async (next: any) => {
 	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 	await fetch(RazorpayKey_API, {
 		method: "GET",
@@ -23,6 +23,9 @@ export const razorpaykey = async () => {
 	})
 		.then((resp) => {
 			return resp.json();
+		})
+		.then((data) => {
+			next(data);
 		})
 		.catch((err) => console.log(err));
 };

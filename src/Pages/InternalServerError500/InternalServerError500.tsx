@@ -10,7 +10,7 @@ const InternalServerError500 = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Error 500</title>
+				<title>MeeMo Kidz | Error 500</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="500 Error" />

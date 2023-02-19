@@ -4,10 +4,10 @@ const HeroSlide = ({ heroVar }: any) => {
 		<>
 			<Link to="/shop/allproducts">
 				<img
-					src={`images/Hero_Slides/Home_Image_2.png`}
+					src={heroVar.banner_image}
 					className="hero w-100"
 					alt="Hero_Images"
-				></img>
+				/>
 			</Link>
 		</>
 	);

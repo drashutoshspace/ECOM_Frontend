@@ -64,7 +64,7 @@ const PasswordReset = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Password Reset</title>
+				<title>MeeMo Kidz | Password Reset</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="Password Reset" />

@@ -1,5 +1,5 @@
 import { CnR_API } from "../../backend";
-export const cnrdata = async () => {
+export const cnrdata = async (next: any) => {
 	await fetch(`${CnR_API}`, {
 		method: "GET",
 		headers: {
@@ -8,6 +8,9 @@ export const cnrdata = async () => {
 	})
 		.then((resp) => {
 			return resp.json();
+		})
+		.then((data) => {
+			next(data);
 		})
 		.catch((err) => console.log(err));
 };

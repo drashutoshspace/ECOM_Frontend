@@ -44,7 +44,7 @@ export const isAuthenticated = () => {
 		return false;
 	}
 };
-export const signout = () => {
+export const signout = (next: any) => {
 	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 	if (typeof window !== undefined) {
 		localStorage.removeItem("token");
@@ -70,6 +70,9 @@ export const signout = () => {
 					);
 				}
 				return response.json();
+			})
+			.then((data) => {
+				next(data);
 			})
 			.catch((err) => console.log(err));
 	}

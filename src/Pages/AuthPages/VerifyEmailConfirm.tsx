@@ -13,7 +13,7 @@ const VerifyEmailConfirm = () => {
 			{!isAuthenticated() && localStorage.getItem("emailV") && (
 				<>
 					<Helmet>
-						<title>Kirana For Home | Verification Email Sent</title>
+						<title>MeeMo Kidz | Verification Email Sent</title>
 					</Helmet>
 					<Base>
 						<>

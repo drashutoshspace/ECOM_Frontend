@@ -29,7 +29,7 @@ const Faqs = ({ faqDoc }: any) => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | FAQs</title>
+				<title>MeeMo Kidz | FAQs</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="FAQs" myowntoggle={true} />

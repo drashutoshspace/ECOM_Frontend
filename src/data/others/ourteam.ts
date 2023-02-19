@@ -1,5 +1,5 @@
 import { OurTeam_API } from "../../backend";
-export const ourteamdata = async () => {
+export const ourteamdata = async (next: any) => {
 	await fetch(`${OurTeam_API}`, {
 		method: "GET",
 		headers: {
@@ -8,6 +8,9 @@ export const ourteamdata = async () => {
 	})
 		.then((resp) => {
 			return resp.json();
+		})
+		.then((data) => {
+			next(data);
 		})
 		.catch((err) => console.log(err));
 };

@@ -42,3 +42,4 @@ export const PrivP_API = `${BACKEND}api/get_PrivacyPolicy/`;
 export const CnR_API = `${BACKEND}api/get_CancellationAndRefund/`;
 export const RatingCountAPI = `${BACKEND}api/get_product_ratings/`;
 export const InvoiceRequest_API = `${BACKEND}api/request_invoice/`;
+export const GetBanners_API = `${BACKEND}api/get_banners/`;

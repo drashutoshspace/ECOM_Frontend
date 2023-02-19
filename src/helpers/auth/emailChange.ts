@@ -1,6 +1,6 @@
 import { EmailChange_API } from "../../backend";
 import { toast } from "react-toastify";
-export const emailChange = (user: any) => {
+export const emailChange = (user: any, next: any) => {
 	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 	return fetch(EmailChange_API, {
 		method: "POST",
@@ -23,6 +23,9 @@ export const emailChange = (user: any) => {
 				});
 			}
 			return response.json();
+		})
+		.then((data) => {
+			next(data);
 		})
 		.catch((err) => console.log(err));
 };

@@ -51,7 +51,7 @@ const Feedback = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Feedback</title>
+				<title>MeeMo Kidz | Feedback</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="Feedback" />
@@ -79,15 +79,15 @@ const Feedback = () => {
 								<div className="card mx-2 bgcolorgreyish border-0 border5px p-4">
 									<div className="card-body p-0">
 										<p className="text-center mb-0 colorblue fontsize16 pt-0 p-3">
-											Thank you for visiting Kirana For
-											Home! Please share your experience
-											with us, it will help us grow.{" "}
+											Thank you for visiting MeeMo Kidz!
+											Please share your experience with
+											us, it will help us grow.{" "}
 											<b className="colorlightblue">
 												Keep Exploring!
 											</b>
 										</p>
 										<p className="text-center mb-0 colorblue fontsize16 mb-3">
-											- Team Kirana For Home
+											- Team MeeMo Kidz
 										</p>
 										<form className="mt-4">
 											<div className="row">

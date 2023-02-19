@@ -38,7 +38,7 @@ const SearchPage = ({ searchResults, setSearchResults }: any) => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Search</title>
+				<title>MeeMo Kidz | Search</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="Search Results" />

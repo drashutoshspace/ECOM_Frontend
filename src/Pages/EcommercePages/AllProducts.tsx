@@ -194,7 +194,7 @@ const AllProducts = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | All Products</title>
+				<title>MeeMo Kidz | All Products</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="All Products" />

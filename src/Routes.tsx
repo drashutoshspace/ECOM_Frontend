@@ -156,7 +156,7 @@ const Routes = () => {
 						"error"
 					);
 				}
-			}).then((data) => {
+			}).then((data: any) => {
 				setCookie("user", data, { path: "/" });
 				updateCartOnAuth(data?.[0]?.id);
 				updateWishlistOnAuth(data?.[0]?.id);

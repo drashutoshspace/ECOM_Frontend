@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
+import { getBanner } from "../helpers/others/bannerAPI";
 import HeroSlide from "./HeroSlide";
 const MoveDragThreshold = 10;
 function useDragDetection() {
@@ -79,12 +80,17 @@ const Hero = () => {
 			e.preventDefault();
 		}
 	}
-	const heroVar = [2, 3, 4];
+	const [heroSlides, setHeroSlides] = useState<[]>();
+	useEffect(() => {
+		getBanner().then((res) => {
+			setHeroSlides(res.banner);
+		});
+	}, []);
 	return (
 		<>
 			<section className="heroslider overflow-hidden">
 				<Slider {...settings}>
-					{heroVar.map((heroVar, index) => {
+					{heroSlides?.map((heroVar, index) => {
 						return (
 							<div
 								onMouseDownCapture={handleMouseDown}

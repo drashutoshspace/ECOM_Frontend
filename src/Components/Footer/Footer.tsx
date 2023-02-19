@@ -75,7 +75,7 @@ const Footer = () => {
 									data-aos-anchor-placement="top-bottom"
 								>
 									<a
-										href="https://www.facebook.com/kiranaforhome/"
+										href="https://www.facebook.com/profile.php?id=100086897816897"
 										rel="noopener noreferrer"
 										target="_blank"
 									>
@@ -94,7 +94,7 @@ const Footer = () => {
 									data-aos-delay={100}
 								>
 									<a
-										href="https://wa.me/+918130626971"
+										href="https://wa.me/+919910446228"
 										rel="noopener noreferrer"
 										target="_blank"
 									>
@@ -113,7 +113,7 @@ const Footer = () => {
 									data-aos-delay={400}
 								>
 									<a
-										href="https://www.instagram.com/kiranaforhome/"
+										href="https://instagram.com/meemokidz"
 										rel="noopener noreferrer"
 										target="_blank"
 									>
@@ -279,8 +279,8 @@ const Footer = () => {
 					<div className="row pb-2 fontsize14">
 						<div className="col text-center">
 							<p className="m-0 letterspacing1 coloryellow">
-								Copyright © 2021 <b>Manglam Traders</b> | All
-								Rights Reserved | Designed by&nbsp;
+								Copyright © 2023 <b>MeeMo Kidz</b> | All Rights
+								Reserved | Designed by&nbsp;
 								<a
 									className="lightbluehover letterspacing1 coloryellow"
 									href="https://www.tristack.tech"

@@ -1,6 +1,6 @@
 import { ReportABug_API } from "../../backend";
 import { toast } from "react-toastify";
-export const reportabugForm = async (uploadData: any) => {
+export const reportabugForm = async (uploadData: any, next: any) => {
 	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 	return await fetch(ReportABug_API, {
 		method: "POST",
@@ -21,6 +21,9 @@ export const reportabugForm = async (uploadData: any) => {
 				});
 			}
 			return response.json();
+		})
+		.then((data) => {
+			next(data);
 		})
 		.catch((err) => console.log(err));
 };

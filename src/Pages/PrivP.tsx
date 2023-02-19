@@ -18,7 +18,7 @@ const PrivPol = ({ privpDoc }: any) => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Privacy Policy</title>
+				<title>MeeMo Kidz | Privacy Policy</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="Privacy Policy" />

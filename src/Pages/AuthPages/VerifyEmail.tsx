@@ -38,7 +38,7 @@ const VerifyEmail = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Confirm Email</title>
+				<title>MeeMo Kidz | Confirm Email</title>
 			</Helmet>
 			<Base>
 				<Breadcrumb title="Confirm E-Mail Address" />

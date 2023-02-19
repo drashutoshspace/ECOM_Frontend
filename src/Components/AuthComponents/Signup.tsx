@@ -179,7 +179,7 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 	return (
 		<>
 			<Helmet>
-				<title>Kirana For Home | Sign Up</title>
+				<title>MeeMo Kidz | Sign Up</title>
 			</Helmet>
 			<div className="col-lg-6 col-md-6">
 				<div className="card mx-2 bgcolorgreyish border-0 border5px p-4">
@@ -300,8 +300,7 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 								<div className="col-lg-12">
 									<div className="mb-3 pb-1 mx-1 text-center">
 										<div className="colorblue">
-											By signing up, you accept Kirana For
-											Home's&nbsp;
+											By signing up, you accept MeeMo Kidz's&nbsp;
 											<Link
 												to="/privacypolicy"
 												className="lightbluehover fw-bold colorblue"
