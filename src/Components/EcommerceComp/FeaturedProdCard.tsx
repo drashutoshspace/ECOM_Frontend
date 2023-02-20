@@ -35,10 +35,13 @@ const FeaturedProdCard = ({ product }: any) => {
 	return (
 		<>
 			<div className="card mycard border-0 m-3 shadow hovergoup">
-				<Link to={`/shop/prodsin/${product?.guid}`}>
+				<Link
+					className="text-center"
+					to={`/shop/prodsin/${product?.guid}`}
+				>
 					<img
-						className="w-100"
-						height="250px"
+						className="w-75"
+						// height="250px"
 						alt="Product_Image"
 						src={`${product.Product_Images?.[0]?.dbImage}`}
 					/>

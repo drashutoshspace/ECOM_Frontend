@@ -60,10 +60,13 @@ const ProductListCard = ({ product }: any) => {
 				data-aos-once="true"
 			>
 				<div className="card mycard border-0 shadow hovergoup">
-					<Link to={`/shop/products/${product?.guid}`}>
+					<Link
+						className="text-center"
+						to={`/shop/products/${product?.guid}`}
+					>
 						<img
-							className="w-100"
-							height="250px"
+							className="w-75"
+							// height="250px"
 							alt="Product_Image"
 							src={`${
 								product.Product_Images?.[0]?.dbImage || tempImg
