@@ -7,21 +7,6 @@ import { toast } from "react-toastify";
 import { reportabugForm } from "../helpers/others/reportabugForm";
 import DataLoader2 from "../Components/DataLoaders/DataLoader2";
 import tempImg from "../Assets/images/Video_Icon.png";
-const thumbsContainer = {
-	display: "flex",
-	flexDirection: "row",
-	flexWrap: "wrap",
-	marginTop: 16,
-};
-const thumb = {
-	display: "inline-flex",
-	marginBottom: 8,
-	marginRight: 8,
-	width: 100,
-	height: 100,
-	padding: 4,
-	boxSizing: "border-box",
-};
 const thumbInner = {
 	display: "flex",
 	minWidth: 0,
@@ -36,7 +21,7 @@ const img = {
 const baseStyle = {
 	flex: 1,
 	display: "flex",
-	flexDirection: "column",
+	flexDirection: "column" as "column",
 	alignItems: "center",
 	padding: "20px",
 	borderWidth: 2,
@@ -78,11 +63,31 @@ function StyledDropzone(props: any) {
 		isDragReject,
 	} = useDropzone({
 		maxFiles: 1,
-		accept: "image/*,video/*",
+		accept: {
+			"image/png": [".png"],
+			"image/jpg": [".jpg"],
+			"image/jpeg": [".jpeg"],
+			"video/mp4": [".mp4"],
+			"video/mov": [".mov"],
+			"video/mkv": [".mkv"],
+			"video/avi": [".avi"],
+			"video/3gpp": [".3gpp"],
+		},
 		onDrop,
 	});
 	const thumbs = files.map((file: any) => (
-		<div style={thumb} key={file.name}>
+		<div
+			style={{
+				display: "inline-flex",
+				marginBottom: 8,
+				marginRight: 8,
+				width: 100,
+				height: 100,
+				padding: 4,
+				boxSizing: "border-box",
+			}}
+			key={file.name}
+		>
 			<div style={thumbInner}>
 				<img
 					src={
@@ -136,7 +141,16 @@ function StyledDropzone(props: any) {
 				<span className="colorlightblue">browse!</span> Please add only
 				1 item.
 			</p>
-			<aside style={thumbsContainer}>{thumbs}</aside>
+			<aside
+				style={{
+					display: "flex",
+					flexDirection: "row",
+					flexWrap: "wrap",
+					marginTop: 16,
+				}}
+			>
+				{thumbs}
+			</aside>
 		</div>
 	);
 }
