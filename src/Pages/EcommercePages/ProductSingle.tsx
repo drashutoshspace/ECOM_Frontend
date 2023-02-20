@@ -250,7 +250,8 @@ const ProductSingle = () => {
 										<ReactImageMagnify
 											{...{
 												enlargedImagePosition: "over",
-												imageClassName: "border5px",
+												imageClassName:
+													"border5px w-50 ml-image",
 												enlargedImageContainerClassName:
 													"border5px",
 												pressDuration: 250,
@@ -260,8 +261,8 @@ const ProductSingle = () => {
 												},
 												largeImage: {
 													src: `${product.Product_Images?.[ProductImage1]?.dbImage}`,
-													width: 1200,
-													height: 1800,
+													width: 600,
+													height: 900,
 												},
 											}}
 										/>

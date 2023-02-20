@@ -54,7 +54,7 @@ const ProductListCard = ({ product }: any) => {
 	return (
 		<>
 			<div
-				className="col-lg-4 col-12 mt-4"
+				className="col-lg-3 col-12 mt-4"
 				data-aos="flip-left"
 				data-aos-duration="1000"
 				data-aos-once="true"

@@ -53,7 +53,7 @@ const ShopCard = ({ product }: any) => {
 	}, [addStatus]);
 	return (
 		<>
-			<div className="col-lg-4 col-12 mt-4">
+			<div className="col-lg-3 col-12 mt-4">
 				<div className="card mycard border-0 shadow hovergoup">
 					<Link
 						className="text-center"

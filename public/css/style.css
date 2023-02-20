@@ -232,6 +232,9 @@ h6 {
 	color: #00214d;
 	opacity: 0.7;
 }
+.ml-image {
+	margin-left: 120px;
+}
 .accepted {
 	color: #00e676;
 }
