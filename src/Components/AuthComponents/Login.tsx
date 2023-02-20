@@ -281,9 +281,9 @@ const Login = ({ handleToggle, handleRememberMe, rememberMe }: any) => {
 										</div>
 									</div>
 									<div className="col-lg-12 mt-2 text-center">
-										<h3 className="colorblue mb-1 mt-1">
+										{/* <h3 className="colorblue mb-1 mt-1">
 											Or Login With
-										</h3>
+										</h3> */}
 										<div className="row">
 											<div className="col-6 mt-1">
 												<div className="d-grid">
@@ -498,9 +498,9 @@ const Login = ({ handleToggle, handleRememberMe, rememberMe }: any) => {
 										</div>
 									</div>
 									<div className="col-lg-12 mt-4 text-center">
-										<h3 className="colorblue mb-1 mt-1">
+										{/* <h3 className="colorblue mb-1 mt-1">
 											Or Login With
-										</h3>
+										</h3> */}
 										<div className="row">
 											<div className="col-6 mt-3">
 												<div className="d-grid">

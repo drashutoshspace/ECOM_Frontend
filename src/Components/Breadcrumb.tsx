@@ -13,7 +13,7 @@ const Breadcrumb = ({
 			{isDesktopOrLaptop && (
 				<div
 					className="breadcrumbimg p-4"
-					style={{ backgroundImage: "url(/images/Masala_02.webp)" }}
+					style={{ backgroundImage: "url(https://meemokidz.s3.ap-south-1.amazonaws.com/banner/Banner1.jpg)" }}
 				>
 					<div className="row breadcrumb__text text-center">
 						<h2

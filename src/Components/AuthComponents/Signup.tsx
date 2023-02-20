@@ -347,14 +347,14 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 										</button>
 									</div>
 								</div>
-								<div className="col-lg-12 mt-4 text-center">
+								{/* <div className="col-lg-12 mt-4 text-center">
 									<h3 className="colorblue my-1">
 										Or Sign Up With
 									</h3>
 									<div className="row">
 										<div className="col-6 mt-3">
 											<div className="d-grid">
-												{/* <FacebookLogin
+												<FacebookLogin
 													appId="876288792967969"
 													render={(renderProps) => (
 														<button
@@ -374,11 +374,11 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 													)}
 													fields="name,email,picture"
 													callback={fbResponse}
-												/> */}
+												/>
 											</div>
 										</div>
 										<div className="col-6 mt-3">
-											<div className="d-grid">
+											 <div className="d-grid">
 												<GoogleLogin
 													clientId="643639185226-rqi76uj45a2pbvmqrsvku1mqg4kgspvf.apps.googleusercontent.com"
 													render={(renderProps) => (
@@ -411,7 +411,7 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 											</div>
 										</div>
 									</div>
-								</div>
+								</div> */}
 								<div className="col-12 text-center">
 									<p className="mb-0 fontsize16 mt-4">
 										<span className="colorblue me-2">
