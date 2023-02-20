@@ -51,7 +51,7 @@ const Home = () => {
 			</Helmet>
 			<Base>
 				<Hero />
-				{!isAuthenticated() && (
+				{/* {!isAuthenticated() && (
 					<>
 						<Info1 />
 						<VisibilitySensor
@@ -62,7 +62,7 @@ const Home = () => {
 							<Counter />
 						</VisibilitySensor>
 					</>
-				)}
+				)} */}
 				<VisibilitySensor
 					onChange={() => {
 						setToggleAOS(!toggleAOS);

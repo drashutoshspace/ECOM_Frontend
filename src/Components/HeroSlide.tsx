@@ -5,7 +5,7 @@ const HeroSlide = ({ heroVar }: any) => {
 			<Link to="/shop/allproducts">
 				<img
 					src={heroVar.banner_image}
-					className="hero w-100"
+					className="hero w-100 h-auto"
 					alt="Hero_Images"
 				/>
 			</Link>

@@ -117,6 +117,7 @@ h6 {
 .navbar-toggler {
 	left: 35px;
 	top: 27px;
+	border: none;
 }
 .navbar-toggler:focus {
 	box-shadow: none;
@@ -222,7 +223,7 @@ h6 {
 .breadcrumbimg {
 	background-repeat: no-repeat;
 	background-size: cover;
-	background-position: center;
+	background-position: bottom;
 }
 .faqs {
 	text-transform: none !important;

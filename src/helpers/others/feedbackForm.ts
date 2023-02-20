@@ -6,7 +6,7 @@ export const feedbackForm = async (name: any, email: any, message: any) => {
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify(name, email, message),
+		body: JSON.stringify({ name, email, message }),
 	})
 		.then((res) => {
 			if (!res.ok) {
