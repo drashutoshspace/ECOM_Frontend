@@ -31,7 +31,7 @@ const Profile = () => {
 		event.preventDefault();
 		const uploadData = new FormData();
 		for (const key in profile) {
-			if (key == "email") {
+			if (key === "email") {
 				uploadData.append(key, profile[key].toLowerCase());
 			} else {
 				uploadData.append(key, profile[key]);
@@ -882,7 +882,7 @@ const Profile = () => {
 										onMouseEnter={handleChangeImage4}
 										onMouseLeave={handleChangeImage4}
 									>
-										{myOrders?.length == 0 ? (
+										{myOrders?.length === 0 ? (
 											<div className="row mt-2">
 												<div className="col-lg-12">
 													<img
