@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router-dom";
 import { EmailVerify_API } from "../../backend";
 import Breadcrumb from "../../Components/Breadcrumb";
 import Base from "../../Base";

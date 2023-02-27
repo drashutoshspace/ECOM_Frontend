@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { PasswordResetConfirm_API } from "../../backend";
 import Base from "../../Base";

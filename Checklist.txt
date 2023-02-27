@@ -1,2 +1,9 @@
-2. google login
-9. two categories turning blue if one selected from sidebar then another selected from navbar.
+1. about us in navbar
+2. update loader
+3. heading big and center
+4. banner fir trending fir 6 fir featured fir testimoial
+5. address in footer
+6. google login
+7. page change scroll up
+8. google login
+9. two categories turning blue if one selected from sidebar then another selected from navbar

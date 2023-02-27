@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import DataLoader from "../../Components/DataLoaders/DataLoader";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 const CartPage = () => {
 	const { cookies }: any = useContext(BaseContext);
 	const {
