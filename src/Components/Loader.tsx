@@ -1,4 +1,3 @@
-import "../Loader/style.css";
 import LoaderSVG from "../../Assets/images/Loader.svg";
 const Loader = () => {
 	return (

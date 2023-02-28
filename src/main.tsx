@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import Routes from "./Routes";
 import { ToastContainer } from "react-toastify";
@@ -9,6 +8,8 @@ import OrderDetailProvider from "./Contexts/OrderDetailContext";
 import WishlistProvider from "./Contexts/WishlistContext";
 import SingleEntityProvider from "./Contexts/SingleEntityContext";
 import "react-toastify/dist/ReactToastify.css";
+import "hover.css";
+import "animate.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<HelmetProvider>

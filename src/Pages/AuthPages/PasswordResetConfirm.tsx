@@ -236,13 +236,7 @@ const PasswordResetConfirm = () => {
 															}
 														>
 															{loading ? (
-																<DataLoader2
-																	loaderSize={
-																		15
-																	}
-																	loaderType="ScaleLoader"
-																	loaderColor="#00214d"
-																/>
+																<DataLoader2 />
 															) : (
 																"Confirm"
 															)}

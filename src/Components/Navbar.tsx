@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "hover.css";
-import { isAuthenticated } from "../../helpers/auth/authentication";
-import { BaseContext } from "../../Context";
+import { isAuthenticated } from "../APIs/user/user";
+import { BaseContext } from "../Context";
 import "../../../node_modules/hamburgers/dist/hamburgers.min.css";
-import { CartContext } from "../../Contexts/CartContext";
-import { WishlistContext } from "../../Contexts/WishlistContext";
+import { CartContext } from "../Contexts/CartContext";
+import { WishlistContext } from "../Contexts/WishlistContext";
 import { useMediaQuery } from "react-responsive";
 const Navbar = () => {
 	const { logoutUser, cookies }: any = useContext(BaseContext);

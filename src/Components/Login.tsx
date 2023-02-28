@@ -10,9 +10,9 @@ import googleLogin from "../../helpers/auth/googleLogin";
 import facebookLogin from "../../helpers/auth/facebookLogin";
 import { Link, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { BaseContext } from "../../Context";
+import { BaseContext } from "../Context";
 import { Helmet } from "react-helmet-async";
-import DataLoader2 from "../DataLoaders/DataLoader2";
+import DataLoader2 from "./DataLoaders/DataLoader2";
 // import ReCAPTCHA from "react-google-recaptcha";
 import { useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
@@ -269,11 +269,7 @@ const Login = ({ handleToggle, handleRememberMe, rememberMe }: any) => {
 												className="mybtnsame fontsize16 bglightblue colorblue bgyellow border5px border-0 text-uppercase d-inline-block"
 											>
 												{loading ? (
-													<DataLoader2
-														loaderSize={15}
-														loaderType="ScaleLoader"
-														loaderColor="#00214d"
-													/>
+													<DataLoader2 />
 												) : (
 													"Login"
 												)}
@@ -486,11 +482,7 @@ const Login = ({ handleToggle, handleRememberMe, rememberMe }: any) => {
 												className="mybtnsame fontsize16 bglightblue colorblue bgyellow border5px border-0 text-uppercase d-inline-block"
 											>
 												{loading ? (
-													<DataLoader2
-														loaderSize={15}
-														loaderType="ScaleLoader"
-														loaderColor="#00214d"
-													/>
+													<DataLoader2 />
 												) : (
 													"Login"
 												)}

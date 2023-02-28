@@ -300,7 +300,8 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 								<div className="col-lg-12">
 									<div className="mb-3 pb-1 mx-1 text-center">
 										<div className="colorblue">
-											By signing up, you accept MeeMo Kidz's&nbsp;
+											By signing up, you accept MeeMo
+											Kidz's&nbsp;
 											<Link
 												to="/privacypolicy"
 												className="lightbluehover fw-bold colorblue"
@@ -336,11 +337,7 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 											disabled={loading ? true : false}
 										>
 											{loading ? (
-												<DataLoader2
-													loaderSize={15}
-													loaderType="ScaleLoader"
-													loaderColor="#00214d"
-												/>
+												<DataLoader2 />
 											) : (
 												"Register"
 											)}

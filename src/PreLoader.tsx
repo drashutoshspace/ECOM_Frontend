@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Loader from "./Components/Loader/Loader";
+import Loader from "./Components/Loader";
 const PreLoader = () => {
 	const [redirect, setRedirect] = useState(false);
 	useEffect(() => {

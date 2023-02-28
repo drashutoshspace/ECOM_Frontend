@@ -7,7 +7,7 @@ import { WishlistContext } from "../../Contexts/WishlistContext";
 import tempImg from "../../Assets/images/Product_3.webp";
 import { BaseContext } from "../../Context";
 import { toast } from "react-toastify";
-import { isAuthenticated } from "../../helpers/auth/authentication";
+import { isAuthenticated } from "../APIs/user/user";
 const ProfileWishlistCard = ({ item }: any) => {
 	const [addStatus, setAddStatus] = useState("");
 	const [plusMinus, setPlusMinus] = useState(1);

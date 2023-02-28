@@ -4,7 +4,7 @@ import Breadcrumb from "../Components/Breadcrumb";
 import Base from "../Base";
 import { Helmet } from "react-helmet-async";
 import { search } from "../data/others/search";
-import DataLoader from "../Components/DataLoaders/DataLoader";
+import DataLoader from "../Components/DataLoader";
 import ProductListCard from "../Components/EcommerceComp/ProductListCard";
 import ReactPaginate from "react-paginate";
 const SearchPage = ({ searchResults, setSearchResults }: any) => {

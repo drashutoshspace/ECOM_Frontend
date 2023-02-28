@@ -23,8 +23,8 @@ import { singleReview, reviews } from "../../data/others/reviews";
 import tempImg from "../../Assets/images/Product_3.webp";
 import tempImg1 from "../../Assets/images/User_Image.webp";
 import { toast } from "react-toastify";
-import { isAuthenticated } from "../../helpers/auth/authentication";
-import DataLoader from "../../Components/DataLoaders/DataLoader";
+import { isAuthenticated } from "../APIs/user/user";
+import DataLoader from "../../Components/DataLoader";
 import DataLoader2 from "../../Components/DataLoaders/DataLoader2";
 const ProductSingle = () => {
 	const { id } = useParams();
@@ -1048,13 +1048,7 @@ const ProductSingle = () => {
 																				}
 																			>
 																				{dataLoading ? (
-																					<DataLoader2
-																						loaderSize={
-																							15
-																						}
-																						loaderType="ScaleLoader"
-																						loaderColor="#00214d"
-																					/>
+																					<DataLoader2 />
 																				) : (
 																					"Submit"
 																				)}

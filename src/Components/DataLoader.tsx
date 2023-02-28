@@ -1,14 +1,14 @@
 import { useState, CSSProperties } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
 
-const override: CSSProperties = {
-	display: "block",
-	margin: "10 15",
-	borderColor: "red",
-};
-function DataLoader() {
-	let [loading] = useState(true);
-	let [color] = useState("#00214d");
+export default function DataLoader(): JSX.Element {
+	const [loading] = useState(true);
+	const [color] = useState("#00214d");
+	const override: CSSProperties = {
+		display: "block",
+		margin: "10 15",
+		borderColor: "red",
+	};
 	return (
 		<div
 			className="d-flex justify-content-center align-items-center position-relative flex-column sweet-loading"
@@ -23,4 +23,3 @@ function DataLoader() {
 		</div>
 	);
 }
-export default DataLoader;

@@ -738,3 +738,37 @@ input[type="number"]::-webkit-outer-spin-button {
 	border-top: 2px solid #00ebc7;
 	background-color: #00ebc7;
 }
+.loader .content p {
+	color: #000;
+	font-weight: 700 !important;
+	font-size: 15px;
+	font-family: "Mulish", monospace;
+	animation: text 3s ease infinite;
+	width: 300px;
+	text-align: center;
+}
+@keyframes text {
+	0% {
+		transform: translateX(-30px);
+		letter-spacing: 0px;
+		color: #000;
+	}
+	25% {
+		letter-spacing: 3px;
+		color: #f3c319;
+	}
+	50% {
+		transform: translateX(30px);
+		letter-spacing: 0px;
+		color: #000;
+	}
+	75% {
+		letter-spacing: 3px;
+		color: #f3c319;
+	}
+	100% {
+		transform: translateX(-30px);
+		letter-spacing: 0px;
+		color: #000;
+	}
+}

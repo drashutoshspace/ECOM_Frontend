@@ -1,6 +1,6 @@
 import Breadcrumb from "../../Components/Breadcrumb";
 import { useState } from "react";
-import Login from "../../Components/AuthComponents/Login";
+import Login from "../../Components/Login";
 import Signup from "../../Components/AuthComponents/Signup";
 import Base from "../../Base";
 import { useMediaQuery } from "react-responsive";

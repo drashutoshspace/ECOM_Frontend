@@ -1,14 +1,14 @@
-import Breadcrumb from "../../Components/Breadcrumb";
+import Breadcrumb  from "../../Components/Breadcrumb";
 import { useContext, useState, useRef } from "react";
 import Base from "../../Base";
-import CartCard from "../../Components/EcommerceComp/CartCard";
+import CartCard from "../../Components/CartCard";
 import { CartContext } from "../../Contexts/CartContext";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { BaseContext } from "../../Context";
 import { SingleEntityContext } from "../../Contexts/SingleEntityContext";
 import { useEffect } from "react";
-import DataLoader from "../../Components/DataLoaders/DataLoader";
+import DataLoader from "../../Components/DataLoader";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { useNavigate } from "react-router-dom";

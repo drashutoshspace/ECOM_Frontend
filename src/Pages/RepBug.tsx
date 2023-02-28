@@ -303,13 +303,7 @@ const RepBug = () => {
 															className="mybtnsame fontsize16 bglightblue colorblue bgyellow border5px border-0 text-uppercase d-inline-block"
 														>
 															{loading ? (
-																<DataLoader2
-																	loaderSize={
-																		15
-																	}
-																	loaderType="ScaleLoader"
-																	loaderColor="#00214d"
-																/>
+																<DataLoader2 />
 															) : (
 																"Submit"
 															)}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Base from "../../Base";
 import Breadcrumb from "../../Components/Breadcrumb";
-import { isAuthenticated } from "../../helpers/auth/authentication";
+import { isAuthenticated } from "../APIs/user/user";
 const VerifyEmailConfirm = () => {
 	const [changeImage, setChangeImage] = useState(false);
 	const handleChangeImage = () => {

@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { CartContext } from "../../Contexts/CartContext";
 import { WishlistContext } from "../../Contexts/WishlistContext";
 import tempImg from "../../Assets/images/Product_3.webp";
-import { BaseContext } from "../../Context";
-import { isAuthenticated } from "../../helpers/auth/authentication";
+import { isAuthenticated } from "../APIs/user/user";
 import { toast } from "react-toastify";
-const ShopCard = ({ product }: any) => {
+import { BaseContext } from "../../Context";
+const ProductListCard = ({ product }: any) => {
 	const [addStatus, setAddStatus] = useState("");
 	const [plusMinus, setPlusMinus] = useState(1);
 	const [animateButton, setAnimateButton] = useState(false);
@@ -53,7 +53,12 @@ const ShopCard = ({ product }: any) => {
 	}, [addStatus]);
 	return (
 		<>
-			<div className="col-lg-3 col-12 mt-4">
+			<div
+				className="col-lg-3 col-12 mt-4"
+				data-aos="flip-left"
+				data-aos-duration="1000"
+				data-aos-once="true"
+			>
 				<div className="card mycard border-0 shadow hovergoup">
 					<Link
 						className="text-center"
@@ -160,8 +165,8 @@ const ShopCard = ({ product }: any) => {
 									<button
 										className={`${
 											animateButton
-												? "add-to-cart w-100 h-75 fontsize14 d-flex justify-content-center align-items-center mybtnsame position-relative overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase is-added"
-												: "add-to-cart w-100 h-75 fontsize14 d-flex justify-content-center align-items-center mybtnsame position-relative overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase"
+												? "add-to-cart d-flex justify-content-center align-items-center mybtnsame position-relative h-75 w-100 overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase is-added"
+												: "add-to-cart d-flex justify-content-center align-items-center mybtnsame position-relative h-75 w-100 overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase"
 										}`}
 										onClick={() => {
 											if (isAuthenticated()) {
@@ -208,8 +213,8 @@ const ShopCard = ({ product }: any) => {
 									<button
 										className={`${
 											animateButton
-												? "add-to-cart w-100 h-75 fontsize14 d-flex justify-content-center align-items-center mybtnsame position-relative overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase is-added"
-												: "add-to-cart w-100 h-75 fontsize14 d-flex justify-content-center align-items-center mybtnsame position-relative overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase"
+												? "add-to-cart d-flex justify-content-center align-items-center mybtnsame position-relative h-75 w-100 overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase is-added"
+												: "add-to-cart d-flex justify-content-center align-items-center mybtnsame position-relative h-75 w-100 overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase"
 										}`}
 										onClick={() => {
 											if (isAuthenticated()) {
@@ -257,4 +262,4 @@ const ShopCard = ({ product }: any) => {
 		</>
 	);
 };
-export default ShopCard;
+export default ProductListCard;

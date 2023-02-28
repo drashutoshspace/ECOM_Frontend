@@ -9,7 +9,7 @@ import { products } from "../../data/products/products";
 import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import ReactPaginate from "react-paginate";
-import DataLoader from "../../Components/DataLoaders/DataLoader";
+import DataLoader from "../../Components/DataLoader";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumb from "../../Components/Breadcrumb";
 

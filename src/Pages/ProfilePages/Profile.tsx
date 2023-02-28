@@ -1222,13 +1222,7 @@ const Profile = () => {
 															}
 														>
 															{loading ? (
-																<DataLoader2
-																	loaderSize={
-																		15
-																	}
-																	loaderType="ScaleLoader"
-																	loaderColor="#00214d"
-																/>
+																<DataLoader2 />
 															) : (
 																"Confirm"
 															)}
@@ -1345,13 +1339,7 @@ const Profile = () => {
 															}
 														>
 															{loading ? (
-																<DataLoader2
-																	loaderSize={
-																		15
-																	}
-																	loaderType="ScaleLoader"
-																	loaderColor="#00214d"
-																/>
+																<DataLoader2 />
 															) : (
 																"Confirm"
 															)}

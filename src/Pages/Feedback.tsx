@@ -172,10 +172,7 @@ const Feedback = () => {
 															}
 														>
 															{dataLoading ? (
-																<DataLoader2
-																	loaderType="ScaleLoader"
-																	loaderColor="#00214d"
-																/>
+																<DataLoader2 loaderType="ScaleLoader" />
 															) : (
 																"Submit"
 															)}
