@@ -87,13 +87,17 @@ export async function profileDataUpdate(data: FormData): Promise<any> {
 	return await postWithAuthorization(ProfileData_API, data, "update profile");
 }
 
-export async function googleLogin(data: string): Promise<void> {
+export async function googleLogin(data: {
+	access_token: string;
+	code: string;
+	id_token: string;
+}): Promise<void> {
 	localStorage.setItem(
 		"token",
 		(
 			(await postWithoutAuthorization(
 				GoogleAuth_API,
-				{ access_token: data },
+				data,
 				"login from Google"
 			)) as any
 		).data.key

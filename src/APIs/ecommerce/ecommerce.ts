@@ -15,15 +15,12 @@ import {
 } from "../generics";
 import { toast } from "react-toastify";
 
-export async function products({
-	limit,
-	offset,
-}: {
-	limit: number;
-	offset: number;
+export async function products(data: {
+	limit?: number;
+	offset?: number;
 }): Promise<any> {
 	return await getWithoutAuthorization(
-		`${Products_API}?limit=${limit}&offset=${offset}`,
+		`${Products_API}?limit=${data.limit}&offset=${data.offset}`,
 		"get products"
 	);
 }
@@ -35,59 +32,51 @@ export async function productsCategory(): Promise<any> {
 	);
 }
 
-export async function categoryWiseProducts({
-	limit,
-	offset,
-	category_name,
-}: {
-	limit: number;
-	offset: number;
-	category_name: string;
+export async function categoryWiseProducts(data: {
+	limit?: number;
+	offset?: number;
+	category_name?: string;
 }): Promise<any> {
 	return await getWithoutAuthorization(
-		`${Products_API}?cat_name=${category_name}&limit=${limit}&offset=${offset}`,
+		`${Products_API}?cat_name=${data.category_name}&limit=${data.limit}&offset=${data.offset}`,
 		"get products"
 	);
 }
 
-export async function singleProduct({ id }: { id: string }): Promise<any> {
+export async function singleProduct(data: { guid: string }): Promise<any> {
 	return await getWithoutAuthorization(
-		`${Products_API}/${id}`,
+		`${Products_API}/${data.guid}`,
 		"get product"
 	);
 }
 
-export async function search({
-	searchInput,
-	limit,
-	offset,
-}: {
+export async function search(data: {
+	limit?: number;
+	offset?: number;
 	searchInput: string;
-	limit: number;
-	offset: number;
 }): Promise<any> {
 	return await getWithoutAuthorization(
-		`${Products_API}?limit=${limit}&offset=${offset}&search=${searchInput}`,
+		`${Products_API}?limit=${data.limit}&offset=${data.offset}&search=${data.searchInput}`,
 		"search"
 	);
 }
 
-export async function singleReview(data: { product_id: string }): Promise<any> {
+export async function singleReview(data: { guid: string }): Promise<any> {
 	return await getWithAuthorization(
-		`${ReviewRatingForm_API}${data.product_id}`,
+		`${ReviewRatingForm_API}?guid=${data.guid}`,
 		"get review"
 	);
 }
 
-export async function ratingCount(data: { product_id: string }): Promise<any> {
+export async function ratingCount(data: { guid: string }): Promise<any> {
 	return await getWithoutAuthorization(
-		`${RatingCountAPI}?guid=${data.product_id}`,
+		`${RatingCountAPI}?guid=${data.guid}`,
 		"get rating"
 	);
 }
 
 export async function reviewRating(data: {
-	product_id: string;
+	guid: string;
 	rating: number;
 	review: string;
 }): Promise<any> {
@@ -98,20 +87,17 @@ export async function reviewRating(data: {
 	);
 }
 
-export async function deleteReview(data: { product_id: string }): Promise<any> {
+export async function deleteReview(data: { id: string }): Promise<any> {
 	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 	try {
-		const response = await fetch(
-			`${ReviewRatingForm_API}${data.product_id}/`,
-			{
-				method: "DELETE",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-					Authorization: "Token " + tokenValue,
-				},
-			}
-		);
+		const response = await fetch(`${ReviewRatingForm_API}${data.id}/`, {
+			method: "DELETE",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+				Authorization: "Token " + tokenValue,
+			},
+		});
 		return await response.json();
 	} catch (err) {
 		toast.error(`Cannot update review currently!`);
@@ -120,24 +106,21 @@ export async function deleteReview(data: { product_id: string }): Promise<any> {
 }
 
 export async function updateReview(data: {
-	product_id: string;
-	rating: number;
-	review: string;
+	id: string;
+	rating?: number;
+	review?: string;
 }): Promise<any> {
 	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
 	try {
-		const response = await fetch(
-			`${ReviewRatingForm_API}${data.product_id}/`,
-			{
-				method: "PUT",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-					Authorization: "Token " + tokenValue,
-				},
-				body: JSON.stringify(data),
-			}
-		);
+		const response = await fetch(`${ReviewRatingForm_API}${data.id}/`, {
+			method: "PUT",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+				Authorization: "Token " + tokenValue,
+			},
+			body: JSON.stringify(data),
+		});
 		return await response.json();
 	} catch (err) {
 		toast.error(`Cannot update review currently!`);
@@ -145,7 +128,7 @@ export async function updateReview(data: {
 	}
 }
 
-export async function coupon(data: { coupon: string }): Promise<any> {
+export async function coupon(data: { coupon_code: string }): Promise<any> {
 	return postWithoutAuthorization(
 		CouponValidity_API,
 		data,
