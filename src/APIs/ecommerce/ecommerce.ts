@@ -81,7 +81,7 @@ export async function singleReview(data: { product_id: string }): Promise<any> {
 
 export async function ratingCount(data: { product_id: string }): Promise<any> {
 	return await getWithoutAuthorization(
-		`${RatingCountAPI}?guid=${id}`,
+		`${RatingCountAPI}?guid=${data.product_id}`,
 		"get rating"
 	);
 }
