@@ -20,7 +20,23 @@ export async function getWithAuthorization(
 	}
 }
 
-export async function getWithoutAuthorization() {}
+export async function getWithoutAuthorization(
+	endpoint: string,
+	operation?: string
+): Promise<any> {
+	try {
+		const response = await fetch(endpoint, {
+			method: "GET",
+			headers: {
+				Accept: "application/json",
+			},
+		});
+		return await response.json();
+	} catch (err) {
+		toast.error(`Cannot ${operation} currently!`);
+		return console.log(err);
+	}
+}
 
 export async function postWithAuthorization(
 	endpoint: string,
@@ -34,13 +50,15 @@ export async function postWithAuthorization(
 			headers: {
 				Accept: "application/json",
 				"Content-Type":
-					endpoint.slice(34, endpoint.length - 1) !== "get_profile"
+					endpoint.slice(34, endpoint.length - 1) !== "get_profile" ||
+					"reportabug"
 						? "application/json"
 						: "multipart/form-data",
 				Authorization: "Token " + tokenValue,
 			},
 			body:
-				endpoint.slice(34, endpoint.length - 1) !== "get_profile"
+				endpoint.slice(34, endpoint.length - 1) !== "get_profile" ||
+				"reportabug"
 					? payload
 						? JSON.stringify(payload)
 						: null
@@ -73,7 +91,3 @@ export async function postWithoutAuthorization(
 		return console.log(err);
 	}
 }
-
-export function putWithAuthorization() {}
-
-export function deleteWithAuthorization() {}

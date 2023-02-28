@@ -12,7 +12,6 @@ export const EmailChange_API = `${BACKEND}api/email_change/`;
 
 //Social Authentication APIs
 export const GoogleAuth_API = `${BACKEND}auth/google/`;
-export const FacebookAuth_API = `${BACKEND}auth/facebook/`;
 
 //USER DETAILS APIs
 export const ProfileData_API = `${BACKEND}api/get_profile/`;
