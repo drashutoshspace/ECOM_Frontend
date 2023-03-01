@@ -17,6 +17,6 @@ export interface Order {
 	ordered_products: string;
 	products: Product[];
 	applied_coupon: string;
-	date_created: Date;
+	date_created: string;
 	date_modified: Date;
 }

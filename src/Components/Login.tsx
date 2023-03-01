@@ -1,22 +1,20 @@
 import { useContext, useState } from "react";
-import {
-	authenticate,
-	isAuthenticated,
-	signin,
-} from "../../helpers/auth/authentication";
+import { authenticate, isAuthenticated, signIn } from "../APIs/user/user";
 import GoogleLogin from "react-google-login";
-// import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import googleLogin from "../../helpers/auth/googleLogin";
-import facebookLogin from "../../helpers/auth/facebookLogin";
 import { Link, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { BaseContext } from "../Context";
 import { Helmet } from "react-helmet-async";
-import DataLoader2 from "./DataLoaders/DataLoader2";
-// import ReCAPTCHA from "react-google-recaptcha";
 import { useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
-const Login = ({ handleToggle, handleRememberMe, rememberMe }: any) => {
+import DataLoader2 from "./DataLoader2";
+import { googleLogin } from "../APIs/user/user";
+
+export default function Login({
+	handleToggle,
+	handleRememberMe,
+	rememberMe,
+}: any): JSX.Element {
 	const { handleNotification }: any = useContext(BaseContext);
 	const [values, setValues] = useState({
 		username: "",
@@ -28,13 +26,6 @@ const Login = ({ handleToggle, handleRememberMe, rememberMe }: any) => {
 	const handleChange = (name: any) => (event: any) => {
 		setValues({ ...values, [name]: event.target.value });
 	};
-	// const recaptchaRef = useRef();
-	const [disable, setDisable] = useState(true);
-	// const handleRecaptcha = () => {
-	// 	if (recaptchaRef.current.getValue()) {
-	// 		setDisable(false);
-	// 	}
-	// };
 	useEffect(() => {
 		var mounted = true;
 		if (mounted) {
@@ -61,14 +52,10 @@ const Login = ({ handleToggle, handleRememberMe, rememberMe }: any) => {
 	const loginUser = (event: any) => {
 		event.preventDefault();
 		setLoading(true);
-		// if (disable) {
-		// 	setLoading(false);
-		// 	return toast("ReCaptcha Pending!", { type: "error", autoClose: 5000, position: "bottom-center", hideProgressBar: false, pauseOnHover: true, pauseOnFocusLoss: true });
-		// }
 		setValues({
 			...values,
 		});
-		signin({ username, email, password })
+		signIn({ username, email, password })
 			.then((data) => {
 				if (data?.key) {
 					let sessionToken = data.key;
@@ -119,29 +106,26 @@ const Login = ({ handleToggle, handleRememberMe, rememberMe }: any) => {
 			});
 	};
 	const performRedirect = () => {
-		if (isAuthenticated()) {
+		if (async () => await isAuthenticated()) {
 			return <Navigate to="/" />;
 		}
 	};
-	// const responseGoogle = (response) => {
-	// 	googleLogin(response.accessToken, () => {
-	// 		if (isAuthenticated()) {
-	// 			handleNotification("Login Successful", "success");
-	// 			return <Redirect to="/" />;
-	// 		}
-	// 	});
-	// };
-	// const fbResponse = (response) => {
-	// 	facebookLogin(response.accessToken, (data) => {
-	// 		console.log(data);
-	// 		if (isAuthenticated()) {
-	// 			handleNotification("Login Successful", "success");
-	// 			return <Redirect to="/" />;
-	// 		} else {
-	// 			handleNotification("Something went wrong!", "error");
-	// 		}
-	// 	});
-	// };
+	const responseGoogle = async (response: any) => {
+		await googleLogin({
+			access_token: response.accessToken,
+			code: response.code,
+			id_token: response.tokenId,
+		}).then((res: any) => {
+			if (res?.status === 200) {
+				if (async () => await isAuthenticated()) {
+					handleNotification("Login Successful", "success");
+					return <Navigate to="/" />;
+				}
+			} else {
+				return toast.error(res?.error);
+			}
+		});
+	};
 	const { username, email, password } = values;
 	const [showPassword, setShowPassword] = useState(false);
 	const seePassword = () => {
@@ -252,13 +236,6 @@ const Login = ({ handleToggle, handleRememberMe, rememberMe }: any) => {
 											</div>
 										</div>
 									</div>
-									<div className="col-lg-12 mb-3 d-flex">
-										<div className="col-lg-2 col-0" />
-										{/* <div className="col-lg-8 col-12 d-flex justify-content-center">
-											<ReCAPTCHA sitekey="6LfKX6AbAAAAACynAuG5H66l2w9Vru87ElhZQiYz" ref={recaptchaRef} onChange={handleRecaptcha} />
-										</div> */}
-										<div className="col-lg-2 col-0" />
-									</div>
 									<div className="col-lg-12 mb-0">
 										<div className="d-grid">
 											<button
@@ -277,40 +254,13 @@ const Login = ({ handleToggle, handleRememberMe, rememberMe }: any) => {
 										</div>
 									</div>
 									<div className="col-lg-12 mt-2 text-center">
-										{/* <h3 className="colorblue mb-1 mt-1">
+										<h3 className="colorblue mb-1 mt-1">
 											Or Login With
-										</h3> */}
+										</h3>
 										<div className="row">
 											<div className="col-6 mt-1">
 												<div className="d-grid">
-													{/* <FacebookLogin
-														appId="876288792967969"
-														render={(
-															renderProps
-														) => (
-															<button
-																onClick={
-																	renderProps.onClick
-																}
-																className="socialbutton bglightblue border-0 colorblue bgyellow cursorpointer border5px d-flex justify-content-center align-items-center px-2 my-2"
-															>
-																<img
-																	src="images/FB_Button.svg"
-																	height="20px"
-																	alt="Facebook"
-																/>
-																&nbsp;&nbsp;
-																<b>Facebook</b>
-															</button>
-														)}
-														fields="name,email,picture"
-														callback={fbResponse}
-													/> */}
-												</div>
-											</div>
-											<div className="col-6 mt-1">
-												<div className="d-grid">
-													{/* <GoogleLogin
+													<GoogleLogin
 														clientId="643639185226-rqi76uj45a2pbvmqrsvku1mqg4kgspvf.apps.googleusercontent.com"
 														render={(
 															renderProps
@@ -344,7 +294,7 @@ const Login = ({ handleToggle, handleRememberMe, rememberMe }: any) => {
 														onFailure={
 															responseGoogle
 														}
-													/> */}
+													/>
 												</div>
 											</div>
 										</div>
@@ -465,13 +415,6 @@ const Login = ({ handleToggle, handleRememberMe, rememberMe }: any) => {
 											</div>
 										</div>
 									</div>
-									<div className="col-lg-12 mb-4 d-flex">
-										<div className="col-lg-2 col-0" />
-										{/* <div className="col-lg-8 col-12 d-flex justify-content-center">
-											<ReCAPTCHA sitekey="6LfKX6AbAAAAACynAuG5H66l2w9Vru87ElhZQiYz" ref={recaptchaRef} onChange={handleRecaptcha} />
-										</div> */}
-										<div className="col-lg-2 col-0" />
-									</div>
 									<div className="col-lg-12 mb-0">
 										<div className="d-grid">
 											<button
@@ -490,40 +433,13 @@ const Login = ({ handleToggle, handleRememberMe, rememberMe }: any) => {
 										</div>
 									</div>
 									<div className="col-lg-12 mt-4 text-center">
-										{/* <h3 className="colorblue mb-1 mt-1">
+										<h3 className="colorblue mb-1 mt-1">
 											Or Login With
-										</h3> */}
+										</h3>
 										<div className="row">
 											<div className="col-6 mt-3">
 												<div className="d-grid">
-													{/* <FacebookLogin
-														appId="876288792967969"
-														render={(
-															renderProps
-														) => (
-															<button
-																onClick={
-																	renderProps.onClick
-																}
-																className="socialbutton bglightblue border-0 colorblue bgyellow cursorpointer border5px d-flex justify-content-center align-items-center px-2 my-2"
-															>
-																<img
-																	src="images/FB_Button.svg"
-																	height="20px"
-																	alt="Facebook"
-																/>
-																&nbsp;&nbsp;
-																<b>Facebook</b>
-															</button>
-														)}
-														fields="name,email,picture"
-														callback={fbResponse}
-													/> */}
-												</div>
-											</div>
-											<div className="col-6 mt-3">
-												<div className="d-grid">
-													{/* <GoogleLogin
+													<GoogleLogin
 														clientId="643639185226-rqi76uj45a2pbvmqrsvku1mqg4kgspvf.apps.googleusercontent.com"
 														render={(
 															renderProps
@@ -557,7 +473,7 @@ const Login = ({ handleToggle, handleRememberMe, rememberMe }: any) => {
 														onFailure={
 															responseGoogle
 														}
-													/> */}
+													/>
 												</div>
 											</div>
 										</div>
@@ -586,5 +502,4 @@ const Login = ({ handleToggle, handleRememberMe, rememberMe }: any) => {
 			{performRedirect()}
 		</>
 	);
-};
-export default Login;
+}

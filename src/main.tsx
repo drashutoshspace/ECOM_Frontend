@@ -10,6 +10,7 @@ import SingleEntityProvider from "./Contexts/SingleEntityContext";
 import "react-toastify/dist/ReactToastify.css";
 import "hover.css";
 import "animate.css";
+import "slick-carousel/slick/slick.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<HelmetProvider>
