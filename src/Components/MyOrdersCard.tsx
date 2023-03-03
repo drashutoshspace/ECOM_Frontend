@@ -4,7 +4,11 @@ import { BaseContext } from "../Context";
 import { OrderDetailContext } from "../Contexts/OrderDetailContext";
 import { Order } from "../Interfaces/Orders";
 
-export default function MyOrderCard({ my_order }: { my_order: Order }) {
+export default function MyOrderCard({
+	my_order,
+}: {
+	my_order: Order;
+}): JSX.Element {
 	const { addOrderDetail, orderdetails }: any =
 		useContext(OrderDetailContext);
 	const { cookies }: any = useContext(BaseContext);

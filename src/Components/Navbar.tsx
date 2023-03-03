@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import "hover.css";
 import { isAuthenticated } from "../APIs/user/user";
 import { BaseContext } from "../Context";
-import "../../../node_modules/hamburgers/dist/hamburgers.min.css";
 import { CartContext } from "../Contexts/CartContext";
 import { WishlistContext } from "../Contexts/WishlistContext";
 import { useMediaQuery } from "react-responsive";
-const Navbar = () => {
+import { Product_Category, Product } from "../Interfaces/Products";
+
+export default function Navbar(): JSX.Element {
 	const { logoutUser, cookies }: any = useContext(BaseContext);
 	const { allItemsCount, cartItems } = useContext(CartContext);
 	const { productsCount } = useContext(WishlistContext);
@@ -32,8 +32,8 @@ const Navbar = () => {
 			window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 		}
 	}, [location]);
-	function truncate(str: any, n: any) {
-		return str?.length > n ? str.substr(0, n - 1) + "..." : str;
+	function truncate(str: string, n: number) {
+		return str?.length > n ? str.substring(0, n - 1) + "..." : str;
 	}
 
 	// ANCHOR Search Results Code
@@ -43,7 +43,7 @@ const Navbar = () => {
 			setMySearchInput(location.pathname.split("/").reverse()[0] || "");
 		}
 	}, []);
-	const mySearch = (event: any, searchInput: any) => {
+	const mySearch = (event: any, searchInput: string) => {
 		event.preventDefault();
 		navigate(`/searchresults/${searchInput}`);
 	};
@@ -89,7 +89,11 @@ const Navbar = () => {
 	var dropdownToggle3 = useRef<HTMLDivElement>(null);
 	var dropdownToggle4 = useRef<HTMLUListElement>(null);
 	useEffect(() => {
-		if (isDesktopOrLaptop && isAuthenticated() && dropdownToggle3.current) {
+		if (
+			isDesktopOrLaptop &&
+			(async () => await isAuthenticated()) &&
+			dropdownToggle3.current
+		) {
 			const mouseOver3 = () => {
 				setOnHoverDropdown3(true);
 			};
@@ -105,7 +109,11 @@ const Navbar = () => {
 				};
 			}
 		}
-		if (isDesktopOrLaptop && isAuthenticated() && dropdownToggle4.current) {
+		if (
+			isDesktopOrLaptop &&
+			(async () => await isAuthenticated()) &&
+			dropdownToggle4.current
+		) {
 			const mouseOver3 = () => {
 				setOnHoverDropdown3(true);
 			};
@@ -220,7 +228,7 @@ const Navbar = () => {
 								</Link>
 							</li>
 							{allProductCategories.map(
-								(item: any, index: any) => {
+								(item: Product_Category, index: number) => {
 									return (
 										<li key={index}>
 											<Link
@@ -262,11 +270,12 @@ const Navbar = () => {
 							aria-expanded={onHoverDropdown2}
 						>
 							<i className="fas fa-shopping-cart hvr-icon" />
-							{isAuthenticated() && allItemsCount > 0 && (
-								<span className="topnumbercart">
-									{allItemsCount}
-								</span>
-							)}
+							{(async () => await isAuthenticated()) &&
+								allItemsCount > 0 && (
+									<span className="topnumbercart">
+										{allItemsCount}
+									</span>
+								)}
 							&nbsp;&nbsp;Cart &nbsp;
 							<i className="fas fa-caret-down hvr-icon" />
 						</Link>
@@ -275,7 +284,8 @@ const Navbar = () => {
 								onHoverDropdown2
 									? `dropdown-menu dropdown-menu-end mt-0 pt-4 ms-2 border5px animate slideIn border-0 show ${
 											cartItems.products.length > 0 &&
-											isAuthenticated()
+											(async () =>
+												await isAuthenticated())
 												? "cartdropdown"
 												: ""
 									  }`
@@ -285,7 +295,7 @@ const Navbar = () => {
 							aria-labelledby="navbarDropdown"
 							data-bs-popper={onHoverDropdown2 ? "none" : ""}
 						>
-							{!isAuthenticated() && (
+							{!(async () => await isAuthenticated()) && (
 								<li>
 									<div
 										style={{ width: "200px" }}
@@ -334,11 +344,9 @@ const Navbar = () => {
 													.slice(0, 3)
 													.map(
 														(
-															item: any,
-															index: any
+															item: Product,
+															index: number
 														) => {
-															const { product } =
-																item;
 															return (
 																<div
 																	key={index}
@@ -346,22 +354,22 @@ const Navbar = () => {
 																>
 																	<div className="col">
 																		<h6 className="colorblue fontsize12">{`${truncate(
-																			product.Product_Name,
+																			item?.Product_Name,
 																			20
 																		)} = ₹ ${(Math.abs(
 																			parseInt(
-																				product?.Product_SellingPrice
+																				item?.Product_SellingPrice.toString()
 																			) -
 																				parseFloat(
-																					product?.Product_SellingPrice
+																					item?.Product_SellingPrice.toString()
 																				)
 																		) > 0.5
 																			? parseInt(
-																					product?.Product_SellingPrice
+																					item?.Product_SellingPrice.toString()
 																			  ) +
 																			  1
 																			: parseInt(
-																					product?.Product_SellingPrice
+																					item?.Product_SellingPrice.toString()
 																			  )
 																		).toLocaleString(
 																			undefined,
@@ -401,7 +409,7 @@ const Navbar = () => {
 							)}
 						</ul>
 					</div>
-					{isAuthenticated() ? (
+					{(async () => await isAuthenticated()) ? (
 						<div
 							className="nav-item dropdown align-items-center my-3"
 							onClick={() => {
@@ -634,7 +642,10 @@ const Navbar = () => {
 										</Link>
 									</li>
 									{allProductCategories.map(
-										(item: any, index: any) => {
+										(
+											item: Product_Category,
+											index: number
+										) => {
 											return (
 												<li key={index}>
 													<Link
@@ -666,11 +677,12 @@ const Navbar = () => {
 									aria-expanded="false"
 								>
 									<i className="fas fa-shopping-cart hvr-icon" />
-									{isAuthenticated() && allItemsCount > 0 && (
-										<span className="topnumbercart">
-											{allItemsCount}
-										</span>
-									)}
+									{(async () => await isAuthenticated()) &&
+										allItemsCount > 0 && (
+											<span className="topnumbercart">
+												{allItemsCount}
+											</span>
+										)}
 									&nbsp;&nbsp;Cart
 								</Link>
 								<ul
@@ -700,12 +712,9 @@ const Navbar = () => {
 														.slice(0, 3)
 														.map(
 															(
-																item: any,
-																index: any
+																item: Product,
+																index: number
 															) => {
-																const {
-																	product,
-																} = item;
 																return (
 																	<div
 																		key={
@@ -715,23 +724,23 @@ const Navbar = () => {
 																	>
 																		<div className="col">
 																			<h6 className="colorblue fontsize12">{`${truncate(
-																				product.Product_Name,
+																				item?.Product_Name,
 																				20
 																			)} = ₹ ${(Math.abs(
 																				parseInt(
-																					product?.Product_SellingPrice
+																					item?.Product_SellingPrice.toString()
 																				) -
 																					parseFloat(
-																						product?.Product_SellingPrice
+																						item?.Product_SellingPrice.toString()
 																					)
 																			) >
 																			0.5
 																				? parseInt(
-																						product?.Product_SellingPrice
+																						item?.Product_SellingPrice.toString()
 																				  ) +
 																				  1
 																				: parseInt(
-																						product?.Product_SellingPrice
+																						item?.Product_SellingPrice.toString()
 																				  )
 																			).toLocaleString(
 																				undefined,
@@ -778,7 +787,7 @@ const Navbar = () => {
 									)}
 								</ul>
 							</li>
-							{isAuthenticated() ? (
+							{(async () => await isAuthenticated()) ? (
 								<li className="nav-item dropdown px-4 my-1">
 									<Link
 										to=""
@@ -895,5 +904,4 @@ const Navbar = () => {
 			)}
 		</>
 	);
-};
-export default Navbar;
+}

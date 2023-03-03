@@ -1,7 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import Base from "../../Base";
 import ReactImageMagnify from "react-image-magnify";
-import "hover.css";
 import { Helmet } from "react-helmet-async";
 import { singleProduct } from "../../data/products/products";
 import { BaseContext, ProductsContext } from "../../Context";

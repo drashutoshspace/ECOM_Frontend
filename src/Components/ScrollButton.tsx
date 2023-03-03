@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-const ScrollButton = () => {
+
+export default function ScrollButton(): JSX.Element {
 	const [visible, setVisible] = useState(false);
 	const toggleVisible = () => {
 		const scrolled = document.documentElement.scrollTop;
@@ -36,5 +37,4 @@ const ScrollButton = () => {
 			)}
 		</>
 	);
-};
-export default ScrollButton;
+}

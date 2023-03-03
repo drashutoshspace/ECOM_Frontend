@@ -10,7 +10,6 @@ import { SingleEntityContext } from "../../Contexts/SingleEntityContext";
 import { useEffect } from "react";
 import DataLoader from "../../Components/DataLoader";
 import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
 import { useNavigate } from "react-router-dom";
 const CartPage = () => {
 	const { cookies }: any = useContext(BaseContext);

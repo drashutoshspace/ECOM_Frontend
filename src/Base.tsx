@@ -1,13 +1,11 @@
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import ScrollButton from "./Components/ScrollButton";
 import CookiePolicyModal from "./Components/CookiePolicyModal";
 import HomeShape from "./Components/HomeShape";
 import AOS from "aos";
-import "aos/dist/aos.css";
 const Base = ({ children }: any) => {
 	useEffect(() => {
 		var mounted = true;

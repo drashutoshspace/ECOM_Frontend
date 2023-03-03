@@ -1,7 +1,4 @@
-// import Slider from "react-slick";
-// import "slick-carousel/slick/slick.css";
 import ShopCard from "../../Components/EcommerceComp/ShopCard";
-// import FeaturedProdCard from "../../Components/EcommerceComp/FeaturedProdCard";
 import Base from "../../Base";
 import { BaseContext, ProductsContext } from "../../Context";
 import { categoryWiseProducts } from "../../data/products/products";

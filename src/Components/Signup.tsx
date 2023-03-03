@@ -1,12 +1,17 @@
 import { useState } from "react";
-import { signup } from "../../helpers/auth/authentication";
+import { signUp } from "../APIs/user/user";
 import { Link, useNavigate } from "react-router-dom";
 import GoogleLogin from "react-google-login";
-import googleLogin from "../../helpers/auth/googleLogin";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
-import DataLoader2 from "../DataLoaders/DataLoader2";
-const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
+import DataLoader2 from "./DataLoader2";
+import { googleLogin } from "../APIs/user/user";
+
+export default function Signup({
+	handleToggle,
+	isAuthenticated,
+	handleNotification,
+}: any): JSX.Element {
 	const [values, setValues] = useState({
 		username: "",
 		email: "",
@@ -26,7 +31,7 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 		return valid;
 	}
 	const navigate = useNavigate();
-	const signupUser = (e: any) => {
+	const signupUser = async (e: any) => {
 		e.preventDefault();
 		setLoading(true);
 		if (password1 === password2 && password1 !== "") {
@@ -40,7 +45,7 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 					"Username can only contain letter and numbers!"
 				);
 			}
-			signup({
+			await signUp({
 				username: username,
 				email: email.toLowerCase(),
 				password1,
@@ -95,22 +100,22 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 			return toast.error(`Please check password field!`);
 		}
 	};
-	// const responseGoogle = (response) => {
-	// 	googleLogin(response.accessToken, () => {
-	// 		if (isAuthenticated()) {
-	// 			handleNotification("Login Successful", "success");
-	// 			return <Redirect to="/" />;
-	// 		}
-	// 	});
-	// };
-	// const fbResponse = (response) => {
-	// 	facebookLogin(response.accessToken, () => {
-	// 		if (isAuthenticated()) {
-	// 			handleNotification("Login Successful", "success");
-	// 			return <Redirect to="/" />;
-	// 		}
-	// 	});
-	// };
+	const responseGoogle = async (response: any) => {
+		await googleLogin({
+			access_token: response.accessToken,
+			code: response.code,
+			id_token: response.tokenId,
+		}).then((res: any) => {
+			if (res?.status === 200) {
+				if (async () => await isAuthenticated()) {
+					handleNotification("Login Successful", "success");
+					return navigate("/");
+				}
+			} else {
+				return toast.error(res?.error);
+			}
+		});
+	};
 	const [showPassword1, setShowPassword1] = useState(false);
 	const seePassword1 = () => {
 		setShowPassword1(!showPassword1);
@@ -263,13 +268,6 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 										</div>
 									</div>
 								</div>
-								<div className="col-lg-12 mb-4 d-flex">
-									<div className="col-lg-2 col-0" />
-									{/* <div className="col-lg-8 col-12 d-flex justify-content-center">
-										<ReCAPTCHA sitekey="6LfKX6AbAAAAACynAuG5H66l2w9Vru87ElhZQiYz" ref={recaptchaRef} onChange={handleRecaptcha} />
-									</div> */}
-									<div className="col-lg-2 col-0" />
-								</div>
 								<div className="col-lg-12">
 									<div className="d-grid">
 										<button
@@ -287,38 +285,13 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 										</button>
 									</div>
 								</div>
-								{/* <div className="col-lg-12 mt-4 text-center">
+								<div className="col-lg-12 mt-4 text-center">
 									<h3 className="colorblue my-1">
 										Or Sign Up With
 									</h3>
 									<div className="row">
 										<div className="col-6 mt-3">
 											<div className="d-grid">
-												<FacebookLogin
-													appId="876288792967969"
-													render={(renderProps) => (
-														<button
-															onClick={
-																renderProps.onClick
-															}
-															className="socialbutton bglightblue border-0 colorblue bgyellow cursorpointer border5px d-flex justify-content-center align-items-center px-2 my-2"
-														>
-															<img
-																src="images/FB_Button.svg"
-																height="20px"
-																alt="Facebook"
-															/>
-															&nbsp;&nbsp;
-															<b>Facebook</b>
-														</button>
-													)}
-													fields="name,email,picture"
-													callback={fbResponse}
-												/>
-											</div>
-										</div>
-										<div className="col-6 mt-3">
-											 <div className="d-grid">
 												<GoogleLogin
 													clientId="643639185226-rqi76uj45a2pbvmqrsvku1mqg4kgspvf.apps.googleusercontent.com"
 													render={(renderProps) => (
@@ -345,13 +318,13 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 															<b>Google</b>
 														</button>
 													)}
-													// onSuccess={responseGoogle}
-													// onFailure={responseGoogle}
+													onSuccess={responseGoogle}
+													onFailure={responseGoogle}
 												/>
 											</div>
 										</div>
 									</div>
-								</div> */}
+								</div>
 								<div className="col-12 text-center">
 									<p className="mb-0 fontsize16 mt-4">
 										<span className="colorblue me-2">
@@ -374,5 +347,4 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 			</div>
 		</>
 	);
-};
-export default Signup;
+}

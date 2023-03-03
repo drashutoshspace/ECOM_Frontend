@@ -11,16 +11,6 @@ const PreLoader = () => {
 			clearTimeout(timer);
 		};
 	}, []);
-	return (
-		<>
-			{redirect ? (
-				window.location.reload()
-			) : (
-				<>
-					<Loader />
-				</>
-			)}
-		</>
-	);
+	return <>{redirect ? window.location.reload() : <Loader />}</>;
 };
 export default PreLoader;

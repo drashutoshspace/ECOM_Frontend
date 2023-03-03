@@ -1,10 +1,11 @@
 import TestimonialsCard from "./TestimonialsCard";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import { testimonialsData } from "../data/others/testimonials";
+import { testimonialData } from "../APIs/misc/misc";
 import { useContext, useEffect } from "react";
 import { TestimonialsContext } from "../Context";
-const TestimonialsList = () => {
+import { Testimonials } from "../Interfaces/Misc";
+
+export default function TestimonialsList() {
 	const { testimonials, handleTestimonials }: any =
 		useContext(TestimonialsContext);
 	var settings = {
@@ -44,47 +45,47 @@ const TestimonialsList = () => {
 		],
 	};
 	useEffect(() => {
-		testimonialsData((data: any) => {
-			handleTestimonials(data);
-		});
+		const getTestimonial = async () => {
+			await testimonialData().then((data: any) => {
+				handleTestimonials(data);
+			});
+		};
+		getTestimonial();
 	}, []);
 	return (
-		<>
-			<section className="section bluebgrightinv pt-3 overflow-hidden">
-				<div className="container">
-					<div className="row justify-content-center">
-						<div className="col-12">
-							<div
-								className="section-title mb-2"
-								data-aos="zoom-in"
-								data-aos-duration="1000"
-								data-aos-once="true"
-							>
-								<h4 className="title colorblue">
-									Our Testimonials
-								</h4>
-							</div>
-						</div>
-					</div>
-					<div className="row justify-content-center">
-						<div className="col-lg-12 mt-4">
-							<Slider {...settings}>
-								{testimonials.map(
-									(testimonial: any, index: any) => {
-										return (
-											<TestimonialsCard
-												key={index}
-												testimonial={testimonial}
-											/>
-										);
-									}
-								)}
-							</Slider>
+		<section className="section bluebgrightinv pt-3 overflow-hidden">
+			<div className="container">
+				<div className="row justify-content-center">
+					<div className="col-12">
+						<div
+							className="section-title mb-2"
+							data-aos="zoom-in"
+							data-aos-duration="1000"
+							data-aos-once="true"
+						>
+							<h4 className="title colorblue">
+								Our Testimonials
+							</h4>
 						</div>
 					</div>
 				</div>
-			</section>
-		</>
+				<div className="row justify-content-center">
+					<div className="col-lg-12 mt-4">
+						<Slider {...settings}>
+							{testimonials.map(
+								(testimonial: Testimonials, index: number) => {
+									return (
+										<TestimonialsCard
+											key={index}
+											testimonial={testimonial}
+										/>
+									);
+								}
+							)}
+						</Slider>
+					</div>
+				</div>
+			</div>
+		</section>
 	);
-};
-export default TestimonialsList;
+}

@@ -15,7 +15,6 @@ import OrderDetailCard from "../../Components/OrderDetailCard";
 import { OrderDetailContext } from "../../Contexts/OrderDetailContext";
 import DataLoader2 from "../../Components/DataLoaders/DataLoader2";
 import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
 import { useMediaQuery } from "react-responsive";
 const Profile = () => {
 	const { option, id } = useParams();

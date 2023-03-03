@@ -10,7 +10,6 @@ import { BaseContext } from "../../Context";
 import { toast } from "react-toastify";
 import DataLoader2 from "../../Components/DataLoaders/DataLoader2";
 import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
 import { SingleEntityContext } from "../../Contexts/SingleEntityContext";
 import { profileDataUpdate } from "../../data/users/profileData";
 declare global {

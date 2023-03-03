@@ -2,27 +2,29 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { OrderDetailContext } from "../Contexts/OrderDetailContext";
 import tempImg from "../Assets/images/Product_3.webp";
-const OrderDetailCard = ({ id }: any) => {
+import { Order } from "../Interfaces/Orders";
+
+export default function OrderDetailCard({ id }: { id: string }): JSX.Element {
 	const { orderdetails } = useContext(OrderDetailContext);
 	return (
 		<>
 			{orderdetails.orderdetailItems.find(
-				(item: any) => item.order_id === id
+				(item: Order) => item.order_id === id
 			) &&
 			orderdetails.orderdetailItems.find(
-				(item: any) => item.order_id === id
+				(item: Order) => item.order_id === id
 			).products ? (
 				<>
 					<h3 className="colorblue text-center mb-4">
 						Products You Bought
 					</h3>
 					{orderdetails.orderdetailItems
-						.find((item: any) => item.order_id === id)
+						.find((item: Order) => item.order_id === id)
 						.products.split("\n")
 						.reverse()
 						.slice(1)
 						.reverse()
-						.map((order: any, index: any) => {
+						.map((order: string, index: number) => {
 							return (
 								<div key={index} className="row px-2 py-3">
 									<div className="col-4">
@@ -78,5 +80,4 @@ const OrderDetailCard = ({ id }: any) => {
 			)}
 		</>
 	);
-};
-export default OrderDetailCard;
+}

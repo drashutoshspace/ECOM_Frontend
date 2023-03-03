@@ -6,10 +6,8 @@ import { Helmet } from "react-helmet-async";
 import VisibilitySensor from "react-visibility-sensor";
 import CountUp from "react-countup";
 import AOS from "aos";
-import "aos/dist/aos.css";
 import TestimonialsList from "../Components/TestimonialsList";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
 import tempImg from "../Assets/images/User_Image.webp";
 const AboutUs = ({ ourTeam }: any) => {
 	const location = useLocation();

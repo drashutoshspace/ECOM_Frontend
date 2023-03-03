@@ -6,11 +6,8 @@ import { useEffect, useState } from "react";
 import Base from "../Base";
 import ProductList from "../Components/EcommerceComp/ProductList";
 import AOS from "aos";
-import "aos/dist/aos.css";
 import VisibilitySensor from "react-visibility-sensor";
 import { Helmet } from "react-helmet-async";
-import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "../../node_modules/bootstrap/dist/js/bootstrap.bundle.min";
 import { isAuthenticated } from "../helpers/auth/authentication";
 const Home = () => {
 	const [toggleAOS, setToggleAOS] = useState(false);
