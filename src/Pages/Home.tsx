@@ -1,15 +1,14 @@
 import Hero from "../Components/Hero";
-import Info1 from "../Components/Info1";
 import Counter from "../Components/Counter";
 import TestimonialsList from "../Components/TestimonialsList";
 import { useEffect, useState } from "react";
 import Base from "../Base";
-import ProductList from "../Components/EcommerceComp/ProductList";
+import ProductList from "../Components/ProductList";
 import AOS from "aos";
 import VisibilitySensor from "react-visibility-sensor";
 import { Helmet } from "react-helmet-async";
-import { isAuthenticated } from "../helpers/auth/authentication";
-const Home = () => {
+
+export default function Home() {
 	const [toggleAOS, setToggleAOS] = useState(false);
 	const [home_products, setHome_Products] = useState([]);
 	const handleHomeProducts = (array: any) => {
@@ -39,27 +38,15 @@ const Home = () => {
 				<title>MeeMo Kidz | Home</title>
 				<meta
 					name="description"
-					content="Spaceonova is an online learning portal by Spaceonova!"
+					content="MeeMo Kidz is an online kids toy store!"
 				/>
 				<meta
 					property="og:image"
-					content="https://www.spaceonova.space/images/Meta_Image.png"
+					content="https://www.meemokidz.com/images/Meta_Image.png"
 				/>
 			</Helmet>
 			<Base>
 				<Hero />
-				{/* {!isAuthenticated() && (
-					<>
-						<Info1 />
-						<VisibilitySensor
-							onChange={() => {
-								setToggleAOS(!toggleAOS);
-							}}
-						>
-							<Counter />
-						</VisibilitySensor>
-					</>
-				)} */}
 				<VisibilitySensor
 					onChange={() => {
 						setToggleAOS(!toggleAOS);
@@ -87,5 +74,4 @@ const Home = () => {
 			</Base>
 		</>
 	);
-};
-export default Home;
+}

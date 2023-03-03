@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { CartContext } from "../Contexts/CartContext";
 import { Link } from "react-router-dom";
 import { WishlistContext } from "../Contexts/WishlistContext";
-import tempImg from "../../Assets/images/Product_3.webp";
+import tempImg from "../Assets/images/Product_3.webp";
 import { BaseContext } from "../Context";
 import { toast } from "react-toastify";
 import { isAuthenticated } from "../APIs/user/user";
@@ -63,10 +63,7 @@ export default function ProfileWishlistCard({
 				<Link to={`/shop/products/${item?.guid}`}>
 					<img
 						className="border5px shadow w-100 h-auto"
-						src={
-							item?.Product_Images?.[0]?.dbImage ||
-							tempImg
-						}
+						src={item?.Product_Images?.[0]?.dbImage || tempImg}
 						alt="Product_Image"
 					/>
 				</Link>

@@ -43,7 +43,7 @@ export async function categoryWiseProducts(data: {
 	);
 }
 
-export async function singleProduct(data: { guid: string }): Promise<any> {
+export async function singleProduct(data: { guid?: string }): Promise<any> {
 	return await getWithoutAuthorization(
 		`${Products_API}/${data.guid}`,
 		"get product"
@@ -59,6 +59,10 @@ export async function search(data: {
 		`${Products_API}?limit=${data.limit}&offset=${data.offset}&search=${data.searchInput}`,
 		"search"
 	);
+}
+
+export async function fetchAllReviews(): Promise<any> {
+	return await getWithAuthorization(ReviewRatingForm_API, "get all reviews");
 }
 
 export async function singleReview(data: { guid: string }): Promise<any> {

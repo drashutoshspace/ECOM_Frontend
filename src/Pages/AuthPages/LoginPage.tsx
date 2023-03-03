@@ -1,7 +1,7 @@
 import Breadcrumb from "../../Components/Breadcrumb";
 import { useState } from "react";
 import Login from "../../Components/Login";
-import Signup from "../../Components/AuthComponents/Signup";
+import Signup from "../../Components/Signup";
 import Base from "../../Base";
 import { useMediaQuery } from "react-responsive";
 const LoginPage = ({ handleRememberMe, rememberMe }: any) => {

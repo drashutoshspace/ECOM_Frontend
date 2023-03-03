@@ -2,12 +2,13 @@ import Breadcrumb from "../Components/Breadcrumb";
 import { useContext, useState } from "react";
 import Base from "../Base";
 import { Helmet } from "react-helmet-async";
-import { contactusForm } from "../../src/helpers/others/contactusForm";
+import { contactUs } from "../APIs/misc/misc";
 import { toast } from "react-toastify";
-import DataLoader2 from "../Components/DataLoaders/DataLoader2";
-import { isAuthenticated } from "../helpers/auth/authentication";
+import DataLoader2 from "../Components/DataLoader2";
+import { isAuthenticated } from "../APIs/user/user";
 import { BaseContext } from "../Context";
-const ContactUs = () => {
+
+export default function ContactUs(): JSX.Element {
 	const { cookies }: any = useContext(BaseContext);
 	const [changeImage, setChangeImage] = useState(false);
 	const handleChangeImage = () => {
@@ -15,14 +16,14 @@ const ContactUs = () => {
 	};
 	const [loading, setLoading] = useState(false);
 	const [name, setName] = useState(
-		isAuthenticated()
+		(async () => await isAuthenticated())
 			? cookies?.user?.[0]?.first_name.length > 0
 				? cookies?.user?.[0]?.first_name
 				: cookies?.user?.[0]?.username
 			: ""
 	);
 	const [email, setEmail] = useState(
-		isAuthenticated() ? cookies?.user?.[0]?.email : ""
+		(async () => await isAuthenticated()) ? cookies?.user?.[0]?.email : ""
 	);
 	const [subject, setSubject] = useState("");
 	const [message, setMessage] = useState("");
@@ -30,8 +31,7 @@ const ContactUs = () => {
 		setLoading(true);
 		e.preventDefault();
 		if (email.includes("@")) {
-			await contactusForm(
-				{ name, email, subject, message },
+			await contactUs({ name, email, subject, message }).then(
 				(data: any) => {
 					if (data?.error) {
 						setLoading(false);
@@ -93,7 +93,8 @@ const ContactUs = () => {
 															type="text"
 															placeholder="Name"
 															value={
-																isAuthenticated()
+																(async () =>
+																	await isAuthenticated())
 																	? cookies
 																			?.user?.[0]
 																			?.first_name
@@ -115,7 +116,8 @@ const ContactUs = () => {
 															}}
 															required
 															disabled={
-																isAuthenticated()
+																(async () =>
+																	await isAuthenticated())
 																	? true
 																	: false
 															}
@@ -135,7 +137,8 @@ const ContactUs = () => {
 															type="email"
 															placeholder="Email"
 															value={
-																isAuthenticated()
+																(async () =>
+																	await isAuthenticated())
 																	? cookies
 																			?.user?.[0]
 																			?.email
@@ -149,7 +152,8 @@ const ContactUs = () => {
 															}}
 															required
 															disabled={
-																isAuthenticated()
+																(async () =>
+																	await isAuthenticated())
 																	? true
 																	: false
 															}
@@ -323,5 +327,4 @@ const ContactUs = () => {
 			</Base>
 		</>
 	);
-};
-export default ContactUs;
+}

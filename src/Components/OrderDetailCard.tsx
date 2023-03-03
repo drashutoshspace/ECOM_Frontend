@@ -4,7 +4,7 @@ import { OrderDetailContext } from "../Contexts/OrderDetailContext";
 import tempImg from "../Assets/images/Product_3.webp";
 import { Order } from "../Interfaces/Orders";
 
-export default function OrderDetailCard({ id }: { id: string }): JSX.Element {
+export default function OrderDetailCard({ id }: { id?: string }): JSX.Element {
 	const { orderdetails } = useContext(OrderDetailContext);
 	return (
 		<>

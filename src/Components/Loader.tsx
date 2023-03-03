@@ -1,4 +1,4 @@
-import LoaderSVG from "../../Assets/images/Loader.svg";
+import LoaderSVG from "../Assets/images/Loader.svg";
 
 export default function Loader(): JSX.Element {
 	return (

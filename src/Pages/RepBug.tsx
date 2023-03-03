@@ -4,8 +4,8 @@ import { useDropzone } from "react-dropzone";
 import Base from "../Base";
 import { Helmet } from "react-helmet-async";
 import { toast } from "react-toastify";
-import { reportabugForm } from "../helpers/others/reportabugForm";
-import DataLoader2 from "../Components/DataLoaders/DataLoader2";
+import { reportABug } from "../APIs/misc/misc";
+import DataLoader2 from "../Components/DataLoader2";
 import tempImg from "../Assets/images/Video_Icon.png";
 const thumbInner = {
 	display: "flex",
@@ -162,7 +162,7 @@ const RepBug = () => {
 	const [text, setText] = useState("");
 	const [image, setImage] = useState("");
 	const [loading, setloading] = useState(false);
-	const handleReportBug = (e: any) => {
+	const handleReportBug = async (e: any) => {
 		e.preventDefault();
 		setloading(true);
 		const uploadData = new FormData();
@@ -172,7 +172,7 @@ const RepBug = () => {
 			setloading(false);
 			return toast.error("Empty field!");
 		}
-		reportabugForm(uploadData, () => {
+		await reportABug(uploadData).then(() => {
 			setText("");
 			setloading(false);
 			return toast.success("Bug Submitted");

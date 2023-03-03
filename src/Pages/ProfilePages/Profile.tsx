@@ -4,18 +4,21 @@ import Breadcrumb from "../../Components/Breadcrumb";
 import { Helmet } from "react-helmet-async";
 import Base from "../../Base";
 import { WishlistContext } from "../../Contexts/WishlistContext";
-import ProfileWishlistCard from "../../Components/EcommerceComp/ProfileWishlistCard";
+import ProfileWishlistCard from "../../Components/ProfileWishlistCard";
 import { BaseContext } from "../../Context";
-import { profileDataUpdate } from "../../data/users/profileData";
+import {
+	profileDataUpdate,
+	passwordChange,
+	emailChange,
+} from "../../APIs/user/user";
 import { toast } from "react-toastify";
-import { passwordChange } from "../../helpers/auth/passChange";
-import { emailChange } from "../../helpers/auth/emailChange";
 import MyOrderCard from "../../Components/MyOrdersCard";
 import OrderDetailCard from "../../Components/OrderDetailCard";
 import { OrderDetailContext } from "../../Contexts/OrderDetailContext";
-import DataLoader2 from "../../Components/DataLoaders/DataLoader2";
+import DataLoader2 from "../../Components/DataLoader2";
 import PhoneInput from "react-phone-input-2";
 import { useMediaQuery } from "react-responsive";
+
 const Profile = () => {
 	const { option, id } = useParams();
 	const { orderdetails }: any = useContext(OrderDetailContext);
@@ -26,7 +29,7 @@ const Profile = () => {
 	const [loading, setLoading] = useState(false);
 	const [imageChanged, setImageChanged] = useState(false);
 	const [toggle, setToggle] = useState(false);
-	const handleProfileUpdate = (event: any, data: any) => {
+	const handleProfileUpdate = async (event: any, data: any) => {
 		event.preventDefault();
 		const uploadData = new FormData();
 		for (const key in profile) {
@@ -41,7 +44,7 @@ const Profile = () => {
 				!imageChanged && uploadData.set(key, "");
 			}
 		}
-		profileDataUpdate(uploadData, (d: any) => {
+		await profileDataUpdate(uploadData).then((d: any) => {
 			setToggle(!toggle);
 			setCookie("user", d, { path: "/" });
 			return toast.success("Your profile has been updated.");
@@ -86,63 +89,57 @@ const Profile = () => {
 	const seePassword2 = () => {
 		setShowPassword2(!showPassword2);
 	};
-	const changePassword = (e: any) => {
+	const changePassword = async (e: any) => {
 		e.preventDefault();
-		passwordChange(
-			{
-				old_password: oldPassword,
-				new_password1: password1,
-				new_password2: password2,
-			},
-			(data: any) => {
-				setOldPassword("");
-				setpassword1("");
-				setpassword2("");
-				if (data?.detail) {
-					setLoading(false);
-					return toast.success(data.detail);
-				}
-				if (data?.old_password) {
-					setLoading(false);
-					return toast.error(data.old_password[0]);
-				}
-				if (data?.new_password1) {
-					setLoading(false);
-					return toast.error(data.new_password1[0]);
-				}
-				if (data?.new_password2) {
-					setLoading(false);
-					return toast.error(data.new_password2[0]);
-				}
+		await passwordChange({
+			old_password: oldPassword,
+			new_password1: password1,
+			new_password2: password2,
+		}).then((data: any) => {
+			setOldPassword("");
+			setpassword1("");
+			setpassword2("");
+			if (data?.detail) {
+				setLoading(false);
+				return toast.success(data.detail);
 			}
-		);
+			if (data?.old_password) {
+				setLoading(false);
+				return toast.error(data.old_password[0]);
+			}
+			if (data?.new_password1) {
+				setLoading(false);
+				return toast.error(data.new_password1[0]);
+			}
+			if (data?.new_password2) {
+				setLoading(false);
+				return toast.error(data.new_password2[0]);
+			}
+		});
 	};
 	const [newEmail1, setNewEmail1] = useState("");
 	const [newEmail2, setNewEmail2] = useState("");
-	const changeEmail = (e: any) => {
+	const changeEmail = async (e: any) => {
 		e.preventDefault();
-		emailChange(
-			{
-				newemail1: newEmail1.toLowerCase(),
-				newemail2: newEmail2.toLowerCase(),
-			},
-			(data: any) => {
-				setNewEmail1("");
-				setNewEmail2("");
-				if (data?.detail) {
-					setLoading(false);
-					return toast.success(data.detail);
-				}
-				if (data?.newemail1) {
-					setLoading(false);
-					return toast.error(data.newemail1[0]);
-				}
-				if (data?.newemail2) {
-					setLoading(false);
-					return toast.error(data.newemail2[0]);
-				}
+		await emailChange({
+			newemail1: newEmail1.toLowerCase(),
+			newemail2: newEmail2.toLowerCase(),
+		}).then((data: any) => {
+			setNewEmail1("");
+			setNewEmail2("");
+			if (data?.detail) {
+				setLoading(false);
+				return toast.success(data.detail);
 			}
-		);
+			if (data?.newemail1) {
+				setLoading(false);
+				return toast.error(data.newemail1[0]);
+			}
+			if (data?.newemail2) {
+				setLoading(false);
+				return toast.error(data.newemail2[0]);
+			}
+		});
 	};
 	const [changeImage1, setChangeImage1] = useState(false);
 	const handleChangeImage1 = () => {

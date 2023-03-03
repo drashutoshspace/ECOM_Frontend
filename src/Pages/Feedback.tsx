@@ -2,9 +2,9 @@ import Breadcrumb from "../Components/Breadcrumb";
 import { useState } from "react";
 import Base from "../Base";
 import { Helmet } from "react-helmet-async";
-import { feedbackForm } from "../../src/helpers/others/feedbackForm";
+import { feedbackForm } from "../APIs/misc/misc";
 import { toast } from "react-toastify";
-import DataLoader2 from "../Components/DataLoaders/DataLoader2";
+import DataLoader2 from "../Components/DataLoader2";
 const Feedback = () => {
 	const [changeImage, setChangeImage] = useState(false);
 	const [dataLoading, setdDataLoading] = useState(false);
@@ -18,7 +18,7 @@ const Feedback = () => {
 		e.preventDefault();
 		setdDataLoading(true);
 		if (email.includes("@")) {
-			await feedbackForm(name, email, message).then((data) => {
+			await feedbackForm({ name, email, message }).then((data) => {
 				if (data.id) {
 					setName("");
 					setEmail("");
@@ -158,7 +158,7 @@ const Feedback = () => {
 															}
 														>
 															{dataLoading ? (
-																<DataLoader2 loaderType="ScaleLoader" />
+																<DataLoader2  />
 															) : (
 																"Submit"
 															)}

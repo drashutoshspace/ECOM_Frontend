@@ -33,7 +33,7 @@ export async function privacyPolicyData(): Promise<any> {
 	return await getWithoutAuthorization(PrivP_API, "get privacy policy");
 }
 
-export async function feedback(data: {
+export async function feedbackForm(data: {
 	name: string;
 	email: string;
 	message: string;

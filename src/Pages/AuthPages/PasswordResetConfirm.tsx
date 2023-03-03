@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { PasswordResetConfirm_API } from "../../backend";
 import Base from "../../Base";
 import { Helmet } from "react-helmet-async";
-import DataLoader2 from "../../Components/DataLoaders/DataLoader2";
+import DataLoader2 from "../../Components/DataLoader2";
 import Breadcrumb from "../../Components/Breadcrumb";
 import { BaseContext } from "../../Context";
 const PasswordResetConfirm = () => {

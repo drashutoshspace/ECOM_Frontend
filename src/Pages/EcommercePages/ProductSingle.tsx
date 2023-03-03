@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import Base from "../../Base";
 import ReactImageMagnify from "react-image-magnify";
 import { Helmet } from "react-helmet-async";
-import { singleProduct } from "../../data/products/products";
+import { singleProduct } from "../../APIs/ecommerce/ecommerce";
 import { BaseContext, ProductsContext } from "../../Context";
 import { CartContext } from "../../Contexts/CartContext";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
@@ -14,18 +14,21 @@ import {
 	WhatsappShareButton,
 } from "react-share";
 import {
-	updateReview,
+	singleReview,
 	deleteReview,
-	reviewratingForm,
-} from "../../helpers/others/reviewratingForm";
-import { singleReview, reviews } from "../../data/others/reviews";
+	updateReview,
+	reviewRating,
+	ratingCount,
+	fetchAllReviews,
+} from "../../APIs/ecommerce/ecommerce";
 import tempImg from "../../Assets/images/Product_3.webp";
 import tempImg1 from "../../Assets/images/User_Image.webp";
 import { toast } from "react-toastify";
-import { isAuthenticated } from "../APIs/user/user";
+import { isAuthenticated } from "../../APIs/user/user";
 import DataLoader from "../../Components/DataLoader";
-import DataLoader2 from "../../Components/DataLoaders/DataLoader2";
-const ProductSingle = () => {
+import DataLoader2 from "../../Components/DataLoader2";
+
+export default function ProductSingle(): JSX.Element {
 	const { id } = useParams();
 	const { findProduct, product }: any = useContext(ProductsContext);
 	const { cookies }: any = useContext(BaseContext);
@@ -50,13 +53,13 @@ const ProductSingle = () => {
 		};
 	}, [animateButton]);
 	const { addProduct, cartItems, increase }: any = useContext(CartContext);
-	const isInCart = (id: any, userID: any) => {
+	const isInCart = (id: string, userID: string) => {
 		return !!!cartItems.products.find(
 			(item: any) => item.product.guid === id && item.userID === userID
 		);
 	};
-	var stars: any = [];
-	var showStars1 = (number: any) => {
+	var stars: JSX.Element[] = [];
+	var showStars1 = (number: number) => {
 		for (var i = 0; i < number; i++) {
 			stars.push(
 				<li
@@ -76,7 +79,7 @@ const ProductSingle = () => {
 	/* -------------------------------------------------------------------------- */
 	/*                           ANCHOR stars for rating                          */
 	/* -------------------------------------------------------------------------- */
-	var showStarsForRating = (number: any) => {
+	var showStarsForRating = (number: number) => {
 		var starsForRating = [];
 		for (var i = 0; i < number; i++) {
 			starsForRating.push(
@@ -86,7 +89,7 @@ const ProductSingle = () => {
 		return starsForRating;
 	};
 	const [target, setTarget] = useState(-1);
-	var showStarsForRatingForm = (number: any, indexValue: any) => {
+	var showStarsForRatingForm = (number: number, indexValue: number) => {
 		var starsForRatingForm = [];
 		for (var i = 0; i < number; i++) {
 			starsForRatingForm.push(
@@ -120,7 +123,7 @@ const ProductSingle = () => {
 					"Please recheck whether you have filled the form correctly or not!"
 				);
 			}
-			await reviewratingForm(product.guid, review, rating).then(
+			await reviewRating({ guid: product.guid, rating, review }).then(
 				(data) => {
 					if (data.user) {
 						setToggleButton(!toggleButton);
@@ -142,7 +145,7 @@ const ProductSingle = () => {
 	const [isReviewed, setIsReviewed] = useState(false);
 	const [reviewID, setReviewID] = useState(null);
 	const revs = async (item: any) => {
-		await reviews((data: any) => {
+		await fetchAllReviews().then(async (data: any) => {
 			if (data.find((review: any) => review.product_id === item?.guid)) {
 				setAllReviews(
 					data.filter(
@@ -160,8 +163,8 @@ const ProductSingle = () => {
 						)
 				) {
 					setIsReviewed(true);
-					singleReview(
-						data
+					await singleReview({
+						guid: data
 							.filter(
 								(review: any) =>
 									review.product_id === item?.guid
@@ -170,25 +173,21 @@ const ProductSingle = () => {
 								(item: any) =>
 									item?.user?.id === cookies?.user?.[0]?.id
 							).id,
-						(data: any) => {
-							setReview(data?.review);
-							setRating(data?.rating);
-							setTarget(data?.rating - 1);
-							showStarsForRatingForm(
-								data?.rating,
-								data?.rating - 1
-							);
-							setReviewID(data?.id);
-							setProduct_id(data?.product_id);
-						}
-					);
+					}).then((data: any) => {
+						setReview(data?.review);
+						setRating(data?.rating);
+						setTarget(data?.rating - 1);
+						showStarsForRatingForm(data?.rating, data?.rating - 1);
+						setReviewID(data?.id);
+						setProduct_id(data?.product_id);
+					});
 				} else setIsReviewed(false);
 			}
 		});
 	};
 	const reviewDelete = async (e: any, id: any) => {
 		e.preventDefault();
-		await deleteReview(id);
+		await deleteReview({ id });
 		setAllReviews(allReviews.filter((item: any) => item.id !== id));
 		setIsReviewed(false);
 		setRating(0);
@@ -199,20 +198,23 @@ const ProductSingle = () => {
 	};
 	const reviewUpdate = async (e: any, rev: any) => {
 		e.preventDefault();
-		await updateReview(rev, {
-			product_id,
-			review,
+		await updateReview({
+			id: rev,
 			rating,
+			review,
 		});
 		revs(product);
 		return toast.success("Review Updated Successfully!");
 	};
 	useEffect(() => {
-		singleProduct(id, (data: any) => {
-			findProduct(data);
-			revs(data);
-			setLoading(false);
-		});
+		const getSingleProduct = async () => {
+			await singleProduct({ guid: id }).then((data: any) => {
+				findProduct(data);
+				revs(data);
+				setLoading(false);
+			});
+		};
+		getSingleProduct();
 	}, []);
 	useEffect(() => {
 		var mounted = true;
@@ -408,7 +410,10 @@ const ProductSingle = () => {
 															: "add-to-cart d-flex fontsize20 justify-content-center align-items-center mybtnsame position-relative h-100 w-100 overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase"
 													}`}
 													onClick={() => {
-														if (isAuthenticated()) {
+														if (
+															async () =>
+																await isAuthenticated()
+														) {
 															setAnimateButton(
 																true
 															);
@@ -461,7 +466,10 @@ const ProductSingle = () => {
 															: "add-to-cart d-flex fontsize20 justify-content-center align-items-center mybtnsame position-relative h-100 w-100 overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase"
 													}`}
 													onClick={() => {
-														if (isAuthenticated()) {
+														if (
+															async () =>
+																await isAuthenticated()
+														) {
 															setAnimateButton(
 																true
 															);
@@ -1057,5 +1065,4 @@ const ProductSingle = () => {
 			</Base>
 		</>
 	);
-};
-export default ProductSingle;
+}

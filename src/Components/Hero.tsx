@@ -90,7 +90,7 @@ export default function Hero(): JSX.Element {
 	useEffect(() => {
 		async function bannerCall() {
 			await getBanner().then((res) => {
-				if (res?.status === 200) {
+				if (res?.banner) {
 					setHeroSlides(res.banner);
 				} else {
 					return toast.error(res.email[0]);
