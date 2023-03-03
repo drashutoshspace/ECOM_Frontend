@@ -53,7 +53,7 @@ export async function singleProduct(data: { guid: string }): Promise<any> {
 export async function search(data: {
 	limit?: number;
 	offset?: number;
-	searchInput: string;
+	searchInput?: string;
 }): Promise<any> {
 	return await getWithoutAuthorization(
 		`${Products_API}?limit=${data.limit}&offset=${data.offset}&search=${data.searchInput}`,

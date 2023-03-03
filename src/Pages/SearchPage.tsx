@@ -3,12 +3,12 @@ import { useParams } from "react-router-dom";
 import Breadcrumb from "../Components/Breadcrumb";
 import Base from "../Base";
 import { Helmet } from "react-helmet-async";
-import { search } from "../data/others/search";
+import { search } from "../APIs/ecommerce/ecommerce";
 import DataLoader from "../Components/DataLoader";
-import ProductListCard from "../Components/EcommerceComp/ProductListCard";
+import ProductListCard from "../Components/ProductListCard";
 import ReactPaginate from "react-paginate";
 const SearchPage = ({ searchResults, setSearchResults }: any) => {
-	const { input } = useParams();
+	const { input } = useParams<string>();
 	// ANCHOR Pagination
 	const [currentPage, setCurrentPage] = useState(0);
 	const [pageCount, setPageCount] = useState(1);
@@ -22,11 +22,16 @@ const SearchPage = ({ searchResults, setSearchResults }: any) => {
 	const [loading, setLoading] = useState(true);
 	const [resultsCount, setResultsCount] = useState(-1);
 	useEffect(() => {
-		search(input, PER_PAGE, offset, (data: any) => {
-			setSearchResults(data.results);
-			setResultsCount(data?.count);
-			setPageCount(data?.count / PER_PAGE);
-		});
+		const doSearch = async () => {
+			await search({ limit: PER_PAGE, offset, searchInput: input }).then(
+				(data: any) => {
+					setSearchResults(data.results);
+					setResultsCount(data?.count);
+					setPageCount(data?.count / PER_PAGE);
+				}
+			);
+		};
+		doSearch();
 	}, [input, currentPage]);
 	useEffect(() => {
 		searchResults?.length > 0 && setLoading(false);

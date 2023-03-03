@@ -2,16 +2,16 @@ import Breadcrumb from "../../Components/Breadcrumb";
 import { useState, useEffect, useContext } from "react";
 import { CartContext } from "../../Contexts/CartContext";
 import Base from "../../Base";
-import { coupon, razorpaykey } from "../../helpers/ecom/checkout";
+import { razorpayKey, coupon } from "../../APIs/ecommerce/ecommerce";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Payment_API, PaymentSuccess_API } from "../../backend";
 import { Helmet } from "react-helmet-async";
 import { BaseContext } from "../../Context";
 import { toast } from "react-toastify";
-import DataLoader2 from "../../Components/DataLoaders/DataLoader2";
+import DataLoader2 from "../../Components/DataLoader2";
 import PhoneInput from "react-phone-input-2";
 import { SingleEntityContext } from "../../Contexts/SingleEntityContext";
-import { profileDataUpdate } from "../../data/users/profileData";
+import { profileDataUpdate } from "../../APIs/user/user";
 declare global {
 	interface Window {
 		Razorpay: any;
@@ -348,9 +348,12 @@ const Checkout = () => {
 	useEffect(() => {
 		var mounted = true;
 		if (mounted) {
-			razorpaykey((data: any) => {
-				setChangeRZKey(data);
-			});
+			const getRazorpayKey = async () => {
+				await razorpayKey().then((data: any) => {
+					setChangeRZKey(data);
+				});
+			};
+			getRazorpayKey();
 		}
 		return () => {
 			mounted = false;

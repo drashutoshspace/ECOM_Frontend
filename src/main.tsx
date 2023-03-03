@@ -11,10 +11,10 @@ import "react-toastify/dist/ReactToastify.css";
 import "hover.css";
 import "animate.css";
 import "slick-carousel/slick/slick.css";
-import "../../../node_modules/hamburgers/dist/hamburgers.min.css";
+import "../node_modules/hamburgers/dist/hamburgers.min.css";
 import "aos/dist/aos.css";
-import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "../../node_modules/bootstrap/dist/js/bootstrap.bundle.min";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "react-phone-input-2/lib/style.css";
 

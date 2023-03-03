@@ -1,13 +1,16 @@
 import Breadcrumb from "../Components/Breadcrumb";
-import { testimonialsData } from "../data/others/testimonials";
+import { testimonialData } from "../APIs/misc/misc";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Base from "../Base";
 const Testimonials = ({ handleTestimonials, testimonials }: any) => {
 	useEffect(() => {
-		testimonialsData((data: any) => {
-			handleTestimonials(data);
-		});
+		const getTestimonial = async () => {
+			await testimonialData().then((data: any) => {
+				handleTestimonials(data);
+			});
+		};
+		getTestimonial();
 	}, []);
 	const [changeImage1, setChangeImage1] = useState(false);
 	const handleChangeImage1 = () => {
