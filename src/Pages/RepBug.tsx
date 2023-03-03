@@ -170,26 +170,12 @@ const RepBug = () => {
 		uploadData.append("file", image);
 		if (text === "") {
 			setloading(false);
-			return toast("Empty field!", {
-				type: "error",
-				autoClose: 5000,
-				position: "bottom-center",
-				hideProgressBar: false,
-				pauseOnHover: true,
-				pauseOnFocusLoss: true,
-			});
+			return toast.error("Empty field!");
 		}
 		reportabugForm(uploadData, () => {
 			setText("");
 			setloading(false);
-			return toast("Bug Submitted", {
-				type: "success",
-				autoClose: 5000,
-				position: "bottom-center",
-				hideProgressBar: false,
-				pauseOnHover: true,
-				pauseOnFocusLoss: true,
-			});
+			return toast.success("Bug Submitted");
 		});
 	};
 	const handleDropImage = async (drop: any) => {

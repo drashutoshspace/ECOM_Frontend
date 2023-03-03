@@ -24,28 +24,14 @@ const Feedback = () => {
 					setEmail("");
 					setMessage("");
 					setdDataLoading(false);
-					return toast("Feedback Posted", {
-						type: "success",
-						autoClose: 5000,
-						position: "bottom-center",
-						hideProgressBar: false,
-						pauseOnHover: true,
-						pauseOnFocusLoss: true,
-					});
+					return toast.success("Feedback Posted");
 				} else {
 					setdDataLoading(false);
 				}
 			});
 		} else {
 			setdDataLoading(false);
-			return toast("You have not entered an email.", {
-				type: "error",
-				autoClose: 5000,
-				position: "bottom-center",
-				hideProgressBar: false,
-				pauseOnHover: true,
-				pauseOnFocusLoss: true,
-			});
+			return toast.error("You have not entered an email.");
 		}
 	};
 	return (

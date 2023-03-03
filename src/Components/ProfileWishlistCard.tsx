@@ -127,9 +127,8 @@ const ProfileWishlistCard = ({ item }: any) => {
 																.user[0].id,
 														});
 													} else {
-														return toast(
-															"Please login to access Cart!",
-															{ type: "warning" }
+														return toast.warning(
+															"Please login to access Cart!"
 														);
 													}
 												}}
@@ -171,9 +170,8 @@ const ProfileWishlistCard = ({ item }: any) => {
 														setAnimateButton(true);
 														setAddStatus("add");
 													} else {
-														return toast(
-															"Please login first!",
-															{ type: "warning" }
+														return toast.warning(
+															"Please login first!"
 														);
 													}
 												}}

@@ -194,14 +194,7 @@ const Checkout = () => {
 					return res.json();
 				})
 				.then((data) => {
-					return toast(data?.message, {
-						type: "success",
-						autoClose: 5000,
-						position: "bottom-center",
-						hideProgressBar: false,
-						pauseOnHover: true,
-						pauseOnFocusLoss: true,
-					});
+					return toast.success(data?.message);
 				})
 				.catch((err) => {
 					console.log(err);
@@ -350,11 +343,6 @@ const Checkout = () => {
 			}
 			return toast(data?.message, {
 				type: `${data?.cashback ? "success" : "error"}`,
-				autoClose: 5000,
-				position: "bottom-center",
-				hideProgressBar: false,
-				pauseOnHover: true,
-				pauseOnFocusLoss: true,
 			});
 		});
 	};

@@ -135,14 +135,7 @@ const Routes = () => {
 		event.preventDefault();
 		signout((data: any) => {
 			removeCookie("user", { path: "/" });
-			return toast(data?.detail, {
-				type: "success",
-				autoClose: 5000,
-				position: "bottom-center",
-				hideProgressBar: false,
-				pauseOnHover: true,
-				pauseOnFocusLoss: true,
-			});
+			return toast.success(data?.detail);
 		});
 	};
 	useEffect(() => {
@@ -188,34 +181,13 @@ const Routes = () => {
 	};
 	useEffect((): any => {
 		if (notificationType === "success") {
-			return toast(notification, {
-				type: "success",
-				autoClose: 5000,
-				position: "bottom-center",
-				hideProgressBar: false,
-				pauseOnHover: true,
-				pauseOnFocusLoss: true,
-			});
+			return toast.success(notification);
 		}
 		if (notificationType === "error") {
-			return toast(notification, {
-				type: "error",
-				autoClose: 5000,
-				position: "bottom-center",
-				hideProgressBar: false,
-				pauseOnHover: true,
-				pauseOnFocusLoss: true,
-			});
+			return toast.error(notification);
 		}
 		if (notificationType === "warning") {
-			return toast(notification, {
-				type: "warning",
-				autoClose: 5000,
-				position: "bottom-center",
-				hideProgressBar: false,
-				pauseOnHover: true,
-				pauseOnFocusLoss: true,
-			});
+			return toast.warning(notification);
 		}
 	}, [toggleNotification]);
 

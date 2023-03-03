@@ -172,9 +172,8 @@ const ShopCard = ({ product }: any) => {
 													userID: cookies.user[0].id,
 												});
 											} else {
-												return toast(
-													"Please login to access Cart!",
-													{ type: "warning" }
+												return toast.warning(
+													"Please login to access Cart!"
 												);
 											}
 										}}
@@ -216,9 +215,8 @@ const ShopCard = ({ product }: any) => {
 												setAnimateButton(true);
 												setAddStatus("add");
 											} else {
-												return toast(
-													"Please login first!",
-													{ type: "warning" }
+												return toast.warning(
+													"Please login first!"
 												);
 											}
 										}}

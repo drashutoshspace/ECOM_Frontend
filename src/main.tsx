@@ -24,7 +24,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 								theme="colored"
 								position="bottom-center"
 								autoClose={5000}
-								hideProgressBar={true}
+								hideProgressBar={false}
 								pauseOnFocusLoss
 								pauseOnHover
 							/>

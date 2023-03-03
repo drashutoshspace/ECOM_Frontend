@@ -117,11 +117,8 @@ const ProductSingle = () => {
 		if (localStorage.getItem("token")) {
 			if (target === -1) {
 				setDataLoading(false);
-				return toast(
-					"Please recheck whether you have filled the form correctly or not!",
-					{
-						type: "error",
-					}
+				return toast.error(
+					"Please recheck whether you have filled the form correctly or not!"
 				);
 			}
 			await reviewratingForm(product.guid, review, rating).then(
@@ -129,14 +126,10 @@ const ProductSingle = () => {
 					if (data.user) {
 						setToggleButton(!toggleButton);
 						setDataLoading(false);
-						return toast("Review Posted!", {
-							type: "success",
-						});
+						return toast.success("Review Posted!");
 					} else {
 						setDataLoading(false);
-						return toast("Something went wrong!", {
-							type: "error",
-						});
+						return toast.error("Something went wrong!");
 					}
 				}
 			);
@@ -203,7 +196,7 @@ const ProductSingle = () => {
 		setTarget(-1);
 		setReview("");
 		setProduct_id("");
-		return toast("Review Deleted Successfully!", { type: "success" });
+		return toast.success("Review Deleted Successfully!");
 	};
 	const reviewUpdate = async (e: any, rev: any) => {
 		e.preventDefault();
@@ -213,7 +206,7 @@ const ProductSingle = () => {
 			rating,
 		});
 		revs(product);
-		return toast("Review Updated Successfully!", { type: "success" });
+		return toast.success("Review Updated Successfully!");
 	};
 	useEffect(() => {
 		singleProduct(id, (data: any) => {
@@ -428,11 +421,8 @@ const ProductSingle = () => {
 																	.user[0].id,
 															});
 														} else {
-															return toast(
-																"Please login to access Cart!",
-																{
-																	type: "warning",
-																}
+															return toast.warning(
+																"Please login to access Cart!"
 															);
 														}
 													}}
@@ -485,11 +475,8 @@ const ProductSingle = () => {
 																	.user[0].id,
 															});
 														} else {
-															return toast(
-																"Please login first",
-																{
-																	type: "warning",
-																}
+															return toast.warning(
+																"Please login first"
 															);
 														}
 													}}

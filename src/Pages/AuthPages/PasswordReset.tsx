@@ -29,26 +29,12 @@ const PasswordReset = () => {
 				if (data?.detail) {
 					setEmail("");
 					setLoading(false);
-					return toast(data.detail, {
-						type: "info",
-						autoClose: 5000,
-						position: "bottom-center",
-						hideProgressBar: false,
-						pauseOnHover: true,
-						pauseOnFocusLoss: true,
-					});
+					return toast.info(data.detail);
 				} else {
 					setLoading(false);
 					if (data?.email?.[0]) {
 						setEmail("");
-						return toast(`email: ${data.email[0]}`, {
-							type: "error",
-							autoClose: 5000,
-							position: "bottom-center",
-							hideProgressBar: false,
-							pauseOnHover: true,
-							pauseOnFocusLoss: true,
-						});
+						return toast.error(`email: ${data.email[0]}`);
 					}
 				}
 			})

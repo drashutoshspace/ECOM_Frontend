@@ -35,41 +35,20 @@ const ContactUs = () => {
 				(data: any) => {
 					if (data?.error) {
 						setLoading(false);
-						return toast(data.error, {
-							type: "error",
-							autoClose: 5000,
-							position: "bottom-center",
-							hideProgressBar: false,
-							pauseOnHover: true,
-							pauseOnFocusLoss: true,
-						});
+						return toast.error(data.error);
 					} else {
 						setName("");
 						setEmail("");
 						setSubject("");
 						setMessage("");
 						setLoading(false);
-						return toast("Form submitted!", {
-							type: "success",
-							autoClose: 5000,
-							position: "bottom-center",
-							hideProgressBar: false,
-							pauseOnHover: true,
-							pauseOnFocusLoss: true,
-						});
+						return toast.success("Form submitted!");
 					}
 				}
 			);
 		} else {
 			setLoading(false);
-			return toast("You have not entered an email.", {
-				type: "error",
-				autoClose: 5000,
-				position: "bottom-center",
-				hideProgressBar: false,
-				pauseOnHover: true,
-				pauseOnFocusLoss: true,
-			});
+			return toast.error("You have not entered an email.");
 		}
 	};
 	return (

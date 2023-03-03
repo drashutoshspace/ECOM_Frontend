@@ -45,14 +45,7 @@ const Profile = () => {
 		profileDataUpdate(uploadData, (d: any) => {
 			setToggle(!toggle);
 			setCookie("user", d, { path: "/" });
-			return toast("Your profile has been updated.", {
-				type: "success",
-				autoClose: 5000,
-				position: "bottom-center",
-				hideProgressBar: false,
-				pauseOnHover: true,
-				pauseOnFocusLoss: true,
-			});
+			return toast.success("Your profile has been updated.");
 		});
 		setImageChanged(false);
 	};
@@ -108,47 +101,19 @@ const Profile = () => {
 				setpassword2("");
 				if (data?.detail) {
 					setLoading(false);
-					return toast(data.detail, {
-						type: "success",
-						autoClose: 5000,
-						position: "bottom-center",
-						hideProgressBar: false,
-						pauseOnHover: true,
-						pauseOnFocusLoss: true,
-					});
+					return toast.success(data.detail);
 				}
 				if (data?.old_password) {
 					setLoading(false);
-					return toast(data.old_password[0], {
-						type: "error",
-						autoClose: 5000,
-						position: "bottom-center",
-						hideProgressBar: false,
-						pauseOnHover: true,
-						pauseOnFocusLoss: true,
-					});
+					return toast.error(data.old_password[0]);
 				}
 				if (data?.new_password1) {
 					setLoading(false);
-					return toast(data.new_password1[0], {
-						type: "error",
-						autoClose: 5000,
-						position: "bottom-center",
-						hideProgressBar: false,
-						pauseOnHover: true,
-						pauseOnFocusLoss: true,
-					});
+					return toast.error(data.new_password1[0]);
 				}
 				if (data?.new_password2) {
 					setLoading(false);
-					return toast(data.new_password2[0], {
-						type: "error",
-						autoClose: 5000,
-						position: "bottom-center",
-						hideProgressBar: false,
-						pauseOnHover: true,
-						pauseOnFocusLoss: true,
-					});
+					return toast.error(data.new_password2[0]);
 				}
 			}
 		);
@@ -167,36 +132,15 @@ const Profile = () => {
 				setNewEmail2("");
 				if (data?.detail) {
 					setLoading(false);
-					return toast(data.detail, {
-						type: "success",
-						autoClose: 5000,
-						position: "bottom-center",
-						hideProgressBar: false,
-						pauseOnHover: true,
-						pauseOnFocusLoss: true,
-					});
+					return toast.success(data.detail);
 				}
 				if (data?.newemail1) {
 					setLoading(false);
-					return toast(data.newemail1[0], {
-						type: "error",
-						autoClose: 5000,
-						position: "bottom-center",
-						hideProgressBar: false,
-						pauseOnHover: true,
-						pauseOnFocusLoss: true,
-					});
+					return toast.error(data.newemail1[0]);
 				}
 				if (data?.newemail2) {
 					setLoading(false);
-					return toast(data.newemail2[0], {
-						type: "error",
-						autoClose: 5000,
-						position: "bottom-center",
-						hideProgressBar: false,
-						pauseOnHover: true,
-						pauseOnFocusLoss: true,
-					});
+					return toast.error(data.newemail2[0]);
 				}
 			}
 		);

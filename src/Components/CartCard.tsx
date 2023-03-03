@@ -101,9 +101,8 @@ export default function CartCard({ item }: { item: CartItem }): JSX.Element {
 										if (await isAuthenticated()) {
 											setPlusMinusStatus("decrease");
 										} else {
-											return toast(
-												"Please login first!",
-												{ type: "warning" }
+											return toast.warning(
+												"Please login first!"
 											);
 										}
 									}}
@@ -124,9 +123,8 @@ export default function CartCard({ item }: { item: CartItem }): JSX.Element {
 										if (await isAuthenticated()) {
 											setPlusMinusStatus("increase");
 										} else {
-											return toast(
-												"Please login first!",
-												{ type: "warning" }
+											return toast.warning(
+												"Please login first!"
 											);
 										}
 									}}

@@ -43,36 +43,16 @@ const PasswordResetConfirm = () => {
 				} else {
 					setLoading(false);
 					if (data?.new_password1?.[0]) {
-						return toast(`password: ${data.new_password1[0]}`, {
-							type: "error",
-							autoClose: 5000,
-							position: "bottom-center",
-							hideProgressBar: false,
-							pauseOnHover: true,
-							pauseOnFocusLoss: true,
-						});
+						return toast.error(
+							`password: ${data.new_password1[0]}`
+						);
 					}
 					if (data?.new_password2?.[0]) {
-						return toast(`${data.new_password2[0]}`, {
-							type: "error",
-							autoClose: 5000,
-							position: "bottom-center",
-							hideProgressBar: false,
-							pauseOnHover: true,
-							pauseOnFocusLoss: true,
-						});
+						return toast.error(`${data.new_password2[0]}`);
 					}
 					if (data?.token?.[0] === "Invalid value") {
-						return toast(
-							"Password reset link might have been expired.",
-							{
-								type: "warning",
-								autoClose: 5000,
-								position: "bottom-center",
-								hideProgressBar: false,
-								pauseOnHover: true,
-								pauseOnFocusLoss: true,
-							}
+						return toast.warning(
+							"Password reset link might have been expired."
 						);
 					}
 				}

@@ -49,17 +49,17 @@ export default function Login({
 			mounted = false;
 		};
 	}, [emailOrUsername]);
-	const loginUser = (event: any) => {
+	const loginUser = async (event: any) => {
 		event.preventDefault();
 		setLoading(true);
 		setValues({
 			...values,
 		});
-		signIn({ username, email, password })
-			.then((data) => {
+		await signIn({ username, email, password })
+			.then(async (data) => {
 				if (data?.key) {
 					let sessionToken = data.key;
-					authenticate(sessionToken, () => {
+					await authenticate(sessionToken, () => {
 						setValues({
 							...values,
 						});
@@ -69,34 +69,13 @@ export default function Login({
 				} else {
 					setLoading(false);
 					if (data?.non_field_errors?.[0]) {
-						return toast(data.non_field_errors[0], {
-							type: "error",
-							autoClose: 5000,
-							position: "bottom-center",
-							hideProgressBar: false,
-							pauseOnHover: true,
-							pauseOnFocusLoss: true,
-						});
+						return toast.error(data.non_field_errors[0]);
 					}
 					if (data?.password?.[0]) {
-						return toast(`password: ${data.password[0]}`, {
-							type: "error",
-							autoClose: 5000,
-							position: "bottom-center",
-							hideProgressBar: false,
-							pauseOnHover: true,
-							pauseOnFocusLoss: true,
-						});
+						return toast.error(`password: ${data.password[0]}`);
 					}
 					if (data?.email?.[0]) {
-						return toast(`email: ${data.email[0]}`, {
-							type: "error",
-							autoClose: 5000,
-							position: "bottom-center",
-							hideProgressBar: false,
-							pauseOnHover: true,
-							pauseOnFocusLoss: true,
-						});
+						return toast.error(`email: ${data.email[0]}`);
 					}
 				}
 			})

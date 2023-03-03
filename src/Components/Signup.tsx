@@ -2,13 +2,10 @@ import { useState } from "react";
 import { signup } from "../../helpers/auth/authentication";
 import { Link, useNavigate } from "react-router-dom";
 import GoogleLogin from "react-google-login";
-// import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import googleLogin from "../../helpers/auth/googleLogin";
-import facebookLogin from "../../helpers/auth/facebookLogin";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 import DataLoader2 from "../DataLoaders/DataLoader2";
-// import ReCAPTCHA from "react-google-recaptcha";
 const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 	const [values, setValues] = useState({
 		username: "",
@@ -23,13 +20,6 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 		setValues({ ...values, error: false, [name]: event.target.value });
 	};
 	const [loading, setLoading] = useState(false);
-	// const recaptchaRef = useRef();
-	const [disable, setDisable] = useState(true);
-	// const handleRecaptcha = () => {
-	// 	if (recaptchaRef.current.getValue()) {
-	// 		setDisable(false);
-	// 	}
-	// };
 	function isUserNameValid(username: any) {
 		const res = /^[a-zA-Z0-9_\.]+$/.exec(username);
 		const valid = !!res;
@@ -39,10 +29,6 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 	const signupUser = (e: any) => {
 		e.preventDefault();
 		setLoading(true);
-		// if (disable) {
-		// 	setLoading(false);
-		// 	return toast("ReCaptcha Pending!", { type: "error", autoClose: 5000, position: "bottom-center", hideProgressBar: false, pauseOnHover: true, pauseOnFocusLoss: true });
-		// }
 		if (password1 === password2 && password1 !== "") {
 			if (!isUserNameValid(values.username)) {
 				setValues({
@@ -50,14 +36,9 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 					username: "",
 				});
 				setLoading(false);
-				return toast("Username can only contain letter and numbers!", {
-					type: "error",
-					autoClose: 5000,
-					position: "bottom-center",
-					hideProgressBar: false,
-					pauseOnHover: true,
-					pauseOnFocusLoss: true,
-				});
+				return toast.error(
+					"Username can only contain letter and numbers!"
+				);
 			}
 			signup({
 				username: username,
@@ -81,58 +62,27 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 					} else {
 						if (data?.non_field_errors?.[0]) {
 							setLoading(false);
-							return toast(data.non_field_errors[0], {
-								type: "error",
-								autoClose: 5000,
-								position: "bottom-center",
-								hideProgressBar: false,
-								pauseOnHover: true,
-								pauseOnFocusLoss: true,
-							});
+							return toast.error(data.non_field_errors[0]);
 						}
 						if (data?.password1?.[0]) {
 							setLoading(false);
-							return toast(`password: ${data.password1[0]}`, {
-								type: "error",
-								autoClose: 5000,
-								position: "bottom-center",
-								hideProgressBar: false,
-								pauseOnHover: true,
-								pauseOnFocusLoss: true,
-							});
+							return toast.error(
+								`password: ${data.password1[0]}`
+							);
 						}
 						if (data?.password2?.[0]) {
 							setLoading(false);
-							return toast(`password: ${data.password2[0]}`, {
-								type: "error",
-								autoClose: 5000,
-								position: "bottom-center",
-								hideProgressBar: false,
-								pauseOnHover: true,
-								pauseOnFocusLoss: true,
-							});
+							return toast.error(
+								`password: ${data.password2[0]}`
+							);
 						}
 						if (data?.email?.[0]) {
 							setLoading(false);
-							return toast(`email: ${data.email[0]}`, {
-								type: "error",
-								autoClose: 5000,
-								position: "bottom-center",
-								hideProgressBar: false,
-								pauseOnHover: true,
-								pauseOnFocusLoss: true,
-							});
+							return toast.error(`email: ${data.email[0]}`);
 						}
 						if (data?.username?.[0]) {
 							setLoading(false);
-							return toast(`username: ${data.username[0]}`, {
-								type: "error",
-								autoClose: 5000,
-								position: "bottom-center",
-								hideProgressBar: false,
-								pauseOnHover: true,
-								pauseOnFocusLoss: true,
-							});
+							return toast.error(`username: ${data.username[0]}`);
 						}
 					}
 				})
@@ -142,14 +92,7 @@ const Signup = ({ handleToggle, isAuthenticated, handleNotification }: any) => {
 				});
 		} else {
 			setLoading(false);
-			return toast(`Please check password field!`, {
-				type: "error",
-				autoClose: 5000,
-				position: "bottom-center",
-				hideProgressBar: false,
-				pauseOnHover: true,
-				pauseOnFocusLoss: true,
-			});
+			return toast.error(`Please check password field!`);
 		}
 	};
 	// const responseGoogle = (response) => {
