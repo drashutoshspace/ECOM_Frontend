@@ -35,10 +35,10 @@ export async function productsCategory(): Promise<any> {
 export async function categoryWiseProducts(data: {
 	limit?: number;
 	offset?: number;
-	category_name?: string;
+	category?: string;
 }): Promise<any> {
 	return await getWithoutAuthorization(
-		`${Products_API}?cat_name=${data.category_name}&limit=${data.limit}&offset=${data.offset}`,
+		`${Products_API}?cat_name=${data.category}&limit=${data.limit}&offset=${data.offset}`,
 		"get products"
 	);
 }

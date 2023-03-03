@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Loader from "./Components/Loader";
-const PreLoader = () => {
+
+export default function PreLoader() {
 	const [redirect, setRedirect] = useState(false);
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -12,5 +13,4 @@ const PreLoader = () => {
 		};
 	}, []);
 	return <>{redirect ? window.location.reload() : <Loader />}</>;
-};
-export default PreLoader;
+}

@@ -49,10 +49,15 @@ export async function isAuthenticated(): Promise<boolean> {
 	}
 }
 
-export async function signOut(): Promise<any> {
+export async function signOut(next: (data: any) => void): Promise<any> {
 	if (typeof window !== undefined) {
+		const data = await postWithAuthorization(
+			Logout_API,
+			undefined,
+			"logout"
+		);
 		localStorage.removeItem("token");
-		return await postWithAuthorization(Logout_API, undefined, "logout");
+		next(data);
 	}
 }
 
@@ -63,7 +68,7 @@ export async function emailChange(data: {
 	return await postWithAuthorization(EmailChange_API, data, "change email");
 }
 
-export async function myOrders(): Promise<any> {
+export async function userOrders(): Promise<any> {
 	return await getWithAuthorization(MyOrders_API, "get orders");
 }
 

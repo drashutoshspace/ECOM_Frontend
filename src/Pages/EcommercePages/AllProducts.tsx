@@ -1,8 +1,7 @@
-import ShopCard from "../../Components/EcommerceComp/ShopCard";
+import ShopCard from "../../Components/ShopCard";
 import Base from "../../Base";
 import { BaseContext, ProductsContext } from "../../Context";
-import { categoryWiseProducts } from "../../data/products/products";
-import { products } from "../../data/products/products";
+import { products } from "../../APIs/ecommerce/ecommerce";
 import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import ReactPaginate from "react-paginate";
@@ -81,18 +80,28 @@ const AllProducts = () => {
 	useEffect(() => {
 		var mounted = true;
 		if (mounted) {
-			products(PER_PAGE, offset, (data: any) => {
-				setLoading(true);
-				if (category !== "allproducts") {
-					selectProducts(category, PER_PAGE, offset, (data: any) => {
-						setCurrentPage(0);
-						setPageCount(data?.count / PER_PAGE);
-					});
-				} else {
-					handleAllProducts(data?.results);
-					setPageCount(data?.count / PER_PAGE);
-				}
-			});
+			const getProducts = async () => {
+				await products({ limit: PER_PAGE, offset }).then(
+					(data: any) => {
+						setLoading(true);
+						if (category !== "allproducts") {
+							selectProducts(
+								category,
+								PER_PAGE,
+								offset,
+								(data: any) => {
+									setCurrentPage(0);
+									setPageCount(data?.count / PER_PAGE);
+								}
+							);
+						} else {
+							handleAllProducts(data?.results);
+							setPageCount(data?.count / PER_PAGE);
+						}
+					}
+				);
+			};
+			getProducts();
 		}
 		return () => {
 			mounted = false;
