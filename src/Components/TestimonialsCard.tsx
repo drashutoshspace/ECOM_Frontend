@@ -1,4 +1,4 @@
-import tempImg from "../Assets/images/User_Image.webp";
+import tempImg from "../Assets/User_Image.webp";
 import { Testimonials } from "../Interfaces/Misc";
 
 export default function TestimonialsCard({

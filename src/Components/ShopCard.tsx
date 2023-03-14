@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import tempImg from "../Assets/images/Product_3.webp";
+import tempImg from "../Assets/Product_3.webp";
 import { BaseContext } from "../Context";
 import { isAuthenticated } from "../APIs/user/user";
 import { toast } from "react-toastify";

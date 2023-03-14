@@ -8,7 +8,7 @@ import CountUp from "react-countup";
 import AOS from "aos";
 import TestimonialsList from "../Components/TestimonialsList";
 import Slider from "react-slick";
-import tempImg from "../Assets/images/User_Image.webp";
+import tempImg from "../Assets/User_Image.webp";
 const AboutUs = ({ ourTeam }: any) => {
 	const location = useLocation();
 	useEffect(() => {

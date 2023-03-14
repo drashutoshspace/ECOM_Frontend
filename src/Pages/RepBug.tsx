@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet-async";
 import { toast } from "react-toastify";
 import { reportABug } from "../APIs/misc/misc";
 import DataLoader2 from "../Components/DataLoader2";
-import tempImg from "../Assets/images/Video_Icon.png";
+import tempImg from "../Assets/Video_Icon.png";
 const thumbInner = {
 	display: "flex",
 	minWidth: 0,

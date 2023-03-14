@@ -20,8 +20,8 @@ import {
 	ratingCount,
 	fetchAllReviews,
 } from "../../APIs/ecommerce/ecommerce";
-import tempImg from "../../Assets/images/Product_3.webp";
-import tempImg1 from "../../Assets/images/User_Image.webp";
+import tempImg from "../../Assets/Product_3.webp";
+import tempImg1 from "../../Assets/User_Image.webp";
 import { toast } from "react-toastify";
 import { isAuthenticated } from "../../APIs/user/user";
 import DataLoader from "../../Components/DataLoader";

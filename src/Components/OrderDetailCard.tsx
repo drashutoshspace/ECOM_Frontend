@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import tempImg from "../Assets/images/Product_3.webp";
+import tempImg from "../Assets/Product_3.webp";
 import { Order } from "../Interfaces/Orders";
 
 export default function OrderDetailCard({ id }: { id?: string }): JSX.Element {
