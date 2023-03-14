@@ -1,6 +1,5 @@
 import Breadcrumb from "../../Components/Breadcrumb";
 import { useState, useEffect, useContext } from "react";
-import { CartContext } from "../../Contexts/CartContext";
 import Base from "../../Base";
 import { razorpayKey, coupon } from "../../APIs/ecommerce/ecommerce";
 import { Link, Navigate, useNavigate } from "react-router-dom";
@@ -10,8 +9,10 @@ import { BaseContext } from "../../Context";
 import { toast } from "react-toastify";
 import DataLoader2 from "../../Components/DataLoader2";
 import PhoneInput from "react-phone-input-2";
-import { SingleEntityContext } from "../../Contexts/SingleEntityContext";
 import { profileDataUpdate } from "../../APIs/user/user";
+import { useSelector, useDispatch } from "react-redux";
+import { clearCart } from "../../Data/storingData";
+import { Store } from "../../Interfaces/Store";
 declare global {
 	interface Window {
 		Razorpay: any;
@@ -19,17 +20,19 @@ declare global {
 }
 
 const Checkout = () => {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { cookies, setCookie, handleNotification }: any =
 		useContext(BaseContext);
-	const {
-		cartItems,
-		allItemsTotalPrice,
-		allItemsTotalDiscount,
-		handleCheckout,
-	}: any = useContext(CartContext);
-	const { singleEntityValue, handleSingleCheckout }: any =
-		useContext(SingleEntityContext);
+	const cartItems = useSelector(
+		(state: Store) => state.cart[cookies?.user?.[0]?.id]
+	);
+	const allCartItemsTotalPrice = useSelector(
+		(state: Store) => state.allCartItemsTotalPrice
+	);
+	const allCartItemsTotalDiscount = useSelector(
+		(state: Store) => state.allCartItemsTotalDiscount
+	);
 	const [changeRZKey, setChangeRZKey] = useState<any>("123");
 	const [checkBoxState, setCheckBoxState] = useState(true);
 	const [loading, setLoading] = useState(false);
@@ -61,78 +64,78 @@ const Checkout = () => {
 			mounted = false;
 		};
 	}, [couponDiscount]);
-	const checkoutData1 = () => {
-		let newProductsArray: any = [];
-		if (!!!singleEntityValue?.guid) {
-			cartItems.products
-				.filter((item: any) => item.userID === cookies?.user?.[0]?.id)
-				.map((item: any) =>
-					newProductsArray.push({
-						product: item.product.guid,
-						quantity: item.quantity,
-					})
-				);
-			setDataObj({
-				products: newProductsArray,
-				coupon_code: mycoupon,
-				shipping_address:
-					shippingAddress.first_name +
-					" " +
-					shippingAddress.last_name +
-					", " +
-					shippingAddress.address_line_1 +
-					", " +
-					shippingAddress.city +
-					", " +
-					shippingAddress.state +
-					", " +
-					shippingAddress.pin_code +
-					", " +
-					shippingAddress.country +
-					", " +
-					shippingAddress.mobile +
-					", " +
-					shippingAddress.email,
-			});
-		} else {
-			singleEntityValue?.Product_Name &&
-				newProductsArray.push({
-					product: singleEntityValue.product.guid,
-					quantity: singleEntityValue.quantity,
-				});
-			setDataObj({
-				products: newProductsArray,
-				coupon_code: mycoupon,
-				shipping_address:
-					shippingAddress.first_name +
-					" " +
-					shippingAddress.last_name +
-					", " +
-					shippingAddress.address_line_1 +
-					", " +
-					shippingAddress.city +
-					", " +
-					shippingAddress.state +
-					", " +
-					shippingAddress.pin_code +
-					", " +
-					shippingAddress.country +
-					", " +
-					shippingAddress.mobile +
-					", " +
-					shippingAddress.email,
-			});
-		}
-	};
-	useEffect(() => {
-		var mounted = true;
-		if (mounted) {
-			checkoutData1();
-		}
-		return () => {
-			mounted = false;
-		};
-	}, [mycoupon, shippingAddress]);
+	// const checkoutData1 = () => {
+	// 	let newProductsArray: any = [];
+	// 	if (!!!singleEntityValue?.guid) {
+	// 		cartItems.products
+	// 			.filter((item: any) => item.userID === cookies?.user?.[0]?.id)
+	// 			.map((item: any) =>
+	// 				newProductsArray.push({
+	// 					product: item.product.guid,
+	// 					quantity: item.quantity,
+	// 				})
+	// 			);
+	// 		setDataObj({
+	// 			products: newProductsArray,
+	// 			coupon_code: mycoupon,
+	// 			shipping_address:
+	// 				shippingAddress.first_name +
+	// 				" " +
+	// 				shippingAddress.last_name +
+	// 				", " +
+	// 				shippingAddress.address_line_1 +
+	// 				", " +
+	// 				shippingAddress.city +
+	// 				", " +
+	// 				shippingAddress.state +
+	// 				", " +
+	// 				shippingAddress.pin_code +
+	// 				", " +
+	// 				shippingAddress.country +
+	// 				", " +
+	// 				shippingAddress.mobile +
+	// 				", " +
+	// 				shippingAddress.email,
+	// 		});
+	// 	} else {
+	// 		singleEntityValue?.Product_Name &&
+	// 			newProductsArray.push({
+	// 				product: singleEntityValue.product.guid,
+	// 				quantity: singleEntityValue.quantity,
+	// 			});
+	// 		setDataObj({
+	// 			products: newProductsArray,
+	// 			coupon_code: mycoupon,
+	// 			shipping_address:
+	// 				shippingAddress.first_name +
+	// 				" " +
+	// 				shippingAddress.last_name +
+	// 				", " +
+	// 				shippingAddress.address_line_1 +
+	// 				", " +
+	// 				shippingAddress.city +
+	// 				", " +
+	// 				shippingAddress.state +
+	// 				", " +
+	// 				shippingAddress.pin_code +
+	// 				", " +
+	// 				shippingAddress.country +
+	// 				", " +
+	// 				shippingAddress.mobile +
+	// 				", " +
+	// 				shippingAddress.email,
+	// 		});
+	// 	}
+	// };
+	// useEffect(() => {
+	// 	var mounted = true;
+	// 	if (mounted) {
+	// 		checkoutData1();
+	// 	}
+	// 	return () => {
+	// 		mounted = false;
+	// 	};
+	// }, [mycoupon, shippingAddress]);
 	useEffect(() => {
 		var mounted = true;
 		if (mounted) {
@@ -181,9 +184,9 @@ const Checkout = () => {
 				.then((res) => {
 					if (res.ok) {
 						navigate("/profile/myorders");
-						!!singleEntityValue?.guid
-							? handleSingleCheckout()
-							: handleCheckout(cookies?.user?.[0]?.id);
+						// !!singleEntityValue?.guid
+						// 	? handleSingleCheckout()
+						// 	: handleCheckout(cookies?.user?.[0]?.id);
 						setDataObj({
 							products: [],
 							coupon_code: "",
@@ -290,51 +293,55 @@ const Checkout = () => {
 		await coupon({ coupon_code: mycoupon }).then((data) => {
 			if (data?.cashback) {
 				setLoading(false);
-				if (singleEntityValue?.guid) {
-					if (
-						(data?.discount / 100) *
-							parseFloat(
-								parseFloat(
-									singleEntityValue?.Product_SellingPrice
-								).toFixed(2)
-							) >
-						data?.cashback
-					) {
-						setCouponDiscount(data.cashback);
-					} else {
-						setCouponDiscount(
-							(data?.discount / 100) *
-								parseFloat(
-									parseFloat(
-										singleEntityValue?.Product_SellingPrice
-									).toFixed(2)
-								)
-						);
-					}
-				} else {
-					if (
-						(data?.discount / 100) *
-							parseFloat(
-								parseFloat(allItemsTotalPrice).toFixed(2)
-							) -
-							parseFloat(
-								parseFloat(allItemsTotalDiscount).toFixed(2)
-							) >
-						data?.cashback
-					) {
-						setCouponDiscount(data.cashback);
-					} else {
-						setCouponDiscount(
-							(data?.discount / 100) *
-								parseFloat(
-									parseFloat(allItemsTotalPrice).toFixed(2)
-								) -
-								parseFloat(
-									parseFloat(allItemsTotalDiscount).toFixed(2)
-								)
-						);
-					}
-				}
+				// if (singleEntityValue?.guid) {
+				// 	if (
+				// 		(data?.discount / 100) *
+				// 			parseFloat(
+				// 				parseFloat(
+				// 					singleEntityValue?.Product_SellingPrice
+				// 				).toFixed(2)
+				// 			) >
+				// 		data?.cashback
+				// 	) {
+				// 		setCouponDiscount(data.cashback);
+				// 	} else {
+				// 		setCouponDiscount(
+				// 			(data?.discount / 100) *
+				// 				parseFloat(
+				// 					parseFloat(
+				// 						singleEntityValue?.Product_SellingPrice
+				// 					).toFixed(2)
+				// 				)
+				// 		);
+				// 	}
+				// } else {
+				// 	if (
+				// 		(data?.discount / 100) *
+				// 			parseFloat(
+				// 				parseFloat(allCartItemsTotalPrice).toFixed(2)
+				// 			) -
+				// 			parseFloat(
+				// 				parseFloat(allCartItemsTotalDiscount).toFixed(2)
+				// 			) >
+				// 		data?.cashback
+				// 	) {
+				// 		setCouponDiscount(data.cashback);
+				// 	} else {
+				// 		setCouponDiscount(
+				// 			(data?.discount / 100) *
+				// 				parseFloat(
+				// 					parseFloat(allCartItemsTotalPrice).toFixed(
+				// 						2
+				// 					)
+				// 				) -
+				// 				parseFloat(
+				// 					parseFloat(
+				// 						allCartItemsTotalDiscount
+				// 					).toFixed(2)
+				// 				)
+				// 		);
+				// 	}
+				// }
 				setCouponApplied(true);
 			} else {
 				setLoading(false);
@@ -379,7 +386,7 @@ const Checkout = () => {
 		cookies.user[0]?.state != "" &&
 		cookies.user[0]?.country != " " &&
 		cookies.user[0]?.country != "" ? (
-		!!singleEntityValue?.guid || cartItems.products.length > 0 ? (
+		cartItems.length > 0 ? (
 			<>
 				<Helmet>
 					<title>MeeMo Kidz | Checkout</title>
@@ -671,183 +678,115 @@ const Checkout = () => {
 											<h2 className="colorblue mb-3 text-center">
 												Your Order Summary
 											</h2>
-											{!!!singleEntityValue?.guid ? (
-												<>
-													{cartItems.products.filter(
-														(item: any) =>
-															item.userID ===
-															cookies?.user?.[0]
-																?.id
-													).length > 0 && (
-														<>
-															<h5 className="colorblue mb-2 text-start">
-																Products
-															</h5>
-															<ul className="list-unstyled colorblue fontsize14">
-																{cartItems.products
-																	.filter(
-																		(
-																			item: any
-																		) =>
-																			item.userID ===
-																			cookies
-																				?.user?.[0]
-																				?.id
-																	)
-																	.map(
-																		(
-																			item: any,
-																			index: any
-																		) => {
-																			const {
-																				product,
-																			} =
-																				item;
-																			return (
-																				<li
-																					key={
-																						index
-																					}
-																					className="d-flex justify-content-between"
-																					data-bs-toggle="tooltip"
-																					data-bs-placement="top"
-																					title={
-																						product?.Product_Name
-																					}
+											<>
+												{cartItems.filter(
+													(item: any) =>
+														item.userID ===
+														cookies?.user?.[0]?.id
+												).length > 0 && (
+													<>
+														<h5 className="colorblue mb-2 text-start">
+															Products
+														</h5>
+														<ul className="list-unstyled colorblue fontsize14">
+															{cartItems
+																.filter(
+																	(
+																		item: any
+																	) =>
+																		item.userID ===
+																		cookies
+																			?.user?.[0]
+																			?.id
+																)
+																.map(
+																	(
+																		item: any,
+																		index: any
+																	) => {
+																		const {
+																			product,
+																		} =
+																			item;
+																		return (
+																			<li
+																				key={
+																					index
+																				}
+																				className="d-flex justify-content-between"
+																				data-bs-toggle="tooltip"
+																				data-bs-placement="top"
+																				title={
+																					product?.Product_Name
+																				}
+																			>
+																				<Link
+																					to={`/shop/products/${product?.slug}`}
+																					className="colorblue lightbluehover"
 																				>
-																					<Link
-																						to={`/shop/products/${product?.slug}`}
-																						className="colorblue lightbluehover"
-																					>
-																						{truncate(
-																							product?.Product_Name,
-																							25
-																						)}
-																					</Link>
-																					x&nbsp;
-																					{
-																						item?.quantity
-																					}
-																					<span>
-																						₹&nbsp;
-																						{(Math.abs(
-																							parseInt(
+																					{truncate(
+																						product?.Product_Name,
+																						25
+																					)}
+																				</Link>
+																				x&nbsp;
+																				{
+																					item?.quantity
+																				}
+																				<span>
+																					₹&nbsp;
+																					{(Math.abs(
+																						parseInt(
+																							product?.Product_SellingPrice
+																						) -
+																							parseFloat(
 																								product?.Product_SellingPrice
-																							) -
-																								parseFloat(
-																									product?.Product_SellingPrice
-																								)
-																						) >
-																						0.5
-																							? parseInt(
-																									product?.Product_SellingPrice
-																							  ) +
-																							  1
-																							: parseInt(
-																									product?.Product_SellingPrice
-																							  )
-																						).toLocaleString(
-																							undefined,
-																							{
-																								maximumFractionDigits: 2,
-																							}
-																						)}
-																					</span>
-																				</li>
-																			);
-																		}
-																	)}
-															</ul>
-														</>
-													)}
-												</>
-											) : (
-												<>
-													<ul className="list-unstyled colorblue fontsize14">
+																							)
+																					) >
+																					0.5
+																						? parseInt(
+																								product?.Product_SellingPrice
+																						  ) +
+																						  1
+																						: parseInt(
+																								product?.Product_SellingPrice
+																						  )
+																					).toLocaleString(
+																						undefined,
+																						{
+																							maximumFractionDigits: 2,
+																						}
+																					)}
+																				</span>
+																			</li>
+																		);
+																	}
+																)}
+														</ul>
+													</>
+												)}
+											</>
+											<div className="d-flex py-3 justify-content-between align-items-center bordertopcheckout">
+												<h3 className="mb-0 colorblue">
+													Subtotal
+												</h3>
+												<p className="mb-0 colorblue">
+													₹{" "}
+													{(
+														parseFloat(
+															allCartItemsTotalPrice.toFixed(
+																2
+															)
+														) -
+														allCartItemsTotalDiscount
+													).toLocaleString(
+														undefined,
 														{
-															<li
-																className="d-flex justify-content-between"
-																data-bs-toggle="tooltip"
-																data-bs-placement="top"
-																title={
-																	singleEntityValue?.Product_Name
-																}
-															>
-																<Link
-																	to={`/shop/products/${singleEntityValue?.slug}`}
-																	className="colorblue lightbluehover"
-																>
-																	{truncate(
-																		singleEntityValue?.Product_Name,
-																		25
-																	)}
-																</Link>
-																<span>
-																	₹&nbsp;
-																	{(Math.abs(
-																		parseInt(
-																			singleEntityValue?.Product_SellingPrice
-																		) -
-																			parseFloat(
-																				singleEntityValue?.Product_SellingPrice
-																			)
-																	) > 0.5
-																		? parseInt(
-																				singleEntityValue?.Product_SellingPrice
-																		  ) + 1
-																		: parseInt(
-																				singleEntityValue?.Product_SellingPrice
-																		  )
-																	).toLocaleString(
-																		undefined,
-																		{
-																			maximumFractionDigits: 2,
-																		}
-																	)}
-																</span>
-															</li>
+															maximumFractionDigits: 2,
 														}
-													</ul>
-												</>
-											)}
-											{!!!singleEntityValue?.guid ? (
-												<div className="d-flex py-3 justify-content-between align-items-center bordertopcheckout">
-													<h3 className="mb-0 colorblue">
-														Subtotal
-													</h3>
-													<p className="mb-0 colorblue">
-														₹{" "}
-														{(
-															parseFloat(
-																parseFloat(
-																	allItemsTotalPrice
-																).toFixed(2)
-															) -
-															allItemsTotalDiscount
-														).toLocaleString(
-															undefined,
-															{
-																maximumFractionDigits: 2,
-															}
-														)}
-													</p>
-												</div>
-											) : (
-												<div className="d-flex py-3 justify-content-between align-items-center bordertopcheckout">
-													<h3 className="mb-0 colorblue">
-														Subtotal
-													</h3>
-													<p className="mb-0 colorblue">
-														₹{" "}
-														{(singleEntityValue?.Product_SellingPrice).toLocaleString(
-															undefined,
-															{
-																maximumFractionDigits: 2,
-															}
-														)}
-													</p>
-												</div>
-											)}
+													)}
+												</p>
+											</div>
 											{couponApplied ? (
 												<div className="py-3 bordertopcheckout">
 													<h3 className="mb-0 colorblue">
@@ -908,38 +847,23 @@ const Checkout = () => {
 												<h3 className="mb-0 colorblue">
 													Total
 												</h3>
-												{!!!singleEntityValue?.guid ? (
-													<p className="mb-0 colorblue">
-														₹&nbsp;
-														{Math.abs(
-															parseFloat(
-																parseFloat(
-																	allItemsTotalPrice
-																).toFixed(2)
-															) -
-																allItemsTotalDiscount -
-																couponDiscount
-														).toLocaleString(
-															undefined,
-															{
-																maximumFractionDigits: 2,
-															}
-														)}
-													</p>
-												) : (
-													<p className="mb-0 colorblue">
-														₹&nbsp;
-														{Math.abs(
-															singleEntityValue?.Product_SellingPrice -
-																couponDiscount
-														).toLocaleString(
-															undefined,
-															{
-																maximumFractionDigits: 2,
-															}
-														)}
-													</p>
-												)}
+												<p className="mb-0 colorblue">
+													₹&nbsp;
+													{Math.abs(
+														parseFloat(
+															allCartItemsTotalPrice.toFixed(
+																2
+															)
+														) -
+															allCartItemsTotalDiscount -
+															couponDiscount
+													).toLocaleString(
+														undefined,
+														{
+															maximumFractionDigits: 2,
+														}
+													)}
+												</p>
 											</div>
 											<div className="py-3 bordertopcheckout">
 												<div className="row d-flex justify-content-center align-items-center">

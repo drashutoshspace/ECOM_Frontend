@@ -1,25 +1,30 @@
 import { useState, useContext, useEffect } from "react";
-import { CartContext } from "../Contexts/CartContext";
 import { Link } from "react-router-dom";
-import { WishlistContext } from "../Contexts/WishlistContext";
 import tempImg from "../Assets/images/Product_3.webp";
 import { isAuthenticated } from "../APIs/user/user";
 import { toast } from "react-toastify";
 import { BaseContext } from "../Context";
 import { CartItem } from "../Interfaces/Products";
+import { useSelector, useDispatch } from "react-redux";
+import { Store } from "../Interfaces/Store";
+import {
+	increaseQuantityOfProductInCart,
+	decreaseQuantityOfProductInCart,
+	removeProductFromCart,
+	addProductInWishlist,
+	removeProductFromWishlist,
+} from "../Data/storingData";
 
 export default function CartCard({ item }: { item: CartItem }): JSX.Element {
 	const [deleteToggle, setDeleteToggle] = useState(false);
 	const [plusminusStatus, setPlusMinusStatus] = useState("");
-	const { increase, decrease, removeProduct }: any = useContext(CartContext);
-	const {
-		addProductToWishlist,
-		removeProductFromWishlist,
-		wishlistItems,
-	}: any = useContext(WishlistContext);
+	const wishlistItems = useSelector(
+		(state: Store) => state.wishlist[cookies?.user?.[0]?.id]
+	);
+	const dispatch = useDispatch();
 	const { cookies }: any = useContext(BaseContext);
 	const isProductInWishlist = (guid: string) => {
-		return wishlistItems.products.find(
+		return wishlistItems.find(
 			(item: any) =>
 				item.product.guid === guid &&
 				item.userID === cookies?.user?.[0]?.id
@@ -29,7 +34,7 @@ export default function CartCard({ item }: { item: CartItem }): JSX.Element {
 		if (item?.product?.guid) {
 			setDeleteToggle(!deleteToggle);
 			setTimeout(() => {
-				removeProduct(item?.product?.guid);
+				dispatch(removeProductFromCart(item?.product?.guid));
 				setDeleteToggle(false);
 			}, 900);
 		}
@@ -39,21 +44,13 @@ export default function CartCard({ item }: { item: CartItem }): JSX.Element {
 			plusminusStatus === "increase" &&
 			(async () => await isAuthenticated())
 		) {
-			increase({
-				product: item?.product,
-				quantity: 1,
-				userID: cookies.user[0].id,
-			});
+			dispatch(increaseQuantityOfProductInCart({ guid: item?.product }));
 			setPlusMinusStatus("");
 		} else if (
 			plusminusStatus === "decrease" &&
 			(async () => await isAuthenticated())
 		) {
-			decrease({
-				product: item?.product,
-				quantity: 1,
-				userID: cookies.user[0].id,
-			});
+			dispatch(decreaseQuantityOfProductInCart({ guid: item?.product }));
 			if (item?.quantity === 0) {
 				deletebutton();
 			}
@@ -166,10 +163,11 @@ export default function CartCard({ item }: { item: CartItem }): JSX.Element {
 												guid: item?.product?.guid,
 												userID: cookies?.user?.[0]?.id,
 										  })
-										: addProductToWishlist({
-												product: item?.product,
-												userID: cookies?.user?.[0].id,
-										  });
+										: dispatch(
+												addProductInWishlist({
+													guid: item?.product?.guid,
+												})
+										  );
 								}}
 							>
 								<i

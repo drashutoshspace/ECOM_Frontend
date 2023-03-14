@@ -1,7 +1,6 @@
 import { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { BaseContext } from "../Context";
-import { OrderDetailContext } from "../Contexts/OrderDetailContext";
 import { Order } from "../Interfaces/Orders";
 
 export default function MyOrderCard({
@@ -9,8 +8,6 @@ export default function MyOrderCard({
 }: {
 	my_order: Order;
 }): JSX.Element {
-	const { addOrderDetail, orderdetails }: any =
-		useContext(OrderDetailContext);
 	const { cookies }: any = useContext(BaseContext);
 	useEffect(() => {
 		if (

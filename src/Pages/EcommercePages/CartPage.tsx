@@ -1,25 +1,29 @@
-import Breadcrumb  from "../../Components/Breadcrumb";
-import { useContext, useState, useRef } from "react";
+import Breadcrumb from "../../Components/Breadcrumb";
+import { useContext, useState, useRef, useEffect } from "react";
 import Base from "../../Base";
 import CartCard from "../../Components/CartCard";
-import { CartContext } from "../../Contexts/CartContext";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { BaseContext } from "../../Context";
-import { SingleEntityContext } from "../../Contexts/SingleEntityContext";
-import { useEffect } from "react";
 import DataLoader from "../../Components/DataLoader";
 import { confirmAlert } from "react-confirm-alert";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { Store } from "../../Interfaces/Store";
+import { clearCart } from "../../Data/storingData";
+
 const CartPage = () => {
 	const { cookies }: any = useContext(BaseContext);
-	const {
-		cartItems,
-		allItemsTotalPrice,
-		allItemsTotalDiscount,
-		handleCheckout,
-	}: any = useContext(CartContext);
-	const { handleSingleCheckout }: any = useContext(SingleEntityContext);
+	const dispatch = useDispatch();
+	const cartItems = useSelector(
+		(state: Store) => state.cart[cookies?.user?.[0]?.id]
+	);
+	const allCartItemsTotalPrice = useSelector(
+		(state: Store) => state.allCartItemsTotalPrice
+	);
+	const allCartItemsTotalDiscount = useSelector(
+		(state: Store) => state.allCartItemsTotalDiscount
+	);
 	const [changeImage, setChangeImage] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const autoClose1 = useRef<HTMLButtonElement>(null);
@@ -29,7 +33,6 @@ const CartPage = () => {
 		setChangeImage(!changeImage);
 	};
 	useEffect(() => {
-		handleSingleCheckout();
 		setLoading(false);
 	}, []);
 	const confirmModal = () => {
@@ -45,7 +48,7 @@ const CartPage = () => {
 						<div className="react-confirm-alert-button-group">
 							<button
 								onClick={() => {
-									handleCheckout(cookies?.user?.[0]?.id);
+									dispatch(clearCart());
 									onClose();
 								}}
 							>
@@ -93,7 +96,7 @@ const CartPage = () => {
 										onMouseEnter={handleChangeImage}
 										onMouseLeave={handleChangeImage}
 									>
-										{cartItems?.products.filter(
+										{cartItems?.filter(
 											(item: any) =>
 												item.userID ===
 												cookies?.user?.[0]?.id
@@ -125,7 +128,7 @@ const CartPage = () => {
 												<div className="col-lg-8 order-lg-1 mt-4 mt-lg-0 order-2 px-3">
 													<div className="row">
 														<div className="col-lg-12">
-															{cartItems?.products.filter(
+															{cartItems?.filter(
 																(item: any) =>
 																	item.userID ===
 																	cookies
@@ -140,8 +143,8 @@ const CartPage = () => {
 																			Your
 																			Cart
 																		</h1>
-																		{cartItems?.products
-																			.filter(
+																		{cartItems
+																			?.filter(
 																				(
 																					item: any
 																				) =>
@@ -220,9 +223,7 @@ const CartPage = () => {
 																		<div className="col-6 text-end pr-0">
 																			<p className="fontsize16 mb-0">
 																				₹{" "}
-																				{parseFloat(
-																					allItemsTotalPrice
-																				).toLocaleString(
+																				{allCartItemsTotalPrice.toLocaleString(
 																					undefined,
 																					{
 																						maximumFractionDigits: 2,
@@ -240,9 +241,7 @@ const CartPage = () => {
 																		<div className="col-6 text-end pr-0">
 																			<p className="fontsize16 mb-0 notaccepted">
 																				₹{" "}
-																				{parseFloat(
-																					allItemsTotalDiscount
-																				).toLocaleString(
+																				{allCartItemsTotalDiscount.toLocaleString(
 																					undefined,
 																					{
 																						maximumFractionDigits: 2,
@@ -262,16 +261,12 @@ const CartPage = () => {
 																				₹&nbsp;
 																				{Math.abs(
 																					parseFloat(
-																						parseFloat(
-																							allItemsTotalPrice
-																						).toFixed(
+																						allCartItemsTotalPrice.toFixed(
 																							2
 																						)
 																					) -
 																						parseFloat(
-																							parseFloat(
-																								allItemsTotalDiscount
-																							).toFixed(
+																							allCartItemsTotalDiscount.toFixed(
 																								2
 																							)
 																						)

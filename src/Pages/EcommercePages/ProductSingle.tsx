@@ -4,7 +4,6 @@ import ReactImageMagnify from "react-image-magnify";
 import { Helmet } from "react-helmet-async";
 import { singleProduct } from "../../APIs/ecommerce/ecommerce";
 import { BaseContext, ProductsContext } from "../../Context";
-import { CartContext } from "../../Contexts/CartContext";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import {
 	FacebookShareButton,
@@ -27,8 +26,16 @@ import { toast } from "react-toastify";
 import { isAuthenticated } from "../../APIs/user/user";
 import DataLoader from "../../Components/DataLoader";
 import DataLoader2 from "../../Components/DataLoader2";
+import { useSelector, useDispatch } from "react-redux";
+import { cartItem, Store } from "../../Interfaces/Store";
+import {
+	addProductInCart,
+	increaseQuantityOfProductInCart,
+	decreaseQuantityOfProductInCart,
+} from "../../Data/storingData";
 
 export default function ProductSingle(): JSX.Element {
+	const dispatch = useDispatch();
 	const { id } = useParams();
 	const { findProduct, product }: any = useContext(ProductsContext);
 	const { cookies }: any = useContext(BaseContext);
@@ -52,11 +59,11 @@ export default function ProductSingle(): JSX.Element {
 			clearTimeout(timer);
 		};
 	}, [animateButton]);
-	const { addProduct, cartItems, increase }: any = useContext(CartContext);
+	const cartItems = useSelector(
+		(state: Store) => state.cart[cookies?.user?.[0]?.id]
+	);
 	const isInCart = (id: string, userID: string) => {
-		return !!!cartItems.products.find(
-			(item: any) => item.product.guid === id && item.userID === userID
-		);
+		return !!!cartItems.find((item: cartItem) => item.guid === id);
 	};
 	var stars: JSX.Element[] = [];
 	var showStars1 = (number: number) => {
@@ -417,13 +424,21 @@ export default function ProductSingle(): JSX.Element {
 															setAnimateButton(
 																true
 															);
-															addProduct({
-																product,
-																quantity:
-																	plusMinus,
-																userID: cookies
-																	.user[0].id,
-															});
+															dispatch(
+																addProductInCart(
+																	{
+																		guid: product?.guid,
+																		quantity:
+																			plusMinus,
+																		Product_MRP:
+																			product?.Product_MRP,
+																		Product_Name:
+																			product?.Product_Name,
+																		Product_SellingPrice:
+																			product?.Product_SellingPrice,
+																	}
+																)
+															);
 														} else {
 															return toast.warning(
 																"Please login to access Cart!"
@@ -474,13 +489,13 @@ export default function ProductSingle(): JSX.Element {
 																true
 															);
 															// TODO: check for useeffect fo this
-															increase({
-																product,
-																quantity:
-																	plusMinus,
-																userID: cookies
-																	.user[0].id,
-															});
+															dispatch(
+																increaseQuantityOfProductInCart(
+																	{
+																		guid: product?.guid,
+																	}
+																)
+															);
 														} else {
 															return toast.warning(
 																"Please login first"

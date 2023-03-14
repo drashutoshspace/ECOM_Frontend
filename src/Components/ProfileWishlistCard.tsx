@@ -1,39 +1,41 @@
 import { useState, useContext, useEffect } from "react";
-import { CartContext } from "../Contexts/CartContext";
 import { Link } from "react-router-dom";
-import { WishlistContext } from "../Contexts/WishlistContext";
 import tempImg from "../Assets/images/Product_3.webp";
 import { BaseContext } from "../Context";
 import { toast } from "react-toastify";
 import { isAuthenticated } from "../APIs/user/user";
 import { Product } from "../Interfaces/Products";
+import {
+	addProductInCart,
+	increaseQuantityOfProductInCart,
+	decreaseQuantityOfProductInCart,
+	addProductInWishlist,
+	removeProductFromWishlist,
+} from "../Data/storingData";
+import { useSelector, useDispatch } from "react-redux";
+import { cartItem, Store } from "../Interfaces/Store";
 
 export default function ProfileWishlistCard({
 	item,
 }: {
 	item: Product;
 }): JSX.Element {
+	const dispatch = useDispatch();
 	const [addStatus, setAddStatus] = useState("");
 	const [plusMinus, setPlusMinus] = useState(1);
 	const [animateButton, setAnimateButton] = useState(false);
-	const {
-		addProductToWishlist,
-		removeProductFromWishlist,
-		wishlistItems,
-	}: any = useContext(WishlistContext);
-	const { addProduct, cartItems, increase }: any = useContext(CartContext);
+	const wishlistItems = useSelector(
+		(state: Store) => state.wishlist[cookies?.user?.[0]?.id]
+	);
+	const cartItems = useSelector(
+		(state: Store) => state.cart[cookies?.user?.[0]?.id]
+	);
 	const { cookies }: any = useContext(BaseContext);
 	const isProductInWishlist = (guid: string) => {
-		return wishlistItems.products.find(
-			(item: any) =>
-				item.product.guid === guid &&
-				item.userID === cookies?.user?.[0]?.id
-		);
+		return wishlistItems.find((item: string) => item === guid);
 	};
 	const isProductInCart = (id: string, userID: string) => {
-		return !!!cartItems.products.find(
-			(item: any) => item.product.guid === id && item.userID === userID
-		);
+		return !!!cartItems.find((item: cartItem) => item.guid === id);
 	};
 	const handlePlus = () => {
 		setPlusMinus(plusMinus + 1);
@@ -49,11 +51,11 @@ export default function ProfileWishlistCard({
 	}, [animateButton]);
 	useEffect(() => {
 		if (addStatus === "add" && (async () => await isAuthenticated())) {
-			increase({
-				product: item,
-				quantity: plusMinus,
-				userID: cookies.user[0].id,
-			});
+			dispatch(
+				increaseQuantityOfProductInCart({
+					guid: item?.guid,
+				})
+			);
 			setAddStatus("");
 		}
 	}, [addStatus]);
@@ -123,12 +125,18 @@ export default function ProfileWishlistCard({
 														await isAuthenticated()
 												) {
 													setAnimateButton(true);
-													addProduct({
-														product: item,
-														quantity: plusMinus,
-														userID: cookies.user[0]
-															.id,
-													});
+													dispatch(
+														addProductInCart({
+															guid: item?.guid,
+															quantity: plusMinus,
+															Product_MRP:
+																item?.Product_MRP,
+															Product_Name:
+																item?.Product_Name,
+															Product_SellingPrice:
+																item?.Product_SellingPrice,
+														})
+													);
 												} else {
 													return toast.warning(
 														"Please login to access Cart!"
@@ -227,14 +235,16 @@ export default function ProfileWishlistCard({
 							style={{ verticalAlign: "baseline" }}
 							onClick={() => {
 								isProductInWishlist(item?.guid)
-									? removeProductFromWishlist({
-											guid: item?.guid,
-											userID: cookies?.user?.[0]?.id,
-									  })
-									: addProductToWishlist({
-											product: item,
-											userID: cookies?.user?.[0].id,
-									  });
+									? dispatch(
+											removeProductFromWishlist({
+												guid: item?.guid,
+											})
+									  )
+									: dispatch(
+											addProductInWishlist({
+												guid: item?.guid,
+											})
+									  );
 							}}
 						>
 							<i

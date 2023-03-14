@@ -3,7 +3,6 @@ import { useEffect, useContext, useState } from "react";
 import Breadcrumb from "../../Components/Breadcrumb";
 import { Helmet } from "react-helmet-async";
 import Base from "../../Base";
-import { WishlistContext } from "../../Contexts/WishlistContext";
 import ProfileWishlistCard from "../../Components/ProfileWishlistCard";
 import { BaseContext } from "../../Context";
 import {
@@ -14,15 +13,20 @@ import {
 import { toast } from "react-toastify";
 import MyOrderCard from "../../Components/MyOrdersCard";
 import OrderDetailCard from "../../Components/OrderDetailCard";
-import { OrderDetailContext } from "../../Contexts/OrderDetailContext";
 import DataLoader2 from "../../Components/DataLoader2";
 import PhoneInput from "react-phone-input-2";
 import { useMediaQuery } from "react-responsive";
+import { useSelector, useDispatch } from "react-redux";
+import { Store } from "../../Interfaces/Store";
 
 const Profile = () => {
 	const { option, id } = useParams();
-	const { orderdetails }: any = useContext(OrderDetailContext);
-	const { productsCount, wishlistItems } = useContext(WishlistContext);
+	const wishlistItems = useSelector(
+		(state: Store) => state.wishlist[cookies?.user?.[0]?.id]
+	);
+	const productsCount = useSelector(
+		(state: Store) => state.allWishlistItemsCount
+	);
 	const { cookies, setCookie, myOrders }: any = useContext(BaseContext);
 	const [profile, setProfile] = useState(cookies?.user?.[0]);
 	const location = useLocation();
@@ -890,7 +894,7 @@ const Profile = () => {
 										onMouseEnter={handleChangeImage1}
 										onMouseLeave={handleChangeImage1}
 									>
-										{wishlistItems?.products.length <= 0 ? (
+										{wishlistItems?.length <= 0 ? (
 											<div className="row mt-2">
 												<div className="col-lg-12">
 													<img
@@ -916,30 +920,18 @@ const Profile = () => {
 											</div>
 										) : (
 											<>
-												{wishlistItems?.products
-													.filter(
-														(item: any) =>
-															item.userID ===
-															cookies?.user?.[0]
-																?.id
-													)
-													.map(
-														(
-															item: any,
-															index: any
-														) => {
-															const { product } =
-																item;
-															return (
-																<ProfileWishlistCard
-																	key={index}
-																	item={
-																		product
-																	}
-																/>
-															);
-														}
-													)}
+												{wishlistItems?.map(
+													(item: any, index: any) => {
+														const { product } =
+															item;
+														return (
+															<ProfileWishlistCard
+																key={index}
+																item={product}
+															/>
+														);
+													}
+												)}
 											</>
 										)}
 									</div>
@@ -980,7 +972,7 @@ const Profile = () => {
 											</div>
 										) : (
 											<>
-												{orderdetails.buyAgainProducts
+												{/* {orderdetails.buyAgainProducts
 													.filter(
 														(item: any) =>
 															item.userID ===
@@ -1001,7 +993,7 @@ const Profile = () => {
 																/>
 															);
 														}
-													)}
+													)} */}
 											</>
 										)}
 									</div>

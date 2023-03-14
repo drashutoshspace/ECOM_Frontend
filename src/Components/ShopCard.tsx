@@ -1,35 +1,41 @@
 import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { CartContext } from "../Contexts/CartContext";
-import { WishlistContext } from "../Contexts/WishlistContext";
 import tempImg from "../Assets/images/Product_3.webp";
 import { BaseContext } from "../Context";
 import { isAuthenticated } from "../APIs/user/user";
 import { toast } from "react-toastify";
 import { Product } from "../Interfaces/Products";
+import { useSelector, useDispatch } from "react-redux";
+import { cartItem, Store } from "../Interfaces/Store";
+import {
+	addProductInCart,
+	increaseQuantityOfProductInCart,
+	decreaseQuantityOfProductInCart,
+	addProductInWishlist,
+	removeProductFromWishlist,
+} from "../Data/storingData";
 
-export default function ShopCard({ product }: { product: Product }): JSX.Element {
+export default function ShopCard({
+	product,
+}: {
+	product: Product;
+}): JSX.Element {
+	const dispatch = useDispatch();
 	const [addStatus, setAddStatus] = useState("");
 	const [plusMinus, setPlusMinus] = useState(1);
 	const [animateButton, setAnimateButton] = useState(false);
-	const {
-		addProductToWishlist,
-		removeProductFromWishlist,
-		wishlistItems,
-	}: any = useContext(WishlistContext);
-	const { addProduct, cartItems, increase }: any = useContext(CartContext);
+	const wishlistItems = useSelector(
+		(state: Store) => state.wishlist[cookies?.user?.[0]?.id]
+	);
+	const cartItems = useSelector(
+		(state: Store) => state.cart[cookies?.user?.[0]?.id]
+	);
 	const { cookies }: any = useContext(BaseContext);
 	const isInWishlist = (id: string) => {
-		return wishlistItems.products.find(
-			(item: any) =>
-				item.product.guid === id &&
-				item.userID === cookies?.user?.[0]?.id
-		);
+		return wishlistItems.find((item: string) => item === id);
 	};
 	const isInCart = (id: string, userID: string) => {
-		return !!!cartItems.products.find(
-			(item: any) => item.product.guid === id && item.userID === userID
-		);
+		return !!!cartItems.find((item: cartItem) => item.guid === id);
 	};
 	const handlePlus = () => {
 		setPlusMinus(plusMinus + 1);
@@ -45,11 +51,11 @@ export default function ShopCard({ product }: { product: Product }): JSX.Element
 	}, [animateButton]);
 	useEffect(() => {
 		if (addStatus === "add" && (async () => await isAuthenticated())) {
-			increase({
-				product,
-				quantity: plusMinus,
-				userID: cookies.user[0].id,
-			});
+			dispatch(
+				increaseQuantityOfProductInCart({
+					guid: product?.guid,
+				})
+			);
 			setAddStatus("");
 		}
 	}, [addStatus]);
@@ -90,14 +96,16 @@ export default function ShopCard({ product }: { product: Product }): JSX.Element
 						}`}
 						onClick={() => {
 							isInWishlist(product.guid)
-								? removeProductFromWishlist({
-										guid: product?.guid,
-										userID: cookies?.user?.[0]?.id,
-								  })
-								: addProductToWishlist({
-										product,
-										userID: cookies?.user?.[0].id,
-								  });
+								? dispatch(
+										removeProductFromWishlist({
+											guid: product?.guid,
+										})
+								  )
+								: dispatch(
+										addProductInWishlist({
+											guid: product?.guid,
+										})
+								  );
 						}}
 					/>
 				</button>
@@ -163,11 +171,18 @@ export default function ShopCard({ product }: { product: Product }): JSX.Element
 											async () => await isAuthenticated()
 										) {
 											setAnimateButton(true);
-											addProduct({
-												product,
-												quantity: plusMinus,
-												userID: cookies.user[0].id,
-											});
+											dispatch(
+												addProductInCart({
+													guid: product?.guid,
+													quantity: plusMinus,
+													Product_MRP:
+														product?.Product_MRP,
+													Product_Name:
+														product?.Product_Name,
+													Product_SellingPrice:
+														product?.Product_SellingPrice,
+												})
+											);
 										} else {
 											return toast.warning(
 												"Please login to access Cart!"

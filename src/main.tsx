@@ -3,10 +3,9 @@ import Routes from "./Routes";
 import { ToastContainer } from "react-toastify";
 import { CookiesProvider } from "react-cookie";
 import { HelmetProvider } from "react-helmet-async";
-import CartProvider from "./Contexts/CartContext";
-import OrderDetailProvider from "./Contexts/OrderDetailContext";
-import WishlistProvider from "./Contexts/WishlistContext";
-import SingleEntityProvider from "./Contexts/SingleEntityContext";
+import { Provider } from "react-redux";
+import { persistor, store } from "./Data/Store";
+import { PersistGate } from "redux-persist/integration/react";
 import "react-toastify/dist/ReactToastify.css";
 import "hover.css";
 import "animate.css";
@@ -21,23 +20,19 @@ import "react-phone-input-2/lib/style.css";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<HelmetProvider>
 		<CookiesProvider>
-			<CartProvider>
-				<SingleEntityProvider>
-					<WishlistProvider>
-						<OrderDetailProvider>
-							<Routes />
-							<ToastContainer
-								theme="colored"
-								position="bottom-center"
-								autoClose={5000}
-								hideProgressBar={false}
-								pauseOnFocusLoss
-								pauseOnHover
-							/>
-						</OrderDetailProvider>
-					</WishlistProvider>
-				</SingleEntityProvider>
-			</CartProvider>
+			<Provider store={store}>
+				<PersistGate loading={null} persistor={persistor}>
+					<Routes />
+					<ToastContainer
+						theme="colored"
+						position="bottom-center"
+						autoClose={5000}
+						hideProgressBar={false}
+						pauseOnFocusLoss
+						pauseOnHover
+					/>
+				</PersistGate>
+			</Provider>
 		</CookiesProvider>
 	</HelmetProvider>
 );

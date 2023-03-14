@@ -2,15 +2,22 @@ import { useContext, useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { isAuthenticated } from "../APIs/user/user";
 import { BaseContext } from "../Context";
-import { CartContext } from "../Contexts/CartContext";
-import { WishlistContext } from "../Contexts/WishlistContext";
 import { useMediaQuery } from "react-responsive";
-import { Product_Category, Product } from "../Interfaces/Products";
+import { Product_Category } from "../Interfaces/Products";
+import { useSelector } from "react-redux";
+import { cartItem, Store } from "../Interfaces/Store";
 
 export default function Navbar(): JSX.Element {
 	const { logoutUser, cookies }: any = useContext(BaseContext);
-	const { allItemsCount, cartItems } = useContext(CartContext);
-	const { productsCount } = useContext(WishlistContext);
+	const cartItems = useSelector(
+		(state: Store) => state.cart[cookies?.user?.[0]?.id]
+	);
+	const productsCount = useSelector(
+		(state: Store) => state.allWishlistItemsCount
+	);
+	const allCartItemsCount = useSelector(
+		(state: Store) => state.allCartItemsCount
+	);
 	const { allProductCategories }: any = useContext(BaseContext);
 	const [isToggled, setIsToggled] = useState(false);
 	const navigate = useNavigate();
@@ -271,9 +278,9 @@ export default function Navbar(): JSX.Element {
 						>
 							<i className="fas fa-shopping-cart hvr-icon" />
 							{(async () => await isAuthenticated()) &&
-								allItemsCount > 0 && (
+								allCartItemsCount > 0 && (
 									<span className="topnumbercart">
-										{allItemsCount}
+										{allCartItemsCount}
 									</span>
 								)}
 							&nbsp;&nbsp;Cart &nbsp;
@@ -283,7 +290,7 @@ export default function Navbar(): JSX.Element {
 							className={
 								onHoverDropdown2
 									? `dropdown-menu dropdown-menu-end mt-0 pt-4 ms-2 border5px animate slideIn border-0 show ${
-											cartItems.products.length > 0 &&
+											cartItems?.length > 0 &&
 											(async () =>
 												await isAuthenticated())
 												? "cartdropdown"
@@ -306,20 +313,20 @@ export default function Navbar(): JSX.Element {
 									</div>
 								</li>
 							)}
-							{cartItems.products.filter(
+							{cartItems?.filter(
 								(item: any) =>
 									item.userID === cookies?.user?.[0]?.id
 							).length > 0 && (
 								<li>
 									<div className="row px-4">
-										{cartItems.products.filter(
+										{cartItems?.filter(
 											(item: any) =>
 												item.userID ===
 												cookies?.user?.[0].id
 										).length > 0 && (
 											<div
 												className={`${
-													cartItems.products.filter(
+													cartItems?.filter(
 														(item: any) =>
 															item.userID ===
 															cookies?.user?.[0]
@@ -334,17 +341,11 @@ export default function Navbar(): JSX.Element {
 														</h5>
 													</div>
 												</div>
-												{cartItems?.products
-													.filter(
-														(item: any) =>
-															item.userID ===
-															cookies?.user?.[0]
-																?.id
-													)
-													.slice(0, 3)
+												{cartItems
+													?.slice(0, 3)
 													.map(
 														(
-															item: Product,
+															item: cartItem,
 															index: number
 														) => {
 															return (
@@ -384,7 +385,7 @@ export default function Navbar(): JSX.Element {
 													)}
 											</div>
 										)}
-										{cartItems?.products.filter(
+										{cartItems?.filter(
 											(item: any) =>
 												item.userID ===
 												cookies?.user?.[0]?.id
@@ -678,9 +679,9 @@ export default function Navbar(): JSX.Element {
 								>
 									<i className="fas fa-shopping-cart hvr-icon" />
 									{(async () => await isAuthenticated()) &&
-										allItemsCount > 0 && (
+										allCartItemsCount > 0 && (
 											<span className="topnumbercart">
-												{allItemsCount}
+												{allCartItemsCount}
 											</span>
 										)}
 									&nbsp;&nbsp;Cart
@@ -690,7 +691,7 @@ export default function Navbar(): JSX.Element {
 									id="mydropdownitem"
 									aria-labelledby="navbarDropdown"
 								>
-									{cartItems.products.length > 0 && (
+									{cartItems?.length > 0 && (
 										<li>
 											<div className="row px-4">
 												<div className="col-lg-12">
@@ -701,18 +702,11 @@ export default function Navbar(): JSX.Element {
 															</h5>
 														</div>
 													</div>
-													{cartItems?.products
-														.filter(
-															(item: any) =>
-																item.userID ===
-																cookies
-																	?.user?.[0]
-																	?.id
-														)
-														.slice(0, 3)
+													{cartItems
+														?.slice(0, 3)
 														.map(
 															(
-																item: Product,
+																item: cartItem,
 																index: number
 															) => {
 																return (
@@ -757,7 +751,7 @@ export default function Navbar(): JSX.Element {
 											</div>
 										</li>
 									)}
-									{cartItems.products.filter(
+									{cartItems?.filter(
 										(item: any) =>
 											item.userID ===
 											cookies?.user?.[0]?.id
@@ -773,7 +767,7 @@ export default function Navbar(): JSX.Element {
 												>
 													<i className="fas fa-shopping-cart" />
 													&nbsp;&nbsp;
-													{cartItems?.products.filter(
+													{cartItems?.filter(
 														(item: any) =>
 															item.userID ===
 															cookies?.user?.[0]

@@ -17,7 +17,7 @@ import RepBug from "./Pages/RepBug";
 import Feedback from "./Pages/Feedback";
 import NotFound404 from "./Pages/NotFound404/NotFound404";
 import LoginPage from "./Pages/AuthPages/LoginPage";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import {
 	isAuthenticated,
 	signOut,
@@ -45,9 +45,7 @@ import {
 	ourTeamData,
 } from "./APIs/misc/misc";
 import { useCookies } from "react-cookie";
-import { WishlistContext } from "./Contexts/WishlistContext";
 import SearchPage from "./Pages/SearchPage";
-import { CartContext } from "./Contexts/CartContext";
 import Testimonials from "./Pages/Testimonials";
 import Policies from "./Pages/Policies";
 import VerifyEmailConfirm from "./Pages/AuthPages/VerifyEmailConfirm";
@@ -63,11 +61,6 @@ const Routes = () => {
 			return <Navigate to="/signin" replace={true} />;
 		}
 	}
-	// ANCHOR Contexts
-	const { wishlistItems, updateWishlistOnAuth }: any =
-		useContext(WishlistContext);
-	const { updateCartOnAuth }: any = useContext(CartContext);
-
 	// ANCHOR Local Storage For Cart
 	useEffect(() => {
 		var mounted = true;
@@ -156,14 +149,10 @@ const Routes = () => {
 					// 	);
 					// }
 					setCookie("user", data, { path: "/" });
-					updateCartOnAuth(data?.[0]?.id);
-					updateWishlistOnAuth(data?.[0]?.id);
 				});
 			};
 			getProfileData();
 		} else {
-			updateCartOnAuth(null);
-			updateWishlistOnAuth(null);
 			removeCookie("user", { path: "/" });
 		}
 	}, [async () => await isAuthenticated()]);

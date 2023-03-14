@@ -1,11 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { authenticate, isAuthenticated, signIn } from "../APIs/user/user";
 import GoogleLogin from "react-google-login";
 import { Link, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { BaseContext } from "../Context";
 import { Helmet } from "react-helmet-async";
-import { useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import DataLoader2 from "./DataLoader2";
 import { googleLogin } from "../APIs/user/user";

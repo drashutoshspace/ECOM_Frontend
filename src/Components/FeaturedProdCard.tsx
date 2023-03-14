@@ -1,24 +1,38 @@
 import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { CartContext } from "../Contexts/CartContext";
-import { WishlistContext } from "../Contexts/WishlistContext";
-import { Product, CartItem } from "../Interfaces/Products";
+import { Product } from "../Interfaces/Products";
+import { useSelector, useDispatch } from "react-redux";
+import { Store } from "../Interfaces/Store";
+import {
+	addProductInCart,
+	increaseQuantityOfProductInCart,
+	decreaseQuantityOfProductInCart,
+	addProductInWishlist,
+	removeProductFromWishlist,
+} from "../Data/storingData";
+import { BaseContext } from "../Context";
 
-export default function FeaturedProdCard({ product }: { product: Product }): JSX.Element {
+export default function FeaturedProdCard({
+	product,
+}: {
+	product: Product;
+}): JSX.Element {
+	const dispatch = useDispatch();
+	const { cookies }: any = useContext(BaseContext);
 	const [plusMinus, setPlusMinus] = useState(1);
 	const [animateButton, setAnimateButton] = useState(false);
-	const {
-		addProductToWishlist,
-		removeProductFromWishlist,
-		wishlistItems,
-	}: any = useContext(WishlistContext);
-	const { addProduct, cartItems, increase }: any = useContext(CartContext);
+	const wishlistItems = useSelector(
+		(state: Store) => state.wishlist[cookies?.user?.[0]?.id]
+	);
+	const cartItems = useSelector(
+		(state: Store) => state.cart[cookies?.user?.[0]?.id]
+	);
 	const isInWishlist = (id: string) => {
-		return wishlistItems.products.find((item: Product) => item.guid === id);
+		return wishlistItems.find((item: string) => item === id);
 	};
 	const isInCart = (id: string) => {
-		return !!!cartItems.products.find(
-			(item: CartItem) => item.product.guid === id
+		return !!!cartItems.find(
+			(item: { guid: string; quantity: number }) => item.guid === id
 		);
 	};
 	const handlePlus = () => {
@@ -33,7 +47,6 @@ export default function FeaturedProdCard({ product }: { product: Product }): JSX
 			clearTimeout(timer);
 		};
 	}, [animateButton]);
-	//TODO: set add more through useeffect
 	return (
 		<div className="card mycard border-0 m-3 shadow hovergoup">
 			<Link className="text-center" to={`/shop/prodsin/${product?.guid}`}>
@@ -66,7 +79,11 @@ export default function FeaturedProdCard({ product }: { product: Product }): JSX
 					onClick={() => {
 						isInWishlist(product.guid)
 							? removeProductFromWishlist(product.guid)
-							: addProductToWishlist(product);
+							: dispatch(
+									addProductInWishlist({
+										guid: product?.guid,
+									})
+							  );
 					}}
 				/>
 			</button>
@@ -129,10 +146,12 @@ export default function FeaturedProdCard({ product }: { product: Product }): JSX
 								}`}
 								onClick={() => {
 									setAnimateButton(true);
-									addProduct({
-										product,
-										quantity: plusMinus,
-									});
+									dispatch(
+										addProductInCart({
+											guid: product?.guid,
+											quantity: plusMinus,
+										})
+									);
 								}}
 							>
 								<span>Add to Cart</span>
@@ -167,10 +186,11 @@ export default function FeaturedProdCard({ product }: { product: Product }): JSX
 								}`}
 								onClick={() => {
 									setAnimateButton(true);
-									increase({
-										product,
-										quantity: plusMinus,
-									});
+									dispatch(
+										increaseQuantityOfProductInCart({
+											guid: product?.guid,
+										})
+									);
 								}}
 							>
 								<span>Add More</span>
