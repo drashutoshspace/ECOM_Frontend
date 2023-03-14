@@ -1,8 +1,6 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import tempImg from "../Assets/Product_3.webp";
-import { isAuthenticated } from "../APIs/user/user";
-import { toast } from "react-toastify";
 import { BaseContext } from "../Context";
 import { CartItem } from "../Interfaces/Products";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,49 +12,27 @@ import {
 	addProductInWishlist,
 	removeProductFromWishlist,
 } from "../Data/storingData";
+import { DeleteButtonForCart } from "./DeleteButtons";
+import { WishlistButtonForCart } from "./WishlistButtons";
+import { MinusButtonForCart, PlusButtonForCart } from "./PlusMinusButtons";
 
 export default function CartCard({ item }: { item: CartItem }): JSX.Element {
+	const dispatch = useDispatch();
+	const { cookies }: any = useContext(BaseContext);
 	const [deleteToggle, setDeleteToggle] = useState(false);
-	const [plusminusStatus, setPlusMinusStatus] = useState("");
 	const wishlistItems = useSelector(
 		(state: Store) => state.wishlist[cookies?.user?.[0]?.id]
 	);
-	const dispatch = useDispatch();
-	const { cookies }: any = useContext(BaseContext);
-	const isProductInWishlist = (guid: string) => {
-		return wishlistItems.find(
-			(item: any) =>
-				item.product.guid === guid &&
-				item.userID === cookies?.user?.[0]?.id
-		);
-	};
+	const userId = useSelector((state: Store) => state.userId);
 	const deletebutton = () => {
 		if (item?.product?.guid) {
 			setDeleteToggle(!deleteToggle);
 			setTimeout(() => {
-				dispatch(removeProductFromCart(item?.product?.guid));
+				dispatch(removeProductFromCart({ guid: item?.product?.guid }));
 				setDeleteToggle(false);
 			}, 900);
 		}
 	};
-	useEffect(() => {
-		if (
-			plusminusStatus === "increase" &&
-			(async () => await isAuthenticated())
-		) {
-			dispatch(increaseQuantityOfProductInCart({ guid: item?.product }));
-			setPlusMinusStatus("");
-		} else if (
-			plusminusStatus === "decrease" &&
-			(async () => await isAuthenticated())
-		) {
-			dispatch(decreaseQuantityOfProductInCart({ guid: item?.product }));
-			if (item?.quantity === 0) {
-				deletebutton();
-			}
-			setPlusMinusStatus("");
-		}
-	}, [plusminusStatus]);
 	return (
 		<div
 			className={`${
@@ -88,111 +64,56 @@ export default function CartCard({ item }: { item: CartItem }): JSX.Element {
 						</Link>
 					</div>
 				</div>
-				{item?.product && (
-					<>
-						<div className="row mt-3">
-							<div className="col-lg-12">
-								<button
-									className="colorblue border-0 border5px bgyellow bglightblue"
-									onClick={async () => {
-										if (await isAuthenticated()) {
-											setPlusMinusStatus("decrease");
-										} else {
-											return toast.warning(
-												"Please login first!"
-											);
-										}
-									}}
-									style={{ width: 40, height: 40 }}
-								>
-									<i className="fas fa-minus" />
-								</button>
-								<input
-									className="bgcolorgreyish text-center colorblue border-0 border5px mx-2"
-									type="number"
-									value={item?.quantity}
-									disabled
-									style={{ width: 50, height: 40 }}
-								/>
-								<button
-									className="colorblue border-0 border5px bgyellow bglightblue"
-									onClick={async () => {
-										if (await isAuthenticated()) {
-											setPlusMinusStatus("increase");
-										} else {
-											return toast.warning(
-												"Please login first!"
-											);
-										}
-									}}
-									style={{ width: 40, height: 40 }}
-								>
-									<i className="fas fa-plus" />
-								</button>
-								<button
-									className="ms-2 colorblue border-0 border5px bgyellow bglightblue"
-									onClick={() => {
-										deletebutton();
-									}}
-									style={{ width: 40, height: 40 }}
-								>
-									<i className="fas fa-times" />
-								</button>
-							</div>
-						</div>
-						<div className="row mt-3">
-							<div className="col-lg-12">
-								<p className="colorblue mypara mb-0 fontsize20">
-									₹ {item?.product?.Product_SellingPrice} x{" "}
-									{item?.quantity} = ₹{" "}
-									{item?.product?.Product_SellingPrice *
-										item?.quantity}
-								</p>
-							</div>
-						</div>
-					</>
-				)}
 				<div className="row mt-3">
 					<div className="col-lg-12">
-						{item?.product ? (
-							<button
-								className="hvr-icon-pulse border-0 mywish border5px heartredhover"
-								onClick={() => {
-									isProductInWishlist(item?.product?.guid)
-										? removeProductFromWishlist({
-												guid: item?.product?.guid,
-												userID: cookies?.user?.[0]?.id,
-										  })
-										: dispatch(
-												addProductInWishlist({
-													guid: item?.product?.guid,
-												})
-										  );
-								}}
-							>
-								<i
-									className={`${
-										isProductInWishlist(item?.product?.guid)
-											? "fas fa-heart heartred hvr-icon"
-											: "far fa-heart"
-									}`}
-								/>
-							</button>
-						) : (
-							<>
-								{!item.product && (
-									<button
-										className="colorblue border-0 border5px bgyellow bglightblue me-3"
-										onClick={() => {
-											deletebutton();
-										}}
-										style={{ width: 40, height: 40 }}
-									>
-										<i className="fas fa-times" />
-									</button>
-								)}
-							</>
-						)}
+						<MinusButtonForCart
+							isAuthenticated={userId ? true : false}
+							guid={item?.product?.guid}
+							decreaseQuantityOfProductInCart={
+								decreaseQuantityOfProductInCart
+							}
+						/>
+						<input
+							className="bgcolorgreyish text-center colorblue border-0 border5px mx-2"
+							type="number"
+							value={item?.quantity}
+							disabled
+							style={{ width: 50, height: 40 }}
+						/>
+						<PlusButtonForCart
+							isAuthenticated={userId ? true : false}
+							guid={item?.product?.guid}
+							increaseQuantityOfProductInCart={
+								increaseQuantityOfProductInCart
+							}
+						/>
+						<DeleteButtonForCart
+							isAuthenticated={userId ? true : false}
+							onClick={() => deletebutton()}
+						/>
+					</div>
+				</div>
+				<div className="row mt-3">
+					<div className="col-lg-12">
+						<p className="colorblue mypara mb-0 fontsize20">
+							₹ {item?.product?.Product_SellingPrice} x{" "}
+							{item?.quantity} = ₹{" "}
+							{item?.product?.Product_SellingPrice *
+								item?.quantity}
+						</p>
+					</div>
+				</div>
+				<div className="row mt-3">
+					<div className="col-lg-12">
+						<WishlistButtonForCart
+							isAuthenticated={userId ? true : false}
+							guid={item?.product?.guid}
+							wishlistItems={wishlistItems}
+							addProductInWishlist={addProductInWishlist}
+							removeProductFromWishlist={
+								removeProductFromWishlist
+							}
+						/>
 					</div>
 				</div>
 			</div>
