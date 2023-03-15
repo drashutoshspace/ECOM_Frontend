@@ -142,6 +142,13 @@ const dataSlice = createSlice({
 		) {
 			state.allProductCategories = action.payload;
 		},
+		loginFromRedux(
+			state,
+			action: PayloadAction<{ userId: string; token: string }>
+		) {
+			state.token[action.payload.userId] = action.payload.token;
+			state.userId = action.payload.userId
+		},
 	},
 });
 
@@ -157,6 +164,7 @@ export const {
 	calculateAllCartItemsCount,
 	calculateTotalAmountAndDiscount,
 	setAllProductCategories,
+	loginFromRedux,
 } = dataSlice.actions;
 
 export default dataSlice.reducer;

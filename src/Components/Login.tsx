@@ -1,92 +1,60 @@
-import { useContext, useState, useEffect } from "react";
-import { authenticate, isAuthenticated, signIn } from "../APIs/user/user";
+import { useState } from "react";
+import { profileData, signIn } from "../APIs/user/user";
 import GoogleLogin from "react-google-login";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { BaseContext } from "../Context";
 import { Helmet } from "react-helmet-async";
 import { useMediaQuery } from "react-responsive";
 import DataLoader2 from "./DataLoader2";
 import { googleLogin } from "../APIs/user/user";
+import { loginFromRedux } from "../Data/storingData";
+import { useDispatch } from "react-redux";
 
 export default function Login({
 	handleToggle,
 	handleRememberMe,
 	rememberMe,
 }: any): JSX.Element {
-	const { handleNotification }: any = useContext(BaseContext);
-	const [values, setValues] = useState({
-		username: "",
-		email: "",
-		password: "",
-	});
+	const dispatch = useDispatch();
 	const [emailOrUsername, setEmailOrUsername] = useState("");
+	const [password, setPassword] = useState("");
 	const [loading, setLoading] = useState(false);
-	const handleChange = (name: any) => (event: any) => {
-		setValues({ ...values, [name]: event.target.value });
-	};
-	useEffect(() => {
-		var mounted = true;
-		if (mounted) {
-			if (emailOrUsername.includes("@")) {
-				setValues({
-					...values,
-					username: "",
-					email: emailOrUsername,
-				});
+	let email: string;
+	let username: string;
+	const loginUser = async (e: any) => {
+		e.preventDefault();
+		setLoading(true);
+		if (emailOrUsername.includes("@")) {
+			email = emailOrUsername;
+		} else {
+			username = emailOrUsername;
+		}
+		await signIn({ username, email, password }).then(async (data) => {
+			if (data?.key) {
+				localStorage.setItem("currentToken", data.key);
+				await profileData().then((profile) =>
+					dispatch(
+						loginFromRedux({
+							userId: profile[0].id,
+							token: data.key,
+						})
+					)
+				);
+				setLoading(false);
+				return toast.success("Login Successful");
 			} else {
-				if (emailOrUsername !== "") {
-					setValues({
-						...values,
-						email: "",
-						username: emailOrUsername,
-					});
+				setLoading(false);
+				if (data?.non_field_errors?.[0]) {
+					return toast.error(data.non_field_errors[0]);
+				}
+				if (data?.password?.[0]) {
+					return toast.error(`password: ${data.password[0]}`);
+				}
+				if (data?.email?.[0]) {
+					return toast.error(`email: ${data.email[0]}`);
 				}
 			}
-		}
-		return () => {
-			mounted = false;
-		};
-	}, [emailOrUsername]);
-	const loginUser = async (event: any) => {
-		event.preventDefault();
-		setLoading(true);
-		setValues({
-			...values,
 		});
-		await signIn({ username, email, password })
-			.then(async (data) => {
-				if (data?.key) {
-					let sessionToken = data.key;
-					await authenticate(sessionToken, () => {
-						setValues({
-							...values,
-						});
-						setLoading(false);
-					});
-					handleNotification("Login Successful", "success");
-				} else {
-					setLoading(false);
-					if (data?.non_field_errors?.[0]) {
-						return toast.error(data.non_field_errors[0]);
-					}
-					if (data?.password?.[0]) {
-						return toast.error(`password: ${data.password[0]}`);
-					}
-					if (data?.email?.[0]) {
-						return toast.error(`email: ${data.email[0]}`);
-					}
-				}
-			})
-			.catch((e) => {
-				setLoading(false);
-				console.log(e);
-			});
-	};
-	const performRedirect = () => {
-		if (async () => await isAuthenticated()) {
-			return <Navigate to="/" />;
-		}
 	};
 	const responseGoogle = async (response: any) => {
 		// await googleLogin({
@@ -104,11 +72,7 @@ export default function Login({
 		// 	}
 		// });
 	};
-	const { username, email, password } = values;
 	const [showPassword, setShowPassword] = useState(false);
-	const seePassword = () => {
-		setShowPassword(!showPassword);
-	};
 	const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
 	const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 	return (
@@ -158,9 +122,9 @@ export default function Login({
 												}
 												placeholder="Password"
 												value={password}
-												onChange={handleChange(
-													"password"
-												)}
+												onChange={(e) =>
+													setPassword(e.target.value)
+												}
 												required
 												style={{ height: "40px" }}
 											/>
@@ -171,7 +135,11 @@ export default function Login({
 												</span>
 											</span>
 											<span
-												onClick={seePassword}
+												onClick={() =>
+													setShowPassword(
+														!showPassword
+													)
+												}
 												className="symbol-input1000 d-flex align-items-center position-absolute colorblue h-100"
 											>
 												<span>
@@ -236,7 +204,7 @@ export default function Login({
 											Or Login With
 										</h3>
 										<div className="row">
-											<div className="col-6 mt-1">
+											<div className="col-12 mt-1">
 												<div className="d-grid">
 													<GoogleLogin
 														clientId="643639185226-rqi76uj45a2pbvmqrsvku1mqg4kgspvf.apps.googleusercontent.com"
@@ -339,9 +307,9 @@ export default function Login({
 												}
 												placeholder="Password"
 												value={password}
-												onChange={handleChange(
-													"password"
-												)}
+												onChange={(e) =>
+													setPassword(e.target.value)
+												}
 												required
 											/>
 											<span className="focus-input100" />
@@ -351,7 +319,11 @@ export default function Login({
 												</span>
 											</span>
 											<span
-												onClick={seePassword}
+												onClick={() =>
+													setShowPassword(
+														!showPassword
+													)
+												}
 												className="symbol-input1000 d-flex align-items-center position-absolute colorblue h-100"
 											>
 												<span>
@@ -415,7 +387,7 @@ export default function Login({
 											Or Login With
 										</h3>
 										<div className="row">
-											<div className="col-6 mt-3">
+											<div className="col-12 mt-3">
 												<div className="d-grid">
 													<GoogleLogin
 														clientId="643639185226-rqi76uj45a2pbvmqrsvku1mqg4kgspvf.apps.googleusercontent.com"
@@ -477,7 +449,6 @@ export default function Login({
 					</div>
 				</div>
 			)}
-			{performRedirect()}
 		</>
 	);
 }

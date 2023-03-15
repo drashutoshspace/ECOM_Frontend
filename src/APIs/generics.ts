@@ -4,7 +4,9 @@ export async function getWithAuthorization(
 	endpoint: string,
 	operation?: string
 ): Promise<any> {
-	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
+	const tokenValue = localStorage
+		.getItem("currentToken")!
+		.replace(/['"]+/g, "");
 	try {
 		const response = await fetch(endpoint, {
 			method: "GET",
@@ -43,7 +45,9 @@ export async function postWithAuthorization(
 	payload?: object,
 	operation?: string
 ): Promise<any> {
-	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
+	const tokenValue = localStorage
+		.getItem("currentToken")!
+		.replace(/['"]+/g, "");
 	try {
 		const response = await fetch(endpoint, {
 			method: "POST",

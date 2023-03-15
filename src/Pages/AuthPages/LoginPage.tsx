@@ -4,7 +4,11 @@ import Login from "../../Components/Login";
 import Signup from "../../Components/Signup";
 import Base from "../../Base";
 import { useMediaQuery } from "react-responsive";
-const LoginPage = ({ handleRememberMe, rememberMe }: any) => {
+
+export default function LoginPage({
+	handleRememberMe,
+	rememberMe,
+}: any): JSX.Element {
 	const [toggle, setToggle] = useState(false);
 	const handleToggle = (toggleValue: any) => {
 		setToggle(toggleValue);
@@ -14,9 +18,6 @@ const LoginPage = ({ handleRememberMe, rememberMe }: any) => {
 		});
 	};
 	const [changeImage, setChangeImage] = useState(false);
-	const handleChangeImage = () => {
-		setChangeImage(!changeImage);
-	};
 	const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
 	const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 	return (
@@ -27,8 +28,8 @@ const LoginPage = ({ handleRememberMe, rememberMe }: any) => {
 					<div className="row align-items-center pb-4">
 						<div
 							className="col-lg-6 col-md-6"
-							onMouseEnter={handleChangeImage}
-							onMouseLeave={handleChangeImage}
+							onMouseEnter={() => setChangeImage(!changeImage)}
+							onMouseLeave={() => setChangeImage(!changeImage)}
 						>
 							{isDesktopOrLaptop && (
 								<div className="">
@@ -73,5 +74,4 @@ const LoginPage = ({ handleRememberMe, rememberMe }: any) => {
 			</section>
 		</Base>
 	);
-};
-export default LoginPage;
+}
