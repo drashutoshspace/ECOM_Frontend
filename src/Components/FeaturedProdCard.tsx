@@ -58,7 +58,7 @@ export default function FeaturedProdCard({
 				%
 			</span>
 			<WishlistButtonForCard
-				isAuthenticated={userId ? true : false}
+				isAuthenticated={userId !== "" ? true : false}
 				guid={product?.guid}
 				wishlistItems={wishlistItems}
 				addProductInWishlist={addProductInWishlist}
@@ -120,7 +120,7 @@ export default function FeaturedProdCard({
 					<div className="col me-3 d-flex align-items-center">
 						{!isProductInCart(cartItems, product?.guid) ? (
 							<AddToCartButtonForCard
-								isAuthenticated={userId ? true : false}
+								isAuthenticated={userId !== "" ? true : false}
 								animateButton={animateButton}
 								plusMinus={plusMinus}
 								setAnimateButton={setAnimateButton}
@@ -129,7 +129,7 @@ export default function FeaturedProdCard({
 							/>
 						) : (
 							<ViewCartButtonForCard
-								isAuthenticated={userId ? true : false}
+								isAuthenticated={userId !== "" ? true : false}
 							/>
 						)}
 					</div>

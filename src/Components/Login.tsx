@@ -89,20 +89,20 @@ export default function Login({
 		}
 	};
 	const responseGoogle = async (response: any) => {
-		await googleLogin({
-			access_token: response.accessToken,
-			code: response.code,
-			id_token: response.tokenId,
-		}).then((res: any) => {
-			if (res?.status === 200) {
-				if (async () => await isAuthenticated()) {
-					handleNotification("Login Successful", "success");
-					return <Navigate to="/" />;
-				}
-			} else {
-				return toast.error(res?.error);
-			}
-		});
+		// await googleLogin({
+		// 	access_token: response.accessToken,
+		// 	code: response.code,
+		// 	id_token: response.tokenId,
+		// }).then((res: any) => {
+		// 	if (res?.status === 200) {
+		// 		if (async () => await isAuthenticated()) {
+		// 			handleNotification("Login Successful", "success");
+		// 			return <Navigate to="/" />;
+		// 		}
+		// 	} else {
+		// 		return toast.error(res?.error);
+		// 	}
+		// });
 	};
 	const { username, email, password } = values;
 	const [showPassword, setShowPassword] = useState(false);

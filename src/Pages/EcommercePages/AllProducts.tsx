@@ -15,6 +15,7 @@ import { categoryWiseProducts } from "../../APIs/ecommerce/ecommerce";
 export default function AllProducts(): JSX.Element {
 	const { linkCategory } = useParams();
 	const [category, setCategory] = useState<string>(linkCategory as string);
+	useEffect(() => setCategory(linkCategory as string), [linkCategory]);
 	const navigate = useNavigate();
 	const [currentPage, setCurrentPage] = useState<number>(0);
 	const [pageCount, setPageCount] = useState(1);
@@ -54,14 +55,14 @@ export default function AllProducts(): JSX.Element {
 			});
 		};
 		getProducts();
-	}, [currentPage, category]);
+	}, [currentPage, category, linkCategory]);
 	return (
 		<>
 			<Helmet>
 				<title>MeeMo Kidz | All Products</title>
 			</Helmet>
 			<Base>
-				<Breadcrumb title="All Products" />
+				<Breadcrumb title={category} />
 				{!loading ? (
 					<section className="section overflow-hidden">
 						<div className="row">

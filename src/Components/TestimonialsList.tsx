@@ -61,9 +61,9 @@ export default function TestimonialsList(): JSX.Element {
 							data-aos-duration="1000"
 							data-aos-once="true"
 						>
-							<h4 className="title colorblue">
+							<h1 className="title text-center colorblue">
 								Our Testimonials
-							</h4>
+							</h1>
 						</div>
 					</div>
 				</div>

@@ -101,20 +101,20 @@ export default function Signup({
 		}
 	};
 	const responseGoogle = async (response: any) => {
-		await googleLogin({
-			access_token: response.accessToken,
-			code: response.code,
-			id_token: response.tokenId,
-		}).then((res: any) => {
-			if (res?.status === 200) {
-				if (async () => await isAuthenticated()) {
-					handleNotification("Login Successful", "success");
-					return navigate("/");
-				}
-			} else {
-				return toast.error(res?.error);
-			}
-		});
+		// await googleLogin({
+		// 	access_token: response.accessToken,
+		// 	code: response.code,
+		// 	id_token: response.tokenId,
+		// }).then((res: any) => {
+		// 	if (res?.status === 200) {
+		// 		if (async () => await isAuthenticated()) {
+		// 			handleNotification("Login Successful", "success");
+		// 			return navigate("/");
+		// 		}
+		// 	} else {
+		// 		return toast.error(res?.error);
+		// 	}
+		// });
 	};
 	const [showPassword1, setShowPassword1] = useState(false);
 	const seePassword1 = () => {

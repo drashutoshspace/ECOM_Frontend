@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { isAuthenticated } from "../APIs/user/user";
 import { useMediaQuery } from "react-responsive";
 import { Product_Category } from "../Interfaces/Products";
 import { useSelector } from "react-redux";
@@ -8,20 +7,18 @@ import { cartItem, Store } from "../Interfaces/Store";
 import { signOut } from "../APIs/user/user";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
+import { truncate } from "../Utilities/Utils";
 
 export default function Navbar(): JSX.Element {
 	const [cookies, removeCookie] = useCookies(["user"]);
-	const logoutUser = (e: any) => {
-		e.preventDefault();
-		signOut((data: any) => {
-			removeCookie("user", { path: "/" });
-			return toast.success(data?.detail);
-		});
-	};
+	const navigate = useNavigate();
+	const location = useLocation();
+	const [isToggled, setIsToggled] = useState(false);
+	const userId = useSelector((state: Store) => state.userId);
 	const cartItems = useSelector(
 		(state: Store) => state.cart[cookies?.user?.[0]?.id]
 	);
-	const productsCount = useSelector(
+	const allWishlistItemsCount = useSelector(
 		(state: Store) => state.allWishlistItemsCount
 	);
 	const allCartItemsCount = useSelector(
@@ -30,16 +27,14 @@ export default function Navbar(): JSX.Element {
 	const allProductCategories = useSelector(
 		(state: Store) => state.allProductCategories
 	);
-	const [isToggled, setIsToggled] = useState(false);
-	const navigate = useNavigate();
-	const navbarToggler = () => {
-		setIsToggled(!isToggled);
+	const logoutUser = (e: any) => {
+		e.preventDefault();
+		signOut((data: any) => {
+			removeCookie("user", { path: "/" });
+			navigate("/signin");
+			return toast.success(data?.detail);
+		});
 	};
-	const logoutUser2 = (event: any) => {
-		logoutUser(event);
-		navigate("/signin");
-	};
-	const location = useLocation();
 	useEffect(() => {
 		if (location.hash) {
 			let elem = document.getElementById(location.hash.slice(1));
@@ -50,19 +45,14 @@ export default function Navbar(): JSX.Element {
 			window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 		}
 	}, [location]);
-	function truncate(str: string, n: number) {
-		return str?.length > n ? str.substring(0, n - 1) + "..." : str;
-	}
-
-	// ANCHOR Search Results Code
 	const [mySearchInput, setMySearchInput] = useState("");
 	useEffect(() => {
 		if (location.pathname.includes("searchresults")) {
 			setMySearchInput(location.pathname.split("/").reverse()[0] || "");
 		}
 	}, []);
-	const mySearch = (event: any, searchInput: string) => {
-		event.preventDefault();
+	const mySearch = (e: any, searchInput: string) => {
+		e.preventDefault();
 		navigate(`/searchresults/${searchInput}`);
 	};
 	const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
@@ -107,11 +97,7 @@ export default function Navbar(): JSX.Element {
 	var dropdownToggle3 = useRef<HTMLDivElement>(null);
 	var dropdownToggle4 = useRef<HTMLUListElement>(null);
 	useEffect(() => {
-		if (
-			isDesktopOrLaptop &&
-			(async () => await isAuthenticated()) &&
-			dropdownToggle3.current
-		) {
+		if (isDesktopOrLaptop && userId !== "" && dropdownToggle3.current) {
 			const mouseOver3 = () => {
 				setOnHoverDropdown3(true);
 			};
@@ -127,11 +113,7 @@ export default function Navbar(): JSX.Element {
 				};
 			}
 		}
-		if (
-			isDesktopOrLaptop &&
-			(async () => await isAuthenticated()) &&
-			dropdownToggle4.current
-		) {
+		if (isDesktopOrLaptop && userId !== "" && dropdownToggle4.current) {
 			const mouseOver3 = () => {
 				setOnHoverDropdown3(true);
 			};
@@ -252,9 +234,14 @@ export default function Navbar(): JSX.Element {
 											<Link
 												to={`/shop/${item.category}`}
 												className={
-													location.pathname.includes(
-														`/shop/${item.category}`
-													)
+													location.pathname.replace(
+														"%20",
+														""
+													) ===
+													`/shop/${item.category.replace(
+														" ",
+														""
+													)}`
 														? "colorblue fontsize14 bgyellow dropdown-item"
 														: "colorblue fontsize14 lightbluehover dropdown-item"
 												}
@@ -288,12 +275,11 @@ export default function Navbar(): JSX.Element {
 							aria-expanded={onHoverDropdown2}
 						>
 							<i className="fas fa-shopping-cart hvr-icon" />
-							{(async () => await isAuthenticated()) &&
-								allCartItemsCount > 0 && (
-									<span className="topnumbercart">
-										{allCartItemsCount}
-									</span>
-								)}
+							{userId !== "" && allCartItemsCount > 0 && (
+								<span className="topnumbercart">
+									{allCartItemsCount}
+								</span>
+							)}
 							&nbsp;&nbsp;Cart &nbsp;
 							<i className="fas fa-caret-down hvr-icon" />
 						</Link>
@@ -302,8 +288,7 @@ export default function Navbar(): JSX.Element {
 								onHoverDropdown2
 									? `dropdown-menu dropdown-menu-end mt-0 pt-4 ms-2 border5px animate slideIn border-0 show ${
 											cartItems?.length > 0 &&
-											(async () =>
-												await isAuthenticated())
+											userId !== ""
 												? "cartdropdown"
 												: ""
 									  }`
@@ -313,7 +298,7 @@ export default function Navbar(): JSX.Element {
 							aria-labelledby="navbarDropdown"
 							data-bs-popper={onHoverDropdown2 ? "none" : ""}
 						>
-							{!(async () => await isAuthenticated()) && (
+							{!(userId !== "") && (
 								<li>
 									<div
 										style={{ width: "200px" }}
@@ -324,25 +309,14 @@ export default function Navbar(): JSX.Element {
 									</div>
 								</li>
 							)}
-							{cartItems?.filter(
-								(item: any) =>
-									item.userID === cookies?.user?.[0]?.id
-							).length > 0 && (
+							{cartItems?.length > 0 && (
 								<li>
 									<div className="row px-4">
-										{cartItems?.filter(
-											(item: any) =>
-												item.userID ===
-												cookies?.user?.[0].id
-										).length > 0 && (
+										{cartItems?.length > 0 && (
 											<div
 												className={`${
-													cartItems?.filter(
-														(item: any) =>
-															item.userID ===
-															cookies?.user?.[0]
-																?.id
-													).length > 0 && "col-lg-12"
+													cartItems?.length > 0 &&
+													"col-lg-12"
 												}`}
 											>
 												<div className="row">
@@ -396,11 +370,7 @@ export default function Navbar(): JSX.Element {
 													)}
 											</div>
 										)}
-										{cartItems?.filter(
-											(item: any) =>
-												item.userID ===
-												cookies?.user?.[0]?.id
-										).length >= 4 && (
+										{cartItems?.length >= 4 && (
 											<>
 												<li>
 													<hr className="mt-0 dropdown-divider dropdowndividernav" />
@@ -421,7 +391,7 @@ export default function Navbar(): JSX.Element {
 							)}
 						</ul>
 					</div>
-					{(async () => await isAuthenticated()) ? (
+					{userId !== "" ? (
 						<div
 							className="nav-item dropdown align-items-center my-3"
 							onClick={() => {
@@ -492,7 +462,7 @@ export default function Navbar(): JSX.Element {
 									>
 										<i className="fas fa-box-heart" />
 										<span className="topnumbercart">
-											{productsCount}
+											{allWishlistItemsCount}
 										</span>
 										&nbsp;&nbsp;Product Wishlist
 									</Link>
@@ -534,7 +504,7 @@ export default function Navbar(): JSX.Element {
 								<li>
 									<small
 										className="cursorpointer colorblue fontsize14 lightbluehover dropdown-item"
-										onClick={logoutUser2}
+										onClick={(e) => logoutUser(e)}
 									>
 										<i className="fas fa-portal-exit" />
 										&nbsp;&nbsp;Sign Out
@@ -545,7 +515,7 @@ export default function Navbar(): JSX.Element {
 					) : (
 						<div className="nav-item align-items-center my-3">
 							<Link
-								className="nav-link transitionease fontsize14 bglightblue bgyellow text-uppercase border5px colorblue"
+								className="p-2 nav-link transitionease fontsize14 bglightblue bgyellow text-uppercase border5px colorblue"
 								to="/signin"
 							>
 								Login / Signup
@@ -568,7 +538,7 @@ export default function Navbar(): JSX.Element {
 						aria-controls="myown-nav"
 						aria-expanded={isToggled ? "false" : "true"}
 						aria-label="Toggle navigation"
-						onClick={navbarToggler}
+						onClick={() => setIsToggled(!isToggled)}
 					>
 						<span className="hamburger-box">
 							<span className="hamburger-inner" />
@@ -663,9 +633,14 @@ export default function Navbar(): JSX.Element {
 													<Link
 														to={`/shop/${item.category}`}
 														className={
-															location.pathname.includes(
-																`/shop/${item.category}`
-															)
+															location.pathname.replace(
+																"%20",
+																""
+															) ===
+															`/shop/${item.category.replace(
+																" ",
+																""
+															)}`
 																? "colorblue fontsize14 bgyellow dropdown-item"
 																: "colorblue fontsize14 lightbluehover dropdown-item"
 														}
@@ -689,12 +664,11 @@ export default function Navbar(): JSX.Element {
 									aria-expanded="false"
 								>
 									<i className="fas fa-shopping-cart hvr-icon" />
-									{(async () => await isAuthenticated()) &&
-										allCartItemsCount > 0 && (
-											<span className="topnumbercart">
-												{allCartItemsCount}
-											</span>
-										)}
+									{userId !== "" && allCartItemsCount > 0 && (
+										<span className="topnumbercart">
+											{allCartItemsCount}
+										</span>
+									)}
 									&nbsp;&nbsp;Cart
 								</Link>
 								<ul
@@ -762,11 +736,7 @@ export default function Navbar(): JSX.Element {
 											</div>
 										</li>
 									)}
-									{cartItems?.filter(
-										(item: any) =>
-											item.userID ===
-											cookies?.user?.[0]?.id
-									).length > 0 && (
+									{cartItems?.length > 0 && (
 										<>
 											<li>
 												<hr className="dropdown-divider dropdowndividernav" />
@@ -778,12 +748,7 @@ export default function Navbar(): JSX.Element {
 												>
 													<i className="fas fa-shopping-cart" />
 													&nbsp;&nbsp;
-													{cartItems?.filter(
-														(item: any) =>
-															item.userID ===
-															cookies?.user?.[0]
-																?.id
-													).length >= 4
+													{cartItems?.length >= 4
 														? "Click Here To See Rest Of The Items"
 														: "Cart"}
 												</Link>
@@ -792,7 +757,7 @@ export default function Navbar(): JSX.Element {
 									)}
 								</ul>
 							</li>
-							{(async () => await isAuthenticated()) ? (
+							{userId !== "" ? (
 								<li className="nav-item dropdown px-4 my-1">
 									<Link
 										to=""
@@ -842,7 +807,7 @@ export default function Navbar(): JSX.Element {
 											>
 												<i className="fas fa-box-heart" />
 												<span className="topnumbercart">
-													{productsCount}
+													{allWishlistItemsCount}
 												</span>
 												&nbsp;&nbsp;Product Wishlist
 											</Link>
@@ -885,7 +850,7 @@ export default function Navbar(): JSX.Element {
 										<li>
 											<small
 												className="cursorpointer colorblue fontsize12 lightbluehover dropdown-item"
-												onClick={logoutUser2}
+												onClick={(e) => logoutUser(e)}
 											>
 												<i className="fas fa-sign-out-alt" />
 												&nbsp;&nbsp;Sign Out
