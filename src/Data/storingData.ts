@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Product_Category } from "../Interfaces/Products";
 import { cartItem, Store } from "../Interfaces/Store";
 
 const initial: Store = {
@@ -16,6 +17,7 @@ const initial: Store = {
 	allCartItemsTotalPrice: 0,
 	allCartItemsTotalDiscount: 0,
 	allWishlistItemsCount: 0,
+	allProductCategories: [],
 };
 
 const dataSlice = createSlice({
@@ -105,7 +107,7 @@ const dataSlice = createSlice({
 		clearWishlist(state) {
 			state.wishlist[state.userId] = [];
 		},
-		calculateAllCartItemsCount(state, action) {
+		calculateAllCartItemsCount(state) {
 			if (state.cart[state.userId].length > 0) {
 				state.allCartItemsCount = state.cart[state.userId].reduce(
 					(total: number, item: cartItem) => total + item.quantity,
@@ -113,10 +115,10 @@ const dataSlice = createSlice({
 				);
 			}
 		},
-		calculateAllWishlistItemsCount(state, action) {
+		calculateAllWishlistItemsCount(state) {
 			state.allWishlistItemsCount = state.wishlist[state.userId].length;
 		},
-		calculateTotalAmountAndDiscount(state, action) {
+		calculateTotalAmountAndDiscount(state) {
 			if (state.cart[state.userId].length > 0) {
 				state.allCartItemsTotalPrice = state.cart[state.userId].reduce(
 					(total: number, item: cartItem) =>
@@ -134,6 +136,12 @@ const dataSlice = createSlice({
 				);
 			}
 		},
+		setAllProductCategories(
+			state,
+			action: PayloadAction<Product_Category[]>
+		) {
+			state.allProductCategories = action.payload;
+		},
 	},
 });
 
@@ -148,6 +156,7 @@ export const {
 	clearWishlist,
 	calculateAllCartItemsCount,
 	calculateTotalAmountAndDiscount,
+	setAllProductCategories,
 } = dataSlice.actions;
 
 export default dataSlice.reducer;

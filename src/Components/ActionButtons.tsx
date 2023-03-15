@@ -30,8 +30,8 @@ export function AddToCartButtonForCard({
 		<button
 			className={`${
 				animateButton
-					? "add-to-cart w-100 h-75 fontsize14 d-flex justify-content-center align-items-center mybtnsame position-relative overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase is-added"
-					: "add-to-cart w-100 h-75 fontsize14 d-flex justify-content-center align-items-center mybtnsame position-relative overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase"
+					? "add-to-cart w-100 h-75 fontsize12 d-flex justify-content-center align-items-center mybtnsame position-relative overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase is-added"
+					: "add-to-cart w-100 h-75 fontsize12 d-flex justify-content-center align-items-center mybtnsame position-relative overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase"
 			}`}
 			onClick={() => {
 				if (isAuthenticated) {
@@ -76,7 +76,7 @@ export function ViewCartButtonForCard({
 	const navigate = useNavigate();
 	return (
 		<button
-			className="add-to-cart w-100 h-75 fontsize14 d-flex justify-content-center align-items-center mybtnsame position-relative overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase"
+			className="add-to-cart w-100 h-75 fontsize12 d-flex justify-content-center align-items-center mybtnsame position-relative overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase"
 			onClick={() => {
 				if (isAuthenticated) {
 					navigate("/cart");

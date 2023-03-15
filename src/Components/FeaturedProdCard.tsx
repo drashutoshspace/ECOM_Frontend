@@ -118,7 +118,7 @@ export default function FeaturedProdCard({
 						</button>
 					</div>
 					<div className="col me-3 d-flex align-items-center">
-						{isProductInCart(cartItems, product?.guid) ? (
+						{!isProductInCart(cartItems, product?.guid) ? (
 							<AddToCartButtonForCard
 								isAuthenticated={userId ? true : false}
 								animateButton={animateButton}

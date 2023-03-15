@@ -1,13 +1,11 @@
 import TestimonialsCard from "./TestimonialsCard";
 import Slider from "react-slick";
 import { testimonialData } from "../APIs/misc/misc";
-import { useContext, useEffect } from "react";
-import { TestimonialsContext } from "../Context";
+import { useState, useEffect } from "react";
 import { Testimonials } from "../Interfaces/Misc";
 
-export default function TestimonialsList() {
-	const { testimonials, handleTestimonials }: any =
-		useContext(TestimonialsContext);
+export default function TestimonialsList(): JSX.Element {
+	const [allTestimonials, setAllTestimonials] = useState<Testimonials[]>([]);
 	var settings = {
 		dots: true,
 		dotsClass:
@@ -46,8 +44,8 @@ export default function TestimonialsList() {
 	};
 	useEffect(() => {
 		const getTestimonial = async () => {
-			await testimonialData().then((data: any) => {
-				handleTestimonials(data);
+			await testimonialData().then((data: Testimonials[]) => {
+				setAllTestimonials(data);
 			});
 		};
 		getTestimonial();
@@ -72,7 +70,7 @@ export default function TestimonialsList() {
 				<div className="row justify-content-center">
 					<div className="col-lg-12 mt-4">
 						<Slider {...settings}>
-							{testimonials.map(
+							{allTestimonials.map(
 								(testimonial: Testimonials, index: number) => {
 									return (
 										<TestimonialsCard

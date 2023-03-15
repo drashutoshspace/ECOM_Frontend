@@ -2,7 +2,19 @@ import Breadcrumb from "../Components/Breadcrumb";
 import Base from "../Base";
 import { Helmet } from "react-helmet-async";
 import sanitizeHtml from "sanitize-html";
-const PrivPol = ({ privpDoc }: any) => {
+import { useState, useEffect } from "react";
+import { privacyPolicyData } from "../APIs/misc/misc";
+
+export default function PrivP(): JSX.Element {
+	const [privpDoc, setPrivpDoc] = useState([]);
+	useEffect(() => {
+		const getPP = async () => {
+			await privacyPolicyData().then((data: any) => {
+				setPrivpDoc(data);
+			});
+		};
+		getPP();
+	}, []);
 	const defaultOptions = {
 		allowedTags: ["b", "i", "em", "strong", "a", "p", "br"],
 	};
@@ -51,5 +63,4 @@ const PrivPol = ({ privpDoc }: any) => {
 			</Base>
 		</>
 	);
-};
-export default PrivPol;
+}

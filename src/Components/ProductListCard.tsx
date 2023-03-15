@@ -1,4 +1,5 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 import { Product } from "../Interfaces/Products";
 import { useSelector } from "react-redux";
@@ -8,7 +9,6 @@ import {
 	addProductInWishlist,
 	removeProductFromWishlist,
 } from "../Data/storingData";
-import { BaseContext } from "../Context";
 import { WishlistButtonForCard } from "./WishlistButtons";
 import { isProductInCart } from "../Utilities/Utils";
 import { AddToCartButtonForCard, ViewCartButtonForCard } from "./ActionButtons";
@@ -19,7 +19,7 @@ export default function ProductListCard({
 }: {
 	product: Product;
 }): JSX.Element {
-	const { cookies }: any = useContext(BaseContext);
+	const [cookies] = useCookies(["user"]);
 	const [plusMinus, setPlusMinus] = useState(1);
 	const [animateButton, setAnimateButton] = useState(false);
 	const wishlistItems = useSelector(
@@ -129,7 +129,7 @@ export default function ProductListCard({
 							</button>
 						</div>
 						<div className="col me-3 d-flex align-items-center">
-							{isProductInCart(cartItems, product?.guid) ? (
+							{!isProductInCart(cartItems, product?.guid) ? (
 								<AddToCartButtonForCard
 									isAuthenticated={userId ? true : false}
 									animateButton={animateButton}

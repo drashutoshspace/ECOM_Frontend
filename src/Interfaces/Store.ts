@@ -1,3 +1,5 @@
+import { Product_Category } from "./Products";
+
 export interface tokenObject {
 	[key: string]: string;
 }
@@ -27,4 +29,5 @@ export interface Store {
 	allCartItemsTotalPrice: number;
 	allCartItemsTotalDiscount: number;
 	allWishlistItemsCount: number;
+	allProductCategories: Product_Category[];
 }

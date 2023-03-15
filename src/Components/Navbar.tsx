@@ -1,14 +1,23 @@
-import { useContext, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { isAuthenticated } from "../APIs/user/user";
-import { BaseContext } from "../Context";
 import { useMediaQuery } from "react-responsive";
 import { Product_Category } from "../Interfaces/Products";
 import { useSelector } from "react-redux";
 import { cartItem, Store } from "../Interfaces/Store";
+import { signOut } from "../APIs/user/user";
+import { useCookies } from "react-cookie";
+import { toast } from "react-toastify";
 
 export default function Navbar(): JSX.Element {
-	const { logoutUser, cookies }: any = useContext(BaseContext);
+	const [cookies, removeCookie] = useCookies(["user"]);
+	const logoutUser = (e: any) => {
+		e.preventDefault();
+		signOut((data: any) => {
+			removeCookie("user", { path: "/" });
+			return toast.success(data?.detail);
+		});
+	};
 	const cartItems = useSelector(
 		(state: Store) => state.cart[cookies?.user?.[0]?.id]
 	);
@@ -18,7 +27,9 @@ export default function Navbar(): JSX.Element {
 	const allCartItemsCount = useSelector(
 		(state: Store) => state.allCartItemsCount
 	);
-	const { allProductCategories }: any = useContext(BaseContext);
+	const allProductCategories = useSelector(
+		(state: Store) => state.allProductCategories
+	);
 	const [isToggled, setIsToggled] = useState(false);
 	const navigate = useNavigate();
 	const navbarToggler = () => {

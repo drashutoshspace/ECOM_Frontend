@@ -1,9 +1,20 @@
 import Breadcrumb from "../Components/Breadcrumb";
 import Base from "../Base";
-import React from "react";
 import { Helmet } from "react-helmet-async";
 import sanitizeHtml from "sanitize-html";
-const CancRef = ({ cnrDoc }: any) => {
+import { useState, useEffect } from "react";
+import { cnrData } from "../APIs/misc/misc";
+
+export default function CancRef(): JSX.Element {
+	const [cnrDoc, setCnrDoc] = useState([]);
+	useEffect(() => {
+		const getCnr = async () => {
+			await cnrData().then((data: any) => {
+				setCnrDoc(data);
+			});
+		};
+		getCnr();
+	}, []);
 	const defaultOptions = {
 		allowedTags: ["b", "i", "em", "strong", "a", "p", "br"],
 	};
@@ -50,5 +61,4 @@ const CancRef = ({ cnrDoc }: any) => {
 			</Base>
 		</>
 	);
-};
-export default CancRef;
+}

@@ -9,11 +9,7 @@ import VisibilitySensor from "react-visibility-sensor";
 import { Helmet } from "react-helmet-async";
 
 export default function Home() {
-	const [toggleAOS, setToggleAOS] = useState(false);
-	const [home_products, setHome_Products] = useState([]);
-	const handleHomeProducts = (array: any) => {
-		setHome_Products(array);
-	};
+	const [toggleAOS, setToggleAOS] = useState<boolean>(false);
 	useEffect(() => {
 		var mounted = true;
 		if (mounted) {
@@ -52,10 +48,7 @@ export default function Home() {
 						setToggleAOS(!toggleAOS);
 					}}
 				>
-					<ProductList
-						home_products={home_products}
-						handleHomeProducts={handleHomeProducts}
-					/>
+					<ProductList fromHome={true} />
 				</VisibilitySensor>
 				<VisibilitySensor
 					onChange={() => {

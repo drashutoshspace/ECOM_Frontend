@@ -2,7 +2,19 @@ import Breadcrumb from "../Components/Breadcrumb";
 import Base from "../Base";
 import { Helmet } from "react-helmet-async";
 import sanitizeHtml from "sanitize-html";
-const TermsCond = ({ tncDoc }: any) => {
+import { useState, useEffect } from "react";
+import { tncData } from "../APIs/misc/misc";
+
+export default function TnC(): JSX.Element {
+	const [tncDoc, setTncDoc] = useState([]);
+	useEffect(() => {
+		const getTnc = async () => {
+			await tncData().then((data: any) => {
+				setTncDoc(data);
+			});
+		};
+		getTnc();
+	}, []);
 	const defaultOptions = {
 		allowedTags: ["b", "i", "em", "strong", "a", "p", "br"],
 	};
@@ -49,5 +61,4 @@ const TermsCond = ({ tncDoc }: any) => {
 			</Base>
 		</>
 	);
-};
-export default TermsCond;
+}

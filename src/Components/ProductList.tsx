@@ -1,25 +1,28 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useState } from "react";
 import ProductListCard from "./ProductListCard";
-import { ProductsContext } from "../Context";
 import { products } from "../APIs/ecommerce/ecommerce";
 import { Product } from "../Interfaces/Products";
 
 export default function ProductList({
-	handleHomeProducts,
-	home_products,
-}: any): JSX.Element {
-	const { allProducts, handleAllProducts }: any = useContext(ProductsContext);
+	fromHome,
+}: {
+	fromHome: boolean;
+}): JSX.Element {
+	const [allProducts, setAllProducts] = useState<Product[]>([]);
 	useEffect(() => {
 		const getProducts = async () => {
-			await products({ limit: 6, offset: 0 }).then((data: any) => {
-				handleAllProducts(data.results);
+			await products({ limit: 0, offset: 0 }).then((data: Product[]) => {
+				fromHome
+					? setAllProducts(
+							data.filter(
+								(item: Product) => item.is_featured === true
+							)
+					  )
+					: setAllProducts(data);
 			});
 		};
 		getProducts();
 	}, []);
-	useEffect(() => {
-		handleHomeProducts(allProducts);
-	}, [allProducts]);
 	return (
 		<section className="section overflow-hidden bluebgleft">
 			<div className="container">
@@ -31,14 +34,14 @@ export default function ProductList({
 							data-aos-duration="1000"
 							data-aos-once="true"
 						>
-							<h4 className="title colorblue">
+							<h1 className="title text-center colorblue">
 								Featured Products
-							</h4>
+							</h1>
 						</div>
 					</div>
 				</div>
 				<div className="row">
-					{home_products.map((product: Product, index: number) => {
+					{allProducts.map((product: Product, index: number) => {
 						return (
 							<ProductListCard key={index} product={product} />
 						);

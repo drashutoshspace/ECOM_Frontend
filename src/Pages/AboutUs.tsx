@@ -7,9 +7,19 @@ import VisibilitySensor from "react-visibility-sensor";
 import CountUp from "react-countup";
 import AOS from "aos";
 import TestimonialsList from "../Components/TestimonialsList";
-import Slider from "react-slick";
 import tempImg from "../Assets/User_Image.webp";
-const AboutUs = ({ ourTeam }: any) => {
+import { ourTeamData } from "../APIs/misc/misc";
+
+export default function AboutUs(): JSX.Element {
+	const [ourTeam, setOurTeam] = useState([]);
+	useEffect(() => {
+		const getOurTeamData = async () => {
+			await ourTeamData().then((data: any) => {
+				setOurTeam(data);
+			});
+		};
+		getOurTeamData();
+	}, []);
 	const location = useLocation();
 	useEffect(() => {
 		if (location.hash) {
@@ -43,40 +53,6 @@ const AboutUs = ({ ourTeam }: any) => {
 	const [countUpNum1, setCountUpNum1] = useState(0);
 	const [countUpNum2, setCountUpNum2] = useState(0);
 	const [countUpNum3, setCountUpNum3] = useState(0);
-	var settings = {
-		dots: false,
-		arrows: false,
-		infinite: false,
-		speed: 500,
-		autoplay: false,
-		slidesToShow: 4,
-		slidesToScroll: 1,
-		pauseOnHover: true,
-		pauseOnDotsHover: true,
-		responsive: [
-			{
-				breakpoint: 1024,
-				settings: {
-					slidesToShow: 3,
-					slidesToScroll: 1,
-				},
-			},
-			{
-				breakpoint: 600,
-				settings: {
-					slidesToShow: 2,
-					slidesToScroll: 2,
-				},
-			},
-			{
-				breakpoint: 480,
-				settings: {
-					slidesToShow: 1,
-					slidesToScroll: 1,
-				},
-			},
-		],
-	};
 	return (
 		<>
 			<Helmet>
@@ -207,108 +183,6 @@ const AboutUs = ({ ourTeam }: any) => {
 						</div>
 					</div>
 				</section>
-				<section className="section ourbrands bluebgright">
-					<div className="container">
-						<div className="row justify-content-center">
-							<div className="col-12">
-								<div
-									className="section-title mb-2"
-									data-aos="zoom-in"
-									data-aos-duration="1000"
-									data-aos-once="true"
-								>
-									<h4 className="title colorblue">
-										Brands You Trust
-									</h4>
-								</div>
-							</div>
-						</div>
-						<div className="row mt-4">
-							<div className="col-lg-12">
-								<div className="row">
-									<Slider {...settings}>
-										<div className="col-lg-3 d-flex justify-content-center">
-											<img
-												className=""
-												style={{
-													height: "250px",
-													width: "250px",
-												}}
-												data-aos="flip-up"
-												data-aos-duration="1000"
-												data-aos-once="true"
-												data-aos-delay="000"
-												alt="Raspberry_Pi"
-												src="images/Logo/Raspberry_Pi.svg"
-											/>
-										</div>
-										<div className="col-lg-3 d-flex justify-content-center">
-											<img
-												className=""
-												style={{
-													height: "250px",
-													width: "250px",
-												}}
-												data-aos="flip-up"
-												data-aos-duration="1000"
-												data-aos-once="true"
-												data-aos-delay="200"
-												alt="Espressif"
-												src="images/Logo/Espressif.svg"
-											/>
-										</div>
-										<div className="col-lg-3 d-flex justify-content-center">
-											<img
-												className=""
-												style={{
-													height: "250px",
-													width: "250px",
-												}}
-												data-aos="flip-up"
-												data-aos-duration="1000"
-												data-aos-once="true"
-												data-aos-delay="100"
-												alt="Arduino"
-												src="images/Logo/Arduino.svg"
-											/>
-										</div>
-										<div className="col-lg-3 d-flex justify-content-center">
-											<img
-												className=""
-												style={{
-													height: "250px",
-													width: "250px",
-												}}
-												data-aos="flip-up"
-												data-aos-duration="1000"
-												data-aos-once="true"
-												data-aos-delay="300"
-												alt="SparkFun"
-												src="images/Logo/Sparkfun.svg"
-											/>
-										</div>
-										<div className="col-lg-3 d-flex justify-content-center">
-											<img
-												className=""
-												style={{
-													height: "250px",
-													width: "250px",
-												}}
-												data-aos="flip-up"
-												data-aos-duration="1000"
-												data-aos-once="true"
-												data-aos-delay="400"
-												alt="Texas_Instruments"
-												src="images/Logo/Texas_Instr.svg"
-											/>
-										</div>
-									</Slider>
-									<div id="testimonials"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
 				<VisibilitySensor
 					onChange={() => {
 						setToggleAOS(!toggleAOS);
@@ -316,7 +190,10 @@ const AboutUs = ({ ourTeam }: any) => {
 				>
 					<TestimonialsList />
 				</VisibilitySensor>
-				<section className="overflow-hidden">
+				<section
+					className="overflow-hidden"
+					style={{ marginBottom: "75px" }}
+				>
 					<div className="container">
 						<div className="row mx-3 mb-4 mx-lg-0">
 							<div
@@ -472,71 +349,82 @@ const AboutUs = ({ ourTeam }: any) => {
 						</div>
 					</div>
 				</section>
-				<section className="pb-5 pt-4 ourteam">
-					<div className="container">
-						<div className="row justify-content-center">
-							<div className="col-12">
-								<div
-									className="text-center mb-4 pb-1"
-									data-aos="zoom-in"
-									data-aos-duration="1000"
-									data-aos-once="true"
-								>
-									<h2 className="title colorblue">
-										Our Team
-									</h2>
+				{ourTeam?.length > 0 && (
+					<section className="pb-5 pt-4 ourteam">
+						<div className="container">
+							<div className="row justify-content-center">
+								<div className="col-12">
+									<div
+										className="text-center mb-4 pb-1"
+										data-aos="zoom-in"
+										data-aos-duration="1000"
+										data-aos-once="true"
+									>
+										<h2 className="title colorblue">
+											Our Team
+										</h2>
+									</div>
+								</div>
+							</div>
+
+							<div className="row mt-2">
+								<div className="col-lg-12">
+									<div className="row">
+										{ourTeam.map(
+											(member: any, index: any) => {
+												return (
+													<div
+														key={index}
+														className="col-lg-3 mb-5 px-4"
+														data-aos="flip-left"
+														data-aos-duration="1000"
+														data-aos-once="true"
+													>
+														<img
+															src={
+																member.dp ||
+																tempImg
+															}
+															className="w-100 border5px shadow"
+															width="250px"
+															height="250px"
+															alt="Team_Member_Image"
+															data-aos="flip-up"
+															data-aos-duration="1000"
+															data-aos-once="true"
+															data-aos-delay={`${index}00`}
+														/>
+														<div className="text-center shadow bgcolorwhite border5px py-2 mt-3">
+															<div className="row my-1">
+																<div className="col">
+																	<h5 className="mb-0 colorblue">
+																		{
+																			member.name
+																		}
+																	</h5>
+																</div>
+															</div>
+															<div className="row my-1">
+																<div className="col">
+																	<p className="mb-0 fontsize14 colorlightblue">
+																		{
+																			member.role
+																		}
+																	</p>
+																</div>
+															</div>
+														</div>
+													</div>
+												);
+											}
+										)}
+									</div>
 								</div>
 							</div>
 						</div>
-						<div className="row mt-2">
-							<div className="col-lg-12">
-								<div className="row">
-									{ourTeam.map((member: any, index: any) => {
-										return (
-											<div
-												key={index}
-												className="col-lg-3 mb-5 px-4"
-												data-aos="flip-left"
-												data-aos-duration="1000"
-												data-aos-once="true"
-											>
-												<img
-													src={member.dp || tempImg}
-													className="w-100 border5px shadow"
-													width="250px"
-													height="250px"
-													alt="Team_Member_Image"
-													data-aos="flip-up"
-													data-aos-duration="1000"
-													data-aos-once="true"
-													data-aos-delay={`${index}00`}
-												/>
-												<div className="text-center shadow bgcolorwhite border5px py-2 mt-3">
-													<div className="row my-1">
-														<div className="col">
-															<h5 className="mb-0 colorblue">
-																{member.name}
-															</h5>
-														</div>
-													</div>
-													<div className="row my-1">
-														<div className="col">
-															<p className="mb-0 fontsize14 colorlightblue">
-																{member.role}
-															</p>
-														</div>
-													</div>
-												</div>
-											</div>
-										);
-									})}
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
+					</section>
+				)}
 			</Base>
 		</>
 	);
-};
-export default AboutUs;
+}

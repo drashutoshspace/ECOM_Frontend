@@ -4,7 +4,18 @@ import Breadcrumb from "../Components/Breadcrumb";
 import Scrollspy from "react-scrollspy";
 import { Helmet } from "react-helmet-async";
 import Base from "../Base";
-const Faqs = ({ faqDoc }: any) => {
+import { faqData } from "../APIs/misc/misc";
+
+export default function Faqs(): JSX.Element {
+	const [faqDoc, setFaqDoc] = useState([]);
+	useEffect(() => {
+		const getFaq = async () => {
+			await faqData().then((data: any) => {
+				setFaqDoc(data);
+			});
+		};
+		getFaq();
+	}, []);
 	const [headingState, setHeadingState] = useState([]);
 	const location = useLocation();
 	useEffect(() => {
@@ -144,5 +155,4 @@ const Faqs = ({ faqDoc }: any) => {
 			</Base>
 		</>
 	);
-};
-export default Faqs;
+}
