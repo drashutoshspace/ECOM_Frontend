@@ -18,9 +18,9 @@ export default function FeaturedProdCard({
 }: {
 	product: Product;
 }): JSX.Element {
+	const userId = useSelector((state: Store) => state.userProfile.id);
 	const [plusMinus, setPlusMinus] = useState(1);
 	const [animateButton, setAnimateButton] = useState(false);
-	const userId = useSelector((state: Store) => state.userProfile.id);
 	const wishlistItems = useSelector((state: Store) => state.wishlist[userId]);
 	const cartItems = useSelector((state: Store) => state.cart[userId]);
 	useEffect(() => {
@@ -122,9 +122,7 @@ export default function FeaturedProdCard({
 								addProductInCart={addProductInCart}
 							/>
 						) : (
-							<ViewCartButtonForCard
-								isAuthenticated={userId !== -1 ? true : false}
-							/>
+							<ViewCartButtonForCard />
 						)}
 					</div>
 				</div>

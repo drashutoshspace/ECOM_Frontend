@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 import { Product } from "../Interfaces/Products";
 import { useSelector } from "react-redux";
@@ -19,16 +18,11 @@ export default function ProductListCard({
 }: {
 	product: Product;
 }): JSX.Element {
-	const [cookies] = useCookies(["user"]);
+	const userId = useSelector((state: Store) => state.userProfile.id);
 	const [plusMinus, setPlusMinus] = useState(1);
 	const [animateButton, setAnimateButton] = useState(false);
-	const wishlistItems = useSelector(
-		(state: Store) => state.wishlist[cookies?.user?.[0]?.id]
-	);
-	const cartItems = useSelector(
-		(state: Store) => state.cart[cookies?.user?.[0]?.id]
-	);
-	const userId = useSelector((state: Store) => state.userProfile.id);
+	const wishlistItems = useSelector((state: Store) => state.wishlist[userId]);
+	const cartItems = useSelector((state: Store) => state.cart[userId]);
 	useEffect(() => {
 		const timer = setTimeout(() => setAnimateButton(false), 1000);
 		return () => {
@@ -141,11 +135,7 @@ export default function ProductListCard({
 									addProductInCart={addProductInCart}
 								/>
 							) : (
-								<ViewCartButtonForCard
-									isAuthenticated={
-										userId !== -1 ? true : false
-									}
-								/>
+								<ViewCartButtonForCard />
 							)}
 						</div>
 					</div>

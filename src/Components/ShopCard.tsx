@@ -130,11 +130,7 @@ export default function ShopCard({
 									addProductInCart={addProductInCart}
 								/>
 							) : (
-								<ViewCartButtonForCard
-									isAuthenticated={
-										userId !== -1 ? true : false
-									}
-								/>
+								<ViewCartButtonForCard />
 							)}
 						</div>
 					</div>

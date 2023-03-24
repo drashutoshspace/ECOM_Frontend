@@ -4,13 +4,11 @@ import { useDispatch } from "react-redux";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 
 export function WishlistButtonForCart({
-	isAuthenticated,
 	guid,
 	wishlistItems,
 	addProductInWishlist,
 	removeProductFromWishlist,
 }: {
-	isAuthenticated: boolean;
 	guid: string;
 	wishlistItems: string[];
 	addProductInWishlist: ActionCreatorWithPayload<{
@@ -25,21 +23,17 @@ export function WishlistButtonForCart({
 		<button
 			className="hvr-icon-pulse border-0 mywish border5px heartredhover"
 			onClick={() => {
-				if (isAuthenticated) {
-					isProductInWishlist(wishlistItems, guid)
-						? dispatch(
-								removeProductFromWishlist({
-									guid: guid,
-								})
-						  )
-						: dispatch(
-								addProductInWishlist({
-									guid: guid,
-								})
-						  );
-				} else {
-					return toast.warning("Please login first!");
-				}
+				isProductInWishlist(wishlistItems, guid)
+					? dispatch(
+							removeProductFromWishlist({
+								guid: guid,
+							})
+					  )
+					: dispatch(
+							addProductInWishlist({
+								guid: guid,
+							})
+					  );
 			}}
 		>
 			<i
@@ -97,6 +91,37 @@ export function WishlistButtonForCard({
 					}
 				}}
 			/>
+		</button>
+	);
+}
+
+export function WishlistButtonForProfileWishlistCard({
+	guid,
+	wishlistItems,
+	removeProductFromWishlist,
+}: {
+	guid: string;
+	wishlistItems: string[];
+	removeProductFromWishlist: ActionCreatorWithPayload<{
+		guid: string;
+	}>;
+}): JSX.Element {
+	const dispatch = useDispatch();
+	return (
+		<button
+			className="hvr-icon-pulse ms-3 border-0 mywish fontsize16 border5px heartredhover"
+			style={{ verticalAlign: "baseline" }}
+			onClick={() => {
+				if (isProductInWishlist(wishlistItems, guid)) {
+					dispatch(
+						removeProductFromWishlist({
+							guid: guid,
+						})
+					);
+				}
+			}}
+		>
+			<i className="fas fa-heart heartred hvr-icon" />
 		</button>
 	);
 }

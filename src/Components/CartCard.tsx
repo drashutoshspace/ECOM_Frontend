@@ -102,7 +102,6 @@ export default function CartCard({ item }: { item: CartItem }): JSX.Element {
 				<div className="row mt-3">
 					<div className="col-lg-12">
 						<WishlistButtonForCart
-							isAuthenticated={userId !== -1 ? true : false}
 							guid={item?.product?.guid}
 							wishlistItems={wishlistItems}
 							addProductInWishlist={addProductInWishlist}
