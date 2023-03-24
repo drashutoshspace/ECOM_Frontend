@@ -1,19 +1,19 @@
-import Breadcrumb from "../../Components/Breadcrumb";
+import Breadcrumb from "../Components/Breadcrumb";
 import { useState, useEffect, useContext } from "react";
-import Base from "../../Base";
-import { razorpayKey, coupon } from "../../APIs/ecommerce/ecommerce";
+import Base from "../Base";
+import { razorpayKey, coupon } from "../APIs/ecommerce/ecommerce";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { Payment_API, PaymentSuccess_API } from "../../backend";
+import { Payment_API, PaymentSuccess_API } from "../backend";
 import { Helmet } from "react-helmet-async";
-import { BaseContext } from "../../Context";
+import { BaseContext } from "../Context";
 import { toast } from "react-toastify";
-import DataLoader2 from "../../Components/DataLoader2";
+import DataLoader2 from "../Components/DataLoader2";
 import PhoneInput from "react-phone-input-2";
-import { profileDataUpdate } from "../../APIs/user/user";
+import { profileDataUpdate } from "../APIs/user/user";
 import { useSelector, useDispatch } from "react-redux";
-import { clearCart } from "../../Data/storingData";
-import { Store } from "../../Interfaces/Store";
-import { truncate } from "../../Utilities/Utils";
+import { clearCart } from "../Data/storingData";
+import { Store } from "../Interfaces/Store";
+import { truncate } from "../Utilities/Utils";
 
 declare global {
 	interface Window {
@@ -21,7 +21,7 @@ declare global {
 	}
 }
 
-const Checkout = () => {
+export default function Checkout(): JSX.Element {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { cookies, setCookie, handleNotification }: any =
@@ -938,5 +938,4 @@ const Checkout = () => {
 	) : (
 		redirect("/profile/account")
 	);
-};
-export default Checkout;
+}

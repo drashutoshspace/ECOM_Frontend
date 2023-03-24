@@ -1,18 +1,18 @@
-import Breadcrumb from "../../Components/Breadcrumb";
+import Breadcrumb from "../Components/Breadcrumb";
 import { useContext, useState, useRef, useEffect } from "react";
-import Base from "../../Base";
-import CartCard from "../../Components/CartCard";
+import Base from "../Base";
+import CartCard from "../Components/CartCard";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { BaseContext } from "../../Context";
-import DataLoader from "../../Components/DataLoader";
+import { BaseContext } from "../Context";
+import DataLoader from "../Components/DataLoader";
 import { confirmAlert } from "react-confirm-alert";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Store } from "../../Interfaces/Store";
-import { clearCart } from "../../Data/storingData";
+import { Store } from "../Interfaces/Store";
+import { clearCart } from "../Data/storingData";
 
-const CartPage = () => {
+export default function CartPage(): JSX.Element {
 	const { cookies }: any = useContext(BaseContext);
 	const dispatch = useDispatch();
 	const cartItems = useSelector(
@@ -305,5 +305,4 @@ const CartPage = () => {
 			</Base>
 		</>
 	);
-};
-export default CartPage;
+}

@@ -1,8 +1,8 @@
-import Breadcrumb from "../../Components/Breadcrumb";
+import Breadcrumb from "../Components/Breadcrumb";
 import { useState } from "react";
-import Login from "../../Components/Login";
-import Signup from "../../Components/Signup";
-import Base from "../../Base";
+import Login from "../Components/Login";
+import Signup from "../Components/Signup";
+import Base from "../Base";
 import { useMediaQuery } from "react-responsive";
 
 export default function LoginPage({

@@ -1,25 +1,25 @@
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useContext, useState } from "react";
-import Breadcrumb from "../../Components/Breadcrumb";
+import Breadcrumb from "../Components/Breadcrumb";
 import { Helmet } from "react-helmet-async";
-import Base from "../../Base";
-import ProfileWishlistCard from "../../Components/ProfileWishlistCard";
-import { BaseContext } from "../../Context";
+import Base from "../Base";
+import ProfileWishlistCard from "../Components/ProfileWishlistCard";
+import { BaseContext } from "../Context";
 import {
 	profileDataUpdate,
 	passwordChange,
 	emailChange,
-} from "../../APIs/user/user";
+} from "../APIs/user/user";
 import { toast } from "react-toastify";
-import MyOrderCard from "../../Components/MyOrdersCard";
-import OrderDetailCard from "../../Components/OrderDetailCard";
-import DataLoader2 from "../../Components/DataLoader2";
+import MyOrderCard from "../Components/MyOrdersCard";
+import OrderDetailCard from "../Components/OrderDetailCard";
+import DataLoader2 from "../Components/DataLoader2";
 import PhoneInput from "react-phone-input-2";
 import { useMediaQuery } from "react-responsive";
 import { useSelector, useDispatch } from "react-redux";
-import { Store } from "../../Interfaces/Store";
+import { Store } from "../Interfaces/Store";
 
-const Profile = () => {
+export default function Profile(): JSX.Element {
 	const { option, id } = useParams();
 	const wishlistItems = useSelector(
 		(state: Store) => state.wishlist[cookies?.user?.[0]?.id]
@@ -927,7 +927,9 @@ const Profile = () => {
 														return (
 															<ProfileWishlistCard
 																key={index}
-																item={product}
+																product={
+																	product
+																}
 															/>
 														);
 													}
@@ -1289,5 +1291,4 @@ const Profile = () => {
 			</Base>
 		</>
 	);
-};
-export default Profile;
+}

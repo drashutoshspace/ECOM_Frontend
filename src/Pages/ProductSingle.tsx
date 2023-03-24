@@ -1,9 +1,9 @@
 import { useEffect, useState, useContext } from "react";
-import Base from "../../Base";
+import Base from "../Base";
 import ReactImageMagnify from "react-image-magnify";
 import { Helmet } from "react-helmet-async";
-import { singleProduct } from "../../APIs/ecommerce/ecommerce";
-import { BaseContext, ProductsContext } from "../../Context";
+import { singleProduct } from "../APIs/ecommerce/ecommerce";
+import { BaseContext, ProductsContext } from "../Context";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import {
 	FacebookShareButton,
@@ -19,20 +19,20 @@ import {
 	reviewRating,
 	ratingCount,
 	fetchAllReviews,
-} from "../../APIs/ecommerce/ecommerce";
-import tempImg from "../../Assets/Product_3.webp";
-import tempImg1 from "../../Assets/User_Image.webp";
+} from "../APIs/ecommerce/ecommerce";
+import tempImg from "../Assets/Product_3.webp";
+import tempImg1 from "../Assets/User_Image.webp";
 import { toast } from "react-toastify";
-import { isAuthenticated } from "../../APIs/user/user";
-import DataLoader from "../../Components/DataLoader";
-import DataLoader2 from "../../Components/DataLoader2";
+import { isAuthenticated } from "../APIs/user/user";
+import DataLoader from "../Components/DataLoader";
+import DataLoader2 from "../Components/DataLoader2";
 import { useSelector, useDispatch } from "react-redux";
-import { cartItem, Store } from "../../Interfaces/Store";
+import { cartItem, Store } from "../Interfaces/Store";
 import {
 	addProductInCart,
 	increaseQuantityOfProductInCart,
 	decreaseQuantityOfProductInCart,
-} from "../../Data/storingData";
+} from "../Data/storingData";
 
 export default function ProductSingle(): JSX.Element {
 	const dispatch = useDispatch();

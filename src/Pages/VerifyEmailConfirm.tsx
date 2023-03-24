@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import Base from "../../Base";
-import Breadcrumb from "../../Components/Breadcrumb";
-import { isAuthenticated } from "../../APIs/user/user";
+import Base from "../Base";
+import Breadcrumb from "../Components/Breadcrumb";
+import { isAuthenticated } from "../APIs/user/user";
 
-const VerifyEmailConfirm = () => {
+export default function VerifyEmailConfirm(): JSX.Element {
 	const [changeImage, setChangeImage] = useState(false);
 	const handleChangeImage = () => {
 		setChangeImage(!changeImage);
@@ -55,5 +55,4 @@ const VerifyEmailConfirm = () => {
 			)}
 		</>
 	);
-};
-export default VerifyEmailConfirm;
+}

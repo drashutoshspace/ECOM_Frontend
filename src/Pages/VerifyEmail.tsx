@@ -1,11 +1,12 @@
 import { useState, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { EmailVerify_API } from "../../backend";
-import Breadcrumb from "../../Components/Breadcrumb";
-import Base from "../../Base";
+import { EmailVerify_API } from "../backend";
+import Breadcrumb from "../Components/Breadcrumb";
+import Base from "../Base";
 import { Helmet } from "react-helmet-async";
-import { BaseContext } from "../../Context";
-const VerifyEmail = () => {
+import { BaseContext } from "../Context";
+
+export default function VerifyEmail(): JSX.Element {
 	const { handleNotification }: any = useContext(BaseContext);
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -79,5 +80,4 @@ const VerifyEmail = () => {
 			</Base>
 		</>
 	);
-};
-export default VerifyEmail;
+}

@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { PasswordReset_API } from "../../backend";
-import Base from "../../Base";
+import { PasswordReset_API } from "../backend";
+import Base from "../Base";
 import { Helmet } from "react-helmet-async";
-import DataLoader2 from "../../Components/DataLoader2";
-import Breadcrumb from "../../Components/Breadcrumb";
+import DataLoader2 from "../Components/DataLoader2";
+import Breadcrumb from "../Components/Breadcrumb";
 import { Link } from "react-router-dom";
-const PasswordReset = () => {
+
+export default function PasswordReset(): JSX.Element {
 	const [email, setEmail] = useState("");
 	const [loading, setLoading] = useState(false);
 	const forgotPassword = (e: any) => {
@@ -158,5 +159,4 @@ const PasswordReset = () => {
 			</Base>
 		</>
 	);
-};
-export default PasswordReset;
+}

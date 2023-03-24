@@ -1,16 +1,16 @@
-import ShopCard from "../../Components/ShopCard";
-import Base from "../../Base";
-import { products } from "../../APIs/ecommerce/ecommerce";
+import ShopCard from "../Components/ShopCard";
+import Base from "../Base";
+import { products } from "../APIs/ecommerce/ecommerce";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import ReactPaginate from "react-paginate";
-import DataLoader from "../../Components/DataLoader";
+import DataLoader from "../Components/DataLoader";
 import { useNavigate, useParams } from "react-router-dom";
-import Breadcrumb from "../../Components/Breadcrumb";
-import { Product } from "../../Interfaces/Products";
+import Breadcrumb from "../Components/Breadcrumb";
+import { Product } from "../Interfaces/Products";
 import { useSelector } from "react-redux";
-import { Store } from "../../Interfaces/Store";
-import { categoryWiseProducts } from "../../APIs/ecommerce/ecommerce";
+import { Store } from "../Interfaces/Store";
+import { categoryWiseProducts } from "../APIs/ecommerce/ecommerce";
 
 export default function AllProducts(): JSX.Element {
 	const { linkCategory } = useParams();

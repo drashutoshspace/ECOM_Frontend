@@ -2,13 +2,14 @@ import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { PasswordResetConfirm_API } from "../../backend";
-import Base from "../../Base";
+import { PasswordResetConfirm_API } from "../backend";
+import Base from "../Base";
 import { Helmet } from "react-helmet-async";
-import DataLoader2 from "../../Components/DataLoader2";
-import Breadcrumb from "../../Components/Breadcrumb";
-import { BaseContext } from "../../Context";
-const PasswordResetConfirm = () => {
+import DataLoader2 from "../Components/DataLoader2";
+import Breadcrumb from "../Components/Breadcrumb";
+import { BaseContext } from "../Context";
+
+export default function PasswordResetConfirm(): JSX.Element {
 	const location = useLocation();
 	const [password1, setpassword1] = useState("");
 	const [password2, setpassword2] = useState("");
@@ -248,5 +249,4 @@ const PasswordResetConfirm = () => {
 			</Base>
 		</>
 	);
-};
-export default PasswordResetConfirm;
+}
