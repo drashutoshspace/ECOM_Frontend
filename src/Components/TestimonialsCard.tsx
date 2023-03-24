@@ -1,5 +1,6 @@
 import tempImg from "../Assets/User_Image.webp";
 import { Testimonials } from "../Interfaces/Misc";
+import { truncate } from "../Utilities/Utils";
 
 export default function TestimonialsCard({
 	testimonial,
@@ -15,9 +16,6 @@ export default function TestimonialsCard({
 		}
 		return <li className="list-inline-item">{stars}</li>;
 	};
-	function truncate(str: string, n: number) {
-		return str?.length > n ? str.substring(0, n - 1) + "..." : str;
-	}
 	return (
 		<div
 			className="d-flex mt-0 m-2 p-3 client-testi hvr-icon-grow border5px border-0"

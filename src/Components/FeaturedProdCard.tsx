@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Product } from "../Interfaces/Products";
 import { useSelector } from "react-redux";
@@ -8,7 +8,6 @@ import {
 	addProductInWishlist,
 	removeProductFromWishlist,
 } from "../Data/storingData";
-import { BaseContext } from "../Context";
 import { WishlistButtonForCard } from "./WishlistButtons";
 import { isProductInCart } from "../Utilities/Utils";
 import { AddToCartButtonForCard, ViewCartButtonForCard } from "./ActionButtons";
@@ -19,16 +18,11 @@ export default function FeaturedProdCard({
 }: {
 	product: Product;
 }): JSX.Element {
-	const { cookies }: any = useContext(BaseContext);
 	const [plusMinus, setPlusMinus] = useState(1);
 	const [animateButton, setAnimateButton] = useState(false);
-	const wishlistItems = useSelector(
-		(state: Store) => state.wishlist[cookies?.user?.[0]?.id]
-	);
-	const cartItems = useSelector(
-		(state: Store) => state.cart[cookies?.user?.[0]?.id]
-	);
-	const userId = useSelector((state: Store) => state.userId);
+	const userId = useSelector((state: Store) => state.userProfile.id);
+	const wishlistItems = useSelector((state: Store) => state.wishlist[userId]);
+	const cartItems = useSelector((state: Store) => state.cart[userId]);
 	useEffect(() => {
 		const timer = setTimeout(() => setAnimateButton(false), 1000);
 		return () => {
@@ -58,7 +52,7 @@ export default function FeaturedProdCard({
 				%
 			</span>
 			<WishlistButtonForCard
-				isAuthenticated={userId !== "" ? true : false}
+				isAuthenticated={userId !== -1 ? true : false}
 				guid={product?.guid}
 				wishlistItems={wishlistItems}
 				addProductInWishlist={addProductInWishlist}
@@ -120,7 +114,7 @@ export default function FeaturedProdCard({
 					<div className="col me-3 d-flex align-items-center">
 						{!isProductInCart(cartItems, product?.guid) ? (
 							<AddToCartButtonForCard
-								isAuthenticated={userId !== "" ? true : false}
+								isAuthenticated={userId !== -1 ? true : false}
 								animateButton={animateButton}
 								plusMinus={plusMinus}
 								setAnimateButton={setAnimateButton}
@@ -129,7 +123,7 @@ export default function FeaturedProdCard({
 							/>
 						) : (
 							<ViewCartButtonForCard
-								isAuthenticated={userId !== "" ? true : false}
+								isAuthenticated={userId !== -1 ? true : false}
 							/>
 						)}
 					</div>

@@ -37,14 +37,14 @@ import { Product_Category } from "./Interfaces/Products";
 
 export default function Routes(): JSX.Element {
 	const dispatch = useDispatch();
-	const userId = useSelector((state: Store) => state.userId);
+	const userId = useSelector((state: Store) => state.userProfile.id);
 
 	const PrivateRoute = ({
 		children,
 	}: {
 		children: JSX.Element;
 	}): JSX.Element => {
-		if (userId !== "") {
+		if (userId !== -1) {
 			return children;
 		} else {
 			return <Navigate to="/signin" replace={true} />;

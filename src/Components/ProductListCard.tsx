@@ -28,7 +28,7 @@ export default function ProductListCard({
 	const cartItems = useSelector(
 		(state: Store) => state.cart[cookies?.user?.[0]?.id]
 	);
-	const userId = useSelector((state: Store) => state.userId);
+	const userId = useSelector((state: Store) => state.userProfile.id);
 	useEffect(() => {
 		const timer = setTimeout(() => setAnimateButton(false), 1000);
 		return () => {
@@ -69,7 +69,7 @@ export default function ProductListCard({
 					%
 				</span>
 				<WishlistButtonForCard
-					isAuthenticated={userId !== "" ? true : false}
+					isAuthenticated={userId !== -1 ? true : false}
 					guid={product?.guid}
 					wishlistItems={wishlistItems}
 					addProductInWishlist={addProductInWishlist}
@@ -132,7 +132,7 @@ export default function ProductListCard({
 							{!isProductInCart(cartItems, product?.guid) ? (
 								<AddToCartButtonForCard
 									isAuthenticated={
-										userId !== "" ? true : false
+										userId !== -1 ? true : false
 									}
 									animateButton={animateButton}
 									plusMinus={plusMinus}
@@ -143,7 +143,7 @@ export default function ProductListCard({
 							) : (
 								<ViewCartButtonForCard
 									isAuthenticated={
-										userId !== "" ? true : false
+										userId !== -1 ? true : false
 									}
 								/>
 							)}

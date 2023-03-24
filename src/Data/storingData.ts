@@ -1,9 +1,29 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product_Category } from "../Interfaces/Products";
 import { cartItem, Store } from "../Interfaces/Store";
+import { User } from "../Interfaces/User";
+
+const initialProfileData: User = {
+	id: -1,
+	username: "",
+	first_name: "",
+	last_name: "",
+	email: "",
+	is_active: true,
+	image: "",
+	account_type: "",
+	mobile: "",
+	dob: "",
+	gender: "",
+	address_line_1: "",
+	address_line_2: "",
+	city: "",
+	pin_code: "",
+	state: "",
+	country: "",
+};
 
 const initial: Store = {
-	userId: "",
 	token: {
 		"": "",
 	},
@@ -18,6 +38,7 @@ const initial: Store = {
 	allCartItemsTotalDiscount: 0,
 	allWishlistItemsCount: 0,
 	allProductCategories: [],
+	userProfile: initialProfileData,
 };
 
 const dataSlice = createSlice({
@@ -34,7 +55,7 @@ const dataSlice = createSlice({
 				Product_SellingPrice: number;
 			}>
 		) {
-			state.cart[state.userId].push(action.payload);
+			state.cart[state.userProfile.id].push(action.payload);
 		},
 		removeProductFromCart(
 			state,
@@ -42,8 +63,8 @@ const dataSlice = createSlice({
 				guid: string;
 			}>
 		) {
-			state.cart[state.userId].splice(
-				state.cart[state.userId].findIndex(
+			state.cart[state.userProfile.id].splice(
+				state.cart[state.userProfile.id].findIndex(
 					(item: cartItem) => item.guid === action.payload.guid
 				),
 				1
@@ -55,10 +76,10 @@ const dataSlice = createSlice({
 				guid: string;
 			}>
 		) {
-			let indexOfProduct = state.cart[state.userId].findIndex(
+			let indexOfProduct = state.cart[state.userProfile.id].findIndex(
 				(item: cartItem) => item.guid === action.payload.guid
 			);
-			state.cart[state.userId][indexOfProduct].quantity += 1;
+			state.cart[state.userProfile.id][indexOfProduct].quantity += 1;
 		},
 		decreaseQuantityOfProductInCart(
 			state,
@@ -66,22 +87,24 @@ const dataSlice = createSlice({
 				guid: string;
 			}>
 		) {
-			let indexOfProduct = state.cart[state.userId].findIndex(
+			let indexOfProduct = state.cart[state.userProfile.id].findIndex(
 				(item: cartItem) => item.guid === action.payload.guid
 			);
-			if (state.cart[state.userId][indexOfProduct].quantity === 1) {
-				state.cart[state.userId].splice(
-					state.cart[state.userId].findIndex(
+			if (
+				state.cart[state.userProfile.id][indexOfProduct].quantity === 1
+			) {
+				state.cart[state.userProfile.id].splice(
+					state.cart[state.userProfile.id].findIndex(
 						(item: cartItem) => item.guid === action.payload.guid
 					),
 					1
 				);
 			} else {
-				state.cart[state.userId][indexOfProduct].quantity -= 1;
+				state.cart[state.userProfile.id][indexOfProduct].quantity -= 1;
 			}
 		},
 		clearCart(state) {
-			state.cart[state.userId] = [];
+			state.cart[state.userProfile.id] = [];
 		},
 		addProductInWishlist(
 			state,
@@ -89,7 +112,7 @@ const dataSlice = createSlice({
 				guid: string;
 			}>
 		) {
-			state.wishlist[state.userId].push(action.payload.guid);
+			state.wishlist[state.userProfile.id].push(action.payload.guid);
 		},
 		removeProductFromWishlist(
 			state,
@@ -97,36 +120,41 @@ const dataSlice = createSlice({
 				guid: string;
 			}>
 		) {
-			state.wishlist[state.userId].splice(
-				state.wishlist[state.userId].findIndex(
+			state.wishlist[state.userProfile.id].splice(
+				state.wishlist[state.userProfile.id].findIndex(
 					(item: string) => item === action.payload.guid
 				),
 				1
 			);
 		},
 		clearWishlist(state) {
-			state.wishlist[state.userId] = [];
+			state.wishlist[state.userProfile.id] = [];
 		},
 		calculateAllCartItemsCount(state) {
-			if (state.cart[state.userId].length > 0) {
-				state.allCartItemsCount = state.cart[state.userId].reduce(
+			if (state.cart[state.userProfile.id].length > 0) {
+				state.allCartItemsCount = state.cart[
+					state.userProfile.id
+				].reduce(
 					(total: number, item: cartItem) => total + item.quantity,
 					0
 				);
 			}
 		},
 		calculateAllWishlistItemsCount(state) {
-			state.allWishlistItemsCount = state.wishlist[state.userId].length;
+			state.allWishlistItemsCount =
+				state.wishlist[state.userProfile.id].length;
 		},
 		calculateTotalAmountAndDiscount(state) {
-			if (state.cart[state.userId].length > 0) {
-				state.allCartItemsTotalPrice = state.cart[state.userId].reduce(
+			if (state.cart[state.userProfile.id].length > 0) {
+				state.allCartItemsTotalPrice = state.cart[
+					state.userProfile.id
+				].reduce(
 					(total: number, item: cartItem) =>
 						total + item.Product_MRP * item.quantity,
 					0
 				);
 				state.allCartItemsTotalDiscount = state.cart[
-					state.userId
+					state.userProfile.id
 				].reduce(
 					(total: number, item: cartItem) =>
 						total +
@@ -144,10 +172,16 @@ const dataSlice = createSlice({
 		},
 		loginFromRedux(
 			state,
-			action: PayloadAction<{ userId: string; token: string }>
+			action: PayloadAction<{
+				token: string;
+				profileData: User;
+			}>
 		) {
-			state.token[action.payload.userId] = action.payload.token;
-			state.userId = action.payload.userId
+			state.token[action.payload.profileData.id] = action.payload.token;
+			state.userProfile = action.payload.profileData;
+		},
+		logoutFromRedux(state) {
+			state.userProfile = initialProfileData;
 		},
 	},
 });
@@ -165,6 +199,7 @@ export const {
 	calculateTotalAmountAndDiscount,
 	setAllProductCategories,
 	loginFromRedux,
+	logoutFromRedux,
 } = dataSlice.actions;
 
 export default dataSlice.reducer;

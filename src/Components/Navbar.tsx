@@ -2,22 +2,20 @@ import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { Product_Category } from "../Interfaces/Products";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { cartItem, Store } from "../Interfaces/Store";
 import { signOut } from "../APIs/user/user";
-import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { truncate } from "../Utilities/Utils";
+import { logoutFromRedux } from "../Data/storingData";
 
 export default function Navbar(): JSX.Element {
-	const [cookies, removeCookie] = useCookies(["user"]);
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const location = useLocation();
 	const [isToggled, setIsToggled] = useState(false);
-	const userId = useSelector((state: Store) => state.userId);
-	const cartItems = useSelector(
-		(state: Store) => state.cart[cookies?.user?.[0]?.id]
-	);
+	const profileData = useSelector((state: Store) => state.userProfile);
+	const cartItems = useSelector((state: Store) => state.cart[profileData.id]);
 	const allWishlistItemsCount = useSelector(
 		(state: Store) => state.allWishlistItemsCount
 	);
@@ -30,7 +28,7 @@ export default function Navbar(): JSX.Element {
 	const logoutUser = (e: any) => {
 		e.preventDefault();
 		signOut((data: any) => {
-			removeCookie("user", { path: "/" });
+			dispatch(logoutFromRedux());
 			navigate("/signin");
 			return toast.success(data?.detail);
 		});
@@ -97,7 +95,11 @@ export default function Navbar(): JSX.Element {
 	var dropdownToggle3 = useRef<HTMLDivElement>(null);
 	var dropdownToggle4 = useRef<HTMLUListElement>(null);
 	useEffect(() => {
-		if (isDesktopOrLaptop && userId !== "" && dropdownToggle3.current) {
+		if (
+			isDesktopOrLaptop &&
+			profileData.id !== -1 &&
+			dropdownToggle3.current
+		) {
 			const mouseOver3 = () => {
 				setOnHoverDropdown3(true);
 			};
@@ -113,7 +115,11 @@ export default function Navbar(): JSX.Element {
 				};
 			}
 		}
-		if (isDesktopOrLaptop && userId !== "" && dropdownToggle4.current) {
+		if (
+			isDesktopOrLaptop &&
+			profileData.id !== -1 &&
+			dropdownToggle4.current
+		) {
 			const mouseOver3 = () => {
 				setOnHoverDropdown3(true);
 			};
@@ -275,7 +281,7 @@ export default function Navbar(): JSX.Element {
 							aria-expanded={onHoverDropdown2}
 						>
 							<i className="fas fa-shopping-cart hvr-icon" />
-							{userId !== "" && allCartItemsCount > 0 && (
+							{profileData.id !== -1 && allCartItemsCount > 0 && (
 								<span className="topnumbercart">
 									{allCartItemsCount}
 								</span>
@@ -288,7 +294,7 @@ export default function Navbar(): JSX.Element {
 								onHoverDropdown2
 									? `dropdown-menu dropdown-menu-end mt-0 pt-4 ms-2 border5px animate slideIn border-0 show ${
 											cartItems?.length > 0 &&
-											userId !== ""
+											profileData.id !== -1
 												? "cartdropdown"
 												: ""
 									  }`
@@ -298,7 +304,7 @@ export default function Navbar(): JSX.Element {
 							aria-labelledby="navbarDropdown"
 							data-bs-popper={onHoverDropdown2 ? "none" : ""}
 						>
-							{!(userId !== "") && (
+							{!(profileData.id !== -1) && (
 								<li>
 									<div
 										style={{ width: "200px" }}
@@ -391,7 +397,7 @@ export default function Navbar(): JSX.Element {
 							)}
 						</ul>
 					</div>
-					{userId !== "" ? (
+					{profileData.id !== -1 ? (
 						<div
 							className="nav-item dropdown align-items-center my-3"
 							onClick={() => {
@@ -414,10 +420,11 @@ export default function Navbar(): JSX.Element {
 								<i className="fas fa-user hvr-icon" />
 								&nbsp;&nbsp;Hi,{" "}
 								{truncate(
-									cookies?.user?.[0]?.first_name !== ""
-										? cookies?.user?.[0]?.first_name
-										: cookies?.user?.[0]?.username ||
-												"User",
+									profileData?.first_name !== ""
+										? profileData?.first_name
+										: profileData?.username !== ""
+										? profileData?.username
+										: "User",
 									10
 								)}
 								&nbsp;
@@ -664,11 +671,12 @@ export default function Navbar(): JSX.Element {
 									aria-expanded="false"
 								>
 									<i className="fas fa-shopping-cart hvr-icon" />
-									{userId !== "" && allCartItemsCount > 0 && (
-										<span className="topnumbercart">
-											{allCartItemsCount}
-										</span>
-									)}
+									{profileData.id !== -1 &&
+										allCartItemsCount > 0 && (
+											<span className="topnumbercart">
+												{allCartItemsCount}
+											</span>
+										)}
 									&nbsp;&nbsp;Cart
 								</Link>
 								<ul
@@ -757,7 +765,7 @@ export default function Navbar(): JSX.Element {
 									)}
 								</ul>
 							</li>
-							{userId !== "" ? (
+							{profileData.id !== -1 ? (
 								<li className="nav-item dropdown px-4 my-1">
 									<Link
 										to=""
@@ -769,10 +777,14 @@ export default function Navbar(): JSX.Element {
 									>
 										<i className="fas fa-user hvr-icon" />
 										&nbsp;&nbsp;Hi,{" "}
-										{cookies?.user?.[0]?.first_name !== ""
-											? cookies?.user?.[0]?.first_name
-											: cookies?.user?.[0]?.username ||
-											  "User"}
+										{truncate(
+											profileData?.first_name !== ""
+												? profileData?.first_name
+												: profileData?.username !== ""
+												? profileData?.username
+												: "User",
+											10
+										)}
 									</Link>
 									<ul
 										className="dropdown-menu border5px border-0"

@@ -1,7 +1,6 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import tempImg from "../Assets/Product_3.webp";
-import { BaseContext } from "../Context";
 import { CartItem } from "../Interfaces/Products";
 import { useSelector, useDispatch } from "react-redux";
 import { Store } from "../Interfaces/Store";
@@ -18,12 +17,9 @@ import { MinusButtonForCart, PlusButtonForCart } from "./PlusMinusButtons";
 
 export default function CartCard({ item }: { item: CartItem }): JSX.Element {
 	const dispatch = useDispatch();
-	const { cookies }: any = useContext(BaseContext);
 	const [deleteToggle, setDeleteToggle] = useState(false);
-	const wishlistItems = useSelector(
-		(state: Store) => state.wishlist[cookies?.user?.[0]?.id]
-	);
-	const userId = useSelector((state: Store) => state.userId);
+	const userId = useSelector((state: Store) => state.userProfile.id);
+	const wishlistItems = useSelector((state: Store) => state.wishlist[userId]);
 	const deletebutton = () => {
 		if (item?.product?.guid) {
 			setDeleteToggle(!deleteToggle);
@@ -67,7 +63,7 @@ export default function CartCard({ item }: { item: CartItem }): JSX.Element {
 				<div className="row mt-3">
 					<div className="col-lg-12">
 						<MinusButtonForCart
-							isAuthenticated={userId !== "" ? true : false}
+							isAuthenticated={userId !== -1 ? true : false}
 							guid={item?.product?.guid}
 							decreaseQuantityOfProductInCart={
 								decreaseQuantityOfProductInCart
@@ -81,14 +77,14 @@ export default function CartCard({ item }: { item: CartItem }): JSX.Element {
 							style={{ width: 50, height: 40 }}
 						/>
 						<PlusButtonForCart
-							isAuthenticated={userId !== "" ? true : false}
+							isAuthenticated={userId !== -1 ? true : false}
 							guid={item?.product?.guid}
 							increaseQuantityOfProductInCart={
 								increaseQuantityOfProductInCart
 							}
 						/>
 						<DeleteButtonForCart
-							isAuthenticated={userId !== "" ? true : false}
+							isAuthenticated={userId !== -1 ? true : false}
 							onClick={() => deletebutton()}
 						/>
 					</div>
@@ -106,7 +102,7 @@ export default function CartCard({ item }: { item: CartItem }): JSX.Element {
 				<div className="row mt-3">
 					<div className="col-lg-12">
 						<WishlistButtonForCart
-							isAuthenticated={userId !== "" ? true : false}
+							isAuthenticated={userId !== -1 ? true : false}
 							guid={item?.product?.guid}
 							wishlistItems={wishlistItems}
 							addProductInWishlist={addProductInWishlist}

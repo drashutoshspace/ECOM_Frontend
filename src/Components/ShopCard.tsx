@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 import { Product } from "../Interfaces/Products";
 import { useSelector } from "react-redux";
@@ -19,16 +18,11 @@ export default function ShopCard({
 }: {
 	product: Product;
 }): JSX.Element {
-	const [cookies] = useCookies(["user"]);
 	const [plusMinus, setPlusMinus] = useState(1);
 	const [animateButton, setAnimateButton] = useState(false);
-	const wishlistItems = useSelector(
-		(state: Store) => state.wishlist[cookies?.user?.[0]?.id]
-	);
-	const cartItems = useSelector(
-		(state: Store) => state.cart[cookies?.user?.[0]?.id]
-	);
-	const userId = useSelector((state: Store) => state.userId);
+	const userId = useSelector((state: Store) => state.userProfile.id);
+	const wishlistItems = useSelector((state: Store) => state.wishlist[userId]);
+	const cartItems = useSelector((state: Store) => state.cart[userId]);
 	useEffect(() => {
 		const timer = setTimeout(() => setAnimateButton(false), 1000);
 		return () => {
@@ -64,7 +58,7 @@ export default function ShopCard({
 					%
 				</span>
 				<WishlistButtonForCard
-					isAuthenticated={userId !== "" ? true : false}
+					isAuthenticated={userId !== -1 ? true : false}
 					guid={product?.guid}
 					wishlistItems={wishlistItems}
 					addProductInWishlist={addProductInWishlist}
@@ -127,7 +121,7 @@ export default function ShopCard({
 							{!isProductInCart(cartItems, product?.guid) ? (
 								<AddToCartButtonForCard
 									isAuthenticated={
-										userId !== "" ? true : false
+										userId !== -1 ? true : false
 									}
 									animateButton={animateButton}
 									plusMinus={plusMinus}
@@ -138,7 +132,7 @@ export default function ShopCard({
 							) : (
 								<ViewCartButtonForCard
 									isAuthenticated={
-										userId !== "" ? true : false
+										userId !== -1 ? true : false
 									}
 								/>
 							)}

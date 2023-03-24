@@ -13,6 +13,8 @@ import { profileDataUpdate } from "../../APIs/user/user";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCart } from "../../Data/storingData";
 import { Store } from "../../Interfaces/Store";
+import { truncate } from "../../Utilities/Utils";
+
 declare global {
 	interface Window {
 		Razorpay: any;
@@ -366,9 +368,6 @@ const Checkout = () => {
 			mounted = false;
 		};
 	}, []);
-	function truncate(str: any, n: any) {
-		return str?.length > n ? str.substr(0, n - 1) + "..." : str;
-	}
 	const redirect = (value: any) => {
 		if (value === "/profile/account") {
 			handleNotification("Enter Your Billing Address.", "error");

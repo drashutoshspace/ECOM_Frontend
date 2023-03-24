@@ -1,4 +1,5 @@
 import { Product_Category } from "./Products";
+import { User } from "./User";
 
 export interface tokenObject {
 	[key: string]: string;
@@ -21,7 +22,6 @@ export interface wishlistObject {
 }
 
 export interface Store {
-	userId: string;
 	token: tokenObject;
 	cart: cartObject;
 	wishlist: wishlistObject;
@@ -30,4 +30,5 @@ export interface Store {
 	allCartItemsTotalDiscount: number;
 	allWishlistItemsCount: number;
 	allProductCategories: Product_Category[];
+	userProfile: User;
 }

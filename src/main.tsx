@@ -1,7 +1,6 @@
 import ReactDOM from "react-dom/client";
 import Routes from "./Routes";
 import { ToastContainer } from "react-toastify";
-import { CookiesProvider } from "react-cookie";
 import { HelmetProvider } from "react-helmet-async";
 import { Provider } from "react-redux";
 import { persistor, store } from "./Data/Store";
@@ -19,20 +18,18 @@ import "react-phone-input-2/lib/style.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<HelmetProvider>
-		<CookiesProvider>
-			<Provider store={store}>
-				<PersistGate loading={null} persistor={persistor}>
-					<Routes />
-					<ToastContainer
-						theme="colored"
-						position="bottom-center"
-						autoClose={5000}
-						hideProgressBar={false}
-						pauseOnFocusLoss
-						pauseOnHover
-					/>
-				</PersistGate>
-			</Provider>
-		</CookiesProvider>
+		<Provider store={store}>
+			<PersistGate loading={null} persistor={persistor}>
+				<Routes />
+				<ToastContainer
+					theme="colored"
+					position="bottom-center"
+					autoClose={5000}
+					hideProgressBar={false}
+					pauseOnFocusLoss
+					pauseOnHover
+				/>
+			</PersistGate>
+		</Provider>
 	</HelmetProvider>
 );

@@ -35,7 +35,7 @@ export default function Login({
 				await profileData().then((profile) =>
 					dispatch(
 						loginFromRedux({
-							userId: profile[0].id,
+							profileData: profile[0],
 							token: data.key,
 						})
 					)
