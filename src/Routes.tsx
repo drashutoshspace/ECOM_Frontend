@@ -90,7 +90,7 @@ export default function Routes(): JSX.Element {
 						</PrivateRoute>
 					}
 				/>
-				<Route path="/shop/products/:id" element={<ProductSingle />} />
+				<Route path="/shop/products/:guid" element={<ProductSingle />} />
 				<Route path="/aboutus" element={<AboutUs />} />
 				<Route path="/emailconfirm" element={<VerifyEmailConfirm />} />
 				<Route path="/testimonials" element={<Testimonials />} />

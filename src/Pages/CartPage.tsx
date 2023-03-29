@@ -1,10 +1,9 @@
 import Breadcrumb from "../Components/Breadcrumb";
-import { useContext, useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import Base from "../Base";
 import CartCard from "../Components/CartCard";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { BaseContext } from "../Context";
 import DataLoader from "../Components/DataLoader";
 import { confirmAlert } from "react-confirm-alert";
 import { useNavigate } from "react-router-dom";
@@ -13,11 +12,9 @@ import { Store } from "../Interfaces/Store";
 import { clearCart } from "../Data/storingData";
 
 export default function CartPage(): JSX.Element {
-	const { cookies }: any = useContext(BaseContext);
 	const dispatch = useDispatch();
-	const cartItems = useSelector(
-		(state: Store) => state.cart[cookies?.user?.[0]?.id]
-	);
+	const userId = useSelector((state: Store) => state.userProfile.id);
+	const cartItems = useSelector((state: Store) => state.cart[userId]);
 	const allCartItemsTotalPrice = useSelector(
 		(state: Store) => state.allCartItemsTotalPrice
 	);
@@ -96,11 +93,7 @@ export default function CartPage(): JSX.Element {
 										onMouseEnter={handleChangeImage}
 										onMouseLeave={handleChangeImage}
 									>
-										{cartItems?.filter(
-											(item: any) =>
-												item.userID ===
-												cookies?.user?.[0]?.id
-										).length === 0 ? (
+										{cartItems?.length === 0 ? (
 											<div className="row justify-content-center mx-3">
 												<div className="col-lg-6 text-center">
 													<img
@@ -128,13 +121,8 @@ export default function CartPage(): JSX.Element {
 												<div className="col-lg-8 order-lg-1 mt-4 mt-lg-0 order-2 px-3">
 													<div className="row">
 														<div className="col-lg-12">
-															{cartItems?.filter(
-																(item: any) =>
-																	item.userID ===
-																	cookies
-																		?.user?.[0]
-																		?.id
-															).length > 0 && (
+															{cartItems?.length >
+																0 && (
 																<div className="row mt-4">
 																	<div className="col-md-12 text-center">
 																		<h1 className="mb-2 colorblue pb-2 borderbottomcart">
@@ -143,33 +131,23 @@ export default function CartPage(): JSX.Element {
 																			Your
 																			Cart
 																		</h1>
-																		{cartItems
-																			?.filter(
-																				(
-																					item: any
-																				) =>
-																					item.userID ===
-																					cookies
-																						?.user?.[0]
-																						?.id
-																			)
-																			.map(
-																				(
-																					item: any,
-																					index: any
-																				) => {
-																					return (
-																						<CartCard
-																							key={
-																								index
-																							}
-																							item={
-																								item
-																							}
-																						/>
-																					);
-																				}
-																			)}
+																		{cartItems?.map(
+																			(
+																				item: any,
+																				index: any
+																			) => {
+																				return (
+																					<CartCard
+																						key={
+																							index
+																						}
+																						item={
+																							item
+																						}
+																					/>
+																				);
+																			}
+																		)}
 																	</div>
 																</div>
 															)}

@@ -1,29 +1,28 @@
 import Breadcrumb from "../Components/Breadcrumb";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Base from "../Base";
 import { Helmet } from "react-helmet-async";
 import { contactUs } from "../APIs/misc/misc";
 import { toast } from "react-toastify";
 import DataLoader2 from "../Components/DataLoader2";
-import { isAuthenticated } from "../APIs/user/user";
-import { BaseContext } from "../Context";
+import { useSelector } from "react-redux";
+import { Store } from "../Interfaces/Store";
 
 export default function ContactUs(): JSX.Element {
-	const { cookies }: any = useContext(BaseContext);
 	const [changeImage, setChangeImage] = useState(false);
 	const handleChangeImage = () => {
 		setChangeImage(!changeImage);
 	};
 	const [loading, setLoading] = useState(false);
 	const [name, setName] = useState(
-		(async () => await isAuthenticated())
-			? cookies?.user?.[0]?.first_name.length > 0
-				? cookies?.user?.[0]?.first_name
-				: cookies?.user?.[0]?.username
+		useSelector((state: Store) => state.userProfile.first_name)
+			? useSelector((state: Store) => state.userProfile.first_name)
 			: ""
 	);
 	const [email, setEmail] = useState(
-		(async () => await isAuthenticated()) ? cookies?.user?.[0]?.email : ""
+		useSelector((state: Store) => state.userProfile.email)
+			? useSelector((state: Store) => state.userProfile.email)
+			: ""
 	);
 	const [subject, setSubject] = useState("");
 	const [message, setMessage] = useState("");
@@ -92,22 +91,7 @@ export default function ContactUs(): JSX.Element {
 															className="input100 w-100 border5px border-0 colorblue"
 															type="text"
 															placeholder="Name"
-															value={
-																(async () =>
-																	await isAuthenticated())
-																	? cookies
-																			?.user?.[0]
-																			?.first_name
-																			.length >
-																	  0
-																		? cookies
-																				?.user?.[0]
-																				?.first_name
-																		: cookies
-																				?.user?.[0]
-																				?.username
-																	: name
-															}
+															value={name}
 															onChange={(e) => {
 																setName(
 																	e.target
@@ -115,12 +99,6 @@ export default function ContactUs(): JSX.Element {
 																);
 															}}
 															required
-															disabled={
-																(async () =>
-																	await isAuthenticated())
-																	? true
-																	: false
-															}
 														/>
 														<span className="focus-input100" />
 														<span className="symbol-input100 d-flex align-items-center position-absolute colorblue h-100">
@@ -136,14 +114,7 @@ export default function ContactUs(): JSX.Element {
 															className="input100 w-100 border5px border-0 colorblue"
 															type="email"
 															placeholder="Email"
-															value={
-																(async () =>
-																	await isAuthenticated())
-																	? cookies
-																			?.user?.[0]
-																			?.email
-																	: email
-															}
+															value={email}
 															onChange={(e) => {
 																setEmail(
 																	e.target
@@ -151,12 +122,6 @@ export default function ContactUs(): JSX.Element {
 																);
 															}}
 															required
-															disabled={
-																(async () =>
-																	await isAuthenticated())
-																	? true
-																	: false
-															}
 														/>
 														<span className="focus-input100" />
 														<span className="symbol-input100 d-flex align-items-center position-absolute colorblue h-100">

@@ -486,7 +486,7 @@ export default function Navbar(): JSX.Element {
 								<li>
 									<hr className="dropdown-divider dropdowndividernav" />
 								</li>
-								{!!!cookies?.user?.[0]?.is_social && (
+								{/* {!profileData?.is_social && (
 									<>
 										<li>
 											<Link
@@ -507,7 +507,7 @@ export default function Navbar(): JSX.Element {
 											</Link>
 										</li>
 									</>
-								)}
+								)} */}
 								<li>
 									<small
 										className="cursorpointer colorblue fontsize14 lightbluehover dropdown-item"
@@ -836,7 +836,7 @@ export default function Navbar(): JSX.Element {
 										<li>
 											<hr className="dropdown-divider dropdowndividernav" />
 										</li>
-										{!!!cookies?.user?.[0]?.is_social && (
+										{/* {!profileData?.is_social && (
 											<>
 												<li>
 													<Link
@@ -858,7 +858,7 @@ export default function Navbar(): JSX.Element {
 													</Link>
 												</li>
 											</>
-										)}
+										)} */}
 										<li>
 											<small
 												className="cursorpointer colorblue fontsize12 lightbluehover dropdown-item"

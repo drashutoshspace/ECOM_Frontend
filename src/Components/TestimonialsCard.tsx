@@ -1,21 +1,12 @@
 import tempImg from "../Assets/User_Image.webp";
 import { Testimonials } from "../Interfaces/Misc";
-import { truncate } from "../Utilities/Utils";
+import { truncate, insertStars } from "../Utilities/Utils";
 
 export default function TestimonialsCard({
 	testimonial,
 }: {
 	testimonial: Testimonials;
 }): JSX.Element {
-	var stars: JSX.Element[] = [];
-	var showStars = (number: number) => {
-		for (var i = 0; i < number; i++) {
-			stars.push(
-				<i key={i} className="fas hvr-icon me-1 coloryellow fa-star" />
-			);
-		}
-		return <li className="list-inline-item">{stars}</li>;
-	};
 	return (
 		<div
 			className="d-flex mt-0 m-2 p-3 client-testi hvr-icon-grow border5px border-0"
@@ -31,8 +22,8 @@ export default function TestimonialsCard({
 			<div className="flex-1 border5px shadow content p-3 position-relative">
 				<ul className="list-unstyled mb-0">
 					{testimonial?.rating > 5
-						? showStars(5)
-						: showStars(testimonial?.rating)}
+						? insertStars(5, "testimonials")
+						: insertStars(testimonial?.rating, "testimonials")}
 				</ul>
 				<p className="mypara mt-2">{`"${truncate(
 					testimonial?.review,

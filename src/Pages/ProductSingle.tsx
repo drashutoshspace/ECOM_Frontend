@@ -1,9 +1,8 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import Base from "../Base";
 import ReactImageMagnify from "react-image-magnify";
 import { Helmet } from "react-helmet-async";
 import { singleProduct } from "../APIs/ecommerce/ecommerce";
-import { BaseContext, ProductsContext } from "../Context";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import {
 	FacebookShareButton,
@@ -33,25 +32,120 @@ import {
 	increaseQuantityOfProductInCart,
 	decreaseQuantityOfProductInCart,
 } from "../Data/storingData";
+import { insertStars, isProductInCart } from "../Utilities/Utils";
+import { Product, Product_Reviews } from "../Interfaces/Products";
+import {
+	AddToCartButtonForProductSingle,
+	ViewCartButtonForProductSingle,
+} from "../Components/ActionButtons";
 
 export default function ProductSingle(): JSX.Element {
 	const dispatch = useDispatch();
-	const { id } = useParams();
-	const { findProduct, product }: any = useContext(ProductsContext);
-	const { cookies }: any = useContext(BaseContext);
+	const { guid } = useParams();
+	const userId = useSelector((state: Store) => state.userProfile.id);
+	const cartItems = useSelector((state: Store) => state.cart[userId]);
 	const [plusMinus, setPlusMinus] = useState(1);
+	const [animateButton, setAnimateButton] = useState(false);
+	const [changeImage, setChangeImage] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [wishlistToggle, setWishlistToggle] = useState(false);
-	const [animateButton, setAnimateButton] = useState(false);
 	const [toggleButton, setToggleButton] = useState(false);
+	const [target, setTarget] = useState(-1);
+	const [productImage, setProductImage] = useState(0);
+	const [review, setReview] = useState("");
+	const [rating, setRating] = useState(0);
+	const [productData, setProductData] = useState<Product>();
+	const [dataLoading, setDataLoading] = useState(false);
+	const [isReviewed, setIsReviewed] = useState(false);
+	const [reviewID, setReviewID] = useState(null);
+	const location = useLocation();
+	const navigate = useNavigate();
+	useEffect(() => {
+		const getSingleProduct = async () => {
+			await singleProduct({ guid }).then((data: Product) => {
+				setProductData(data);
+			});
+		};
+		getSingleProduct();
+	}, []);
+	const addReviewRating = async (e: any) => {
+		e.preventDefault();
+		await reviewRating({
+			guid: productData?.guid!,
+			rating,
+			review,
+		}).then((data) => {
+			if (data.id !== null) {
+				let arr = productData?.Product_Reviews;
+				arr?.push({
+					guid: productData?.guid!,
+					id: data.id,
+					rating: data.rating,
+					review: data.review,
+					user_id: data.user_id,
+				});
+				setProductData({
+					...productData!,
+					Product_Reviews: arr!,
+				});
+				return toast.success("Review Posted Successfully!");
+			} else {
+				return toast.error("Cannot add review currently!");
+			}
+		});
+	};
+	const updateReviewRating = async (
+		e: any,
+		id: any,
+		rating: any,
+		review: any
+	) => {
+		e.preventDefault();
+		await updateReview({ id, rating, review }).then((data) => {
+			if (data.id !== null) {
+				setProductData({
+					...productData!,
+					Product_Reviews: productData?.Product_Reviews?.map(
+						(data) => {
+							if (data.id === id) {
+								return {
+									id: data.id,
+									rating: rating,
+									review: review,
+									guid: data.guid,
+									user_id: data.user_id,
+								};
+							} else return data;
+						}
+					)!,
+				});
+				return toast.success("Review Updated Successfully!");
+			} else {
+				return toast.error("Cannot update review currently!");
+			}
+		});
+	};
+	const reviewDelete = async (e: any, id: any) => {
+		e.preventDefault();
+		await deleteReview({ id }).then((data) => {
+			if (data.id === null) {
+				setProductData({
+					...productData!,
+					Product_Reviews: productData?.Product_Reviews.filter(
+						(item: Product_Reviews) => item.id !== id
+					)!,
+				});
+				return toast.success("Review Deleted Successfully!");
+			} else {
+				return toast.error("Cannot delete review currently!");
+			}
+		});
+	};
 	const changeWishlist = () => {
 		setWishlistToggle(!wishlistToggle);
 	};
-	const handlePlus = () => {
-		setPlusMinus(plusMinus + 1);
-	};
-	const handleMinus = () => {
-		if (plusMinus > 1) setPlusMinus(plusMinus - 1);
+	const handleChangeImage = () => {
+		setChangeImage(!changeImage);
 	};
 	useEffect(() => {
 		const timer = setTimeout(() => setAnimateButton(false), 1000);
@@ -59,186 +153,11 @@ export default function ProductSingle(): JSX.Element {
 			clearTimeout(timer);
 		};
 	}, [animateButton]);
-	const cartItems = useSelector(
-		(state: Store) => state.cart[cookies?.user?.[0]?.id]
-	);
-	const isInCart = (id: string, userID: string) => {
-		return !!!cartItems.find((item: cartItem) => item.guid === id);
-	};
-	var stars: JSX.Element[] = [];
-	var showStars1 = (number: number) => {
-		for (var i = 0; i < number; i++) {
-			stars.push(
-				<li
-					key={i}
-					className="list-inline-item fontsize18 hvr-icon-grow me-1"
-				>
-					<i className="fas fa-star hvr-icon" />
-				</li>
-			);
-		}
-		return (
-			<ul className="list-unstyled text-center text-lg-start coloryellow mb-3">
-				{stars}
-			</ul>
-		);
-	};
-	/* -------------------------------------------------------------------------- */
-	/*                           ANCHOR stars for rating                          */
-	/* -------------------------------------------------------------------------- */
-	var showStarsForRating = (number: number) => {
-		var starsForRating = [];
-		for (var i = 0; i < number; i++) {
-			starsForRating.push(
-				<i key={i} className="fas fontsize18 fa-star coloryellow" />
-			);
-		}
-		return starsForRating;
-	};
-	const [target, setTarget] = useState(-1);
-	var showStarsForRatingForm = (number: number, indexValue: number) => {
-		var starsForRatingForm = [];
-		for (var i = 0; i < number; i++) {
-			starsForRatingForm.push(
-				<i
-					className={`${
-						indexValue === target
-							? "fas fa-star coloryellow hvr-icon"
-							: "far fa-star"
-					}`}
-				/>
-			);
-		}
-		return starsForRatingForm;
-	};
-	const [ProductImage1, setProductImage1] = useState(0);
-	const location = useLocation();
-	const [review, setReview] = useState("");
-	const [rating, setRating] = useState(0);
-	const [product_id, setProduct_id] = useState("");
-	const [allReviews, setAllReviews] = useState([]);
-	const [dataLoading, setDataLoading] = useState(false);
-	const navigate = useNavigate();
-	/* --------------------------- ANCHOR review code --------------------------- */
-	const reviewrating = async (e: any) => {
-		e.preventDefault();
-		setDataLoading(true);
-		if (localStorage.getItem("token")) {
-			if (target === -1) {
-				setDataLoading(false);
-				return toast.error(
-					"Please recheck whether you have filled the form correctly or not!"
-				);
-			}
-			await reviewRating({ guid: product.guid, rating, review }).then(
-				(data) => {
-					if (data.user) {
-						setToggleButton(!toggleButton);
-						setDataLoading(false);
-						return toast.success("Review Posted!");
-					} else {
-						setDataLoading(false);
-						return toast.error("Something went wrong!");
-					}
-				}
-			);
-			setReview("");
-			setRating(0);
-			setTarget(-1);
-		} else {
-			navigate("/auth");
-		}
-	};
-	const [isReviewed, setIsReviewed] = useState(false);
-	const [reviewID, setReviewID] = useState(null);
-	const revs = async (item: any) => {
-		await fetchAllReviews().then(async (data: any) => {
-			if (data.find((review: any) => review.product_id === item?.guid)) {
-				setAllReviews(
-					data.filter(
-						(review: any) => review.product_id === item?.guid
-					)
-				);
-				if (
-					data
-						.filter(
-							(review: any) => review.product_id === item?.guid
-						)
-						.find(
-							(item: any) =>
-								item?.user?.id === cookies?.user?.[0]?.id
-						)
-				) {
-					setIsReviewed(true);
-					await singleReview({
-						guid: data
-							.filter(
-								(review: any) =>
-									review.product_id === item?.guid
-							)
-							.find(
-								(item: any) =>
-									item?.user?.id === cookies?.user?.[0]?.id
-							).id,
-					}).then((data: any) => {
-						setReview(data?.review);
-						setRating(data?.rating);
-						setTarget(data?.rating - 1);
-						showStarsForRatingForm(data?.rating, data?.rating - 1);
-						setReviewID(data?.id);
-						setProduct_id(data?.product_id);
-					});
-				} else setIsReviewed(false);
-			}
-		});
-	};
-	const reviewDelete = async (e: any, id: any) => {
-		e.preventDefault();
-		await deleteReview({ id });
-		setAllReviews(allReviews.filter((item: any) => item.id !== id));
-		setIsReviewed(false);
-		setRating(0);
-		setTarget(-1);
-		setReview("");
-		setProduct_id("");
-		return toast.success("Review Deleted Successfully!");
-	};
-	const reviewUpdate = async (e: any, rev: any) => {
-		e.preventDefault();
-		await updateReview({
-			id: rev,
-			rating,
-			review,
-		});
-		revs(product);
-		return toast.success("Review Updated Successfully!");
-	};
-	useEffect(() => {
-		const getSingleProduct = async () => {
-			await singleProduct({ guid: id }).then((data: any) => {
-				findProduct(data);
-				revs(data);
-				setLoading(false);
-			});
-		};
-		getSingleProduct();
-	}, []);
-	useEffect(() => {
-		var mounted = true;
-		if (mounted) {
-			!loading && revs(product);
-		}
-		return () => {
-			mounted = false;
-		};
-	}, [toggleButton]);
-	const [changeImage1, setChangeImage1] = useState(false);
-	const handleChangeImage1 = () => {
-		setChangeImage1(!changeImage1);
-	};
 	return (
 		<>
-			<Helmet title={`MeeMo Kidz | ${product?.Product_Name}`}></Helmet>
+			<Helmet
+				title={`MeeMo Kidz | ${productData?.Product_Name}`}
+			></Helmet>
 			<Base>
 				{loading ? (
 					<DataLoader />
@@ -258,10 +177,10 @@ export default function ProductSingle(): JSX.Element {
 												pressDuration: 250,
 												smallImage: {
 													isFluidWidth: true,
-													src: `${product.Product_Images?.[ProductImage1]?.dbImage}`,
+													src: `${productData?.Product_Images?.[productImage]?.dbImage}`,
 												},
 												largeImage: {
-													src: `${product.Product_Images?.[ProductImage1]?.dbImage}`,
+													src: `${productData?.Product_Images?.[productImage]?.dbImage}`,
 													width: 600,
 													height: 900,
 												},
@@ -273,17 +192,17 @@ export default function ProductSingle(): JSX.Element {
 										>
 											{Math.abs(
 												parseInt(
-													product?.Product_Discount
+													productData?.Product_Discount?.toString()!
 												) -
 													parseFloat(
-														product?.Product_Discount
+														productData?.Product_Discount?.toString()!
 													)
 											) > 0.5
 												? parseInt(
-														product?.Product_Discount
+														productData?.Product_Discount?.toString()!
 												  ) + 1
 												: parseInt(
-														product?.Product_Discount
+														productData?.Product_Discount?.toString()!
 												  )}
 											%
 										</span>
@@ -299,14 +218,14 @@ export default function ProductSingle(): JSX.Element {
 										</button>
 									</div>
 									<div className="row">
-										{product.Product_Images?.slice(
+										{productData?.Product_Images?.slice(
 											0,
 											3
 										).map((product: any, index: any) => {
 											return (
 												<>
 													{product ===
-													product.Product_Images?.slice(
+													productData?.Product_Images?.slice(
 														-1
 													)[0] ? (
 														<div
@@ -316,7 +235,7 @@ export default function ProductSingle(): JSX.Element {
 															<img
 																className="border5px h-100 w-100 shadow cursorpointer"
 																onClick={() =>
-																	setProductImage1(
+																	setProductImage(
 																		index
 																	)
 																}
@@ -335,7 +254,7 @@ export default function ProductSingle(): JSX.Element {
 															<img
 																className="border5px h-100 w-100 shadow cursorpointer"
 																onClick={() =>
-																	setProductImage1(
+																	setProductImage(
 																		index
 																	)
 																}
@@ -354,37 +273,46 @@ export default function ProductSingle(): JSX.Element {
 								</div>
 								<div className="col-lg-6 ps-lg-4">
 									<h1 className="colorblue mb-2 mt-3 mt-lg-0 text-center fw-bold text-lg-start">
-										{product?.Product_Name}
+										{productData?.Product_Name}
 									</h1>
-									{showStars1(
+									{insertStars(
 										Math.abs(
-											parseInt(product?.Product_Rating) -
+											parseInt(
+												productData?.Product_Rating?.toString()!
+											) -
 												parseFloat(
-													product?.Product_Rating
+													productData?.Product_Rating?.toString()!
 												)
 										) > 0.5
 											? parseInt(
-													product?.Product_Rating
+													productData?.Product_Rating?.toString()!
 											  ) + 1
-											: parseInt(product?.Product_Rating)
+											: parseInt(
+													productData?.Product_Rating?.toString()!
+											  ),
+										"showStars1"
 									)}
 									<p className="mb-3 text-center text-lg-start">
 										<span
 											className="colorblue fw-bold"
 											style={{ fontSize: 28 }}
 										>
-											₹ {product?.Product_SellingPrice}
+											₹{" "}
+											{productData?.Product_SellingPrice}
 										</span>
 										&nbsp;&nbsp;
 										<span className="fontsize20 notaccepted text-decoration-line-through">
-											₹ {product?.Product_MRP}
+											₹ {productData?.Product_MRP}
 										</span>
 									</p>
 									<div className="row">
 										<div className="col d-flex justify-content-center align-items-center">
 											<button
 												className="h-100 w-75 colorblue fontsize20 border-0 border5px bgyellow bglightblue"
-												onClick={handleMinus}
+												onClick={() =>
+													plusMinus > 1 &&
+													setPlusMinus(plusMinus - 1)
+												}
 											>
 												<i className="fas fa-minus" />
 											</button>
@@ -392,144 +320,48 @@ export default function ProductSingle(): JSX.Element {
 												className="bgcolorgreyish text-center fontsize20 colorblue h-100 w-75 border-0 border5px mx-2"
 												type="number"
 												value={plusMinus}
-												onChange={(e: any) => {
+												onChange={(
+													e: React.ChangeEvent<HTMLInputElement>
+												) => {
 													setPlusMinus(
-														e.target.value
+														e.target.valueAsNumber
 													);
 												}}
 											/>
 											<button
 												className="h-100 w-75 colorblue fontsize20 border-0 border5px bgyellow bglightblue"
-												onClick={handlePlus}
+												onClick={() =>
+													setPlusMinus(plusMinus + 1)
+												}
 											>
 												<i className="fas fa-plus" />
 											</button>
 										</div>
 										<div className="col d-flex align-items-center">
-											{isInCart(
-												product.guid,
-												cookies?.user?.[0]?.id
+											{!isProductInCart(
+												cartItems,
+												productData?.guid!
 											) ? (
-												<button
-													className={`${
+												<AddToCartButtonForProductSingle
+													isAuthenticated={
+														userId !== -1
+															? true
+															: false
+													}
+													animateButton={
 														animateButton
-															? "add-to-cart d-flex fontsize20 justify-content-center align-items-center mybtnsame position-relative h-100 w-100 overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase is-added"
-															: "add-to-cart d-flex fontsize20 justify-content-center align-items-center mybtnsame position-relative h-100 w-100 overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase"
-													}`}
-													onClick={() => {
-														if (
-															async () =>
-																await isAuthenticated()
-														) {
-															setAnimateButton(
-																true
-															);
-															dispatch(
-																addProductInCart(
-																	{
-																		guid: product?.guid,
-																		quantity:
-																			plusMinus,
-																		Product_MRP:
-																			product?.Product_MRP,
-																		Product_Name:
-																			product?.Product_Name,
-																		Product_SellingPrice:
-																			product?.Product_SellingPrice,
-																	}
-																)
-															);
-														} else {
-															return toast.warning(
-																"Please login to access Cart!"
-															);
-														}
-													}}
-												>
-													<span>Add to Cart</span>
-													<svg
-														x="0px"
-														y="0px"
-														width="32px"
-														height="32px"
-														viewBox="0 0 32 32"
-													>
-														<path
-															className={`${
-																animateButton
-																	? "pathatc"
-																	: ""
-															}`}
-															strokeDasharray="19.79 19.79"
-															strokeDashoffset="19.79"
-															fill="none"
-															stroke="#000000"
-															strokeWidth={2}
-															strokeLinecap="square"
-															strokeMiterlimit={
-																10
-															}
-															d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"
-														/>
-													</svg>
-												</button>
+													}
+													plusMinus={plusMinus}
+													setAnimateButton={
+														setAnimateButton
+													}
+													product={productData}
+													addProductInCart={
+														addProductInCart
+													}
+												/>
 											) : (
-												<button
-													className={`${
-														animateButton
-															? "add-to-cart d-flex fontsize20 justify-content-center align-items-center mybtnsame position-relative h-100 w-100 overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase is-added"
-															: "add-to-cart d-flex fontsize20 justify-content-center align-items-center mybtnsame position-relative h-100 w-100 overflow-hidden bglightblue colorblue bgyellow border5px border-0 text-uppercase"
-													}`}
-													onClick={() => {
-														if (
-															async () =>
-																await isAuthenticated()
-														) {
-															setAnimateButton(
-																true
-															);
-															// TODO: check for useeffect fo this
-															dispatch(
-																increaseQuantityOfProductInCart(
-																	{
-																		guid: product?.guid,
-																	}
-																)
-															);
-														} else {
-															return toast.warning(
-																"Please login first"
-															);
-														}
-													}}
-												>
-													<span>Add More</span>
-													<svg
-														x="0px"
-														y="0px"
-														width="32px"
-														height="32px"
-														viewBox="0 0 32 32"
-													>
-														<path
-															className={`${
-																animateButton
-																	? "pathatc"
-																	: ""
-															}`}
-															strokeDasharray="19.79 19.79"
-															strokeDashoffset="19.79"
-															fill="none"
-															stroke="#000000"
-															strokeWidth={2}
-															strokeLinecap="square"
-															strokeMiterlimit={
-																10
-															}
-															d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"
-														/>
-													</svg>
-												</button>
+												<ViewCartButtonForProductSingle />
 											)}
 										</div>
 									</div>
@@ -546,7 +378,7 @@ export default function ProductSingle(): JSX.Element {
 											</span>
 											<span className="colorlightblue">
 												&nbsp;&nbsp;&nbsp;
-												{product?.Product_Brand}
+												{productData?.Product_Brand}
 											</span>
 										</li>
 										<li
@@ -561,7 +393,7 @@ export default function ProductSingle(): JSX.Element {
 											</span>
 											<span className="colorlightblue">
 												&nbsp;&nbsp;&nbsp;
-												{product?.Product_Specs}
+												{productData?.Product_Specs}
 											</span>
 										</li>
 										<li
@@ -781,9 +613,9 @@ export default function ProductSingle(): JSX.Element {
 											role="tabpanel"
 											aria-labelledby="pills-description-tab"
 										>
-											{product?.Product_Description
-												?.length > 0 ? (
-												product?.Product_Description
+											{productData?.Product_Description
+												?.length! > 0 ? (
+												productData?.Product_Description
 													?.length
 											) : (
 												<h2 className="colorblue pt-3 text-center">
@@ -797,110 +629,94 @@ export default function ProductSingle(): JSX.Element {
 											id="pills-Reviews"
 											role="tabpanel"
 											aria-labelledby="pills-Reviews-tab"
-											onMouseEnter={handleChangeImage1}
-											onMouseLeave={handleChangeImage1}
+											onMouseEnter={handleChangeImage}
+											onMouseLeave={handleChangeImage}
 										>
-											{allReviews.filter(
-												(rev: any) =>
-													rev.product_id ===
-													product?.guid
-											).length > 0 ? (
-												allReviews
-													.sort((a: any, b: any) => {
+											{productData?.Product_Reviews
+												?.length! > 0 ? (
+												productData?.Product_Reviews?.sort(
+													(a: any, b: any) =>
+														b.rating - a.rating
+												).map(
+													(
+														review: any,
+														index: any
+													) => {
 														return (
-															a.rating - b.rating
-														);
-													})
-													.reverse()
-													.filter(
-														(rev: any) =>
-															rev.product_id ===
-															product?.guid
-													)
-													.map(
-														(
-															review: any,
-															index: any
-														) => {
-															return (
-																<div
-																	key={index}
-																	className="row my-4"
-																>
-																	<div className="col-12">
-																		<div className="teacher d-flex justify-content-end align-items-center">
-																			<img
-																				src={
-																					review
+															<div
+																key={index}
+																className="row my-4"
+															>
+																<div className="col-12">
+																	<div className="teacher d-flex justify-content-end align-items-center">
+																		<img
+																			src={
+																				review
+																					?.user
+																					?.image ||
+																				tempImg1
+																			}
+																			className="avatar-md-lg rounded-circle shadow"
+																			alt=""
+																		/>
+																		<div className="ms-3 flex-grow-1">
+																			<h4 className="mb-1">
+																				<p className="mb-0 colorblue">
+																					{review
 																						?.user
-																						?.image ||
-																					tempImg1
-																				}
-																				className="avatar-md-lg rounded-circle shadow"
-																				alt=""
-																			/>
-																			<div className="ms-3 flex-grow-1">
-																				<h4 className="mb-1">
-																					<p className="mb-0 colorblue">
-																						{review
-																							?.user
-																							.first_name !==
-																						""
-																							? review
-																									?.user
-																									.first_name
-																							: review
-																									?.user
-																									.username}
-																						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-																						{showStarsForRating(
-																							review?.rating
-																						)}
-																					</p>
-																				</h4>
-																				<p className="colorblue mb-0 mypara">
-																					{
-																						review?.review
-																					}
+																						.first_name !==
+																					""
+																						? review
+																								?.user
+																								.first_name
+																						: review
+																								?.user
+																								.username}
+																					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+																					{insertStars(
+																						review?.rating,
+																						"showStarsForRating"
+																					)}
 																				</p>
-																			</div>
-																			{review
-																				?.user
-																				?.id ===
-																				cookies
-																					?.user?.[0]
-																					?.id && (
-																				<button
-																					onClick={(
-																						e
-																					) => {
-																						reviewDelete(
-																							e,
-																							review.id
-																						);
-																					}}
-																					className="ms-2 colorblue border-0 border5px bgyellow bglightblue"
-																					style={{
-																						width: 35,
-																						height: 35,
-																					}}
-																				>
-																					<i className="fas fa-times" />
-																				</button>
-																			)}
+																			</h4>
+																			<p className="colorblue mb-0 mypara">
+																				{
+																					review?.review
+																				}
+																			</p>
 																		</div>
+																		{review && (
+																			<button
+																				onClick={(
+																					e
+																				) => {
+																					reviewDelete(
+																						e,
+																						review.id
+																					);
+																				}}
+																				className="ms-2 colorblue border-0 border5px bgyellow bglightblue"
+																				style={{
+																					width: 35,
+																					height: 35,
+																				}}
+																			>
+																				<i className="fas fa-times" />
+																			</button>
+																		)}
 																	</div>
 																</div>
-															);
-														}
-													)
+															</div>
+														);
+													}
+												)
 											) : (
 												<div className="row mt-5">
 													<div className="col-lg-12 text-center">
 														<img
 															width="250px"
 															src={
-																changeImage1
+																changeImage
 																	? "images/No_Reviews_Yellow.svg"
 																	: "images/No_Reviews_LightBlue.svg"
 															}
@@ -992,9 +808,10 @@ export default function ProductSingle(): JSX.Element {
 																									1
 																								}`}
 																							>
-																								{showStarsForRatingForm(
+																								{insertStars(
 																									index +
 																										1,
+																									"showStarsForRatingForm",
 																									index
 																								)}
 																							</label>
@@ -1042,12 +859,19 @@ export default function ProductSingle(): JSX.Element {
 																					e
 																				) => {
 																					isReviewed
-																						? reviewUpdate(
-																								e,
-																								reviewID
+																						? updateReview(
+																								{
+																									id: reviewID!,
+																									rating,
+																									review,
+																								}
 																						  )
-																						: reviewrating(
-																								e
+																						: updateReview(
+																								{
+																									id: reviewID!,
+																									rating,
+																									review,
+																								}
 																						  );
 																				}}
 																				disabled={

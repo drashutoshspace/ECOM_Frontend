@@ -123,7 +123,7 @@ export async function updateReview(data: {
 				"Content-Type": "application/json",
 				Authorization: "Token " + tokenValue,
 			},
-			body: JSON.stringify(data),
+			body: JSON.stringify({ rating: data.rating, review: data.review }),
 		});
 		return await response.json();
 	} catch (err) {

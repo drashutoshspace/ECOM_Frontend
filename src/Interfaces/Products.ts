@@ -1,5 +1,3 @@
-import { User } from "./User";
-
 export interface Product {
 	guid: string;
 	Product_ID: string;
@@ -11,7 +9,6 @@ export interface Product {
 	Product_Category: Product_Category[];
 	Product_Contents: string;
 	Product_Stock_Quantity: string;
-	Product_Color: Product_Color[];
 	Product_Specs: string;
 	Product_Brand: string;
 	Product_Rating: number;
@@ -32,14 +29,10 @@ export interface Product_Category {
 	category: string;
 }
 
-export interface Product_Color {
-	color: string;
-	color_name: string;
-}
-
 export interface Product_Reviews {
+	id: number;
 	guid: string;
-	user: User;
+	user_id: number;
 	rating: number;
 	review: string;
 }
