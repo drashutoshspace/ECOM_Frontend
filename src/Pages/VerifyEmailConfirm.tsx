@@ -2,16 +2,18 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Base from "../Base";
 import Breadcrumb from "../Components/Breadcrumb";
-import { isAuthenticated } from "../APIs/user/user";
+import { useSelector } from "react-redux";
+import { Store } from "../Interfaces/Store";
 
 export default function VerifyEmailConfirm(): JSX.Element {
+	const userId = useSelector((state: Store) => state.userProfile.id);
 	const [changeImage, setChangeImage] = useState(false);
 	const handleChangeImage = () => {
 		setChangeImage(!changeImage);
 	};
 	return (
 		<>
-			{!isAuthenticated() && localStorage.getItem("emailV") && (
+			{userId === -1 && localStorage.getItem("emailV") && (
 				<>
 					<Helmet>
 						<title>MeeMo Kidz | Verification Email Sent</title>

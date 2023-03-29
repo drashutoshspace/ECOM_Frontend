@@ -1,36 +1,25 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { EmailVerify_API } from "../backend";
 import Breadcrumb from "../Components/Breadcrumb";
 import Base from "../Base";
 import { Helmet } from "react-helmet-async";
-import { BaseContext } from "../Context";
+import { verifyEmailInSignUp } from "../APIs/user/user";
+import { toast } from "react-toastify";
 
 export default function VerifyEmail(): JSX.Element {
-	const { handleNotification }: any = useContext(BaseContext);
 	const location = useLocation();
 	const navigate = useNavigate();
 	const verifyEmail = async (e: any) => {
 		e.preventDefault();
-		return await fetch(EmailVerify_API, {
-			method: "POST",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-			},
-
-			body: JSON.stringify({
-				key: location.pathname.split("/")[3],
-			}),
-		})
-			.then((response) => {
-				if (response.status === 200) {
-					localStorage.removeItem("emailV");
-					navigate("/signin");
-					handleNotification("Email Verified!", "success");
-				}
-			})
-			.catch((err) => console.log(err));
+		await verifyEmailInSignUp({
+			key: location.pathname.split("/")[3],
+		}).then((data) => {
+			if (data.status === 200) {
+				localStorage.removeItem("emailV");
+				navigate("/signin");
+				toast.success("Email Verified!");
+			}
+		});
 	};
 	const [changeImage, setChangeImage] = useState(false);
 	const handleChangeImage = () => {

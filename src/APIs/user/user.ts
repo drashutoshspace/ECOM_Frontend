@@ -7,6 +7,7 @@ import {
 	PasswordChange_API,
 	ProfileData_API,
 	GoogleAuth_API,
+	EmailVerify_API,
 } from "../../backend";
 import {
 	getWithAuthorization,
@@ -66,6 +67,14 @@ export async function emailChange(data: {
 	newemail2: string;
 }): Promise<any> {
 	return await postWithAuthorization(EmailChange_API, data, "change email");
+}
+
+export async function verifyEmailInSignUp(data: { key: string }): Promise<any> {
+	return await postWithoutAuthorization(
+		EmailVerify_API,
+		data,
+		"verify email"
+	);
 }
 
 export async function userOrders(): Promise<any> {

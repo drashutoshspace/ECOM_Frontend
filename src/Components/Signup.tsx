@@ -54,11 +54,12 @@ export default function Signup({
 				.then((data) => {
 					if (data?.detail) {
 						setValues({
-							...values,
 							username: "",
 							email: "",
 							password1: "",
 							password2: "",
+							error: false,
+							success: false,
 						});
 						handleToggle(false);
 						setLoading(false);

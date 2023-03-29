@@ -42,8 +42,8 @@ export default function ProductListCard({
 					to={`/shop/products/${product?.guid}`}
 				>
 					<img
-						className="w-75"
-						// height="250px"
+						// className="w-75"
+						height="250px"
 						alt="Product_Image"
 						src={`${
 							product?.Product_Images?.[0]?.dbImage || tempImg
