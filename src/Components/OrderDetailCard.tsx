@@ -5,7 +5,7 @@ import { Order } from "../Interfaces/Orders";
 export default function OrderDetailCard({ id }: { id?: string }): JSX.Element {
 	return (
 		<>
-			{orderdetails.orderdetailItems.find(
+			{/* {orderdetails.orderdetailItems.find(
 				(item: Order) => item.order_id === id
 			) &&
 			orderdetails.orderdetailItems.find(
@@ -74,7 +74,7 @@ export default function OrderDetailCard({ id }: { id?: string }): JSX.Element {
 				</>
 			) : (
 				""
-			)}
+			)} */}
 		</>
 	);
 }
