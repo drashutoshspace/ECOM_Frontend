@@ -7,8 +7,6 @@ import {
 	increaseQuantityOfProductInCart,
 	decreaseQuantityOfProductInCart,
 	removeProductFromCart,
-	addProductInWishlist,
-	removeProductFromWishlist,
 } from "../Data/storingData";
 import { DeleteButtonForCart } from "./DeleteButtons";
 import { WishlistButtonForCart } from "./WishlistButtons";
@@ -98,10 +96,6 @@ export default function CartCard({ item }: { item: cartItem }): JSX.Element {
 						<WishlistButtonForCart
 							guid={item?.guid}
 							wishlistItems={wishlistItems}
-							addProductInWishlist={addProductInWishlist}
-							removeProductFromWishlist={
-								removeProductFromWishlist
-							}
 						/>
 					</div>
 				</div>

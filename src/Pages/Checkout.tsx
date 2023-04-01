@@ -203,8 +203,8 @@ export default function Checkout(): JSX.Element {
 				.catch((err) => {
 					console.log(err);
 				});
-		} catch (error) {
-			console.log(error);
+		} catch (err) {
+			console.log(err);
 		}
 	};
 	function loadScript(src: any) {

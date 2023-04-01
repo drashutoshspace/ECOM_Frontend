@@ -1,22 +1,17 @@
 import { toast } from "react-toastify";
 import { isProductInWishlist } from "../Utilities/Utils";
 import { useDispatch } from "react-redux";
-import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
+import {
+	addProductInWishlist,
+	removeProductFromWishlist,
+} from "../Data/storingData";
 
 export function WishlistButtonForCart({
 	guid,
 	wishlistItems,
-	addProductInWishlist,
-	removeProductFromWishlist,
 }: {
 	guid: string;
 	wishlistItems: string[];
-	addProductInWishlist: ActionCreatorWithPayload<{
-		guid: string;
-	}>;
-	removeProductFromWishlist: ActionCreatorWithPayload<{
-		guid: string;
-	}>;
 }): JSX.Element {
 	const dispatch = useDispatch();
 	return (
@@ -47,22 +42,48 @@ export function WishlistButtonForCart({
 	);
 }
 
+export function WishlistButtonForProductSingle({
+	guid,
+	wishlistItems,
+}: {
+	guid: string;
+	wishlistItems: string[];
+}): JSX.Element {
+	const dispatch = useDispatch();
+	return (
+		<button className="d-flex hvr-icon-pulse border-0 justify-content-center align-items-center mywishlistsin heartredhover">
+			<div
+				className={`${
+					isProductInWishlist(wishlistItems, guid)
+						? "fas fa-2x fa-heart heartred hvr-icon"
+						: "far fa-2x fa-heart"
+				}`}
+				onClick={() => {
+					isProductInWishlist(wishlistItems, guid)
+						? dispatch(
+								removeProductFromWishlist({
+									guid: guid,
+								})
+						  )
+						: dispatch(
+								addProductInWishlist({
+									guid: guid,
+								})
+						  );
+				}}
+			/>
+		</button>
+	);
+}
+
 export function WishlistButtonForCard({
 	isAuthenticated,
 	guid,
 	wishlistItems,
-	addProductInWishlist,
-	removeProductFromWishlist,
 }: {
 	isAuthenticated: boolean;
 	guid: string;
 	wishlistItems: string[];
-	addProductInWishlist: ActionCreatorWithPayload<{
-		guid: string;
-	}>;
-	removeProductFromWishlist: ActionCreatorWithPayload<{
-		guid: string;
-	}>;
 }): JSX.Element {
 	const dispatch = useDispatch();
 	return (
@@ -98,13 +119,9 @@ export function WishlistButtonForCard({
 export function WishlistButtonForProfileWishlistCard({
 	guid,
 	wishlistItems,
-	removeProductFromWishlist,
 }: {
 	guid: string;
 	wishlistItems: string[];
-	removeProductFromWishlist: ActionCreatorWithPayload<{
-		guid: string;
-	}>;
 }): JSX.Element {
 	const dispatch = useDispatch();
 	return (

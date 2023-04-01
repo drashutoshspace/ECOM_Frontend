@@ -22,53 +22,49 @@ import {
 import tempImg from "../Assets/Product_3.webp";
 import tempImg1 from "../Assets/User_Image.webp";
 import { toast } from "react-toastify";
-import { isAuthenticated } from "../APIs/user/user";
 import DataLoader from "../Components/DataLoader";
 import DataLoader2 from "../Components/DataLoader2";
-import { useSelector, useDispatch } from "react-redux";
-import { cartItem, Store } from "../Interfaces/Store";
-import {
-	addProductInCart,
-	increaseQuantityOfProductInCart,
-	decreaseQuantityOfProductInCart,
-} from "../Data/storingData";
+import { useSelector } from "react-redux";
+import { Store } from "../Interfaces/Store";
+import { addProductInCart } from "../Data/storingData";
 import { insertStars, isProductInCart } from "../Utilities/Utils";
 import { Product, Product_Reviews } from "../Interfaces/Products";
 import {
 	AddToCartButtonForProductSingle,
 	ViewCartButtonForProductSingle,
 } from "../Components/ActionButtons";
+import { WishlistButtonForProductSingle } from "../Components/WishlistButtons";
 
 export default function ProductSingle(): JSX.Element {
-	const dispatch = useDispatch();
+	const location = useLocation();
+	const navigate = useNavigate();
 	const { guid } = useParams();
 	const userId = useSelector((state: Store) => state.userProfile.id);
 	const cartItems = useSelector((state: Store) => state.cart[userId]);
+	const wishlistItems = useSelector((state: Store) => state.wishlist[userId]);
 	const [plusMinus, setPlusMinus] = useState(1);
 	const [animateButton, setAnimateButton] = useState(false);
 	const [changeImage, setChangeImage] = useState(false);
 	const [loading, setLoading] = useState(true);
-	const [wishlistToggle, setWishlistToggle] = useState(false);
-	const [toggleButton, setToggleButton] = useState(false);
+	const [currentImage, setCurrentImage] = useState(0);
 	const [target, setTarget] = useState(-1);
-	const [productImage, setProductImage] = useState(0);
 	const [review, setReview] = useState("");
 	const [rating, setRating] = useState(0);
 	const [productData, setProductData] = useState<Product>();
 	const [dataLoading, setDataLoading] = useState(false);
 	const [isReviewed, setIsReviewed] = useState(false);
 	const [reviewID, setReviewID] = useState(null);
-	const location = useLocation();
-	const navigate = useNavigate();
 	useEffect(() => {
 		const getSingleProduct = async () => {
 			await singleProduct({ guid }).then((data: Product) => {
 				setProductData(data);
+				setLoading(false);
 			});
 		};
 		getSingleProduct();
 	}, []);
 	const addReviewRating = async (e: any) => {
+		setDataLoading(true);
 		e.preventDefault();
 		await reviewRating({
 			guid: productData?.guid!,
@@ -88,8 +84,10 @@ export default function ProductSingle(): JSX.Element {
 					...productData!,
 					Product_Reviews: arr!,
 				});
+				setDataLoading(false);
 				return toast.success("Review Posted Successfully!");
 			} else {
+				setDataLoading(false);
 				return toast.error("Cannot add review currently!");
 			}
 		});
@@ -100,6 +98,7 @@ export default function ProductSingle(): JSX.Element {
 		rating: any,
 		review: any
 	) => {
+		setDataLoading(true);
 		e.preventDefault();
 		await updateReview({ id, rating, review }).then((data) => {
 			if (data.id !== null) {
@@ -119,13 +118,16 @@ export default function ProductSingle(): JSX.Element {
 						}
 					)!,
 				});
+				setDataLoading(false);
 				return toast.success("Review Updated Successfully!");
 			} else {
+				setDataLoading(false);
 				return toast.error("Cannot update review currently!");
 			}
 		});
 	};
-	const reviewDelete = async (e: any, id: any) => {
+	const deleteReviewRating = async (e: any, id: any) => {
+		setDataLoading(true);
 		e.preventDefault();
 		await deleteReview({ id }).then((data) => {
 			if (data.id === null) {
@@ -135,17 +137,13 @@ export default function ProductSingle(): JSX.Element {
 						(item: Product_Reviews) => item.id !== id
 					)!,
 				});
+				setDataLoading(false);
 				return toast.success("Review Deleted Successfully!");
 			} else {
+				setDataLoading(false);
 				return toast.error("Cannot delete review currently!");
 			}
 		});
-	};
-	const changeWishlist = () => {
-		setWishlistToggle(!wishlistToggle);
-	};
-	const handleChangeImage = () => {
-		setChangeImage(!changeImage);
 	};
 	useEffect(() => {
 		const timer = setTimeout(() => setAnimateButton(false), 1000);
@@ -153,6 +151,7 @@ export default function ProductSingle(): JSX.Element {
 			clearTimeout(timer);
 		};
 	}, [animateButton]);
+	// isReviewed Set Karna Hai
 	return (
 		<>
 			<Helmet
@@ -177,10 +176,10 @@ export default function ProductSingle(): JSX.Element {
 												pressDuration: 250,
 												smallImage: {
 													isFluidWidth: true,
-													src: `${productData?.Product_Images?.[productImage]?.dbImage}`,
+													src: `${productData?.Product_Images?.[currentImage]?.dbImage}`,
 												},
 												largeImage: {
-													src: `${productData?.Product_Images?.[productImage]?.dbImage}`,
+													src: `${productData?.Product_Images?.[currentImage]?.dbImage}`,
 													width: 600,
 													height: 900,
 												},
@@ -206,16 +205,10 @@ export default function ProductSingle(): JSX.Element {
 												  )}
 											%
 										</span>
-										<button className="d-flex hvr-icon-pulse border-0 justify-content-center align-items-center mywishlistsin heartredhover">
-											<div
-												className={`${
-													wishlistToggle
-														? "fas fa-2x fa-heart heartred hvr-icon"
-														: "far fa-2x fa-heart"
-												}`}
-												onClick={changeWishlist}
-											/>
-										</button>
+										<WishlistButtonForProductSingle
+											guid={guid || ""}
+											wishlistItems={wishlistItems}
+										/>
 									</div>
 									<div className="row">
 										{productData?.Product_Images?.slice(
@@ -235,7 +228,7 @@ export default function ProductSingle(): JSX.Element {
 															<img
 																className="border5px h-100 w-100 shadow cursorpointer"
 																onClick={() =>
-																	setProductImage(
+																	setCurrentImage(
 																		index
 																	)
 																}
@@ -254,7 +247,7 @@ export default function ProductSingle(): JSX.Element {
 															<img
 																className="border5px h-100 w-100 shadow cursorpointer"
 																onClick={() =>
-																	setProductImage(
+																	setCurrentImage(
 																		index
 																	)
 																}
@@ -278,18 +271,16 @@ export default function ProductSingle(): JSX.Element {
 									{insertStars(
 										Math.abs(
 											parseInt(
-												productData?.Product_Rating?.toString()!
+												productData?.Product_Rating.toFixed()!
 											) -
 												parseFloat(
-													productData?.Product_Rating?.toString()!
+													productData?.Product_Rating.toFixed(
+														2
+													)!
 												)
 										) > 0.5
-											? parseInt(
-													productData?.Product_Rating?.toString()!
-											  ) + 1
-											: parseInt(
-													productData?.Product_Rating?.toString()!
-											  ),
+											? productData?.Product_Rating! + 1
+											: productData?.Product_Rating!,
 										"showStars1"
 									)}
 									<p className="mb-3 text-center text-lg-start">
@@ -306,64 +297,73 @@ export default function ProductSingle(): JSX.Element {
 										</span>
 									</p>
 									<div className="row">
-										<div className="col d-flex justify-content-center align-items-center">
-											<button
-												className="h-100 w-75 colorblue fontsize16 border-0 border5px bgyellow bglightblue"
-												onClick={() =>
-													plusMinus > 1 &&
-													setPlusMinus(plusMinus - 1)
-												}
-											>
-												<i className="fas fa-minus" />
-											</button>
-											<input
-												className="bgcolorgreyish text-center fontsize16 colorblue h-100 w-75 border-0 border5px mx-2"
-												type="number"
-												value={plusMinus}
-												onChange={(
-													e: React.ChangeEvent<HTMLInputElement>
-												) => {
-													setPlusMinus(
-														e.target.valueAsNumber
-													);
-												}}
-											/>
-											<button
-												className="h-100 w-75 colorblue fontsize16 border-0 border5px bgyellow bglightblue"
-												onClick={() =>
-													setPlusMinus(plusMinus + 1)
-												}
-											>
-												<i className="fas fa-plus" />
-											</button>
-										</div>
-										<div className="col d-flex align-items-center">
-											{!isProductInCart(
-												cartItems,
-												productData?.guid!
-											) ? (
-												<AddToCartButtonForProductSingle
-													isAuthenticated={
-														userId !== -1
-															? true
-															: false
-													}
-													animateButton={
-														animateButton
-													}
-													plusMinus={plusMinus}
-													setAnimateButton={
-														setAnimateButton
-													}
-													product={productData}
-													addProductInCart={
-														addProductInCart
-													}
-												/>
-											) : (
+										{!isProductInCart(
+											cartItems,
+											productData?.guid!
+										) ? (
+											<>
+												<div className="col d-flex justify-content-center align-items-center">
+													<button
+														className="h-100 w-75 colorblue fontsize16 border-0 border5px bgyellow bglightblue"
+														onClick={() =>
+															plusMinus > 1 &&
+															setPlusMinus(
+																plusMinus - 1
+															)
+														}
+													>
+														<i className="fas fa-minus" />
+													</button>
+													<input
+														className="bgcolorgreyish text-center fontsize16 colorblue h-100 w-75 border-0 border5px mx-2"
+														type="number"
+														value={plusMinus}
+														onChange={(
+															e: React.ChangeEvent<HTMLInputElement>
+														) => {
+															setPlusMinus(
+																e.target
+																	.valueAsNumber
+															);
+														}}
+													/>
+													<button
+														className="h-100 w-75 colorblue fontsize16 border-0 border5px bgyellow bglightblue"
+														onClick={() =>
+															setPlusMinus(
+																plusMinus + 1
+															)
+														}
+													>
+														<i className="fas fa-plus" />
+													</button>
+												</div>
+												<div className="col d-flex align-items-center">
+													<AddToCartButtonForProductSingle
+														isAuthenticated={
+															userId !== -1
+																? true
+																: false
+														}
+														animateButton={
+															animateButton
+														}
+														plusMinus={plusMinus}
+														setAnimateButton={
+															setAnimateButton
+														}
+														product={productData}
+														addProductInCart={
+															addProductInCart
+														}
+													/>
+												</div>
+											</>
+										) : (
+											<div className="col d-flex align-items-center">
 												<ViewCartButtonForProductSingle />
-											)}
-										</div>
+											</div>
+										)}
 									</div>
 									<ul className="fontsize18 mb-2 mt-4 list-unstyled text-start">
 										<li
@@ -629,8 +629,12 @@ export default function ProductSingle(): JSX.Element {
 											id="pills-Reviews"
 											role="tabpanel"
 											aria-labelledby="pills-Reviews-tab"
-											onMouseEnter={handleChangeImage}
-											onMouseLeave={handleChangeImage}
+											onMouseEnter={(e) =>
+												setChangeImage(!changeImage)
+											}
+											onMouseLeave={(e) =>
+												setChangeImage(!changeImage)
+											}
 										>
 											{productData?.Product_Reviews
 												?.length! > 0 ? (
@@ -690,7 +694,7 @@ export default function ProductSingle(): JSX.Element {
 																				onClick={(
 																					e
 																				) => {
-																					reviewDelete(
+																					deleteReviewRating(
 																						e,
 																						review.id
 																					);
@@ -876,8 +880,6 @@ export default function ProductSingle(): JSX.Element {
 																				}}
 																				disabled={
 																					dataLoading
-																						? true
-																						: false
 																				}
 																			>
 																				{dataLoading ? (

@@ -33,8 +33,8 @@ export default function Profile(): JSX.Element {
 	const [loading, setLoading] = useState(false);
 	const [imageChanged, setImageChanged] = useState(false);
 	const [toggle, setToggle] = useState(false);
-	const handleProfileUpdate = async (event: any, data: any) => {
-		event.preventDefault();
+	const handleProfileUpdate = async (e: any, data: any) => {
+		e.preventDefault();
 		const uploadData = new FormData();
 		for (const key in profile) {
 			if (key === "email") {

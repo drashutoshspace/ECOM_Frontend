@@ -3,10 +3,7 @@ import { Link } from "react-router-dom";
 import { Product } from "../Interfaces/Products";
 import { useSelector } from "react-redux";
 import { Store } from "../Interfaces/Store";
-import {
-	addProductInCart,
-	removeProductFromWishlist,
-} from "../Data/storingData";
+import { addProductInCart } from "../Data/storingData";
 import { WishlistButtonForProfileWishlistCard } from "./WishlistButtons";
 import { isProductInCart } from "../Utilities/Utils";
 import {
@@ -117,9 +114,6 @@ export default function ProfileWishlistCard({
 						<WishlistButtonForProfileWishlistCard
 							guid={product?.guid}
 							wishlistItems={wishlistItems}
-							removeProductFromWishlist={
-								removeProductFromWishlist
-							}
 						/>
 					</div>
 				</div>

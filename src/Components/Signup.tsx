@@ -92,9 +92,9 @@ export default function Signup({
 						}
 					}
 				})
-				.catch((e) => {
+				.catch((err) => {
 					setLoading(false);
-					console.log(e);
+					console.log(err);
 				});
 		} else {
 			setLoading(false);

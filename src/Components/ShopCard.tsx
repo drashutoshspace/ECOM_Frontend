@@ -3,11 +3,7 @@ import { Link } from "react-router-dom";
 import { Product } from "../Interfaces/Products";
 import { useSelector } from "react-redux";
 import { Store } from "../Interfaces/Store";
-import {
-	addProductInCart,
-	addProductInWishlist,
-	removeProductFromWishlist,
-} from "../Data/storingData";
+import { addProductInCart } from "../Data/storingData";
 import { WishlistButtonForCard } from "./WishlistButtons";
 import { isProductInCart } from "../Utilities/Utils";
 import { AddToCartButtonForCard, ViewCartButtonForCard } from "./ActionButtons";
@@ -61,8 +57,6 @@ export default function ShopCard({
 					isAuthenticated={userId !== -1 ? true : false}
 					guid={product?.guid}
 					wishlistItems={wishlistItems}
-					addProductInWishlist={addProductInWishlist}
-					removeProductFromWishlist={removeProductFromWishlist}
 				/>
 				<div className="text-center mycardbody">
 					<div className="row my-1">
