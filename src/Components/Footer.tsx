@@ -114,6 +114,16 @@ export default function Footer(): JSX.Element {
 									/>
 								</a>
 							</li>
+							<li className="my-2">
+								<Link
+									className="lightbluehover letterspacing1 coloryellow fontsize14"
+									to="https://www.facebook.com/people/Meemokidz/100086897816897/"
+								>
+									E-339/A, Ground Floor,
+									<br />
+									New Ashok Nagar, Delhi - 110096
+								</Link>
+							</li>
 						</ul>
 					</div>
 					<div className="col-md text-md-start text-center px-1">

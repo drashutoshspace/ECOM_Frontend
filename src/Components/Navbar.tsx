@@ -183,6 +183,15 @@ export default function Navbar(): JSX.Element {
 							&nbsp;&nbsp;Home
 						</Link>
 					</div>
+					<div className="nav-item align-items-center my-3">
+						<Link
+							className="nav-link underlineanimation fontsize14 colorblue text-uppercase lightbluehover hvr-icon-grow"
+							to="/aboutus"
+						>
+							<i className="fas fa-briefcase hvr-icon" />
+							&nbsp;&nbsp;About Us
+						</Link>
+					</div>
 					<div
 						className="nav-item dropdown align-items-center my-3"
 						onClick={() => {
@@ -597,6 +606,15 @@ export default function Navbar(): JSX.Element {
 								>
 									<i className="fas fa-home hvr-icon" />
 									&nbsp;&nbsp;Home
+								</Link>
+							</li>
+							<li className="nav-item px-4 my-1">
+								<Link
+									className="nav-link fontsize12 p-1 text-uppercase colorblue lightbluehover hvr-icon-grow"
+									to="/aboutus"
+								>
+									<i className="fas fa-briefcase hvr-icon" />
+									&nbsp;&nbsp;About Us
 								</Link>
 							</li>
 							<li className="nav-item dropdown px-4 my-1">
