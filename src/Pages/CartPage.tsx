@@ -74,8 +74,6 @@ export default function CartPage(): JSX.Element {
 			window.removeEventListener("popstate", onBackButtonEvent);
 		};
 	}, [finishStatus1]);
-	console.log(cartItems);
-
 	return (
 		<>
 			<Helmet>
