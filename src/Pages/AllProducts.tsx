@@ -78,8 +78,8 @@ export default function AllProducts(): JSX.Element {
 										<button
 											className={
 												category === "allproducts"
-													? "colorlightblue fontsize20 bgnone border-0 lightbluehover"
-													: "colorblue fontsize20 bgnone border-0 lightbluehover"
+													? "colorlightblue fontsize16 bgnone border-0 lightbluehover"
+													: "colorblue fontsize16 bgnone border-0 lightbluehover"
 											}
 											onClick={() => {
 												setCategory("");
@@ -96,7 +96,7 @@ export default function AllProducts(): JSX.Element {
 												return (
 													<li key={index}>
 														<button
-															className={`colorblue fontsize20 bgnone border-0 lightbluehover ${
+															className={`colorblue fontsize16 bgnone border-0 lightbluehover ${
 																category ===
 																	item?.category &&
 																"colorlightblue"

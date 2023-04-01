@@ -74,6 +74,8 @@ export default function CartPage(): JSX.Element {
 			window.removeEventListener("popstate", onBackButtonEvent);
 		};
 	}, [finishStatus1]);
+	console.log(cartItems);
+
 	return (
 		<>
 			<Helmet>
@@ -109,7 +111,7 @@ export default function CartPage(): JSX.Element {
 														Your cart is empty!
 													</h2>
 													<Link
-														to="/learn/all"
+														to="/"
 														className="mybtnsame bglightblue bgyellow text-uppercase border5px d-inline-block colorblue"
 													>
 														Browse Products Now

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { profileData, signIn } from "../APIs/user/user";
 import GoogleLogin from "react-google-login";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 import { useMediaQuery } from "react-responsive";
@@ -16,6 +16,7 @@ export default function Login({
 	rememberMe,
 }: any): JSX.Element {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [emailOrUsername, setEmailOrUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [loading, setLoading] = useState(false);
@@ -40,6 +41,7 @@ export default function Login({
 						})
 					)
 				);
+				navigate("/");
 				setLoading(false);
 				return toast.success("Login Successful");
 			} else {

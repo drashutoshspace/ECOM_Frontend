@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import tempImg from "../Assets/Product_3.webp";
-import { CartItem } from "../Interfaces/Products";
 import { useSelector, useDispatch } from "react-redux";
-import { Store } from "../Interfaces/Store";
+import { cartItem, Store } from "../Interfaces/Store";
 import {
 	increaseQuantityOfProductInCart,
 	decreaseQuantityOfProductInCart,
@@ -15,16 +14,16 @@ import { DeleteButtonForCart } from "./DeleteButtons";
 import { WishlistButtonForCart } from "./WishlistButtons";
 import { MinusButtonForCart, PlusButtonForCart } from "./PlusMinusButtons";
 
-export default function CartCard({ item }: { item: CartItem }): JSX.Element {
+export default function CartCard({ item }: { item: cartItem }): JSX.Element {
 	const dispatch = useDispatch();
 	const [deleteToggle, setDeleteToggle] = useState(false);
 	const userId = useSelector((state: Store) => state.userProfile.id);
 	const wishlistItems = useSelector((state: Store) => state.wishlist[userId]);
 	const deletebutton = () => {
-		if (item?.product?.guid) {
+		if (item?.guid) {
 			setDeleteToggle(!deleteToggle);
 			setTimeout(() => {
-				dispatch(removeProductFromCart({ guid: item?.product?.guid }));
+				dispatch(removeProductFromCart({ guid: item?.guid }));
 				setDeleteToggle(false);
 			}, 900);
 		}
@@ -38,13 +37,10 @@ export default function CartCard({ item }: { item: CartItem }): JSX.Element {
 			}`}
 		>
 			<div className="col-4">
-				<Link to={`/shop/products/${item?.product?.guid}`}>
+				<Link to={`/shop/products/${item?.guid}`}>
 					<img
 						className="border5px shadow w-100 h-auto"
-						src={
-							item?.product?.Product_Images?.[0]?.dbImage ||
-							tempImg
-						}
+						src={item?.Product_Images?.[0]?.dbImage || tempImg}
 						alt="Product_Image"
 					/>
 				</Link>
@@ -53,18 +49,18 @@ export default function CartCard({ item }: { item: CartItem }): JSX.Element {
 				<div className="row">
 					<div className="col-lg-12">
 						<Link
-							className="colorblue fw-bold fontsize20 lightbluehover"
-							to={`/shop/products/${item?.product?.guid}`}
+							className="colorblue fw-bold fontsize16 lightbluehover"
+							to={`/shop/products/${item?.guid}`}
 						>
-							{item?.product?.Product_Name}
+							{item?.Product_Name}
 						</Link>
 					</div>
 				</div>
-				<div className="row mt-3">
+				<div className="row mt-2">
 					<div className="col-lg-12">
 						<MinusButtonForCart
 							isAuthenticated={userId !== -1 ? true : false}
-							guid={item?.product?.guid}
+							guid={item?.guid}
 							decreaseQuantityOfProductInCart={
 								decreaseQuantityOfProductInCart
 							}
@@ -78,7 +74,7 @@ export default function CartCard({ item }: { item: CartItem }): JSX.Element {
 						/>
 						<PlusButtonForCart
 							isAuthenticated={userId !== -1 ? true : false}
-							guid={item?.product?.guid}
+							guid={item?.guid}
 							increaseQuantityOfProductInCart={
 								increaseQuantityOfProductInCart
 							}
@@ -89,20 +85,18 @@ export default function CartCard({ item }: { item: CartItem }): JSX.Element {
 						/>
 					</div>
 				</div>
-				<div className="row mt-3">
+				<div className="row mt-2">
 					<div className="col-lg-12">
-						<p className="colorblue mypara mb-0 fontsize20">
-							₹ {item?.product?.Product_SellingPrice} x{" "}
-							{item?.quantity} = ₹{" "}
-							{item?.product?.Product_SellingPrice *
-								item?.quantity}
+						<p className="colorblue mypara mb-0 fontsize16">
+							₹ {item?.Product_SellingPrice} x {item?.quantity} =
+							₹ {item?.Product_SellingPrice * item?.quantity}
 						</p>
 					</div>
 				</div>
-				<div className="row mt-3">
+				<div className="row mt-2">
 					<div className="col-lg-12">
 						<WishlistButtonForCart
-							guid={item?.product?.guid}
+							guid={item?.guid}
 							wishlistItems={wishlistItems}
 							addProductInWishlist={addProductInWishlist}
 							removeProductFromWishlist={

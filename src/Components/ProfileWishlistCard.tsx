@@ -46,7 +46,7 @@ export default function ProfileWishlistCard({
 				<div className="row">
 					<div className="col-lg-12">
 						<Link
-							className="colorblue fw-bold fontsize20 lightbluehover"
+							className="colorblue fw-bold fontsize16 lightbluehover"
 							to={`/shop/products/${product?.guid}`}
 						>
 							{product?.Product_Name}
@@ -102,7 +102,7 @@ export default function ProfileWishlistCard({
 				</div>
 				<div className="row mt-3">
 					<div className="col-lg-12">
-						<p className="colorblue mypara mb-0 fontsize20">
+						<p className="colorblue mypara mb-0 fontsize16">
 							₹ {product?.Product_SellingPrice}
 						</p>
 					</div>

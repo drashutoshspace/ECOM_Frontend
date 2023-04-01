@@ -44,7 +44,7 @@ export default function OrderDetailCard({ id }: { id?: string }): JSX.Element {
 										<div className="row">
 											<div className="col-lg-12">
 												<Link
-													className="colorblue fw-bold fontsize20 lightbluehover"
+													className="colorblue fw-bold fontsize16 lightbluehover"
 													to={`/shop/products/${
 														order.split(",")[0]
 													}`}
@@ -55,14 +55,14 @@ export default function OrderDetailCard({ id }: { id?: string }): JSX.Element {
 										</div>
 										<div className="row mt-2">
 											<div className="col-lg-12">
-												<p className="mb-0 colorblue mypara fontsize20">
+												<p className="mb-0 colorblue mypara fontsize16">
 													₹ {order.split(",")[3]}
 												</p>
 											</div>
 										</div>
 										<div className="row mt-2">
 											<div className="col-lg-12">
-												<p className="mb-0 colorblue mypara fontsize20">
+												<p className="mb-0 colorblue mypara fontsize16">
 													{order.split(",")[2]}
 												</p>
 											</div>

@@ -1,4 +1,4 @@
-import { Product_Category } from "./Products";
+import { Product_Category, Product_Images } from "./Products";
 import { User } from "./User";
 
 export interface tokenObject {
@@ -11,6 +11,7 @@ export interface cartItem {
 	Product_Name: string;
 	Product_MRP: number;
 	Product_SellingPrice: number;
+	Product_Images: Product_Images[];
 }
 
 export interface cartObject {

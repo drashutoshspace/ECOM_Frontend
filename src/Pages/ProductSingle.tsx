@@ -301,14 +301,14 @@ export default function ProductSingle(): JSX.Element {
 											{productData?.Product_SellingPrice}
 										</span>
 										&nbsp;&nbsp;
-										<span className="fontsize20 notaccepted text-decoration-line-through">
+										<span className="fontsize16 notaccepted text-decoration-line-through">
 											₹ {productData?.Product_MRP}
 										</span>
 									</p>
 									<div className="row">
 										<div className="col d-flex justify-content-center align-items-center">
 											<button
-												className="h-100 w-75 colorblue fontsize20 border-0 border5px bgyellow bglightblue"
+												className="h-100 w-75 colorblue fontsize16 border-0 border5px bgyellow bglightblue"
 												onClick={() =>
 													plusMinus > 1 &&
 													setPlusMinus(plusMinus - 1)
@@ -317,7 +317,7 @@ export default function ProductSingle(): JSX.Element {
 												<i className="fas fa-minus" />
 											</button>
 											<input
-												className="bgcolorgreyish text-center fontsize20 colorblue h-100 w-75 border-0 border5px mx-2"
+												className="bgcolorgreyish text-center fontsize16 colorblue h-100 w-75 border-0 border5px mx-2"
 												type="number"
 												value={plusMinus}
 												onChange={(
@@ -329,7 +329,7 @@ export default function ProductSingle(): JSX.Element {
 												}}
 											/>
 											<button
-												className="h-100 w-75 colorblue fontsize20 border-0 border5px bgyellow bglightblue"
+												className="h-100 w-75 colorblue fontsize16 border-0 border5px bgyellow bglightblue"
 												onClick={() =>
 													setPlusMinus(plusMinus + 1)
 												}

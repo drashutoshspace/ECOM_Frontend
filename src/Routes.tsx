@@ -72,7 +72,12 @@ export default function Routes(): JSX.Element {
 						)
 					}
 				/>
-				<Route path="/signin" element={<LoginPage />} />
+				<Route
+					path="/signin"
+					element={
+						userId !== -1 ? <Navigate to={"/"} /> : <LoginPage />
+					}
+				/>
 				<Route path="/shop/:linkCategory" element={<AllProducts />} />
 				<Route
 					path="/checkout"
@@ -90,7 +95,10 @@ export default function Routes(): JSX.Element {
 						</PrivateRoute>
 					}
 				/>
-				<Route path="/shop/products/:guid" element={<ProductSingle />} />
+				<Route
+					path="/shop/products/:guid"
+					element={<ProductSingle />}
+				/>
 				<Route path="/aboutus" element={<AboutUs />} />
 				<Route path="/emailconfirm" element={<VerifyEmailConfirm />} />
 				<Route path="/testimonials" element={<Testimonials />} />

@@ -85,7 +85,7 @@ export default function ProductListCard({
 					<div className="row my-1">
 						<div className="col">
 							<p className="mb-0">
-								<span className="fontsize20 fw-bold colorlightblue">
+								<span className="fontsize16 fw-bold colorlightblue">
 									₹ {product?.Product_SellingPrice}
 								</span>
 								&nbsp;&nbsp;
@@ -95,35 +95,36 @@ export default function ProductListCard({
 							</p>
 						</div>
 					</div>
-					<div className="row my-1">
-						<div className="col ms-3 d-flex justify-content-center align-items-center">
-							<button
-								className="h-75 w-75 colorblue border-0 border5px bgyellow bglightblue"
-								onClick={() =>
-									plusMinus > 1 && setPlusMinus(plusMinus - 1)
-								}
-							>
-								<i className="fas fa-minus" />
-							</button>
-							<input
-								className="bgcolorgreyish text-center colorblue h-75 w-75 border-0 border5px mx-2"
-								type="number"
-								value={plusMinus}
-								onChange={(
-									e: React.ChangeEvent<HTMLInputElement>
-								) => {
-									setPlusMinus(e.target.valueAsNumber);
-								}}
-							/>
-							<button
-								className="h-75 w-75 colorblue border-0 border5px bgyellow bglightblue"
-								onClick={() => setPlusMinus(plusMinus + 1)}
-							>
-								<i className="fas fa-plus" />
-							</button>
-						</div>
-						<div className="col me-3 d-flex align-items-center">
-							{!isProductInCart(cartItems, product?.guid) ? (
+					{!isProductInCart(cartItems, product?.guid) ? (
+						<div className="row my-1">
+							<div className="col ms-3 d-flex justify-content-center align-items-center">
+								<button
+									className="h-75 w-75 colorblue border-0 border5px bgyellow bglightblue"
+									onClick={() =>
+										plusMinus > 1 &&
+										setPlusMinus(plusMinus - 1)
+									}
+								>
+									<i className="fas fa-minus" />
+								</button>
+								<input
+									className="bgcolorgreyish text-center colorblue h-75 w-75 border-0 border5px mx-2"
+									type="number"
+									value={plusMinus}
+									onChange={(
+										e: React.ChangeEvent<HTMLInputElement>
+									) => {
+										setPlusMinus(e.target.valueAsNumber);
+									}}
+								/>
+								<button
+									className="h-75 w-75 colorblue border-0 border5px bgyellow bglightblue"
+									onClick={() => setPlusMinus(plusMinus + 1)}
+								>
+									<i className="fas fa-plus" />
+								</button>
+							</div>
+							<div className="col me-3 d-flex align-items-center">
 								<AddToCartButtonForCard
 									isAuthenticated={
 										userId !== -1 ? true : false
@@ -134,11 +135,15 @@ export default function ProductListCard({
 									product={product}
 									addProductInCart={addProductInCart}
 								/>
-							) : (
-								<ViewCartButtonForCard />
-							)}
+							</div>
 						</div>
-					</div>
+					) : (
+						<div className="row my-1">
+							<div className="col ms-3 me-3 d-flex align-items-center">
+								<ViewCartButtonForCard />
+							</div>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

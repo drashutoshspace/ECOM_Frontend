@@ -80,7 +80,7 @@ export default function ShopCard({
 					<div className="row my-1">
 						<div className="col">
 							<p className="mb-0">
-								<span className="fontsize20 fw-bold colorlightblue">
+								<span className="fontsize16 fw-bold colorlightblue">
 									₹ {product?.Product_SellingPrice}
 								</span>
 								&nbsp;&nbsp;

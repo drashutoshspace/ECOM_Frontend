@@ -5,8 +5,10 @@ import { Product } from "../Interfaces/Products";
 
 export default function ProductList({
 	fromHome,
+	type,
 }: {
 	fromHome: boolean;
+	type: string;
 }): JSX.Element {
 	const [allProducts, setAllProducts] = useState<Product[]>([]);
 	useEffect(() => {
@@ -14,8 +16,12 @@ export default function ProductList({
 			await products({ limit: 0, offset: 0 }).then((data: Product[]) => {
 				fromHome
 					? setAllProducts(
-							data.filter(
-								(item: Product) => item.is_featured === true
+							data.filter((item: Product) =>
+								type === "Trending"
+									? item.is_trending === true
+									: type === "Featured"
+									? item.is_featured === true
+									: item.is_special === true
 							)
 					  )
 					: setAllProducts(data);
@@ -35,7 +41,11 @@ export default function ProductList({
 							data-aos-once="true"
 						>
 							<h1 className="title text-center colorblue">
-								Featured Products
+								{type === "Trending"
+									? "Hot Selling Products"
+									: type === "Featured"
+									? "Featured on Meemokidz"
+									: "Our Special Collection"}
 							</h1>
 						</div>
 					</div>

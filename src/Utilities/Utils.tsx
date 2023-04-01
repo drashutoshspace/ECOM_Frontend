@@ -64,3 +64,31 @@ export const insertStars = (
 		return stars;
 	}
 };
+
+export const calculateCartValues = (cart: cartItem[]) => {
+	let allCartItemsCount: number = 0;
+	let allCartItemsTotalPrice: number = 0;
+	let allCartItemsTotalDiscount: number = 0;
+	if (cart.length > 0) {
+		allCartItemsCount = cart.reduce(
+			(total: number, item: cartItem) => total + item.quantity,
+			0
+		);
+		allCartItemsTotalPrice = cart.reduce(
+			(total: number, item: cartItem) =>
+				total + item.Product_MRP * item.quantity,
+			0
+		);
+		allCartItemsTotalDiscount = cart.reduce(
+			(total: number, item: cartItem) =>
+				total +
+				(item.Product_MRP - item.Product_SellingPrice) * item.quantity,
+			0
+		);
+	}
+	return {
+		allCartItemsCount,
+		allCartItemsTotalPrice,
+		allCartItemsTotalDiscount,
+	};
+};
