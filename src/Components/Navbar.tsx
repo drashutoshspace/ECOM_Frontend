@@ -298,113 +298,118 @@ export default function Navbar(): JSX.Element {
 							&nbsp;&nbsp;Cart &nbsp;
 							<i className="fas fa-caret-down hvr-icon" />
 						</Link>
-						<ul
-							className={
-								onHoverDropdown2
-									? `dropdown-menu dropdown-menu-end mt-0 pt-4 ms-2 border5px animate slideIn border-0 show ${
-											cartItems?.length > 0 &&
-											profileData.id !== -1
-												? "cartdropdown"
-												: ""
-									  }`
-									: "dropdown-menu dropdown-menu-end mt-0 pt-4 ms-2 border5px animate slideIn border-0"
-							}
-							id="mydropdownitem"
-							aria-labelledby="navbarDropdown"
-							data-bs-popper={onHoverDropdown2 ? "none" : ""}
-						>
-							{!(profileData.id !== -1) && (
-								<li>
-									<div
-										style={{ width: "200px" }}
-										className="mb-0 px-3 py-1 colorblue fontsize14"
-									>
-										Your cart is empty. Sign in to start
-										learning!
-									</div>
-								</li>
-							)}
-							{cartItems?.length > 0 && (
-								<li>
-									<div className="row px-4">
-										{cartItems?.length > 0 && (
-											<div
-												className={`${
-													cartItems?.length > 0 &&
-													"col-lg-12"
-												}`}
-											>
-												<div className="row">
-													<div className="col">
-														<h5 className="colorblue">
-															Products
-														</h5>
-													</div>
-												</div>
-												{cartItems
-													?.slice(0, 3)
-													.map(
-														(
-															item: cartItem,
-															index: number
-														) => {
-															return (
-																<div
-																	key={index}
-																	className="row"
-																>
-																	<div className="col">
-																		<h6 className="colorblue fontsize12">{`${truncate(
-																			item?.Product_Name,
-																			20
-																		)} = ₹ ${(Math.abs(
-																			parseInt(
-																				item?.Product_SellingPrice.toString()
-																			) -
-																				parseFloat(
-																					item?.Product_SellingPrice.toString()
-																				)
-																		) > 0.5
-																			? parseInt(
-																					item?.Product_SellingPrice.toString()
-																			  ) +
-																			  1
-																			: parseInt(
-																					item?.Product_SellingPrice.toString()
-																			  )
-																		).toLocaleString(
-																			undefined,
-																			{
-																				maximumFractionDigits: 2,
-																			}
-																		)}`}</h6>
-																	</div>
-																</div>
-															);
-														}
-													)}
-											</div>
-										)}
-										{cartItems?.length >= 4 && (
-											<>
-												<li>
-													<hr className="mt-0 dropdown-divider dropdowndividernav" />
-												</li>
-												<h6
-													className="mb-0 colorblue lightbluehover cursorpointer fontsize12"
-													onClick={() =>
-														navigate("/cart")
-													}
+						{cartItems?.length > 0 && (
+							<ul
+								className={
+									onHoverDropdown2
+										? `dropdown-menu dropdown-menu-end mt-0 pt-4 ms-2 border5px animate slideIn border-0 show ${
+												cartItems?.length > 0 &&
+												profileData.id !== -1
+													? "cartdropdown"
+													: ""
+										  }`
+										: "dropdown-menu dropdown-menu-end mt-0 pt-4 ms-2 border5px animate slideIn border-0"
+								}
+								id="mydropdownitem"
+								aria-labelledby="navbarDropdown"
+								data-bs-popper={onHoverDropdown2 ? "none" : ""}
+							>
+								{!(profileData.id !== -1) && (
+									<li>
+										<div
+											style={{ width: "200px" }}
+											className="mb-0 px-3 py-1 colorblue fontsize14"
+										>
+											Your cart is empty. Sign in to start
+											learning!
+										</div>
+									</li>
+								)}
+								{cartItems?.length > 0 && (
+									<li>
+										<div className="row px-4">
+											{cartItems?.length > 0 && (
+												<div
+													className={`${
+														cartItems?.length > 0 &&
+														"col-lg-12"
+													}`}
 												>
-													Click Here To See Rest Of
-													The Items
-												</h6>
-											</>
-										)}
-									</div>
-								</li>
-							)}
-						</ul>
+													<div className="row">
+														<div className="col">
+															<h5 className="colorblue">
+																Products
+															</h5>
+														</div>
+													</div>
+													{cartItems
+														?.slice(0, 3)
+														.map(
+															(
+																item: cartItem,
+																index: number
+															) => {
+																return (
+																	<div
+																		key={
+																			index
+																		}
+																		className="row"
+																	>
+																		<div className="col">
+																			<h6 className="colorblue fontsize12">{`${truncate(
+																				item?.Product_Name,
+																				20
+																			)} = ₹ ${(Math.abs(
+																				parseInt(
+																					item?.Product_SellingPrice.toString()
+																				) -
+																					parseFloat(
+																						item?.Product_SellingPrice.toString()
+																					)
+																			) >
+																			0.5
+																				? parseInt(
+																						item?.Product_SellingPrice.toString()
+																				  ) +
+																				  1
+																				: parseInt(
+																						item?.Product_SellingPrice.toString()
+																				  )
+																			).toLocaleString(
+																				undefined,
+																				{
+																					maximumFractionDigits: 2,
+																				}
+																			)}`}</h6>
+																		</div>
+																	</div>
+																);
+															}
+														)}
+												</div>
+											)}
+											{cartItems?.length >= 4 && (
+												<>
+													<li>
+														<hr className="mt-0 dropdown-divider dropdowndividernav" />
+													</li>
+													<h6
+														className="mb-0 colorblue lightbluehover cursorpointer fontsize12"
+														onClick={() =>
+															navigate("/cart")
+														}
+													>
+														Click Here To See Rest
+														Of The Items
+													</h6>
+												</>
+											)}
+										</div>
+									</li>
+								)}
+							</ul>
+						)}
 					</div>
 					{profileData.id !== -1 ? (
 						<div

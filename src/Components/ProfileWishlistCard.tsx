@@ -55,49 +55,54 @@ export default function ProfileWishlistCard({
 				</div>
 				<div className="row mt-3">
 					<div className="col-lg-12">
-						<button
-							className="colorblue border-0 border5px bgyellow bglightblue"
-							onClick={() =>
-								plusMinus > 1 && setPlusMinus(plusMinus - 1)
-							}
-							style={{ width: 40, height: 40 }}
-						>
-							<i className="fas fa-minus" />
-						</button>
-						<input
-							className="bgcolorgreyish text-center colorblue border-0 border5px mx-2"
-							type="number"
-							value={plusMinus}
-							onChange={(
-								e: React.ChangeEvent<HTMLInputElement>
-							) => {
-								setPlusMinus(e.target.valueAsNumber);
-							}}
-							style={{ width: 50, height: 40 }}
-						/>
-						<button
-							className="colorblue border-0 border5px bgyellow bglightblue"
-							onClick={() => setPlusMinus(plusMinus + 1)}
-							style={{ width: 40, height: 40 }}
-						>
-							<i className="fas fa-plus" />
-						</button>
-						<div className="col mt-3 me-3 d-flex align-items-center">
-							{!isProductInCart(cartItems, product?.guid) ? (
-								<AddToCartButtonForProfileWishlistCard
-									isAuthenticated={
-										userId !== -1 ? true : false
+						{!isProductInCart(cartItems, product?.guid) ? (
+							<>
+								<button
+									className="colorblue border-0 border5px bgyellow bglightblue"
+									onClick={() =>
+										plusMinus > 1 &&
+										setPlusMinus(plusMinus - 1)
 									}
-									animateButton={animateButton}
-									plusMinus={plusMinus}
-									setAnimateButton={setAnimateButton}
-									product={product}
-									addProductInCart={addProductInCart}
+									style={{ width: 40, height: 40 }}
+								>
+									<i className="fas fa-minus" />
+								</button>
+								<input
+									className="bgcolorgreyish text-center colorblue border-0 border5px mx-2"
+									type="number"
+									value={plusMinus}
+									onChange={(
+										e: React.ChangeEvent<HTMLInputElement>
+									) => {
+										setPlusMinus(e.target.valueAsNumber);
+									}}
+									style={{ width: 50, height: 40 }}
 								/>
-							) : (
+								<button
+									className="colorblue border-0 border5px bgyellow bglightblue"
+									onClick={() => setPlusMinus(plusMinus + 1)}
+									style={{ width: 40, height: 40 }}
+								>
+									<i className="fas fa-plus" />
+								</button>
+								<div className="col mt-3 me-3 d-flex align-items-center">
+									<AddToCartButtonForProfileWishlistCard
+										isAuthenticated={
+											userId !== -1 ? true : false
+										}
+										animateButton={animateButton}
+										plusMinus={plusMinus}
+										setAnimateButton={setAnimateButton}
+										product={product}
+										addProductInCart={addProductInCart}
+									/>
+								</div>
+							</>
+						) : (
+							<div className="col mt-3 me-3 d-flex align-items-center">
 								<ViewCartButtonForProfileWishlistCard />
-							)}
-						</div>
+							</div>
+						)}
 					</div>
 				</div>
 				<div className="row mt-3">

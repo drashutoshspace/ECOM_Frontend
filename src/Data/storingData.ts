@@ -155,6 +155,8 @@ const dataSlice = createSlice({
 			}>
 		) {
 			state.wishlist[state.userProfile.id].push(action.payload.guid);
+			state.allWishlistItemsCount =
+				state.wishlist[state.userProfile.id].length;
 		},
 		removeProductFromWishlist(
 			state,
@@ -168,16 +170,14 @@ const dataSlice = createSlice({
 				),
 				1
 			);
-		},
-		clearWishlist(state) {
-			state.wishlist[state.userProfile.id] = [];
-		},
-		calculateAllCartItemsCount(state) {},
-		calculateAllWishlistItemsCount(state) {
 			state.allWishlistItemsCount =
 				state.wishlist[state.userProfile.id].length;
 		},
-		calculateTotalAmountAndDiscount(state) {},
+		clearWishlist(state) {
+			state.wishlist[state.userProfile.id] = [];
+			state.allWishlistItemsCount =
+				state.wishlist[state.userProfile.id].length;
+		},
 		setAllProductCategories(
 			state,
 			action: PayloadAction<Product_Category[]>
@@ -218,8 +218,6 @@ export const {
 	addProductInWishlist,
 	removeProductFromWishlist,
 	clearWishlist,
-	calculateAllCartItemsCount,
-	calculateTotalAmountAndDiscount,
 	setAllProductCategories,
 	loginFromRedux,
 	logoutFromRedux,
