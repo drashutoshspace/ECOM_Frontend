@@ -3,7 +3,7 @@ import Base from "../Base";
 import ReactImageMagnify from "react-image-magnify";
 import { Helmet } from "react-helmet-async";
 import { singleProduct } from "../APIs/ecommerce/ecommerce";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import {
 	FacebookShareButton,
 	LinkedinShareButton,
@@ -12,12 +12,9 @@ import {
 	WhatsappShareButton,
 } from "react-share";
 import {
-	singleReview,
 	deleteReview,
 	updateReview,
 	reviewRating,
-	ratingCount,
-	fetchAllReviews,
 } from "../APIs/ecommerce/ecommerce";
 import tempImg from "../Assets/Product_3.webp";
 import tempImg1 from "../Assets/User_Image.webp";
@@ -28,7 +25,12 @@ import { useSelector } from "react-redux";
 import { Store } from "../Interfaces/Store";
 import { addProductInCart } from "../Data/storingData";
 import { insertStars, isProductInCart } from "../Utilities/Utils";
-import { Product, Product_Reviews } from "../Interfaces/Products";
+import {
+	Product,
+	Product_Category,
+	Product_Images,
+	Product_Reviews,
+} from "../Interfaces/Products";
 import {
 	AddToCartButtonForProductSingle,
 	ViewCartButtonForProductSingle,
@@ -37,7 +39,6 @@ import { WishlistButtonForProductSingle } from "../Components/WishlistButtons";
 
 export default function ProductSingle(): JSX.Element {
 	const location = useLocation();
-	const navigate = useNavigate();
 	const { guid } = useParams();
 	const userId = useSelector((state: Store) => state.userProfile.id);
 	const cartItems = useSelector((state: Store) => state.cart[userId]);
@@ -49,15 +50,35 @@ export default function ProductSingle(): JSX.Element {
 	const [currentImage, setCurrentImage] = useState(0);
 	const [target, setTarget] = useState(-1);
 	const [review, setReview] = useState("");
-	const [rating, setRating] = useState(0);
+	const [rating, setRating] = useState(-1);
 	const [productData, setProductData] = useState<Product>();
 	const [dataLoading, setDataLoading] = useState(false);
-	const [isReviewed, setIsReviewed] = useState(false);
-	const [reviewID, setReviewID] = useState(null);
+	const [userReview, setUserReview] = useState<Product_Reviews>({
+		guid: "",
+		id: -1,
+		rating: -1,
+		review: "",
+		user_dp: "",
+		user_id: -1,
+		user_name: "",
+	});
 	useEffect(() => {
 		const getSingleProduct = async () => {
 			await singleProduct({ guid }).then((data: Product) => {
 				setProductData(data);
+				setUserReview(
+					data.Product_Reviews.find(
+						(data: Product_Reviews) => data.user_id === userId
+					) || {
+						guid: "",
+						id: -1,
+						rating: -1,
+						review: "",
+						user_dp: "",
+						user_id: -1,
+						user_name: "",
+					}
+				);
 				setLoading(false);
 			});
 		};
@@ -79,6 +100,17 @@ export default function ProductSingle(): JSX.Element {
 					rating: data.rating,
 					review: data.review,
 					user_id: data.user_id,
+					user_dp: data.user_dp,
+					user_name: data.user_name,
+				});
+				setUserReview({
+					guid: productData?.guid!,
+					id: data.id,
+					rating: data.rating,
+					review: data.review,
+					user_id: data.user_id,
+					user_dp: data.user_dp,
+					user_name: data.user_name,
 				});
 				setProductData({
 					...productData!,
@@ -92,12 +124,7 @@ export default function ProductSingle(): JSX.Element {
 			}
 		});
 	};
-	const updateReviewRating = async (
-		e: any,
-		id: any,
-		rating: any,
-		review: any
-	) => {
+	const updateReviewRating = async (e: any, id: any) => {
 		setDataLoading(true);
 		e.preventDefault();
 		await updateReview({ id, rating, review }).then((data) => {
@@ -113,6 +140,8 @@ export default function ProductSingle(): JSX.Element {
 									review: review,
 									guid: data.guid,
 									user_id: data.user_id,
+									user_dp: data.user_dp,
+									user_name: data.user_name,
 								};
 							} else return data;
 						}
@@ -138,6 +167,17 @@ export default function ProductSingle(): JSX.Element {
 					)!,
 				});
 				setDataLoading(false);
+				setRating(-1);
+				setReview("");
+				setUserReview({
+					guid: "",
+					id: -1,
+					rating: -1,
+					review: "",
+					user_dp: "",
+					user_id: -1,
+					user_name: "",
+				});
 				return toast.success("Review Deleted Successfully!");
 			} else {
 				setDataLoading(false);
@@ -151,7 +191,6 @@ export default function ProductSingle(): JSX.Element {
 			clearTimeout(timer);
 		};
 	}, [animateButton]);
-	// isReviewed Set Karna Hai
 	return (
 		<>
 			<Helmet
@@ -213,76 +252,84 @@ export default function ProductSingle(): JSX.Element {
 									<div className="row">
 										{productData?.Product_Images?.slice(
 											0,
-											3
-										).map((product: any, index: any) => {
-											return (
-												<>
-													{product ===
-													productData?.Product_Images?.slice(
-														-1
-													)[0] ? (
-														<div
-															key={index}
-															className="col-3"
-														>
-															<img
-																className="border5px h-100 w-100 shadow cursorpointer"
-																onClick={() =>
-																	setCurrentImage(
-																		index
-																	)
-																}
-																src={`${
-																	product?.dbImage ||
-																	tempImg
-																}`}
-																alt=""
-															/>
-														</div>
-													) : (
-														<div
-															key={index}
-															className="col-3 pe-0"
-														>
-															<img
-																className="border5px h-100 w-100 shadow cursorpointer"
-																onClick={() =>
-																	setCurrentImage(
-																		index
-																	)
-																}
-																src={`${
-																	product?.dbImage ||
-																	tempImg
-																}`}
-																alt=""
-															/>
-														</div>
-													)}
-												</>
-											);
-										})}
+											4
+										).map(
+											(
+												item: Product_Images,
+												index: number
+											) => {
+												return (
+													<>
+														{item ===
+														productData?.Product_Images?.slice(
+															-1
+														)[0] ? (
+															<div
+																key={index}
+																className="col-3"
+															>
+																<img
+																	className="border5px h-100 w-100 shadow cursorpointer"
+																	onClick={() =>
+																		setCurrentImage(
+																			index
+																		)
+																	}
+																	src={`${
+																		item?.dbImage ||
+																		tempImg
+																	}`}
+																	alt=""
+																/>
+															</div>
+														) : (
+															<div
+																key={index}
+																className="col-3"
+															>
+																<img
+																	className="border5px h-100 w-100 shadow cursorpointer"
+																	onClick={() =>
+																		setCurrentImage(
+																			index
+																		)
+																	}
+																	src={`${
+																		item?.dbImage ||
+																		tempImg
+																	}`}
+																	alt=""
+																/>
+															</div>
+														)}
+													</>
+												);
+											}
+										)}
 									</div>
 								</div>
 								<div className="col-lg-6 ps-lg-4">
 									<h1 className="colorblue mb-2 mt-3 mt-lg-0 text-center fw-bold text-lg-start">
 										{productData?.Product_Name}
 									</h1>
-									{insertStars(
-										Math.abs(
-											parseInt(
-												productData?.Product_Rating.toFixed()!
-											) -
-												parseFloat(
-													productData?.Product_Rating.toFixed(
-														2
-													)!
-												)
-										) > 0.5
-											? productData?.Product_Rating! + 1
-											: productData?.Product_Rating!,
-										"showStars1"
-									)}
+									<ul className="list-unstyled text-center text-lg-start coloryellow mb-3">
+										{insertStars(
+											Math.abs(
+												parseInt(
+													productData?.Product_Rating.toFixed()!
+												) -
+													parseFloat(
+														productData?.Product_Rating.toFixed(
+															2
+														)!
+													)
+											) > 0.5
+												? productData?.Product_Rating! +
+														1
+												: productData?.Product_Rating!,
+											"showStars1"
+										)}
+									</ul>
 									<p className="mb-3 text-center text-lg-start">
 										<span
 											className="colorblue fw-bold"
@@ -365,7 +412,22 @@ export default function ProductSingle(): JSX.Element {
 											</div>
 										)}
 									</div>
-									<ul className="fontsize18 mb-2 mt-4 list-unstyled text-start">
+									<ul className="fontsize16 mb-2 mt-4 list-unstyled text-start">
+										<li
+											className="my-1"
+											style={{
+												borderBottom:
+													"2.5px dotted #ebebeb",
+											}}
+										>
+											<span className="fw-bold colorblue">
+												SKU :
+											</span>
+											<span className="colorlightblue">
+												&nbsp;&nbsp;&nbsp;
+												{productData?.Product_ID}
+											</span>
+										</li>
 										<li
 											className="my-1"
 											style={{
@@ -389,40 +451,24 @@ export default function ProductSingle(): JSX.Element {
 											}}
 										>
 											<span className="fw-bold colorblue">
-												Specifications :
-											</span>
-											<span className="colorlightblue">
-												&nbsp;&nbsp;&nbsp;
-												{productData?.Product_Specs}
-											</span>
-										</li>
-										<li
-											className="my-1"
-											style={{
-												borderBottom:
-													"2.5px dotted #ebebeb",
-											}}
-										>
-											<span className="fw-bold colorblue">
 												Category :
 											</span>
 											<span className="colorlightblue">
-												&nbsp;&nbsp;&nbsp;Electronic
-												Components, Small Components
-											</span>
-										</li>
-										<li
-											className="my-1"
-											style={{
-												borderBottom:
-													"2.5px dotted #ebebeb",
-											}}
-										>
-											<span className="fw-bold colorblue">
-												SKU :
-											</span>
-											<span className="colorlightblue">
-												&nbsp;&nbsp;&nbsp;SHC0449-1
+												&nbsp;&nbsp;&nbsp;
+												{productData?.Product_Category.map(
+													(
+														data: Product_Category,
+														index: number
+													) => {
+														return index ===
+															productData
+																.Product_Category
+																.length -
+																1
+															? `${data.category}`
+															: `${data.category}, `;
+													}
+												)}
 											</span>
 										</li>
 										<li
@@ -436,22 +482,8 @@ export default function ProductSingle(): JSX.Element {
 												Contents :
 											</span>
 											<span className="colorlightblue">
-												&nbsp;&nbsp;&nbsp;hjdhe, uidhnw,
-												dwjjd
-											</span>
-										</li>
-										<li
-											className="my-1"
-											style={{
-												borderBottom:
-													"2.5px dotted #ebebeb",
-											}}
-										>
-											<span className="fw-bold colorblue">
-												Quantity :
-											</span>
-											<span className="colorlightblue">
-												&nbsp;&nbsp;&nbsp;100
+												&nbsp;&nbsp;&nbsp;
+												{productData?.Product_Contents}
 											</span>
 										</li>
 										<li className="mt-3 mt-lg-2 text-center">
@@ -578,26 +610,26 @@ export default function ProductSingle(): JSX.Element {
 											<button
 												className="nav-link fontsize16 mybtnsame lightbluehover colorblue bgcolorwhite text-uppercase"
 												id={
-													isReviewed
+													userReview.id !== -1
 														? "pills-editreview-tab"
 														: "pills-addareview-tab"
 												}
 												data-bs-toggle="pill"
 												data-bs-target={
-													isReviewed
+													userReview.id !== -1
 														? "#pills-editreview"
 														: "#pills-addareview"
 												}
 												type="button"
 												role="tab"
 												aria-controls={
-													isReviewed
+													userReview.id !== -1
 														? "pills-editreview"
 														: "pills-addareview"
 												}
 												aria-selected="false"
 											>
-												{isReviewed
+												{userReview.id !== -1
 													? "Edit Review"
 													: "Add Review"}
 											</button>
@@ -639,12 +671,14 @@ export default function ProductSingle(): JSX.Element {
 											{productData?.Product_Reviews
 												?.length! > 0 ? (
 												productData?.Product_Reviews?.sort(
-													(a: any, b: any) =>
-														b.rating - a.rating
+													(
+														a: Product_Reviews,
+														b: Product_Reviews
+													) => b.rating - a.rating
 												).map(
 													(
-														review: any,
-														index: any
+														review: Product_Reviews,
+														index: number
 													) => {
 														return (
 															<div
@@ -655,42 +689,37 @@ export default function ProductSingle(): JSX.Element {
 																	<div className="teacher d-flex justify-content-end align-items-center">
 																		<img
 																			src={
-																				review
-																					?.user
-																					?.image ||
+																				review.user_dp ||
 																				tempImg1
 																			}
 																			className="avatar-md-lg rounded-circle shadow"
 																			alt=""
 																		/>
 																		<div className="ms-3 flex-grow-1">
-																			<h4 className="mb-1">
-																				<p className="mb-0 colorblue">
-																					{review
-																						?.user
-																						.first_name !==
-																					""
-																						? review
-																								?.user
-																								.first_name
-																						: review
-																								?.user
-																								.username}
-																					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+																			<h6 className="mb-1">
+																				<p className="mb-0 d-flex align-items-center colorblue">
+																					{review.user_name.trim()
+																						? review.user_name
+																						: "Anonymous"}
+																					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 																					{insertStars(
 																						review?.rating,
 																						"showStarsForRating"
 																					)}
 																				</p>
-																			</h4>
+																			</h6>
 																			<p className="colorblue mb-0 mypara">
 																				{
 																					review?.review
 																				}
 																			</p>
 																		</div>
-																		{review && (
+																		{userReview.id ===
+																			review.id && (
 																			<button
+																				disabled={
+																					dataLoading
+																				}
 																				onClick={(
 																					e
 																				) => {
@@ -738,13 +767,13 @@ export default function ProductSingle(): JSX.Element {
 										<div
 											className="tab-pane fade"
 											id={
-												isReviewed
+												userReview.id !== -1
 													? "pills-editreview"
 													: "pills-addareview"
 											}
 											role="tabpanel"
 											aria-labelledby={
-												isReviewed
+												userReview.id !== -1
 													? "pills-editreview-tab"
 													: "pills-addareview-tab"
 											}
@@ -816,13 +845,19 @@ export default function ProductSingle(): JSX.Element {
 																									index +
 																										1,
 																									"showStarsForRatingForm",
-																									index
+																									index,
+																									target
 																								)}
 																							</label>
 																						</div>
 																					);
 																				}
 																			)}
+																			<p className="mt-2">
+																				{userReview.rating !==
+																					-1 &&
+																					`Previous Rating - ${userReview.rating}`}
+																			</p>
 																		</div>
 																	</div>
 																	<div className="col-lg-12">
@@ -862,20 +897,14 @@ export default function ProductSingle(): JSX.Element {
 																				onClick={(
 																					e
 																				) => {
-																					isReviewed
-																						? updateReview(
-																								{
-																									id: reviewID!,
-																									rating,
-																									review,
-																								}
+																					userReview.id !==
+																					-1
+																						? updateReviewRating(
+																								e,
+																								userReview.id
 																						  )
-																						: updateReview(
-																								{
-																									id: reviewID!,
-																									rating,
-																									review,
-																								}
+																						: addReviewRating(
+																								e
 																						  );
 																				}}
 																				disabled={

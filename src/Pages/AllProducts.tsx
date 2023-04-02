@@ -1,4 +1,4 @@
-import ShopCard from "../Components/ShopCard";
+import ProductListCard from "../Components/ProductListCard";
 import Base from "../Base";
 import { products } from "../APIs/ecommerce/ecommerce";
 import { useEffect, useState } from "react";
@@ -131,7 +131,7 @@ export default function AllProducts(): JSX.Element {
 													index: number
 												) => {
 													return (
-														<ShopCard
+														<ProductListCard
 															product={product}
 															key={index}
 														/>
@@ -156,7 +156,7 @@ export default function AllProducts(): JSX.Element {
 													)
 												}
 												containerClassName={
-													"pagination fontsize18 d-flex justify-content-center align-items-center mb-0 pb-0 mt-4 pt-4 p-0"
+													"pagination fontsize16 d-flex justify-content-center align-items-center mb-0 pb-0 mt-4 pt-4 p-0"
 												}
 												pageClassName={
 													"colorblue hovergoup fw-bold h-100 bgyellow border5px mx-2 bglightblue px-2"

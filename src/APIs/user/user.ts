@@ -32,24 +32,6 @@ export async function signIn(data: {
 	return postWithoutAuthorization(Login_API, data, "login");
 }
 
-export async function authenticate(data: any, next: any): Promise<void> {
-	if (typeof window !== undefined) {
-		localStorage.setItem("token", JSON.stringify(data));
-		next();
-	}
-}
-
-export async function isAuthenticated(): Promise<boolean> {
-	if (typeof window === undefined) {
-		return false;
-	}
-	if (localStorage.getItem("token")) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
 export async function signOut(next: (data: any) => void): Promise<any> {
 	if (typeof window !== undefined) {
 		const data = await postWithAuthorization(
@@ -107,7 +89,7 @@ export async function googleLogin(data: {
 	id_token: string;
 }): Promise<void> {
 	localStorage.setItem(
-		"token",
+		"currentToken",
 		(
 			(await postWithoutAuthorization(
 				GoogleAuth_API,

@@ -11,12 +11,14 @@ import tempImg from "../Assets/Product_3.webp";
 
 export default function ProductListCard({
 	product,
+	location,
 }: {
 	product: Product;
+	location?: string;
 }): JSX.Element {
-	const userId = useSelector((state: Store) => state.userProfile.id);
 	const [plusMinus, setPlusMinus] = useState(1);
 	const [animateButton, setAnimateButton] = useState(false);
+	const userId = useSelector((state: Store) => state.userProfile.id);
 	const wishlistItems = useSelector((state: Store) => state.wishlist[userId]);
 	const cartItems = useSelector((state: Store) => state.cart[userId]);
 	useEffect(() => {
@@ -28,9 +30,9 @@ export default function ProductListCard({
 	return (
 		<div
 			className="col-lg-3 col-12 mt-4"
-			data-aos="flip-left"
-			data-aos-duration="1000"
-			data-aos-once="true"
+			data-aos={location === "home" ? "flip-left" : ""}
+			data-aos-duration={location === "home" ? "1000" : ""}
+			data-aos-once={location === "home" ? "true" : ""}
 		>
 			<div className="card mycard border-0 shadow hovergoup">
 				<Link
@@ -39,7 +41,7 @@ export default function ProductListCard({
 				>
 					<img
 						// className="w-75"
-						height="250px"
+						height="235px"
 						alt="Product_Image"
 						src={`${
 							product?.Product_Images?.[0]?.dbImage || tempImg
@@ -83,7 +85,7 @@ export default function ProductListCard({
 									₹ {product?.Product_SellingPrice}
 								</span>
 								&nbsp;&nbsp;
-								<span className="fontsize18" id="mydiscountpri">
+								<span className="fontsize16" id="mydiscountpri">
 									₹ {product?.Product_MRP}
 								</span>
 							</p>

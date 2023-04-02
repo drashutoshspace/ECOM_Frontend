@@ -21,9 +21,7 @@ export default function TestimonialsCard({
 			/>
 			<div className="flex-1 border5px shadow content p-3 position-relative">
 				<ul className="list-unstyled mb-0">
-					{testimonial?.rating > 5
-						? insertStars(5, "testimonials")
-						: insertStars(testimonial?.rating, "testimonials")}
+					{insertStars(testimonial?.rating, "testimonials")}
 				</ul>
 				<p className="mypara mt-2">{`"${truncate(
 					testimonial?.review,

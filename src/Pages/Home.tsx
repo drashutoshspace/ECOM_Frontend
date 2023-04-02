@@ -55,6 +55,13 @@ export default function Home() {
 						setToggleAOS(!toggleAOS);
 					}}
 				>
+					<Counter />
+				</VisibilitySensor>
+				<VisibilitySensor
+					onChange={() => {
+						setToggleAOS(!toggleAOS);
+					}}
+				>
 					<ProductList fromHome={true} type={"Featured"} />
 				</VisibilitySensor>
 				<VisibilitySensor
@@ -63,13 +70,6 @@ export default function Home() {
 					}}
 				>
 					<ProductList fromHome={true} type={"Special"} />
-				</VisibilitySensor>
-				<VisibilitySensor
-					onChange={() => {
-						setToggleAOS(!toggleAOS);
-					}}
-				>
-					<Counter />
 				</VisibilitySensor>
 				<VisibilitySensor
 					onChange={() => {

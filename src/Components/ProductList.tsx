@@ -53,7 +53,11 @@ export default function ProductList({
 				<div className="row">
 					{allProducts.map((product: Product, index: number) => {
 						return (
-							<ProductListCard key={index} product={product} />
+							<ProductListCard
+								key={index}
+								product={product}
+								location={"home"}
+							/>
 						);
 					})}
 				</div>

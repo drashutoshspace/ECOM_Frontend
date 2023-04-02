@@ -19,25 +19,39 @@ export const insertStars = (
 	target?: number
 ) => {
 	let stars: JSX.Element[] = [];
-	for (let i = 0; i < number; i++) {
+	for (
+		let i = component === "showStarsForRatingForm" ? 0 : 1;
+		component === "showStarsForRatingForm" ? i < number : i <= 5;
+		i++
+	) {
 		if (component === "testimonials") {
 			stars.push(
-				<i key={i} className="fas hvr-icon me-1 coloryellow fa-star" />
+				<i
+					key={i}
+					className={`fa${
+						i <= number ? "s" : "r"
+					} hvr-icon me-1 coloryellow fa-star`}
+				/>
 			);
 		} else if (component === "showStars1") {
 			stars.push(
 				<li
 					key={i}
-					className="list-inline-item fontsize18 hvr-icon-grow me-1"
+					className="list-inline-item fontsize16 hvr-icon-grow me-1"
 				>
-					<i className="fas fa-star hvr-icon" />
+					<i className={`fa${i <= number ? "s" : "r"} fa-star`} />
 				</li>
 			);
 		} else if (component === "showStarsForRating") {
 			stars.push(
-				<i key={i} className="fas fontsize18 fa-star coloryellow" />
+				<i
+					key={i}
+					className={`fa${
+						i <= number ? "s" : "r"
+					} fontsize16 fa-star coloryellow`}
+				/>
 			);
-		} else if (component === "showStarsForRatingForm" && indexValue) {
+		} else if (component === "showStarsForRatingForm") {
 			stars.push(
 				<i
 					className={`${
@@ -51,16 +65,7 @@ export const insertStars = (
 	}
 	if (component === "testimonials") {
 		return <li className="list-inline-item">{stars}</li>;
-	} else if (component === "showStars1") {
-		return (
-			<ul className="list-unstyled text-center text-lg-start coloryellow mb-3">
-				{stars}
-			</ul>
-		);
-	} else if (
-		component === "showStarsForRating" ||
-		component === "showStarsForRatingForm"
-	) {
+	} else {
 		return stars;
 	}
 };

@@ -92,7 +92,9 @@ export async function reviewRating(data: {
 }
 
 export async function deleteReview(data: { id: string }): Promise<any> {
-	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
+	const tokenValue = localStorage
+		.getItem("currentToken")!
+		.replace(/['"]+/g, "");
 	try {
 		const response = await fetch(`${ReviewRatingForm_API}${data.id}/`, {
 			method: "DELETE",
@@ -114,7 +116,9 @@ export async function updateReview(data: {
 	rating?: number;
 	review?: string;
 }): Promise<any> {
-	const tokenValue = localStorage.getItem("token")!.replace(/['"]+/g, "");
+	const tokenValue = localStorage
+		.getItem("currentToken")!
+		.replace(/['"]+/g, "");
 	try {
 		const response = await fetch(`${ReviewRatingForm_API}${data.id}/`, {
 			method: "PUT",

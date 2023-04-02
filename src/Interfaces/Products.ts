@@ -32,7 +32,9 @@ export interface Product_Category {
 export interface Product_Reviews {
 	id: number;
 	guid: string;
+	user_dp: string;
 	user_id: number;
+	user_name: string;
 	rating: number;
 	review: string;
 }
