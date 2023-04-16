@@ -46,8 +46,10 @@ export default function Login({
 				return toast.success("Login Successful");
 			} else {
 				setLoading(false);
-				if (data?.non_field_errors?.[0]) {
-					return toast.error(data.non_field_errors[0]);
+				if (data?.error?.details?.non_field_errors?.[0]) {
+					return toast.error(
+						data?.error?.details?.non_field_errors?.[0]
+					);
 				}
 				if (data?.password?.[0]) {
 					return toast.error(`password: ${data.password[0]}`);

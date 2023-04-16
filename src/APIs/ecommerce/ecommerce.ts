@@ -6,6 +6,7 @@ import {
 	CouponValidity_API,
 	RazorpayKey_API,
 	InvoiceRequest_API,
+	Payment_API,
 } from "../../backend";
 import {
 	getWithAuthorization,
@@ -154,4 +155,16 @@ export async function invoiceRequest(data: { order_id: string }): Promise<any> {
 		data,
 		"request invoice"
 	);
+}
+
+export async function createOrder(data: {
+	products: {
+		product: string;
+		quantity: number;
+	}[];
+	coupon_code: string;
+	shipping_address: string;
+	is_cod: boolean;
+}): Promise<any> {
+	return await postWithAuthorization(Payment_API, data, "create order");
 }

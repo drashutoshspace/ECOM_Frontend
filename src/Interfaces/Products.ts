@@ -45,8 +45,3 @@ export interface Product_Images {
 	Image_Alt_Text: string;
 	dbImage: string;
 }
-
-export interface CartItem {
-	product: Product;
-	quantity: number;
-}
