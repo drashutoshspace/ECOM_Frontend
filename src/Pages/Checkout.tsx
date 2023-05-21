@@ -7,7 +7,7 @@ import { Payment_API, PaymentSuccess_API } from "../backend";
 import { Helmet } from "react-helmet-async";
 import { toast } from "react-toastify";
 import DataLoader2 from "../Components/DataLoader2";
-import PhoneInput from "react-phone-input-2";
+// import PhoneInput from "react-phone-input-2";
 import { profileDataUpdate } from "../APIs/user/user";
 import { useSelector, useDispatch } from "react-redux";
 import { Store, cartItem } from "../Interfaces/Store";
@@ -488,7 +488,7 @@ export default function Checkout(): JSX.Element {
 												<h5 className="colorblue text-start mb-3 fontsize16">
 													Mobile Number
 												</h5>
-												<PhoneInput
+												{/* <PhoneInput
 													inputClass="input100 w-100 shadow-none border5px pe-5 border-0 colorblue"
 													buttonClass="border5px border-0 ps-2 colorblue bgcolorwhite"
 													inputStyle={{
@@ -506,7 +506,7 @@ export default function Checkout(): JSX.Element {
 															mobile: value,
 														});
 													}}
-												/>
+												/> */}
 											</div>
 										</div>
 										<div className="col-lg-6">
