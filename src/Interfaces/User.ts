@@ -5,6 +5,7 @@ export interface User {
 	last_name: string;
 	email: string;
 	is_active: boolean;
+	is_social: boolean;
 	image: string;
 	account_type: string;
 	mobile: string;

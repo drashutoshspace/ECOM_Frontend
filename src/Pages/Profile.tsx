@@ -1,10 +1,9 @@
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import Breadcrumb from "../Components/Breadcrumb";
 import { Helmet } from "react-helmet-async";
 import Base from "../Base";
 import ProfileWishlistCard from "../Components/ProfileWishlistCard";
-import { BaseContext } from "../Context";
 import {
 	profileDataUpdate,
 	passwordChange,
@@ -15,34 +14,53 @@ import MyOrderCard from "../Components/MyOrdersCard";
 import OrderDetailCard from "../Components/OrderDetailCard";
 import DataLoader2 from "../Components/DataLoader2";
 import PhoneInput from "react-phone-input-2";
-import { useMediaQuery } from "react-responsive";
 import { useSelector, useDispatch } from "react-redux";
 import { Store } from "../Interfaces/Store";
+import { Order } from "../Interfaces/Orders";
+import { updateProfile } from "../Data/storingData";
+import { User } from "../Interfaces/User";
+import { userOrders } from "../APIs/user/user";
 
 export default function Profile(): JSX.Element {
+	const dispatch = useDispatch();
+	const location = useLocation();
+	const navigate = useNavigate();
 	const { option, id } = useParams();
-	const wishlistItems = useSelector(
-		(state: Store) => state.wishlist[cookies?.user?.[0]?.id]
-	);
-	const productsCount = useSelector(
+	const userId = useSelector((state: Store) => state.userProfile.id);
+	const wishlistItems = useSelector((state: Store) => state.wishlist[userId]);
+	const allWishlistItemsCount = useSelector(
 		(state: Store) => state.allWishlistItemsCount
 	);
-	const { cookies, setCookie, myOrders }: any = useContext(BaseContext);
-	const [profile, setProfile] = useState(cookies?.user?.[0]);
-	const location = useLocation();
+	const [profile, setProfile] = useState<User>(
+		useSelector((state: Store) => state.userProfile)
+	);
 	const [loading, setLoading] = useState(false);
 	const [imageChanged, setImageChanged] = useState(false);
 	const [toggle, setToggle] = useState(false);
-	const handleProfileUpdate = async (e: any, data: any) => {
+	const [myOrders, setMyOrders] = useState<Order[]>([]);
+	const [image, setImage] = useState("");
+	const [originalImage, setOriginalImage] = useState(profile.image);
+	const [oldPassword, setOldPassword] = useState("");
+	const [password1, setpassword1] = useState("");
+	const [password2, setpassword2] = useState("");
+	const [showOldPassword, setShowOldPassword] = useState(false);
+	const [showPassword1, setShowPassword1] = useState(false);
+	const [showPassword2, setShowPassword2] = useState(false);
+	const [newEmail1, setNewEmail1] = useState("");
+	const [newEmail2, setNewEmail2] = useState("");
+	const [changeImage1, setChangeImage1] = useState(false);
+	const [changeImage2, setChangeImage2] = useState(false);
+	const [changeImage4, setChangeImage4] = useState(false);
+	const handleProfileUpdate = async (e: any) => {
 		e.preventDefault();
 		const uploadData = new FormData();
-		for (const key in profile) {
+		Object.entries(profile).forEach(([key, value]) => {
 			if (key === "email") {
-				uploadData.append(key, profile[key].toLowerCase());
+				uploadData.append(key, value.toLowerCase());
 			} else {
-				uploadData.append(key, profile[key]);
+				uploadData.append(key, value);
 			}
-		}
+		});
 		for (let [key, value] of uploadData) {
 			if (key === "image") {
 				!imageChanged && uploadData.set(key, "");
@@ -50,15 +68,11 @@ export default function Profile(): JSX.Element {
 		}
 		await profileDataUpdate(uploadData).then((d: any) => {
 			setToggle(!toggle);
-			setCookie("user", d, { path: "/" });
+			dispatch(updateProfile({ profileData: profile }));
 			return toast.success("Your profile has been updated.");
 		});
 		setImageChanged(false);
 	};
-	const [image, setImage] = useState("");
-	const [originalImage, setOriginalImage] = useState(
-		cookies?.user?.[0].image
-	);
 	const photoUpload = async (e: any) => {
 		e.preventDefault();
 		const reader = new FileReader();
@@ -66,7 +80,7 @@ export default function Profile(): JSX.Element {
 		reader.onloadend = () => {
 			setImage(file);
 			setImageChanged(true);
-			setOriginalImage(reader.result);
+			setOriginalImage(reader.result as string);
 		};
 		reader.readAsDataURL(file);
 	};
@@ -77,21 +91,27 @@ export default function Profile(): JSX.Element {
 				image: image,
 			});
 	}, [image]);
-	const navigate = useNavigate();
-	const [oldPassword, setOldPassword] = useState("");
-	const [password1, setpassword1] = useState("");
-	const [password2, setpassword2] = useState("");
-	const [showOldPassword, setShowOldPassword] = useState(false);
-	const seeOldPassword = () => {
-		setShowOldPassword(!showOldPassword);
-	};
-	const [showPassword1, setShowPassword1] = useState(false);
-	const seePassword1 = () => {
-		setShowPassword1(!showPassword1);
-	};
-	const [showPassword2, setShowPassword2] = useState(false);
-	const seePassword2 = () => {
-		setShowPassword2(!showPassword2);
+	const changeEmail = async (e: any) => {
+		e.preventDefault();
+		await emailChange({
+			newemail1: newEmail1.toLowerCase(),
+			newemail2: newEmail2.toLowerCase(),
+		}).then((data: any) => {
+			setNewEmail1("");
+			setNewEmail2("");
+			if (data?.detail) {
+				setLoading(false);
+				return toast.success(data.detail);
+			}
+			if (data?.newemail1) {
+				setLoading(false);
+				return toast.error(data.newemail1[0]);
+			}
+			if (data?.newemail2) {
+				setLoading(false);
+				return toast.error(data.newemail2[0]);
+			}
+		});
 	};
 	const changePassword = async (e: any) => {
 		e.preventDefault();
@@ -121,57 +141,13 @@ export default function Profile(): JSX.Element {
 			}
 		});
 	};
-	const [newEmail1, setNewEmail1] = useState("");
-	const [newEmail2, setNewEmail2] = useState("");
-	const changeEmail = async (e: any) => {
-		e.preventDefault();
-		await emailChange({
-			newemail1: newEmail1.toLowerCase(),
-			newemail2: newEmail2.toLowerCase(),
-		}).then((data: any) => {
-			setNewEmail1("");
-			setNewEmail2("");
-			if (data?.detail) {
-				setLoading(false);
-				return toast.success(data.detail);
-			}
-			if (data?.newemail1) {
-				setLoading(false);
-				return toast.error(data.newemail1[0]);
-			}
-			if (data?.newemail2) {
-				setLoading(false);
-				return toast.error(data.newemail2[0]);
-			}
-		});
-	};
-	const [changeImage1, setChangeImage1] = useState(false);
-	const handleChangeImage1 = () => {
-		setChangeImage1(!changeImage1);
-	};
-	const [changeImage2, setChangeImage2] = useState(false);
-	const handleChangeImage2 = () => {
-		setChangeImage2(!changeImage2);
-	};
-	const [changeImage3, setChangeImage3] = useState(false);
-	const handleChangeImage3 = () => {
-		setChangeImage3(!changeImage3);
-	};
-	const [changeImage4, setChangeImage4] = useState(false);
-	const handleChangeImage4 = () => {
-		setChangeImage4(!changeImage4);
-	};
-	const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
-	const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 	useEffect(() => {
-		if (cookies?.user?.[0].is_social) {
-			if (
-				location.pathname.includes("changeemail") ||
-				location.pathname.includes("changepassword")
-			) {
-				navigate("/profile/account/");
-			}
-		}
+		const getMyOrders = async () => {
+			await userOrders().then((data: Order[]) => {
+				setMyOrders(data);
+			});
+		};
+		getMyOrders();
 	}, []);
 	return (
 		<>
@@ -183,7 +159,7 @@ export default function Profile(): JSX.Element {
 				<section className="section">
 					<div className="container">
 						<div className="row mx-1">
-							<div className="col-lg-6 px-lg-3 px-0">
+							<div className="col-lg-12 px-lg-3 px-0">
 								<div className="card border-0 border5px shadow">
 									<div className="card-body">
 										<div className="row align-items-center">
@@ -212,27 +188,18 @@ export default function Profile(): JSX.Element {
 													<div className="mt-3 mt-lg-0 text-center">
 														<h4 className="colorblue mb-2">
 															{`${
-																cookies.user[0]
-																	.first_name !==
+																profile.first_name !==
 																	"" ||
-																cookies.user[0]
-																	.last_name !==
+																profile.last_name !==
 																	""
-																	? cookies
-																			.user[0]
-																			.first_name +
+																	? profile.first_name +
 																	  " " +
-																	  cookies
-																			.user[0]
-																			.last_name
-																	: cookies
-																			.user[0]
-																			.username
+																	  profile.last_name
+																	: profile.username
 															}`}
 														</h4>
 														<p className="colorlightblue mb-1">
-															{cookies.user[0]
-																.email ||
+															{profile.email ||
 																"No Email Entered!"}
 														</p>
 														{imageChanged && (
@@ -242,8 +209,7 @@ export default function Profile(): JSX.Element {
 																	e
 																) => {
 																	handleProfileUpdate(
-																		e,
-																		profile
+																		e
 																	);
 																}}
 															>
@@ -254,15 +220,6 @@ export default function Profile(): JSX.Element {
 												</div>
 											</div>
 											<div className="col-lg-1"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div className="col-lg-6 mt-4 mt-lg-0 px-lg-3 px-0">
-								<div className="card border-0 h-100 border5px shadow">
-									<div className="card-body">
-										<div className="row align-items-center">
-											Space for badges, experience/points
 										</div>
 									</div>
 								</div>
@@ -345,8 +302,9 @@ export default function Profile(): JSX.Element {
 										>
 											<button
 												className={`nav-link fontsize14 p-0 py-2 lightbluehover colorblue bgcolorwhite text-uppercase ${
-													option === "orderdetail" &&
-													"active"
+													location.pathname.includes(
+														"orderdetail"
+													) && "active"
 												}`}
 												id="pills-orderdetail-tab"
 												data-bs-toggle="pill"
@@ -355,7 +313,9 @@ export default function Profile(): JSX.Element {
 												role="tab"
 												aria-controls="pills-orderdetail"
 												aria-selected={`${
-													option === "orderdetail"
+													location.pathname.includes(
+														"orderdetail"
+													)
 														? "true"
 														: "false"
 												}`}
@@ -399,15 +359,15 @@ export default function Profile(): JSX.Element {
 												}}
 											>
 												<i className="fas fa-box-heart" />
-												{productsCount > 0 && (
+												{allWishlistItemsCount > 0 && (
 													<span className="topnumbercart">
-														{productsCount}
+														{allWishlistItemsCount}
 													</span>
 												)}
 												&nbsp;&nbsp;Product Wishlist
 											</button>
 										</li>
-										<li
+										{/* <li
 											className="nav-item"
 											role="presentation"
 										>
@@ -439,8 +399,8 @@ export default function Profile(): JSX.Element {
 												<i className="fas fa-cart-plus" />
 												&nbsp;&nbsp;Buy Again
 											</button>
-										</li>
-										{!!!cookies?.user?.[0].is_social && (
+										</li> */}
+										{!profile.is_social && (
 											<>
 												<li
 													className="nav-item"
@@ -805,10 +765,7 @@ export default function Profile(): JSX.Element {
 											<button
 												className="mt-2 mybtnsame fontsize16 w-100 bglightblue colorblue bgyellow border5px border-0 text-uppercase"
 												onClick={(e) => {
-													handleProfileUpdate(
-														e,
-														profile
-													);
+													handleProfileUpdate(e);
 												}}
 											>
 												Update
@@ -816,18 +773,22 @@ export default function Profile(): JSX.Element {
 										</form>
 									</div>
 									<div
-										className={`tab-pane fade text-center bgcolorgreyish border5px p-4 pt-0 ${
+										className={`tab-pane fade text-center bgcolorgreyish border5px p-4 ${
 											option === "myorders" &&
 											"show active"
 										}`}
 										id="pills-myorders"
 										role="tabpanel"
 										aria-labelledby="pills-myorders-tab"
-										onMouseEnter={handleChangeImage4}
-										onMouseLeave={handleChangeImage4}
+										onMouseEnter={() =>
+											setChangeImage4(!changeImage4)
+										}
+										onMouseLeave={() =>
+											setChangeImage4(!changeImage4)
+										}
 									>
 										{myOrders?.length === 0 ? (
-											<div className="row mt-2">
+											<div className="row pt-5">
 												<div className="col-lg-12">
 													<img
 														width="250px"
@@ -848,34 +809,27 @@ export default function Profile(): JSX.Element {
 											</div>
 										) : (
 											<>
-												{myOrders
-													.filter(
-														(item: any) =>
-															item.is_paid ===
-															true
-													)
-													.map(
-														(
-															my_order: any,
-															index: any
-														) => {
-															return (
-																<MyOrderCard
-																	key={index}
-																	my_order={
-																		my_order
-																	}
-																/>
-															);
-														}
-													)}
+												{myOrders.map(
+													(
+														order: Order,
+														index: number
+													) => {
+														return (
+															<MyOrderCard
+																key={index}
+																order={order}
+															/>
+														);
+													}
+												)}
 											</>
 										)}
 									</div>
 									<div
 										className={`tab-pane fade text-center bgcolorgreyish border5px p-3 ${
-											option === "orderdetail" &&
-											"show active"
+											location.pathname.includes(
+												"orderdetail"
+											) && "show active"
 										}`}
 										id="pills-orderdetail"
 										role="tabpanel"
@@ -891,8 +845,12 @@ export default function Profile(): JSX.Element {
 										id="pills-productwishlist"
 										role="tabpanel"
 										aria-labelledby="pills-productwishlist-tab"
-										onMouseEnter={handleChangeImage1}
-										onMouseLeave={handleChangeImage1}
+										onMouseEnter={() =>
+											setChangeImage1(!changeImage1)
+										}
+										onMouseLeave={() =>
+											setChangeImage1(!changeImage1)
+										}
 									>
 										{wishlistItems?.length <= 0 ? (
 											<div className="row mt-2">
@@ -921,15 +879,14 @@ export default function Profile(): JSX.Element {
 										) : (
 											<>
 												{wishlistItems?.map(
-													(item: any, index: any) => {
-														const { product } =
-															item;
+													(
+														item: string,
+														index: number
+													) => {
 														return (
 															<ProfileWishlistCard
 																key={index}
-																product={
-																	product
-																}
+																guid={item}
 															/>
 														);
 													}
@@ -937,7 +894,7 @@ export default function Profile(): JSX.Element {
 											</>
 										)}
 									</div>
-									<div
+									{/* <div
 										className={`tab-pane fade text-center bgcolorgreyish border5px p-3 ${
 											option === "buyagain" &&
 											"show active"
@@ -945,8 +902,12 @@ export default function Profile(): JSX.Element {
 										id="pills-buyagain"
 										role="tabpanel"
 										aria-labelledby="pills-buyagain-tab"
-										onMouseEnter={handleChangeImage2}
-										onMouseLeave={handleChangeImage2}
+										onMouseEnter={() =>
+											setChangeImage2(!changeImage2)
+										}
+										onMouseLeave={() =>
+											setChangeImage2(!changeImage2)
+										}
 									>
 										{myOrders?.length <= 0 ? (
 											<div className="row mt-2">
@@ -962,7 +923,7 @@ export default function Profile(): JSX.Element {
 														alt="No_Products_Bought"
 													/>
 													<h3 className="my-4 pt-3 text-center colorblue">
-														Let’s start shopping!
+														Let's start shopping!
 													</h3>
 													<Link
 														to="/shop"
@@ -974,7 +935,7 @@ export default function Profile(): JSX.Element {
 											</div>
 										) : (
 											<>
-												{/* {orderdetails.buyAgainProducts
+												{myOrders.buyAgainProducts
 													.filter(
 														(item: any) =>
 															item.userID ===
@@ -995,10 +956,10 @@ export default function Profile(): JSX.Element {
 																/>
 															);
 														}
-													)} */}
+													)}
 											</>
 										)}
-									</div>
+									</div> */}
 									<div
 										className={`tab-pane fade text-center bgcolorgreyish border5px p-3 ${
 											option === "changepassword" &&
@@ -1036,8 +997,10 @@ export default function Profile(): JSX.Element {
 															</span>
 														</span>
 														<span
-															onClick={
-																seeOldPassword
+															onClick={() =>
+																setShowOldPassword(
+																	!showOldPassword
+																)
 															}
 															className="symbol-input1000 d-flex align-items-center position-absolute colorblue h-100"
 														>
@@ -1077,8 +1040,10 @@ export default function Profile(): JSX.Element {
 															</span>
 														</span>
 														<span
-															onClick={
-																seePassword1
+															onClick={() =>
+																setShowPassword1(
+																	!showPassword1
+																)
 															}
 															className="symbol-input1000 d-flex align-items-center position-absolute colorblue h-100"
 														>
@@ -1118,8 +1083,10 @@ export default function Profile(): JSX.Element {
 															</span>
 														</span>
 														<span
-															onClick={
-																seePassword2
+															onClick={() =>
+																setShowPassword2(
+																	!showPassword2
+																)
 															}
 															className="symbol-input1000 d-flex align-items-center position-absolute colorblue h-100"
 														>

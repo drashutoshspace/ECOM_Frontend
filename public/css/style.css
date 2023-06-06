@@ -772,3 +772,6 @@ input[type="number"]::-webkit-outer-spin-button {
 		color: #000;
 	}
 }
+.customDropdown {
+	left: -60px !important;
+}

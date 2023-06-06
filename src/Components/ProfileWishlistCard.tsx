@@ -11,17 +11,27 @@ import {
 	ViewCartButtonForProfileWishlistCard,
 } from "./ActionButtons";
 import tempImg from "../Assets/Product_3.webp";
+import { singleProduct } from "../APIs/ecommerce/ecommerce";
 
 export default function ProfileWishlistCard({
-	product,
+	guid,
 }: {
-	product: Product;
+	guid: string;
 }): JSX.Element {
 	const userId = useSelector((state: Store) => state.userProfile.id);
 	const [plusMinus, setPlusMinus] = useState(1);
 	const [animateButton, setAnimateButton] = useState(false);
 	const wishlistItems = useSelector((state: Store) => state.wishlist[userId]);
 	const cartItems = useSelector((state: Store) => state.cart[userId]);
+	const [productData, setProductData] = useState<Product>();
+	useEffect(() => {
+		const getSingleProduct = async () => {
+			await singleProduct({ guid }).then((data: Product) => {
+				setProductData(data);
+			});
+		};
+		getSingleProduct();
+	}, []);
 	useEffect(() => {
 		const timer = setTimeout(() => setAnimateButton(false), 1000);
 		return () => {
@@ -31,10 +41,12 @@ export default function ProfileWishlistCard({
 	return (
 		<div className="row px-2 py-3">
 			<div className="col-4">
-				<Link to={`/shop/products/${product?.guid}`}>
+				<Link to={`/shop/products/${productData?.guid}`}>
 					<img
 						className="border5px shadow w-100 h-auto"
-						src={product?.Product_Images?.[0]?.dbImage || tempImg}
+						src={
+							productData?.Product_Images?.[0]?.dbImage || tempImg
+						}
 						alt="Product_Image"
 					/>
 				</Link>
@@ -44,15 +56,15 @@ export default function ProfileWishlistCard({
 					<div className="col-lg-12">
 						<Link
 							className="colorblue fw-bold fontsize16 lightbluehover"
-							to={`/shop/products/${product?.guid}`}
+							to={`/shop/products/${productData?.guid}`}
 						>
-							{product?.Product_Name}
+							{productData?.Product_Name}
 						</Link>
 					</div>
 				</div>
 				<div className="row mt-3">
 					<div className="col-lg-12">
-						{!isProductInCart(cartItems, product?.guid) ? (
+						{!isProductInCart(cartItems, productData?.guid!) ? (
 							<>
 								<button
 									className="colorblue border-0 border5px bgyellow bglightblue"
@@ -90,7 +102,7 @@ export default function ProfileWishlistCard({
 										animateButton={animateButton}
 										plusMinus={plusMinus}
 										setAnimateButton={setAnimateButton}
-										product={product}
+										product={productData!}
 										addProductInCart={addProductInCart}
 									/>
 								</div>
@@ -105,14 +117,14 @@ export default function ProfileWishlistCard({
 				<div className="row mt-3">
 					<div className="col-lg-12">
 						<p className="colorblue mypara mb-0 fontsize16">
-							₹ {product?.Product_SellingPrice}
+							₹ {productData?.Product_SellingPrice}
 						</p>
 					</div>
 				</div>
 				<div className="row mt-3">
 					<div className="col-lg-12">
 						<WishlistButtonForProfileWishlistCard
-							guid={product?.guid}
+							guid={productData?.guid!}
 							wishlistItems={wishlistItems}
 						/>
 					</div>

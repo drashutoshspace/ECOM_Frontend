@@ -11,6 +11,7 @@ const initialProfileData: User = {
 	last_name: "",
 	email: "",
 	is_active: true,
+	is_social: false,
 	image: "",
 	account_type: "",
 	mobile: "",
@@ -206,6 +207,14 @@ const dataSlice = createSlice({
 		logoutFromRedux(state) {
 			state.userProfile = initialProfileData;
 		},
+		updateProfile(
+			state,
+			action: PayloadAction<{
+				profileData: User;
+			}>
+		) {
+			state.userProfile = action.payload.profileData;
+		},
 	},
 });
 
@@ -221,6 +230,7 @@ export const {
 	setAllProductCategories,
 	loginFromRedux,
 	logoutFromRedux,
+	updateProfile,
 } = dataSlice.actions;
 
 export default dataSlice.reducer;

@@ -448,7 +448,7 @@ export default function Navbar(): JSX.Element {
 								ref={dropdownToggle4}
 								className={
 									onHoverDropdown3
-										? "dropdown-menu mt-0 pt-4 ms-2 border5px animate slideIn border-0 show"
+										? "dropdown-menu mt-0 pt-4 ms-2 border5px animate slideIn border-0 show customDropdown"
 										: "dropdown-menu mt-0 pt-4 ms-2 border5px animate slideIn border-0"
 								}
 								id="mydropdownitem"
@@ -488,7 +488,7 @@ export default function Navbar(): JSX.Element {
 										&nbsp;&nbsp;Product Wishlist
 									</Link>
 								</li>
-								<li>
+								{/* <li>
 									<Link
 										to="/profile/buyagain"
 										className="colorblue fontsize12 lightbluehover dropdown-item"
@@ -496,16 +496,16 @@ export default function Navbar(): JSX.Element {
 										<i className="fas fa-cart-plus" />
 										&nbsp;&nbsp;Buy Again
 									</Link>
-								</li>
+								</li> */}
 								<li>
 									<hr className="dropdown-divider dropdowndividernav" />
 								</li>
-								{/* {!profileData?.is_social && (
+								{!profileData?.is_social && (
 									<>
 										<li>
 											<Link
 												to="/profile/changepassword"
-												className="colorblue fontsize14 lightbluehover dropdown-item"
+												className="colorblue fontsize12 lightbluehover dropdown-item"
 											>
 												<i className="fas fa-lock" />
 												&nbsp;&nbsp;Change Password
@@ -514,14 +514,14 @@ export default function Navbar(): JSX.Element {
 										<li>
 											<Link
 												to="/profile/changeemail"
-												className="colorblue fontsize14 lightbluehover dropdown-item"
+												className="colorblue fontsize12 lightbluehover dropdown-item"
 											>
 												<i className="fas fa-envelope" />
 												&nbsp;&nbsp;Change Email
 											</Link>
 										</li>
 									</>
-								)} */}
+								)}
 								<li>
 									<small
 										className="cursorpointer colorblue fontsize14 lightbluehover dropdown-item"
@@ -847,7 +847,7 @@ export default function Navbar(): JSX.Element {
 												&nbsp;&nbsp;Product Wishlist
 											</Link>
 										</li>
-										<li>
+										{/* <li>
 											<Link
 												to="/profile/buyagain"
 												className="colorblue fontsize12 lightbluehover dropdown-item"
@@ -855,11 +855,11 @@ export default function Navbar(): JSX.Element {
 												<i className="fas fa-cart-plus" />
 												&nbsp;&nbsp;Buy Again
 											</Link>
-										</li>
+										</li> */}
 										<li>
 											<hr className="dropdown-divider dropdowndividernav" />
 										</li>
-										{/* {!profileData?.is_social && (
+										{!profileData?.is_social && (
 											<>
 												<li>
 													<Link
@@ -881,7 +881,7 @@ export default function Navbar(): JSX.Element {
 													</Link>
 												</li>
 											</>
-										)} */}
+										)}
 										<li>
 											<small
 												className="cursorpointer colorblue fontsize12 lightbluehover dropdown-item"

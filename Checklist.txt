@@ -8,3 +8,5 @@
 8. google login
 9. two categories turning blue if one selected from sidebar then another selected from navbar
 10. homeshape
+
+update profile and checkout
