@@ -645,10 +645,29 @@ export default function ProductSingle(): JSX.Element {
 											role="tabpanel"
 											aria-labelledby="pills-description-tab"
 										>
-											{productData?.Product_Description
-												?.length! > 0 ? (
-												productData?.Product_Description
-													?.length
+											{productData?.Product_Description ? (
+												<>
+													<p>
+														{
+															productData?.Product_Description
+														}
+													</p>
+													{productData.Product_Video && (
+														<iframe
+															width="560"
+															height="315"
+															src={`https://www.youtube.com/embed/${productData?.Product_Video.slice(
+																17,
+																productData
+																	?.Product_Video
+																	.length
+															)}`}
+															title="YouTube video player"
+															allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+															allowFullScreen
+														/>
+													)}
+												</>
 											) : (
 												<h2 className="colorblue pt-3 text-center">
 													No description added by the

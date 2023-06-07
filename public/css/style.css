@@ -775,3 +775,13 @@ input[type="number"]::-webkit-outer-spin-button {
 .customDropdown {
 	left: -60px !important;
 }
+.countryCode {
+	background-color: white;
+	border: none;
+	outline: none;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+.minusML {
+	margin-left: -2px;
+}

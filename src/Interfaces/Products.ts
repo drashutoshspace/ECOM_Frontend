@@ -11,6 +11,7 @@ export interface Product {
 	Product_Stock_Quantity: string;
 	Product_Specs: string;
 	Product_Brand: string;
+	Product_Video: string;
 	Product_Rating: number;
 	Product_Reviews: Product_Reviews[];
 	Meta_Tags: string;

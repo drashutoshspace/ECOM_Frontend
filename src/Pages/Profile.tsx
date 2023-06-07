@@ -13,13 +13,13 @@ import { toast } from "react-toastify";
 import MyOrderCard from "../Components/MyOrdersCard";
 import OrderDetailCard from "../Components/OrderDetailCard";
 import DataLoader2 from "../Components/DataLoader2";
-import PhoneInput from "react-phone-input-2";
 import { useSelector, useDispatch } from "react-redux";
 import { Store } from "../Interfaces/Store";
 import { Order } from "../Interfaces/Orders";
 import { updateProfile } from "../Data/storingData";
 import { User } from "../Interfaces/User";
 import { userOrders } from "../APIs/user/user";
+import { countries } from "countries-list";
 
 export default function Profile(): JSX.Element {
 	const dispatch = useDispatch();
@@ -34,6 +34,7 @@ export default function Profile(): JSX.Element {
 	const [profile, setProfile] = useState<User>(
 		useSelector((state: Store) => state.userProfile)
 	);
+	const [countryCode, setCountryCode] = useState("+91");
 	const [loading, setLoading] = useState(false);
 	const [imageChanged, setImageChanged] = useState(false);
 	const [toggle, setToggle] = useState(false);
@@ -619,25 +620,78 @@ export default function Profile(): JSX.Element {
 													<h5 className="colorblue text-start mb-3 fontsize16">
 														Mobile Number
 													</h5>
-													<PhoneInput
-														inputClass="input100 w-100 shadow-none border5px pe-5 border-0 colorblue"
-														buttonClass="border5px border-0 ps-2 colorblue bgcolorwhite"
-														inputStyle={{
-															height: "50px",
-														}}
-														specialLabel={""}
-														country={"in"}
-														value={
-															profile?.mobile ||
-															""
-														}
-														onChange={(value) => {
-															setProfile({
-																...profile,
-																mobile: value,
-															});
-														}}
-													/>
+													<div className="d-flex">
+														<select
+															id="countryCodes"
+															name="countryCodes"
+															value={countryCode}
+															onChange={(e) =>
+																setCountryCode(
+																	e.target
+																		.value
+																)
+															}
+															className="countryCode"
+														>
+															{[
+																...new Set(
+																	Object.values(
+																		countries
+																	)
+																		.sort(
+																			(
+																				a: any,
+																				b: any
+																			) =>
+																				a.phone.split(
+																					","
+																				)[0] -
+																				b.phone.split(
+																					","
+																				)[0]
+																		)
+																		.map(
+																			(
+																				item
+																			) =>
+																				item.phone.split(
+																					","
+																				)[0]
+																		)
+																),
+															].map((data) => {
+																return (
+																	<option
+																		key={
+																			data
+																		}
+																		value={`+${data}`}
+																	>
+																		+{data}
+																	</option>
+																);
+															})}
+														</select>
+														<input
+															type="text"
+															name="mobile"
+															id="mobile"
+															value={
+																profile?.mobile ||
+																""
+															}
+															placeholder="Mobile Number"
+															onChange={(e) => {
+																setProfile({
+																	...profile,
+																	mobile: e
+																		.target
+																		.value,
+																});
+															}}
+															className="input100 minusML w-100 -ml-3 shadow-none border5px pe-5 border-0 colorblue"
+														/>
+													</div>
 												</div>
 											</div>
 											<div className="row">

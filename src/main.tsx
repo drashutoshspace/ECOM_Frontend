@@ -14,7 +14,6 @@ import "aos/dist/aos.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import "react-phone-input-2/lib/style.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<HelmetProvider>
