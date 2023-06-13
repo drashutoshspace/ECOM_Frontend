@@ -205,25 +205,34 @@ export default function ProductSingle(): JSX.Element {
 							<div className="row">
 								<div className="col-lg-6">
 									<div className="mb-3 card border-0 shadow">
-										<ReactImageMagnify
-											{...{
-												enlargedImagePosition: "over",
-												imageClassName:
-													"border5px w-50 ml-image",
-												enlargedImageContainerClassName:
-													"border5px",
-												pressDuration: 250,
-												smallImage: {
-													isFluidWidth: true,
-													src: `${productData?.Product_Images?.[currentImage]?.dbImage}`,
-												},
-												largeImage: {
-													src: `${productData?.Product_Images?.[currentImage]?.dbImage}`,
-													width: 600,
-													height: 900,
-												},
-											}}
-										/>
+										{productData?.Product_Images?.length ? (
+											<ReactImageMagnify
+												{...{
+													enlargedImagePosition:
+														"over",
+													imageClassName:
+														"border5px w-50 ml-image",
+													enlargedImageContainerClassName:
+														"border5px",
+													pressDuration: 250,
+													smallImage: {
+														isFluidWidth: true,
+														src: `${productData?.Product_Images?.[currentImage]?.dbImage}`,
+													},
+													largeImage: {
+														src: `${productData?.Product_Images?.[currentImage]?.dbImage}`,
+														width: 600,
+														height: 900,
+													},
+												}}
+											/>
+										) : (
+											<img
+												height="400px"
+												alt="Product_Image"
+												src={tempImg}
+											/>
+										)}
 										<span
 											className="d-flex justify-content-center align-items-center"
 											id="mydiscountpersin"
@@ -249,7 +258,10 @@ export default function ProductSingle(): JSX.Element {
 											wishlistItems={wishlistItems}
 										/>
 									</div>
-									<div className="row">
+									<div
+										className="row"
+										style={{ overflow: "scroll" }}
+									>
 										{productData?.Product_Images?.slice(
 											0,
 											4
@@ -306,6 +318,21 @@ export default function ProductSingle(): JSX.Element {
 												);
 											}
 										)}
+										<div className="col-3">
+											{productData?.Product_Video && (
+												<iframe
+													src={`https://www.youtube.com/embed/${productData?.Product_Video.slice(
+														17,
+														productData
+															?.Product_Video
+															.length
+													)}`}
+													title="YouTube video player"
+													allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+													allowFullScreen
+												/>
+											)}
+										</div>
 									</div>
 								</div>
 								<div className="col-lg-6 ps-lg-4">
@@ -646,28 +673,11 @@ export default function ProductSingle(): JSX.Element {
 											aria-labelledby="pills-description-tab"
 										>
 											{productData?.Product_Description ? (
-												<>
-													<p>
-														{
-															productData?.Product_Description
-														}
-													</p>
-													{productData.Product_Video && (
-														<iframe
-															width="560"
-															height="315"
-															src={`https://www.youtube.com/embed/${productData?.Product_Video.slice(
-																17,
-																productData
-																	?.Product_Video
-																	.length
-															)}`}
-															title="YouTube video player"
-															allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-															allowFullScreen
-														/>
-													)}
-												</>
+												<p>
+													{
+														productData?.Product_Description
+													}
+												</p>
 											) : (
 												<h2 className="colorblue pt-3 text-center">
 													No description added by the

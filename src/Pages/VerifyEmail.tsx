@@ -14,7 +14,7 @@ export default function VerifyEmail(): JSX.Element {
 		await verifyEmailInSignUp({
 			key: location.pathname.split("/")[3],
 		}).then((data) => {
-			if (data.status === 200) {
+			if (data?.detail === "ok") {
 				localStorage.removeItem("emailV");
 				navigate("/signin");
 				toast.success("Email Verified!");

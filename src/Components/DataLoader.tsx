@@ -11,8 +11,16 @@ export default function DataLoader(): JSX.Element {
 	};
 	return (
 		<div
-			className="d-flex justify-content-center align-items-center position-relative flex-column sweet-loading"
-			style={{ height: "100vh" }}
+			className="d-flex justify-content-center align-items-center flex-column sweet-loading"
+			style={{
+				width: "100vw",
+				height: "100vh",
+				position: "fixed",
+				top: "0px",
+				left: "0px",
+				backgroundColor: "white",
+				zIndex: 100000,
+			}}
 		>
 			<SyncLoader
 				color={color}

@@ -46,16 +46,20 @@ export default function Login({
 				return toast.success("Login Successful");
 			} else {
 				setLoading(false);
-				if (data?.error?.details?.non_field_errors?.[0]) {
+				if (data?.error?.details?.non_field_errors[0]) {
 					return toast.error(
-						data?.error?.details?.non_field_errors?.[0]
+						data?.error?.details?.non_field_errors[0]
 					);
 				}
-				if (data?.password?.[0]) {
-					return toast.error(`password: ${data.password[0]}`);
+				if (data?.error?.details?.password[0]) {
+					return toast.error(
+						`password: ${data?.error?.details?.password[0]}`
+					);
 				}
-				if (data?.email?.[0]) {
-					return toast.error(`email: ${data.email[0]}`);
+				if (data?.error?.details?.email[0]) {
+					return toast.error(
+						`email: ${data?.error?.details?.email[0]}`
+					);
 				}
 			}
 		});

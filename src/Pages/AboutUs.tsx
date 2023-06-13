@@ -66,20 +66,7 @@ export default function AboutUs(): JSX.Element {
 							<div className="col-lg-12">
 								<div className="row">
 									<div
-										className="col-lg-5 px-3 border5px d-flex justify-content-center"
-										data-aos="fade-right"
-										data-aos-duration="1000"
-										data-aos-once="true"
-									>
-										<img
-											className="shadow border5px"
-											src="images/Space_02.webp"
-											alt="Our_Team"
-											width="100%"
-										/>
-									</div>
-									<div
-										className="aboutus col-lg-7 colorblue mt-4 pt-2 pt-lg-0 mt-lg-0 text-center"
+										className="aboutus col-lg-12 colorblue mt-4 pt-2 pt-lg-0 mt-lg-0 text-center"
 										data-aos="fade-left"
 										data-aos-duration="1000"
 										data-aos-once="true"
@@ -97,7 +84,7 @@ export default function AboutUs(): JSX.Element {
 										</p>
 										<div className="mt-4 d-flex justify-content-center">
 											<Link
-												to="/shop"
+												to="/shop/allproducts"
 												className="mybtnsame fontsize16 colorblue bgyellow bglightblue border5px border-0 text-uppercase"
 											>
 												Shop now &nbsp;

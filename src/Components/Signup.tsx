@@ -66,29 +66,35 @@ export default function Signup({
 						localStorage.setItem("emailV", "true");
 						navigate("/emailconfirm");
 					} else {
-						if (data?.non_field_errors?.[0]) {
-							setLoading(false);
-							return toast.error(data.non_field_errors[0]);
-						}
-						if (data?.password1?.[0]) {
+						if (data?.error?.details?.non_field_errors[0]) {
 							setLoading(false);
 							return toast.error(
-								`password: ${data.password1[0]}`
+								data?.error?.details?.non_field_errors[0]
 							);
 						}
-						if (data?.password2?.[0]) {
+						if (data?.error?.details?.password1[0]) {
 							setLoading(false);
 							return toast.error(
-								`password: ${data.password2[0]}`
+								`password: ${data?.error?.details?.password1[0]}`
 							);
 						}
-						if (data?.email?.[0]) {
+						if (data?.error?.details?.password2[0]) {
 							setLoading(false);
-							return toast.error(`email: ${data.email[0]}`);
+							return toast.error(
+								`password: ${data?.error?.details?.password2[0]}`
+							);
 						}
-						if (data?.username?.[0]) {
+						if (data?.error?.details?.email[0]) {
 							setLoading(false);
-							return toast.error(`username: ${data.username[0]}`);
+							return toast.error(
+								`email: ${data?.error?.details?.email[0]}`
+							);
+						}
+						if (data?.error?.details?.username[0]) {
+							setLoading(false);
+							return toast.error(
+								`username: ${data?.error?.details?.username[0]}`
+							);
 						}
 					}
 				})
@@ -151,7 +157,7 @@ export default function Signup({
 										<span className="focus-input100" />
 										<span className="symbol-input100 d-flex align-items-center position-absolute colorblue h-100">
 											<span>
-												<i className="far fa-user-robot" />
+												<i className="far fa-user" />
 											</span>
 										</span>
 									</div>
@@ -291,7 +297,7 @@ export default function Signup({
 										Or Sign Up With
 									</h3>
 									<div className="row">
-										<div className="col-6 mt-3">
+										<div className="col-12 mt-3">
 											<div className="d-grid">
 												<GoogleLogin
 													clientId="643639185226-rqi76uj45a2pbvmqrsvku1mqg4kgspvf.apps.googleusercontent.com"

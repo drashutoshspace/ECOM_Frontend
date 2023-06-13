@@ -136,6 +136,8 @@ export default function Navbar(): JSX.Element {
 			}
 		}
 	});
+	console.log(mySearchInput);
+
 	return (
 		<>
 			{isDesktopOrLaptop && (
