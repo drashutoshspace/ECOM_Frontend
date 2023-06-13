@@ -4,7 +4,8 @@ import Base from "../Base";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
-const Policies = () => {
+
+export default function Policies(): JSX.Element {
 	const [changeImage, setChangeImage] = useState(false);
 	const handleChangeImage = () => {
 		setChangeImage(!changeImage);
@@ -159,5 +160,4 @@ const Policies = () => {
 			</Base>
 		</>
 	);
-};
-export default Policies;
+}

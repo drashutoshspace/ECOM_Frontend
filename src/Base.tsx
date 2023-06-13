@@ -3,10 +3,10 @@ import Footer from "./Components/Footer";
 import { ToastContainer } from "react-toastify";
 import { useEffect } from "react";
 import ScrollButton from "./Components/ScrollButton";
-import CookiePolicyModal from "./Components/CookiePolicyModal";
 import HomeShape from "./Components/HomeShape";
 import AOS from "aos";
-const Base = ({ children }: any) => {
+
+export default function Base({ children }: any): JSX.Element {
 	useEffect(() => {
 		var mounted = true;
 		if (mounted) {
@@ -30,7 +30,6 @@ const Base = ({ children }: any) => {
 			<Navbar />
 			{children}
 			<ScrollButton />
-			<CookiePolicyModal />
 			<ToastContainer
 				position="bottom-center"
 				autoClose={5000}
@@ -42,5 +41,4 @@ const Base = ({ children }: any) => {
 			<Footer />
 		</>
 	);
-};
-export default Base;
+}

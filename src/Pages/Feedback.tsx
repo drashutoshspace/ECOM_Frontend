@@ -5,7 +5,8 @@ import { Helmet } from "react-helmet-async";
 import { feedbackForm } from "../APIs/misc/misc";
 import { toast } from "react-toastify";
 import DataLoader2 from "../Components/DataLoader2";
-const Feedback = () => {
+
+export default function Feedback(): JSX.Element {
 	const [changeImage, setChangeImage] = useState(false);
 	const [dataLoading, setdDataLoading] = useState(false);
 	const handleChangeImage = () => {
@@ -158,7 +159,7 @@ const Feedback = () => {
 															}
 														>
 															{dataLoading ? (
-																<DataLoader2  />
+																<DataLoader2 />
 															) : (
 																"Submit"
 															)}
@@ -176,5 +177,4 @@ const Feedback = () => {
 			</Base>
 		</>
 	);
-};
-export default Feedback;
+}

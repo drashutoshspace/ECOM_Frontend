@@ -3,7 +3,11 @@ import { testimonialData } from "../APIs/misc/misc";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Base from "../Base";
-const Testimonials = ({ handleTestimonials, testimonials }: any) => {
+
+export default function Testimonials({
+	handleTestimonials,
+	testimonials,
+}: any): JSX.Element {
 	useEffect(() => {
 		const getTestimonial = async () => {
 			await testimonialData().then((data: any) => {
@@ -62,5 +66,4 @@ const Testimonials = ({ handleTestimonials, testimonials }: any) => {
 			</Base>
 		</>
 	);
-};
-export default Testimonials;
+}

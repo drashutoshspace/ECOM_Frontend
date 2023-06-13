@@ -7,13 +7,11 @@ import Base from "../Base";
 import { Helmet } from "react-helmet-async";
 import DataLoader2 from "../Components/DataLoader2";
 import Breadcrumb from "../Components/Breadcrumb";
-import { BaseContext } from "../Context";
 
 export default function PasswordResetConfirm(): JSX.Element {
 	const location = useLocation();
 	const [password1, setpassword1] = useState("");
 	const [password2, setpassword2] = useState("");
-	const { handleNotification }: any = useContext(BaseContext);
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
 	const passwordResetConfirm = async (e: any) => {
@@ -40,7 +38,7 @@ export default function PasswordResetConfirm(): JSX.Element {
 				if (data?.detail) {
 					setLoading(false);
 					navigate("/signin");
-					handleNotification(data.detail, "success");
+					toast.success(data.detail);
 				} else {
 					setLoading(false);
 					if (data?.new_password1?.[0]) {

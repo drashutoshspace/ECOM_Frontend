@@ -7,7 +7,11 @@ import { search } from "../APIs/ecommerce/ecommerce";
 import DataLoader from "../Components/DataLoader";
 import ProductListCard from "../Components/ProductListCard";
 import ReactPaginate from "react-paginate";
-const SearchPage = ({ searchResults, setSearchResults }: any) => {
+
+export default function SearchPage({
+	searchResults,
+	setSearchResults,
+}: any): JSX.Element {
 	const { input } = useParams<string>();
 	// ANCHOR Pagination
 	const [currentPage, setCurrentPage] = useState(0);
@@ -141,5 +145,4 @@ const SearchPage = ({ searchResults, setSearchResults }: any) => {
 			</Base>
 		</>
 	);
-};
-export default SearchPage;
+}
