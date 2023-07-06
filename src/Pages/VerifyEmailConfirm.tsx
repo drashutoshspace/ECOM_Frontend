@@ -21,10 +21,7 @@ export default function VerifyEmailConfirm(): JSX.Element {
 					<Base>
 						<>
 							<Breadcrumb title="Verification Email Sent" />
-							<div
-								className="container"
-								style={{ width: "350px" }}
-							>
+							<div className="container" style={{ width: "350px" }}>
 								<form
 									className="bgcolorgreyish border-0 border5px my-4 p-4"
 									onMouseEnter={handleChangeImage}
@@ -44,9 +41,8 @@ export default function VerifyEmailConfirm(): JSX.Element {
 									</div>
 									<div className="text-center w-100">
 										<p className="colorblue mb-0">
-											Please confirm your email by
-											clicking on the link in the mail
-											sent to you.
+											Please confirm your email by clicking on the link in the
+											mail sent to you.
 										</p>
 									</div>
 								</form>

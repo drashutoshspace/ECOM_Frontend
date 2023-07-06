@@ -41,9 +41,7 @@ export default function Signup({
 					username: "",
 				});
 				setLoading(false);
-				return toast.error(
-					"Username can only contain letter and numbers!"
-				);
+				return toast.error("Username can only contain letter and numbers!");
 			}
 			await signUp({
 				username: username,
@@ -68,9 +66,7 @@ export default function Signup({
 					} else {
 						if (data?.error?.details?.non_field_errors[0]) {
 							setLoading(false);
-							return toast.error(
-								data?.error?.details?.non_field_errors[0]
-							);
+							return toast.error(data?.error?.details?.non_field_errors[0]);
 						}
 						if (data?.error?.details?.password1[0]) {
 							setLoading(false);
@@ -86,9 +82,7 @@ export default function Signup({
 						}
 						if (data?.error?.details?.email[0]) {
 							setLoading(false);
-							return toast.error(
-								`email: ${data?.error?.details?.email[0]}`
-							);
+							return toast.error(`email: ${data?.error?.details?.email[0]}`);
 						}
 						if (data?.error?.details?.username[0]) {
 							setLoading(false);
@@ -139,9 +133,7 @@ export default function Signup({
 			<div className="col-lg-6 col-md-6">
 				<div className="card mx-2 bgcolorgreyish border-0 border5px p-4">
 					<div className="card-body p-0">
-						<h2 className="card-title colorblue pb-2 text-center">
-							Sign Up
-						</h2>
+						<h2 className="card-title colorblue pb-2 text-center">Sign Up</h2>
 						<form className="mt-4">
 							<div className="row">
 								<div className="col-lg-12">
@@ -184,11 +176,7 @@ export default function Signup({
 									<div className="position-relative mb-4">
 										<input
 											className="input100 w-100 border5px border-0 colorblue"
-											type={
-												showPassword1
-													? "text"
-													: "password"
-											}
+											type={showPassword1 ? "text" : "password"}
 											placeholder="Password"
 											value={password1}
 											onChange={handleChange("password1")}
@@ -207,9 +195,7 @@ export default function Signup({
 											<span>
 												<i
 													className={
-														showPassword1
-															? "far fa-eye-slash"
-															: "far fa-eye"
+														showPassword1 ? "far fa-eye-slash" : "far fa-eye"
 													}
 												/>
 											</span>
@@ -220,11 +206,7 @@ export default function Signup({
 									<div className="position-relative mb-4">
 										<input
 											className="input100 w-100 border5px border-0 colorblue"
-											type={
-												showPassword2
-													? "text"
-													: "password"
-											}
+											type={showPassword2 ? "text" : "password"}
 											placeholder="Confirm Password"
 											value={password2}
 											onChange={handleChange("password2")}
@@ -243,9 +225,7 @@ export default function Signup({
 											<span>
 												<i
 													className={
-														showPassword2
-															? "far fa-eye-slash"
-															: "far fa-eye"
+														showPassword2 ? "far fa-eye-slash" : "far fa-eye"
 													}
 												/>
 											</span>
@@ -255,8 +235,7 @@ export default function Signup({
 								<div className="col-lg-12">
 									<div className="mb-3 pb-1 mx-1 text-center">
 										<div className="colorblue">
-											By signing up, you accept MeeMo
-											Kidz's&nbsp;
+											By signing up, you accept MeeMo Kidz's&nbsp;
 											<Link
 												to="/privacypolicy"
 												className="lightbluehover fw-bold colorblue"
@@ -284,18 +263,12 @@ export default function Signup({
 											className="mybtnsame fontsize16 bglightblue colorblue bgyellow border5px border-0 text-uppercase d-inline-block"
 											disabled={loading ? true : false}
 										>
-											{loading ? (
-												<DataLoader2 />
-											) : (
-												"Register"
-											)}
+											{loading ? <DataLoader2 /> : "Register"}
 										</button>
 									</div>
 								</div>
 								<div className="col-lg-12 mt-4 text-center">
-									<h3 className="colorblue my-1">
-										Or Sign Up With
-									</h3>
+									<h3 className="colorblue my-1">Or Sign Up With</h3>
 									<div className="row">
 										<div className="col-12 mt-3">
 											<div className="d-grid">
@@ -303,9 +276,7 @@ export default function Signup({
 													clientId="643639185226-rqi76uj45a2pbvmqrsvku1mqg4kgspvf.apps.googleusercontent.com"
 													render={(renderProps) => (
 														<button
-															onClick={
-																renderProps.onClick
-															}
+															onClick={renderProps.onClick}
 															className="socialbutton bglightblue border-0 colorblue bgyellow cursorpointer border5px d-flex justify-content-center align-items-center px-2 my-2"
 														>
 															<img
@@ -313,12 +284,9 @@ export default function Signup({
 																height="20px"
 																alt="Google"
 																style={{
-																	backgroundColor:
-																		"#fff",
-																	padding:
-																		"2px",
-																	borderRadius:
-																		"2px",
+																	backgroundColor: "#fff",
+																	padding: "2px",
+																	borderRadius: "2px",
 																}}
 															/>
 															&nbsp;&nbsp;
@@ -334,9 +302,7 @@ export default function Signup({
 								</div>
 								<div className="col-12 text-center">
 									<p className="mb-0 fontsize16 mt-4">
-										<span className="colorblue me-2">
-											Regular Here ?
-										</span>
+										<span className="colorblue me-2">Regular Here ?</span>
 										<button
 											onClick={() => {
 												handleToggle(false);

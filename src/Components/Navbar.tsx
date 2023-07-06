@@ -95,11 +95,7 @@ export default function Navbar(): JSX.Element {
 	var dropdownToggle3 = useRef<HTMLDivElement>(null);
 	var dropdownToggle4 = useRef<HTMLUListElement>(null);
 	useEffect(() => {
-		if (
-			isDesktopOrLaptop &&
-			profileData.id !== -1 &&
-			dropdownToggle3.current
-		) {
+		if (isDesktopOrLaptop && profileData.id !== -1 && dropdownToggle3.current) {
 			const mouseOver3 = () => {
 				setOnHoverDropdown3(true);
 			};
@@ -115,11 +111,7 @@ export default function Navbar(): JSX.Element {
 				};
 			}
 		}
-		if (
-			isDesktopOrLaptop &&
-			profileData.id !== -1 &&
-			dropdownToggle4.current
-		) {
+		if (isDesktopOrLaptop && profileData.id !== -1 && dropdownToggle4.current) {
 			const mouseOver3 = () => {
 				setOnHoverDropdown3(true);
 			};
@@ -234,9 +226,7 @@ export default function Navbar(): JSX.Element {
 								<Link
 									to="/shop/allproducts"
 									className={
-										location.pathname.includes(
-											"/shop/allproducts"
-										)
+										location.pathname.includes("/shop/allproducts")
 											? "colorblue fontsize14 bgyellow dropdown-item"
 											: "colorblue fontsize14 lightbluehover dropdown-item"
 									}
@@ -251,14 +241,8 @@ export default function Navbar(): JSX.Element {
 											<Link
 												to={`/shop/${item.category}`}
 												className={
-													location.pathname.replace(
-														"%20",
-														""
-													) ===
-													`/shop/${item.category.replace(
-														" ",
-														""
-													)}`
+													location.pathname.replace("%20", "") ===
+													`/shop/${item.category.replace(" ", "")}`
 														? "colorblue fontsize14 bgyellow dropdown-item"
 														: "colorblue fontsize14 lightbluehover dropdown-item"
 												}
@@ -293,9 +277,7 @@ export default function Navbar(): JSX.Element {
 						>
 							<i className="fas fa-shopping-cart hvr-icon" />
 							{profileData.id !== -1 && allCartItemsCount > 0 && (
-								<span className="topnumbercart">
-									{allCartItemsCount}
-								</span>
+								<span className="topnumbercart">{allCartItemsCount}</span>
 							)}
 							&nbsp;&nbsp;Cart &nbsp;
 							<i className="fas fa-caret-down hvr-icon" />
@@ -305,8 +287,7 @@ export default function Navbar(): JSX.Element {
 								className={
 									onHoverDropdown2
 										? `dropdown-menu dropdown-menu-end mt-0 pt-4 ms-2 border5px animate slideIn border-0 show ${
-												cartItems?.length > 0 &&
-												profileData.id !== -1
+												cartItems?.length > 0 && profileData.id !== -1
 													? "cartdropdown"
 													: ""
 										  }`
@@ -322,8 +303,7 @@ export default function Navbar(): JSX.Element {
 											style={{ width: "200px" }}
 											className="mb-0 px-3 py-1 colorblue fontsize14"
 										>
-											Your cart is empty. Sign in to start
-											learning!
+											Your cart is empty. Sign in to start learning!
 										</div>
 									</li>
 								)}
@@ -332,63 +312,43 @@ export default function Navbar(): JSX.Element {
 										<div className="row px-4">
 											{cartItems?.length > 0 && (
 												<div
-													className={`${
-														cartItems?.length > 0 &&
-														"col-lg-12"
-													}`}
+													className={`${cartItems?.length > 0 && "col-lg-12"}`}
 												>
 													<div className="row">
 														<div className="col">
-															<h5 className="colorblue">
-																Products
-															</h5>
+															<h5 className="colorblue">Products</h5>
 														</div>
 													</div>
 													{cartItems
 														?.slice(0, 3)
-														.map(
-															(
-																item: cartItem,
-																index: number
-															) => {
-																return (
-																	<div
-																		key={
-																			index
-																		}
-																		className="row"
-																	>
-																		<div className="col">
-																			<h6 className="colorblue fontsize12">{`${truncate(
-																				item?.Product_Name,
-																				20
-																			)} = ₹ ${(Math.abs(
-																				parseInt(
+														.map((item: cartItem, index: number) => {
+															return (
+																<div key={index} className="row">
+																	<div className="col">
+																		<h6 className="colorblue fontsize12">{`${truncate(
+																			item?.Product_Name,
+																			20
+																		)} = ₹ ${(Math.abs(
+																			parseInt(
+																				item?.Product_SellingPrice.toString()
+																			) -
+																				parseFloat(
 																					item?.Product_SellingPrice.toString()
-																				) -
-																					parseFloat(
-																						item?.Product_SellingPrice.toString()
-																					)
-																			) >
-																			0.5
-																				? parseInt(
-																						item?.Product_SellingPrice.toString()
-																				  ) +
-																				  1
-																				: parseInt(
-																						item?.Product_SellingPrice.toString()
-																				  )
-																			).toLocaleString(
-																				undefined,
-																				{
-																					maximumFractionDigits: 2,
-																				}
-																			)}`}</h6>
-																		</div>
+																				)
+																		) > 0.5
+																			? parseInt(
+																					item?.Product_SellingPrice.toString()
+																			  ) + 1
+																			: parseInt(
+																					item?.Product_SellingPrice.toString()
+																			  )
+																		).toLocaleString(undefined, {
+																			maximumFractionDigits: 2,
+																		})}`}</h6>
 																	</div>
-																);
-															}
-														)}
+																</div>
+															);
+														})}
 												</div>
 											)}
 											{cartItems?.length >= 4 && (
@@ -398,12 +358,9 @@ export default function Navbar(): JSX.Element {
 													</li>
 													<h6
 														className="mb-0 colorblue lightbluehover cursorpointer fontsize12"
-														onClick={() =>
-															navigate("/cart")
-														}
+														onClick={() => navigate("/cart")}
 													>
-														Click Here To See Rest
-														Of The Items
+														Click Here To See Rest Of The Items
 													</h6>
 												</>
 											)}
@@ -529,7 +486,7 @@ export default function Navbar(): JSX.Element {
 										className="cursorpointer colorblue fontsize14 lightbluehover dropdown-item"
 										onClick={(e) => logoutUser(e)}
 									>
-										<i className="fas fa-portal-exit" />
+										<i className="fas fa-sign-out-alt" />
 										&nbsp;&nbsp;Sign Out
 									</small>
 								</li>
@@ -645,9 +602,7 @@ export default function Navbar(): JSX.Element {
 										<Link
 											to="/shop/allproducts"
 											className={
-												location.pathname.includes(
-													"/shop/allproducts"
-												)
+												location.pathname.includes("/shop/allproducts")
 													? "colorblue fontsize14 bgyellow dropdown-item"
 													: "colorblue fontsize14 lightbluehover dropdown-item"
 											}
@@ -656,23 +611,14 @@ export default function Navbar(): JSX.Element {
 										</Link>
 									</li>
 									{allProductCategories.map(
-										(
-											item: Product_Category,
-											index: number
-										) => {
+										(item: Product_Category, index: number) => {
 											return (
 												<li key={index}>
 													<Link
 														to={`/shop/${item.category}`}
 														className={
-															location.pathname.replace(
-																"%20",
-																""
-															) ===
-															`/shop/${item.category.replace(
-																" ",
-																""
-															)}`
+															location.pathname.replace("%20", "") ===
+															`/shop/${item.category.replace(" ", "")}`
 																? "colorblue fontsize14 bgyellow dropdown-item"
 																: "colorblue fontsize14 lightbluehover dropdown-item"
 														}
@@ -696,12 +642,9 @@ export default function Navbar(): JSX.Element {
 									aria-expanded="false"
 								>
 									<i className="fas fa-shopping-cart hvr-icon" />
-									{profileData.id !== -1 &&
-										allCartItemsCount > 0 && (
-											<span className="topnumbercart">
-												{allCartItemsCount}
-											</span>
-										)}
+									{profileData.id !== -1 && allCartItemsCount > 0 && (
+										<span className="topnumbercart">{allCartItemsCount}</span>
+									)}
 									&nbsp;&nbsp;Cart
 								</Link>
 								<ul
@@ -715,56 +658,39 @@ export default function Navbar(): JSX.Element {
 												<div className="col-lg-12">
 													<div className="row">
 														<div className="col">
-															<h5 className="colorblue">
-																Products
-															</h5>
+															<h5 className="colorblue">Products</h5>
 														</div>
 													</div>
 													{cartItems
 														?.slice(0, 3)
-														.map(
-															(
-																item: cartItem,
-																index: number
-															) => {
-																return (
-																	<div
-																		key={
-																			index
-																		}
-																		className="row"
-																	>
-																		<div className="col">
-																			<h6 className="colorblue fontsize12">{`${truncate(
-																				item?.Product_Name,
-																				20
-																			)} = ₹ ${(Math.abs(
-																				parseInt(
+														.map((item: cartItem, index: number) => {
+															return (
+																<div key={index} className="row">
+																	<div className="col">
+																		<h6 className="colorblue fontsize12">{`${truncate(
+																			item?.Product_Name,
+																			20
+																		)} = ₹ ${(Math.abs(
+																			parseInt(
+																				item?.Product_SellingPrice.toString()
+																			) -
+																				parseFloat(
 																					item?.Product_SellingPrice.toString()
-																				) -
-																					parseFloat(
-																						item?.Product_SellingPrice.toString()
-																					)
-																			) >
-																			0.5
-																				? parseInt(
-																						item?.Product_SellingPrice.toString()
-																				  ) +
-																				  1
-																				: parseInt(
-																						item?.Product_SellingPrice.toString()
-																				  )
-																			).toLocaleString(
-																				undefined,
-																				{
-																					maximumFractionDigits: 2,
-																				}
-																			)}`}</h6>
-																		</div>
+																				)
+																		) > 0.5
+																			? parseInt(
+																					item?.Product_SellingPrice.toString()
+																			  ) + 1
+																			: parseInt(
+																					item?.Product_SellingPrice.toString()
+																			  )
+																		).toLocaleString(undefined, {
+																			maximumFractionDigits: 2,
+																		})}`}</h6>
 																	</div>
-																);
-															}
-														)}
+																</div>
+															);
+														})}
 												</div>
 											</div>
 										</li>
@@ -869,8 +795,7 @@ export default function Navbar(): JSX.Element {
 														className="colorblue fontsize12 lightbluehover dropdown-item"
 													>
 														<i className="fas fa-lock" />
-														&nbsp;&nbsp;Change
-														Password
+														&nbsp;&nbsp;Change Password
 													</Link>
 												</li>
 												<li>

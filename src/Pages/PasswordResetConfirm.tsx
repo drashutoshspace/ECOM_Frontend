@@ -42,9 +42,7 @@ export default function PasswordResetConfirm(): JSX.Element {
 				} else {
 					setLoading(false);
 					if (data?.new_password1?.[0]) {
-						return toast.error(
-							`password: ${data.new_password1[0]}`
-						);
+						return toast.error(`password: ${data.new_password1[0]}`);
 					}
 					if (data?.new_password2?.[0]) {
 						return toast.error(`${data.new_password2[0]}`);
@@ -110,24 +108,16 @@ export default function PasswordResetConfirm(): JSX.Element {
 											<div className="row">
 												<div className="col-lg-12">
 													<p className="colorblue text-center">
-														Please enter your new
-														password.
+														Please enter your new password.
 													</p>
 													<div className="position-relative mb-4">
 														<input
 															className="input100 w-100 border5px border-0 colorblue"
-															type={
-																showPassword1
-																	? "text"
-																	: "password"
-															}
+															type={showPassword1 ? "text" : "password"}
 															placeholder="New Password"
 															value={password1}
 															onChange={(e) => {
-																setpassword1(
-																	e.target
-																		.value
-																);
+																setpassword1(e.target.value);
 															}}
 															required
 														/>
@@ -138,9 +128,7 @@ export default function PasswordResetConfirm(): JSX.Element {
 															</span>
 														</span>
 														<span
-															onClick={
-																seePassword1
-															}
+															onClick={seePassword1}
 															className="symbol-input1000 d-flex align-items-center position-absolute colorblue h-100"
 														>
 															<span>
@@ -157,18 +145,11 @@ export default function PasswordResetConfirm(): JSX.Element {
 													<div className="position-relative mb-4">
 														<input
 															className="input100 w-100 border5px border-0 colorblue"
-															type={
-																showPassword2
-																	? "text"
-																	: "password"
-															}
+															type={showPassword2 ? "text" : "password"}
 															placeholder="Confirm New Password"
 															value={password2}
 															onChange={(e) => {
-																setpassword2(
-																	e.target
-																		.value
-																);
+																setpassword2(e.target.value);
 															}}
 															required
 														/>
@@ -179,9 +160,7 @@ export default function PasswordResetConfirm(): JSX.Element {
 															</span>
 														</span>
 														<span
-															onClick={
-																seePassword2
-															}
+															onClick={seePassword2}
 															className="symbol-input1000 d-flex align-items-center position-absolute colorblue h-100"
 														>
 															<span>
@@ -200,33 +179,20 @@ export default function PasswordResetConfirm(): JSX.Element {
 													<div className="d-grid">
 														<button
 															onClick={(e) => {
-																setLoading(
-																	true
-																);
-																passwordResetConfirm(
-																	e
-																);
+																setLoading(true);
+																passwordResetConfirm(e);
 															}}
 															className="mybtnsame fontsize16 bglightblue colorblue bgyellow border5px border-0 text-uppercase d-inline-block"
-															disabled={
-																loading
-																	? true
-																	: false
-															}
+															disabled={loading ? true : false}
 														>
-															{loading ? (
-																<DataLoader2 />
-															) : (
-																"Confirm"
-															)}
+															{loading ? <DataLoader2 /> : "Confirm"}
 														</button>
 													</div>
 												</div>
 												<div className="col-12 text-center">
 													<p className="mb-0 mt-4 fontsize14">
 														<span className="colorblue me-2">
-															Remember your
-															password ?
+															Remember your password ?
 														</span>
 														<Link
 															to="/signin"

@@ -59,9 +59,7 @@ export default function CartCard({ item }: { item: cartItem }): JSX.Element {
 						<MinusButtonForCart
 							isAuthenticated={userId !== -1 ? true : false}
 							guid={item?.guid}
-							decreaseQuantityOfProductInCart={
-								decreaseQuantityOfProductInCart
-							}
+							decreaseQuantityOfProductInCart={decreaseQuantityOfProductInCart}
 						/>
 						<input
 							className="bgcolorgreyish text-center colorblue border-0 border5px mx-2"
@@ -73,9 +71,7 @@ export default function CartCard({ item }: { item: cartItem }): JSX.Element {
 						<PlusButtonForCart
 							isAuthenticated={userId !== -1 ? true : false}
 							guid={item?.guid}
-							increaseQuantityOfProductInCart={
-								increaseQuantityOfProductInCart
-							}
+							increaseQuantityOfProductInCart={increaseQuantityOfProductInCart}
 						/>
 						<DeleteButtonForCart
 							isAuthenticated={userId !== -1 ? true : false}
@@ -86,8 +82,8 @@ export default function CartCard({ item }: { item: cartItem }): JSX.Element {
 				<div className="row mt-2">
 					<div className="col-lg-12">
 						<p className="colorblue mypara mb-0 fontsize16">
-							₹ {item?.Product_SellingPrice} x {item?.quantity} =
-							₹ {item?.Product_SellingPrice * item?.quantity}
+							₹ {item?.Product_SellingPrice} x {item?.quantity} = ₹{" "}
+							{item?.Product_SellingPrice * item?.quantity}
 						</p>
 					</div>
 				</div>

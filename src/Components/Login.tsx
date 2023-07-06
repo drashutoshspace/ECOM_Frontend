@@ -47,19 +47,13 @@ export default function Login({
 			} else {
 				setLoading(false);
 				if (data?.error?.details?.non_field_errors[0]) {
-					return toast.error(
-						data?.error?.details?.non_field_errors[0]
-					);
+					return toast.error(data?.error?.details?.non_field_errors[0]);
 				}
 				if (data?.error?.details?.password[0]) {
-					return toast.error(
-						`password: ${data?.error?.details?.password[0]}`
-					);
+					return toast.error(`password: ${data?.error?.details?.password[0]}`);
 				}
 				if (data?.error?.details?.email[0]) {
-					return toast.error(
-						`email: ${data?.error?.details?.email[0]}`
-					);
+					return toast.error(`email: ${data?.error?.details?.email[0]}`);
 				}
 			}
 		});
@@ -92,9 +86,7 @@ export default function Login({
 				<div className="col-lg-6 col-md-6">
 					<div className="card mx-2 bgcolorgreyish border-0 border5px px-4 py-3">
 						<div className="card-body p-0">
-							<h3 className="card-title colorblue mb-0 text-center">
-								Sign In
-							</h3>
+							<h3 className="card-title colorblue mb-0 text-center">Sign In</h3>
 							<form className="mt-3">
 								<div className="row">
 									<div className="col-lg-12">
@@ -105,9 +97,7 @@ export default function Login({
 												placeholder="Username or Email"
 												value={emailOrUsername}
 												onChange={(e) => {
-													setEmailOrUsername(
-														e.target.value
-													);
+													setEmailOrUsername(e.target.value);
 												}}
 												style={{ height: "40px" }}
 											/>
@@ -123,16 +113,10 @@ export default function Login({
 										<div className="position-relative mb-3">
 											<input
 												className="input100 w-100 border5px border-0 colorblue"
-												type={
-													showPassword
-														? "text"
-														: "password"
-												}
+												type={showPassword ? "text" : "password"}
 												placeholder="Password"
 												value={password}
-												onChange={(e) =>
-													setPassword(e.target.value)
-												}
+												onChange={(e) => setPassword(e.target.value)}
 												required
 												style={{ height: "40px" }}
 											/>
@@ -143,19 +127,13 @@ export default function Login({
 												</span>
 											</span>
 											<span
-												onClick={() =>
-													setShowPassword(
-														!showPassword
-													)
-												}
+												onClick={() => setShowPassword(!showPassword)}
 												className="symbol-input1000 d-flex align-items-center position-absolute colorblue h-100"
 											>
 												<span>
 													<i
 														className={
-															showPassword
-																? "far fa-eye-slash"
-																: "far fa-eye"
+															showPassword ? "far fa-eye-slash" : "far fa-eye"
 														}
 													/>
 												</span>
@@ -193,36 +171,24 @@ export default function Login({
 									<div className="col-lg-12 mb-0">
 										<div className="d-grid">
 											<button
-												disabled={
-													loading ? true : false
-												}
+												disabled={loading ? true : false}
 												onClick={loginUser}
 												className="mybtnsame fontsize16 bglightblue colorblue bgyellow border5px border-0 text-uppercase d-inline-block"
 											>
-												{loading ? (
-													<DataLoader2 />
-												) : (
-													"Login"
-												)}
+												{loading ? <DataLoader2 /> : "Login"}
 											</button>
 										</div>
 									</div>
 									<div className="col-lg-12 mt-2 text-center">
-										<h3 className="colorblue mb-1 mt-1">
-											Or Login With
-										</h3>
+										<h3 className="colorblue mb-1 mt-1">Or Login With</h3>
 										<div className="row">
 											<div className="col-12 mt-1">
 												<div className="d-grid">
 													<GoogleLogin
 														clientId="643639185226-rqi76uj45a2pbvmqrsvku1mqg4kgspvf.apps.googleusercontent.com"
-														render={(
-															renderProps
-														) => (
+														render={(renderProps) => (
 															<button
-																onClick={
-																	renderProps.onClick
-																}
+																onClick={renderProps.onClick}
 																className="socialbutton bglightblue border-0 colorblue bgyellow cursorpointer border5px d-flex justify-content-center align-items-center px-2 my-2"
 															>
 																<img
@@ -230,24 +196,17 @@ export default function Login({
 																	height="20px"
 																	alt="Google"
 																	style={{
-																		backgroundColor:
-																			"#fff",
-																		padding:
-																			"2px",
-																		borderRadius:
-																			"2px",
+																		backgroundColor: "#fff",
+																		padding: "2px",
+																		borderRadius: "2px",
 																	}}
 																/>
 																&nbsp;&nbsp;
 																<b>Google</b>
 															</button>
 														)}
-														onSuccess={
-															responseGoogle
-														}
-														onFailure={
-															responseGoogle
-														}
+														onSuccess={responseGoogle}
+														onFailure={responseGoogle}
 													/>
 												</div>
 											</div>
@@ -255,9 +214,7 @@ export default function Login({
 									</div>
 									<div className="col-12 text-center">
 										<p className="mb-0 fontsize16 mt-2">
-											<span className="colorblue me-2">
-												New Here ?
-											</span>
+											<span className="colorblue me-2">New Here ?</span>
 											<button
 												onClick={() => {
 													handleToggle(true);
@@ -278,9 +235,7 @@ export default function Login({
 				<div className="col-lg-6 col-md-6">
 					<div className="card mx-2 bgcolorgreyish border-0 border5px p-4">
 						<div className="card-body p-0">
-							<h2 className="card-title colorblue pb-2 text-center">
-								Sign In
-							</h2>
+							<h2 className="card-title colorblue pb-2 text-center">Sign In</h2>
 							<form className="mt-4">
 								<div className="row">
 									<div className="col-lg-12">
@@ -291,9 +246,7 @@ export default function Login({
 												placeholder="Username or Email"
 												value={emailOrUsername}
 												onChange={(e) => {
-													setEmailOrUsername(
-														e.target.value
-													);
+													setEmailOrUsername(e.target.value);
 												}}
 											/>
 											<span className="focus-input100" />
@@ -308,16 +261,10 @@ export default function Login({
 										<div className="position-relative mb-3">
 											<input
 												className="input100 w-100 border5px border-0 colorblue"
-												type={
-													showPassword
-														? "text"
-														: "password"
-												}
+												type={showPassword ? "text" : "password"}
 												placeholder="Password"
 												value={password}
-												onChange={(e) =>
-													setPassword(e.target.value)
-												}
+												onChange={(e) => setPassword(e.target.value)}
 												required
 											/>
 											<span className="focus-input100" />
@@ -327,19 +274,13 @@ export default function Login({
 												</span>
 											</span>
 											<span
-												onClick={() =>
-													setShowPassword(
-														!showPassword
-													)
-												}
+												onClick={() => setShowPassword(!showPassword)}
 												className="symbol-input1000 d-flex align-items-center position-absolute colorblue h-100"
 											>
 												<span>
 													<i
 														className={
-															showPassword
-																? "far fa-eye-slash"
-																: "far fa-eye"
+															showPassword ? "far fa-eye-slash" : "far fa-eye"
 														}
 													/>
 												</span>
@@ -376,36 +317,24 @@ export default function Login({
 									<div className="col-lg-12 mb-0">
 										<div className="d-grid">
 											<button
-												disabled={
-													loading ? true : false
-												}
+												disabled={loading ? true : false}
 												onClick={loginUser}
 												className="mybtnsame fontsize16 bglightblue colorblue bgyellow border5px border-0 text-uppercase d-inline-block"
 											>
-												{loading ? (
-													<DataLoader2 />
-												) : (
-													"Login"
-												)}
+												{loading ? <DataLoader2 /> : "Login"}
 											</button>
 										</div>
 									</div>
 									<div className="col-lg-12 mt-4 text-center">
-										<h3 className="colorblue mb-1 mt-1">
-											Or Login With
-										</h3>
+										<h3 className="colorblue mb-1 mt-1">Or Login With</h3>
 										<div className="row">
 											<div className="col-12 mt-3">
 												<div className="d-grid">
 													<GoogleLogin
 														clientId="643639185226-rqi76uj45a2pbvmqrsvku1mqg4kgspvf.apps.googleusercontent.com"
-														render={(
-															renderProps
-														) => (
+														render={(renderProps) => (
 															<button
-																onClick={
-																	renderProps.onClick
-																}
+																onClick={renderProps.onClick}
 																className="socialbutton bglightblue border-0 colorblue bgyellow cursorpointer border5px d-flex justify-content-center align-items-center px-2 my-2"
 															>
 																<img
@@ -413,24 +342,17 @@ export default function Login({
 																	height="20px"
 																	alt="Google"
 																	style={{
-																		backgroundColor:
-																			"#fff",
-																		padding:
-																			"2px",
-																		borderRadius:
-																			"2px",
+																		backgroundColor: "#fff",
+																		padding: "2px",
+																		borderRadius: "2px",
 																	}}
 																/>
 																&nbsp;&nbsp;
 																<b>Google</b>
 															</button>
 														)}
-														onSuccess={
-															responseGoogle
-														}
-														onFailure={
-															responseGoogle
-														}
+														onSuccess={responseGoogle}
+														onFailure={responseGoogle}
 													/>
 												</div>
 											</div>
@@ -438,9 +360,7 @@ export default function Login({
 									</div>
 									<div className="col-12 text-center">
 										<p className="mb-0 fontsize16 mt-4">
-											<span className="colorblue me-2">
-												New Here ?
-											</span>
+											<span className="colorblue me-2">New Here ?</span>
 											<button
 												onClick={() => {
 													handleToggle(true);

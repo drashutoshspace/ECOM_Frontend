@@ -19,10 +19,7 @@ export default function PrivP(): JSX.Element {
 		allowedTags: ["b", "i", "em", "strong", "a", "p", "br"],
 	};
 	const sanitize = (dirty: any, options: any) => ({
-		__html: sanitizeHtml(
-			dirty,
-			(options = { ...defaultOptions, ...options })
-		),
+		__html: sanitizeHtml(dirty, (options = { ...defaultOptions, ...options })),
 	});
 	const SanitizeHTML = ({ html, options }: any) => (
 		<div dangerouslySetInnerHTML={sanitize(html, options)} />
@@ -40,20 +37,18 @@ export default function PrivP(): JSX.Element {
 							<div className="col-lg-9">
 								<div className="card colorblue border5px border-0">
 									<div className="card-body">
-										{privpDoc.map(
-											(info: any, index: any) => {
-												return (
-													<div key={index}>
-														<h4 className="card-title colorlightblue">
-															{info.heading}
-														</h4>
-														<SanitizeHTML
-															html={`<p className="">${info.content}</p>`}
-														/>
-													</div>
-												);
-											}
-										)}
+										{privpDoc.map((info: any, index: any) => {
+											return (
+												<div key={index}>
+													<h4 className="card-title colorlightblue">
+														{info.heading}
+													</h4>
+													<SanitizeHTML
+														html={`<p className="">${info.content}</p>`}
+													/>
+												</div>
+											);
+										})}
 									</div>
 								</div>
 							</div>

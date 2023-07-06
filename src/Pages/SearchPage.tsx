@@ -63,24 +63,13 @@ export default function SearchPage(): JSX.Element {
 									</h1>
 								</div>
 								<div className="row">
-									{searchResults.map(
-										(result: any, index: any) => {
-											return (
-												<ProductListCard
-													key={index}
-													product={result}
-												/>
-											);
-										}
-									)}
+									{searchResults.map((result: any, index: any) => {
+										return <ProductListCard key={index} product={result} />;
+									})}
 								</div>
 								<ReactPaginate
-									previousLabel={
-										<i className="fas fa-arrow-left"></i>
-									}
-									nextLabel={
-										<i className="fas fa-arrow-right"></i>
-									}
+									previousLabel={<i className="fas fa-arrow-left"></i>}
+									nextLabel={<i className="fas fa-arrow-right"></i>}
 									pageCount={pageCount}
 									pageRangeDisplayed={1}
 									marginPagesDisplayed={2}
@@ -97,18 +86,10 @@ export default function SearchPage(): JSX.Element {
 									previousClassName={
 										"bgyellow hovergoup d-flex align-items-center mx-2 fontsize14 h-100 px-2 border5px bglightblue"
 									}
-									previousLinkClassName={
-										"pagination__link colorblue"
-									}
-									nextLinkClassName={
-										"pagination__link colorblue"
-									}
-									disabledClassName={
-										"pagination__link--disabled"
-									}
-									activeClassName={
-										"pagination__link--active lightbluebg"
-									}
+									previousLinkClassName={"pagination__link colorblue"}
+									nextLinkClassName={"pagination__link colorblue"}
+									disabledClassName={"pagination__link--disabled"}
+									activeClassName={"pagination__link--active lightbluebg"}
 								/>
 							</div>
 						</section>

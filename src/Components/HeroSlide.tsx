@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import { Banner } from "../Interfaces/Misc";
 
-export default function HeroSlide({ heroVar }: { heroVar: Banner }): JSX.Element {
+export default function HeroSlide({
+	heroVar,
+}: {
+	heroVar: Banner;
+}): JSX.Element {
 	return (
 		<Link to="/shop/allproducts">
 			<img

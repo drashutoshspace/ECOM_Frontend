@@ -85,11 +85,7 @@ export async function reviewRating(data: {
 	rating: number;
 	review: string;
 }): Promise<any> {
-	return await postWithAuthorization(
-		ReviewRatingForm_API,
-		data,
-		"add review"
-	);
+	return await postWithAuthorization(ReviewRatingForm_API, data, "add review");
 }
 
 export async function deleteReview(data: { id: string }): Promise<any> {

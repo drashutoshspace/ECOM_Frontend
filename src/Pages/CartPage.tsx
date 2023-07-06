@@ -39,8 +39,7 @@ export default function CartPage(): JSX.Element {
 					<div className="react-confirm-alert-body">
 						<h1>Clear Cart</h1>
 						<p className="colorblue mb-0">
-							Do you really want to delete everything from your
-							cart?
+							Do you really want to delete everything from your cart?
 						</p>
 						<div className="react-confirm-alert-button-group">
 							<button
@@ -121,33 +120,17 @@ export default function CartPage(): JSX.Element {
 												<div className="col-lg-8 order-lg-1 mt-4 mt-lg-0 order-2 px-3">
 													<div className="row">
 														<div className="col-lg-12">
-															{cartItems?.length >
-																0 && (
+															{cartItems?.length > 0 && (
 																<div className="row mt-4">
 																	<div className="col-md-12 text-center">
 																		<h1 className="mb-2 colorblue pb-2 borderbottomcart">
-																			Products
-																			In
-																			Your
-																			Cart
+																			Products In Your Cart
 																		</h1>
-																		{cartItems?.map(
-																			(
-																				item: any,
-																				index: any
-																			) => {
-																				return (
-																					<CartCard
-																						key={
-																							index
-																						}
-																						item={
-																							item
-																						}
-																					/>
-																				);
-																			}
-																		)}
+																		{cartItems?.map((item: any, index: any) => {
+																			return (
+																				<CartCard key={index} item={item} />
+																			);
+																		})}
 																	</div>
 																</div>
 															)}
@@ -157,22 +140,18 @@ export default function CartPage(): JSX.Element {
 																		to="/"
 																		className="mybtnsame fontsize16 h-100 w-100 bglightblue colorblue bgyellow border5px border-0 text-uppercase"
 																	>
-																		Continue
-																		Exploring
+																		Continue Exploring
 																	</Link>
 																</div>
 																<div className="col-lg-6 text-center">
 																	<span
 																		onClick={() => {
-																			setfinishStatus1(
-																				true
-																			);
+																			setfinishStatus1(true);
 																			confirmModal();
 																		}}
 																		className="mybtnsame transitionease cursorpointer fontsize16 h-100 w-100 bglightblue colorblue bgyellow border5px border-0 text-uppercase"
 																	>
-																		Clear
-																		Cart
+																		Clear Cart
 																	</span>
 																</div>
 															</div>
@@ -187,8 +166,7 @@ export default function CartPage(): JSX.Element {
 																	<div className="row my-2 mx-2">
 																		<div className="col-12 text-center">
 																			<h2 className="colorblue mb-3">
-																				Cart
-																				Total
+																				Cart Total
 																			</h2>
 																		</div>
 																	</div>
@@ -239,21 +217,16 @@ export default function CartPage(): JSX.Element {
 																				₹&nbsp;
 																				{Math.abs(
 																					parseFloat(
-																						allCartItemsTotalPrice.toFixed(
-																							2
-																						)
+																						allCartItemsTotalPrice.toFixed(2)
 																					) -
 																						parseFloat(
 																							allCartItemsTotalDiscount.toFixed(
 																								2
 																							)
 																						)
-																				).toLocaleString(
-																					undefined,
-																					{
-																						maximumFractionDigits: 2,
-																					}
-																				)}
+																				).toLocaleString(undefined, {
+																					maximumFractionDigits: 2,
+																				})}
 																			</p>
 																		</div>
 																	</div>

@@ -19,10 +19,7 @@ export default function CancRef(): JSX.Element {
 		allowedTags: ["b", "i", "em", "strong", "a", "p", "br"],
 	};
 	const sanitize = (dirty: any, options: any) => ({
-		__html: sanitizeHtml(
-			dirty,
-			(options = { ...defaultOptions, ...options })
-		),
+		__html: sanitizeHtml(dirty, (options = { ...defaultOptions, ...options })),
 	});
 	const SanitizeHTML = ({ html, options }: any) => (
 		<div dangerouslySetInnerHTML={sanitize(html, options)} />

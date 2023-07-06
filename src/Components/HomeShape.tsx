@@ -1,4 +1,8 @@
-export default function HomeShape({ backcolor }: { backcolor: string }): JSX.Element {
+export default function HomeShape({
+	backcolor,
+}: {
+	backcolor: string;
+}): JSX.Element {
 	return (
 		<div className="position-relative">
 			<div className={`homeshape overflow-hidden ${backcolor}`}>

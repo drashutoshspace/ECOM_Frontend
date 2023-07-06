@@ -54,9 +54,7 @@ export default function MyOrderCard({ order }: { order: Order }): JSX.Element {
 				<div className="col-lg-12">
 					<p className="mypara fw-bold colorblue my-2">
 						Coupon Applied:&nbsp;&nbsp;
-						<span className="colorlightblue">
-							{order.applied_coupon}
-						</span>
+						<span className="colorlightblue">{order.applied_coupon}</span>
 					</p>
 				</div>
 			) : (
@@ -68,15 +66,10 @@ export default function MyOrderCard({ order }: { order: Order }): JSX.Element {
 			>
 				<p className="mypara fw-bold colorblue my-2">
 					Shipping Address:&nbsp;&nbsp;
-					<span className="colorlightblue">
-						{order.shipping_address}
-					</span>
+					<span className="colorlightblue">{order.shipping_address}</span>
 				</p>
 			</div>
-			<div
-				className="col-lg-12"
-				style={{ borderTop: "1px solid #00ebc7" }}
-			>
+			<div className="col-lg-12" style={{ borderTop: "1px solid #00ebc7" }}>
 				<p className="mypara fw-bold colorblue my-2">
 					<Link
 						to={`/profile/orderdetail/invoice/${order.model_id}`}

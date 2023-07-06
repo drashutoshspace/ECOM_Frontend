@@ -52,8 +52,8 @@ export default function VerifyEmail(): JSX.Element {
 						</div>
 						<div className="text-center w-100">
 							<p className="colorblue mb-4">
-								Please confirm your e-mail address by clicking
-								on the button below.
+								Please confirm your e-mail address by clicking on the button
+								below.
 							</p>
 						</div>
 						<div className="text-center mt-2">

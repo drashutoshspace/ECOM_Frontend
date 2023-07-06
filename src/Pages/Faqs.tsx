@@ -52,37 +52,24 @@ export default function Faqs(): JSX.Element {
 									<Scrollspy
 										className="list-unstyled sidebar-nav mb-0 py-0"
 										items={[
-											...headingState.map(
-												(value: string) => {
-													return value.replace(
-														" ",
-														""
-													);
-												}
-											),
+											...headingState.map((value: string) => {
+												return value.replace(" ", "");
+											}),
 										]}
 										currentClassName="activefaq"
 									>
-										{headingState.map(
-											(heading: string, index) => {
-												return (
-													<li
-														key={index}
-														className="navbar-item my-2 px-0"
+										{headingState.map((heading: string, index) => {
+											return (
+												<li key={index} className="navbar-item my-2 px-0">
+													<Link
+														to={`/faqs#${heading.replace(" ", "")}`}
+														className="colorblue lightbluehover"
 													>
-														<Link
-															to={`/faqs#${heading.replace(
-																" ",
-																""
-															)}`}
-															className="colorblue lightbluehover"
-														>
-															{heading}
-														</Link>
-													</li>
-												);
-											}
-										)}
+														{heading}
+													</Link>
+												</li>
+											);
+										})}
 									</Scrollspy>
 								</div>
 							</div>
@@ -96,55 +83,47 @@ export default function Faqs(): JSX.Element {
 											>
 												{heading}
 											</h4>
-											{faqDoc.map(
-												(info: any, index: any) => {
-													if (
-														info.heading === heading
-													) {
-														return (
-															<>
-																<div
-																	key={index}
-																	className="accordion mt-4 pt-2"
-																	id={`section${index}`}
-																>
-																	<div className="accordion-item border-0">
-																		<h2
-																			className="accordion-header"
-																			id={`heading${index}`}
+											{faqDoc.map((info: any, index: any) => {
+												if (info.heading === heading) {
+													return (
+														<>
+															<div
+																key={index}
+																className="accordion mt-4 pt-2"
+																id={`section${index}`}
+															>
+																<div className="accordion-item border-0">
+																	<h2
+																		className="accordion-header"
+																		id={`heading${index}`}
+																	>
+																		<button
+																			className="border5px colorlightblue bgcolorgreyish shadow-none accordion-button border-0"
+																			type="button"
+																			data-bs-toggle="collapse"
+																			data-bs-target={`#collapse${index}`}
+																			aria-expanded="true"
+																			aria-controls={`collapse${index}`}
 																		>
-																			<button
-																				className="border5px colorlightblue bgcolorgreyish shadow-none accordion-button border-0"
-																				type="button"
-																				data-bs-toggle="collapse"
-																				data-bs-target={`#collapse${index}`}
-																				aria-expanded="true"
-																				aria-controls={`collapse${index}`}
-																			>
-																				{
-																					info.question
-																				}
-																			</button>
-																		</h2>
-																		<div
-																			id={`collapse${index}`}
-																			className="accordion-collapse border-0 collapse show"
-																			aria-labelledby={`heading${index}`}
-																			data-bs-parent={`#section${index}`}
-																		>
-																			<div className="accordion-body">
-																				{
-																					info.answer
-																				}
-																			</div>
+																			{info.question}
+																		</button>
+																	</h2>
+																	<div
+																		id={`collapse${index}`}
+																		className="accordion-collapse border-0 collapse show"
+																		aria-labelledby={`heading${index}`}
+																		data-bs-parent={`#section${index}`}
+																	>
+																		<div className="accordion-body">
+																			{info.answer}
 																		</div>
 																	</div>
 																</div>
-															</>
-														);
-													}
+															</div>
+														</>
+													);
 												}
-											)}
+											})}
 										</div>
 									);
 								})}

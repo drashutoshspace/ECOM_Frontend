@@ -71,16 +71,12 @@ export default function AboutUs(): JSX.Element {
 										data-aos-duration="1000"
 										data-aos-once="true"
 									>
-										<h1 className="mb-4">
-											Welcome to MeeMo Kidz!
-										</h1>
+										<h1 className="mb-4">Welcome to MeeMo Kidz!</h1>
 										<p className="mb-2"></p>
 										<p className="mb-2">
-											We have strict{" "}
-											<b>quality control</b> measures in
-											place. For us, your{" "}
-											<b>satisfaction and happiness</b> is
-											utmost important.
+											We have strict <b>quality control</b> measures in place.
+											For us, your <b>satisfaction and happiness</b> is utmost
+											important.
 										</p>
 										<div className="mt-4 d-flex justify-content-center">
 											<Link
@@ -177,10 +173,7 @@ export default function AboutUs(): JSX.Element {
 				>
 					<TestimonialsList />
 				</VisibilitySensor>
-				<section
-					className="overflow-hidden"
-					style={{ marginBottom: "75px" }}
-				>
+				<section className="overflow-hidden" style={{ marginBottom: "75px" }}>
 					<div className="container">
 						<div className="row mx-3 mb-4 mx-lg-0">
 							<div
@@ -206,19 +199,9 @@ export default function AboutUs(): JSX.Element {
 															setCountUpNum1(30);
 														}}
 													>
-														{({
-															countUpRef,
-															start,
-														}) => (
-															<VisibilitySensor
-																onChange={start}
-																delayedCall
-															>
-																<span
-																	ref={
-																		countUpRef
-																	}
-																/>
+														{({ countUpRef, start }) => (
+															<VisibilitySensor onChange={start} delayedCall>
+																<span ref={countUpRef} />
 															</VisibilitySensor>
 														)}
 													</CountUp>
@@ -252,33 +235,19 @@ export default function AboutUs(): JSX.Element {
 														end={3000}
 														start={countUpNum2}
 														onEnd={() => {
-															setCountUpNum2(
-																3000
-															);
+															setCountUpNum2(3000);
 														}}
 													>
-														{({
-															countUpRef,
-															start,
-														}) => (
-															<VisibilitySensor
-																onChange={start}
-																delayedCall
-															>
-																<span
-																	ref={
-																		countUpRef
-																	}
-																/>
+														{({ countUpRef, start }) => (
+															<VisibilitySensor onChange={start} delayedCall>
+																<span ref={countUpRef} />
 															</VisibilitySensor>
 														)}
 													</CountUp>
 												</span>
 												&nbsp;+
 											</h2>
-											<h5 className="mb-0 mt-2 coloryellow">
-												HAPPY CUSTOMERS
-											</h5>
+											<h5 className="mb-0 mt-2 coloryellow">HAPPY CUSTOMERS</h5>
 										</div>
 									</div>
 								</div>
@@ -306,19 +275,9 @@ export default function AboutUs(): JSX.Element {
 															setCountUpNum3(100);
 														}}
 													>
-														{({
-															countUpRef,
-															start,
-														}) => (
-															<VisibilitySensor
-																onChange={start}
-																delayedCall
-															>
-																<span
-																	ref={
-																		countUpRef
-																	}
-																/>
+														{({ countUpRef, start }) => (
+															<VisibilitySensor onChange={start} delayedCall>
+																<span ref={countUpRef} />
 															</VisibilitySensor>
 														)}
 													</CountUp>
@@ -347,9 +306,7 @@ export default function AboutUs(): JSX.Element {
 										data-aos-duration="1000"
 										data-aos-once="true"
 									>
-										<h2 className="title colorblue">
-											Our Team
-										</h2>
+										<h2 className="title colorblue">Our Team</h2>
 									</div>
 								</div>
 							</div>
@@ -357,54 +314,45 @@ export default function AboutUs(): JSX.Element {
 							<div className="row mt-2">
 								<div className="col-lg-12">
 									<div className="row">
-										{ourTeam.map(
-											(member: any, index: any) => {
-												return (
-													<div
-														key={index}
-														className="col-lg-3 mb-5 px-4"
-														data-aos="flip-left"
+										{ourTeam.map((member: any, index: any) => {
+											return (
+												<div
+													key={index}
+													className="col-lg-3 mb-5 px-4"
+													data-aos="flip-left"
+													data-aos-duration="1000"
+													data-aos-once="true"
+												>
+													<img
+														src={member.dp || tempImg}
+														className="w-100 border5px shadow"
+														width="250px"
+														height="250px"
+														alt="Team_Member_Image"
+														data-aos="flip-up"
 														data-aos-duration="1000"
 														data-aos-once="true"
-													>
-														<img
-															src={
-																member.dp ||
-																tempImg
-															}
-															className="w-100 border5px shadow"
-															width="250px"
-															height="250px"
-															alt="Team_Member_Image"
-															data-aos="flip-up"
-															data-aos-duration="1000"
-															data-aos-once="true"
-															data-aos-delay={`${index}00`}
-														/>
-														<div className="text-center shadow bgcolorwhite border5px py-2 mt-3">
-															<div className="row my-1">
-																<div className="col">
-																	<h5 className="mb-0 colorblue">
-																		{
-																			member.name
-																		}
-																	</h5>
-																</div>
+														data-aos-delay={`${index}00`}
+													/>
+													<div className="text-center shadow bgcolorwhite border5px py-2 mt-3">
+														<div className="row my-1">
+															<div className="col">
+																<h5 className="mb-0 colorblue">
+																	{member.name}
+																</h5>
 															</div>
-															<div className="row my-1">
-																<div className="col">
-																	<p className="mb-0 fontsize14 colorlightblue">
-																		{
-																			member.role
-																		}
-																	</p>
-																</div>
+														</div>
+														<div className="row my-1">
+															<div className="col">
+																<p className="mb-0 fontsize14 colorlightblue">
+																	{member.role}
+																</p>
 															</div>
 														</div>
 													</div>
-												);
-											}
-										)}
+												</div>
+											);
+										})}
 									</div>
 								</div>
 							</div>

@@ -70,8 +70,7 @@ export default function Policies(): JSX.Element {
 														to="/cancellationandrefunds"
 														className="lightbluehover fontsize14 text-uppercase colorblue"
 													>
-														Cancellation &amp;
-														Refunds
+														Cancellation &amp; Refunds
 													</Link>
 												</div>
 											</div>
@@ -115,8 +114,7 @@ export default function Policies(): JSX.Element {
 														to="/cancellationandrefunds"
 														className="lightbluehover fontsize14 text-uppercase colorblue"
 													>
-														Cancellation &amp;
-														Refunds
+														Cancellation &amp; Refunds
 													</Link>
 												</div>
 											</div>

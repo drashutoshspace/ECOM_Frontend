@@ -66,12 +66,9 @@ export default function Feedback(): JSX.Element {
 								<div className="card mx-2 bgcolorgreyish border-0 border5px p-4">
 									<div className="card-body p-0">
 										<p className="text-center mb-0 colorblue fontsize16 pt-0 p-3">
-											Thank you for visiting MeeMo Kidz!
-											Please share your experience with
-											us, it will help us grow.{" "}
-											<b className="colorlightblue">
-												Keep Exploring!
-											</b>
+											Thank you for visiting MeeMo Kidz! Please share your
+											experience with us, it will help us grow.{" "}
+											<b className="colorlightblue">Keep Exploring!</b>
 										</p>
 										<p className="text-center mb-0 colorblue fontsize16 mb-3">
 											- Team MeeMo Kidz
@@ -86,10 +83,7 @@ export default function Feedback(): JSX.Element {
 															placeholder="Name"
 															value={name}
 															onChange={(e) => {
-																setName(
-																	e.target
-																		.value
-																);
+																setName(e.target.value);
 															}}
 															required
 														/>
@@ -109,10 +103,7 @@ export default function Feedback(): JSX.Element {
 															placeholder="Email"
 															value={email}
 															onChange={(e) => {
-																setEmail(
-																	e.target
-																		.value
-																);
+																setEmail(e.target.value);
 															}}
 															required
 														/>
@@ -135,10 +126,7 @@ export default function Feedback(): JSX.Element {
 															placeholder="Your message"
 															value={message}
 															onChange={(e) => {
-																setMessage(
-																	e.target
-																		.value
-																);
+																setMessage(e.target.value);
 															}}
 															required
 														/>
@@ -152,17 +140,9 @@ export default function Feedback(): JSX.Element {
 															onClick={(e) => {
 																feedback(e);
 															}}
-															disabled={
-																dataLoading
-																	? true
-																	: false
-															}
+															disabled={dataLoading ? true : false}
 														>
-															{dataLoading ? (
-																<DataLoader2 />
-															) : (
-																"Submit"
-															)}
+															{dataLoading ? <DataLoader2 /> : "Submit"}
 														</button>
 													</div>
 												</div>

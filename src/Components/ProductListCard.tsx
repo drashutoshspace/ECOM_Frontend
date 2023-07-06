@@ -35,17 +35,12 @@ export default function ProductListCard({
 			data-aos-once={location === "home" ? "true" : ""}
 		>
 			<div className="card mycard border-0 shadow hovergoup">
-				<Link
-					className="text-center"
-					to={`/shop/products/${product?.guid}`}
-				>
+				<Link className="text-center" to={`/shop/products/${product?.guid}`}>
 					<img
 						// className="w-75"
 						height="235px"
 						alt="Product_Image"
-						src={`${
-							product?.Product_Images?.[0]?.dbImage || tempImg
-						}`}
+						src={`${product?.Product_Images?.[0]?.dbImage || tempImg}`}
 					/>
 				</Link>
 				<span
@@ -97,10 +92,7 @@ export default function ProductListCard({
 								<div className="col ms-3 d-flex justify-content-center align-items-center">
 									<button
 										className="h-75 w-75 colorblue border-0 border5px bgyellow bglightblue"
-										onClick={() =>
-											plusMinus > 1 &&
-											setPlusMinus(plusMinus - 1)
-										}
+										onClick={() => plusMinus > 1 && setPlusMinus(plusMinus - 1)}
 									>
 										<i className="fas fa-minus" />
 									</button>
@@ -108,28 +100,20 @@ export default function ProductListCard({
 										className="bgcolorgreyish text-center colorblue h-75 w-75 border-0 border5px mx-2"
 										type="number"
 										value={plusMinus}
-										onChange={(
-											e: React.ChangeEvent<HTMLInputElement>
-										) => {
-											setPlusMinus(
-												e.target.valueAsNumber
-											);
+										onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+											setPlusMinus(e.target.valueAsNumber);
 										}}
 									/>
 									<button
 										className="h-75 w-75 colorblue border-0 border5px bgyellow bglightblue"
-										onClick={() =>
-											setPlusMinus(plusMinus + 1)
-										}
+										onClick={() => setPlusMinus(plusMinus + 1)}
 									>
 										<i className="fas fa-plus" />
 									</button>
 								</div>
 								<div className="col me-3 d-flex align-items-center">
 									<AddToCartButtonForCard
-										isAuthenticated={
-											userId !== -1 ? true : false
-										}
+										isAuthenticated={userId !== -1 ? true : false}
 										animateButton={animateButton}
 										plusMinus={plusMinus}
 										setAnimateButton={setAnimateButton}

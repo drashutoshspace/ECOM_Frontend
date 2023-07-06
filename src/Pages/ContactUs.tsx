@@ -30,21 +30,19 @@ export default function ContactUs(): JSX.Element {
 		setLoading(true);
 		e.preventDefault();
 		if (email.includes("@")) {
-			await contactUs({ name, email, subject, message }).then(
-				(data: any) => {
-					if (data?.error) {
-						setLoading(false);
-						return toast.error(data.error);
-					} else {
-						setName("");
-						setEmail("");
-						setSubject("");
-						setMessage("");
-						setLoading(false);
-						return toast.success("Form submitted!");
-					}
+			await contactUs({ name, email, subject, message }).then((data: any) => {
+				if (data?.error) {
+					setLoading(false);
+					return toast.error(data.error);
+				} else {
+					setName("");
+					setEmail("");
+					setSubject("");
+					setMessage("");
+					setLoading(false);
+					return toast.success("Form submitted!");
 				}
-			);
+			});
 		} else {
 			setLoading(false);
 			return toast.error("You have not entered an email.");
@@ -93,10 +91,7 @@ export default function ContactUs(): JSX.Element {
 															placeholder="Name"
 															value={name}
 															onChange={(e) => {
-																setName(
-																	e.target
-																		.value
-																);
+																setName(e.target.value);
 															}}
 															required
 														/>
@@ -116,10 +111,7 @@ export default function ContactUs(): JSX.Element {
 															placeholder="Email"
 															value={email}
 															onChange={(e) => {
-																setEmail(
-																	e.target
-																		.value
-																);
+																setEmail(e.target.value);
 															}}
 															required
 														/>
@@ -139,10 +131,7 @@ export default function ContactUs(): JSX.Element {
 															placeholder="Subject"
 															value={subject}
 															onChange={(e) => {
-																setSubject(
-																	e.target
-																		.value
-																);
+																setSubject(e.target.value);
 															}}
 															required
 														/>
@@ -165,10 +154,7 @@ export default function ContactUs(): JSX.Element {
 															placeholder="Comments"
 															value={message}
 															onChange={(e) => {
-																setMessage(
-																	e.target
-																		.value
-																);
+																setMessage(e.target.value);
 															}}
 															required
 														/>
@@ -183,11 +169,7 @@ export default function ContactUs(): JSX.Element {
 																contact(e);
 															}}
 														>
-															{loading ? (
-																<DataLoader2 />
-															) : (
-																"Send Message"
-															)}
+															{loading ? <DataLoader2 /> : "Send Message"}
 														</button>
 													</div>
 												</div>
@@ -241,8 +223,7 @@ export default function ContactUs(): JSX.Element {
 									</a>
 									<div className="mt-3">
 										<p className="colorblue mb-2">
-											You can send us an email on this
-											email.
+											You can send us an email on this email.
 										</p>
 										<div className="mt-4">
 											<a
@@ -270,8 +251,7 @@ export default function ContactUs(): JSX.Element {
 									</a>
 									<div className="mt-3">
 										<p className="colorblue mb-2">
-											You can come and vist us at this
-											address.
+											You can come and vist us at this address.
 										</p>
 										<a
 											href="https://www.facebook.com/profile.php?id=100086897816897"

@@ -221,8 +221,7 @@ export function AddToCartButtonForProductSingle({
 							quantity: plusMinus,
 							Product_MRP: product?.Product_MRP!,
 							Product_Name: product?.Product_Name!,
-							Product_SellingPrice:
-								product?.Product_SellingPrice!,
+							Product_SellingPrice: product?.Product_SellingPrice!,
 							Product_Images: product?.Product_Images!,
 						})
 					);

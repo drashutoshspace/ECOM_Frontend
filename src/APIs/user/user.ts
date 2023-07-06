@@ -34,11 +34,7 @@ export async function signIn(data: {
 
 export async function signOut(next: (data: any) => void): Promise<any> {
 	if (typeof window !== undefined) {
-		const data = await postWithAuthorization(
-			Logout_API,
-			undefined,
-			"logout"
-		);
+		const data = await postWithAuthorization(Logout_API, undefined, "logout");
 		localStorage.removeItem("token");
 		next(data);
 	}
@@ -52,11 +48,7 @@ export async function emailChange(data: {
 }
 
 export async function verifyEmailInSignUp(data: { key: string }): Promise<any> {
-	return await postWithoutAuthorization(
-		EmailVerify_API,
-		data,
-		"verify email"
-	);
+	return await postWithoutAuthorization(EmailVerify_API, data, "verify email");
 }
 
 export async function userOrders(): Promise<any> {

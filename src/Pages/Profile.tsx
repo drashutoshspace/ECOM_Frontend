@@ -171,10 +171,7 @@ export default function Profile(): JSX.Element {
 													className="custom-file-upload fas"
 												>
 													<div className="img-wrap img-upload">
-														<img
-															src={originalImage}
-															alt="Profile_Pic"
-														/>
+														<img src={originalImage} alt="Profile_Pic" />
 													</div>
 													<input
 														className="d-none"
@@ -189,29 +186,20 @@ export default function Profile(): JSX.Element {
 													<div className="mt-3 mt-lg-0 text-center">
 														<h4 className="colorblue mb-2">
 															{`${
-																profile.first_name !==
-																	"" ||
-																profile.last_name !==
-																	""
-																	? profile.first_name +
-																	  " " +
-																	  profile.last_name
+																profile.first_name !== "" ||
+																profile.last_name !== ""
+																	? profile.first_name + " " + profile.last_name
 																	: profile.username
 															}`}
 														</h4>
 														<p className="colorlightblue mb-1">
-															{profile.email ||
-																"No Email Entered!"}
+															{profile.email || "No Email Entered!"}
 														</p>
 														{imageChanged && (
 															<button
 																className="mybtnsame mt-2 fontsize14 bglightblue colorblue bgyellow border5px border-0 text-uppercase"
-																onClick={(
-																	e
-																) => {
-																	handleProfileUpdate(
-																		e
-																	);
+																onClick={(e) => {
+																	handleProfileUpdate(e);
 																}}
 															>
 																Save
@@ -234,14 +222,10 @@ export default function Profile(): JSX.Element {
 										id="pills-tab"
 										role="tablist"
 									>
-										<li
-											className="nav-item"
-											role="presentation"
-										>
+										<li className="nav-item" role="presentation">
 											<button
 												className={`nav-link fontsize14 p-0 py-2 lightbluehover colorblue bgcolorwhite text-uppercase ${
-													option === "account" &&
-													"active"
+													option === "account" && "active"
 												}`}
 												id="pills-account-tab"
 												data-bs-toggle="pill"
@@ -250,30 +234,21 @@ export default function Profile(): JSX.Element {
 												role="tab"
 												aria-controls="pills-account"
 												aria-selected={`${
-													option === "account"
-														? "true"
-														: "false"
+													option === "account" ? "true" : "false"
 												}`}
 												onClick={() => {
-													navigate(
-														"/profile/account"
-													);
+													navigate("/profile/account");
 												}}
 											>
 												<i className="fas fa-user" />
 												&nbsp;&nbsp;Account
 											</button>
 										</li>
-										<li
-											className="nav-item"
-											role="presentation"
-										>
+										<li className="nav-item" role="presentation">
 											<button
 												className={`nav-link fontsize14 p-0 py-2 lightbluehover colorblue bgcolorwhite text-uppercase ${
 													(option === "myorders" ||
-														location.pathname.includes(
-															"orderdetail"
-														)) &&
+														location.pathname.includes("orderdetail")) &&
 													"active"
 												}`}
 												id="pills-myorders-tab"
@@ -283,29 +258,20 @@ export default function Profile(): JSX.Element {
 												role="tab"
 												aria-controls="pills-myorders"
 												aria-selected={`${
-													option === "myorders"
-														? "true"
-														: "false"
+													option === "myorders" ? "true" : "false"
 												}`}
 												onClick={() => {
-													navigate(
-														"/profile/myorders"
-													);
+													navigate("/profile/myorders");
 												}}
 											>
 												<i className="fas fa-shopping-cart" />
 												&nbsp;&nbsp;My Orders
 											</button>
 										</li>
-										<li
-											className="nav-item d-none"
-											role="presentation"
-										>
+										<li className="nav-item d-none" role="presentation">
 											<button
 												className={`nav-link fontsize14 p-0 py-2 lightbluehover colorblue bgcolorwhite text-uppercase ${
-													location.pathname.includes(
-														"orderdetail"
-													) && "active"
+													location.pathname.includes("orderdetail") && "active"
 												}`}
 												id="pills-orderdetail-tab"
 												data-bs-toggle="pill"
@@ -314,31 +280,22 @@ export default function Profile(): JSX.Element {
 												role="tab"
 												aria-controls="pills-orderdetail"
 												aria-selected={`${
-													location.pathname.includes(
-														"orderdetail"
-													)
+													location.pathname.includes("orderdetail")
 														? "true"
 														: "false"
 												}`}
 												onClick={() => {
-													navigate(
-														"/profile/orderdetail"
-													);
+													navigate("/profile/orderdetail");
 												}}
 											>
 												<i className="fas fa-shopping-cart" />
 												&nbsp;&nbsp;My Orders
 											</button>
 										</li>
-										<li
-											className="nav-item"
-											role="presentation"
-										>
+										<li className="nav-item" role="presentation">
 											<button
 												className={`nav-link fontsize14 p-0 py-2 lightbluehover colorblue bgcolorwhite text-uppercase ${
-													option ===
-														"productwishlist" &&
-													"active"
+													option === "productwishlist" && "active"
 												}`}
 												id="pills-productwishlist-tab"
 												data-bs-toggle="pill"
@@ -347,16 +304,12 @@ export default function Profile(): JSX.Element {
 												role="tab"
 												aria-controls="pills-productwishlist"
 												aria-selected={`${
-													location.pathname.includes(
-														"productwishlist"
-													)
+													location.pathname.includes("productwishlist")
 														? "true"
 														: "false"
 												}`}
 												onClick={() => {
-													navigate(
-														"/profile/productwishlist"
-													);
+													navigate("/profile/productwishlist");
 												}}
 											>
 												<i className="fas fa-box-heart" />
@@ -403,15 +356,10 @@ export default function Profile(): JSX.Element {
 										</li> */}
 										{!profile.is_social && (
 											<>
-												<li
-													className="nav-item"
-													role="presentation"
-												>
+												<li className="nav-item" role="presentation">
 													<button
 														className={`nav-link fontsize14 p-0 py-2 lightbluehover colorblue bgcolorwhite text-uppercase ${
-															option ===
-																"changepassword" &&
-															"active"
+															option === "changepassword" && "active"
 														}`}
 														id="pills-changepassword-tab"
 														data-bs-toggle="pill"
@@ -420,31 +368,20 @@ export default function Profile(): JSX.Element {
 														role="tab"
 														aria-controls="pills-changepassword"
 														aria-selected={`${
-															option ===
-															"changepassword"
-																? "true"
-																: "false"
+															option === "changepassword" ? "true" : "false"
 														}`}
 														onClick={() => {
-															navigate(
-																"/profile/changepassword"
-															);
+															navigate("/profile/changepassword");
 														}}
 													>
 														<i className="fas fa-lock" />
-														&nbsp;&nbsp;Change
-														Password
+														&nbsp;&nbsp;Change Password
 													</button>
 												</li>
-												<li
-													className="nav-item"
-													role="presentation"
-												>
+												<li className="nav-item" role="presentation">
 													<button
 														className={`nav-link fontsize14 p-0 py-2 lightbluehover colorblue bgcolorwhite text-uppercase ${
-															option ===
-																"changeemail" &&
-															"active"
+															option === "changeemail" && "active"
 														}`}
 														id="pills-changeemail-tab"
 														data-bs-toggle="pill"
@@ -453,15 +390,10 @@ export default function Profile(): JSX.Element {
 														role="tab"
 														aria-controls="pills-changeemail"
 														aria-selected={`${
-															option ===
-															"changeemail"
-																? "true"
-																: "false"
+															option === "changeemail" ? "true" : "false"
 														}`}
 														onClick={() => {
-															navigate(
-																"/profile/changeemail"
-															);
+															navigate("/profile/changeemail");
 														}}
 													>
 														<i className="fas fa-envelope" />
@@ -474,14 +406,10 @@ export default function Profile(): JSX.Element {
 								</div>
 							</div>
 							<div className="col-lg-8 px-lg-3 px-0 col-12 mt-5 mt-lg-0">
-								<div
-									className="tab-content"
-									id="pills-tabContent"
-								>
+								<div className="tab-content" id="pills-tabContent">
 									<div
 										className={`tab-pane fade text-center bgcolorgreyish border5px p-3 ${
-											option === "account" &&
-											"show active"
+											option === "account" && "show active"
 										}`}
 										id="pills-account"
 										role="tabpanel"
@@ -494,19 +422,14 @@ export default function Profile(): JSX.Element {
 														Username
 													</h5>
 													<input
-														value={
-															profile?.username ||
-															""
-														}
+														value={profile?.username || ""}
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														type="text"
 														placeholder="Username"
 														onChange={(e) => {
 															setProfile({
 																...profile,
-																username:
-																	e.target
-																		.value,
+																username: e.target.value,
 															});
 														}}
 													/>
@@ -518,19 +441,14 @@ export default function Profile(): JSX.Element {
 														First Name
 													</h5>
 													<input
-														value={
-															profile?.first_name ||
-															""
-														}
+														value={profile?.first_name || ""}
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														type="text"
 														placeholder="First Name"
 														onChange={(e) => {
 															setProfile({
 																...profile,
-																first_name:
-																	e.target
-																		.value,
+																first_name: e.target.value,
 															});
 														}}
 													/>
@@ -540,19 +458,14 @@ export default function Profile(): JSX.Element {
 														Last Name
 													</h5>
 													<input
-														value={
-															profile?.last_name ||
-															""
-														}
+														value={profile?.last_name || ""}
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														type="text"
 														placeholder="Last Name"
 														onChange={(e) => {
 															setProfile({
 																...profile,
-																last_name:
-																	e.target
-																		.value,
+																last_name: e.target.value,
 															});
 														}}
 													/>
@@ -564,16 +477,13 @@ export default function Profile(): JSX.Element {
 														Date Of Birth
 													</h5>
 													<input
-														value={
-															profile?.dob || ""
-														}
+														value={profile?.dob || ""}
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														type="date"
 														onChange={(e) => {
 															setProfile({
 																...profile,
-																dob: e.target
-																	.value,
+																dob: e.target.value,
 															});
 														}}
 													/>
@@ -583,35 +493,23 @@ export default function Profile(): JSX.Element {
 														Gender
 													</h5>
 													<select
-														value={
-															profile?.gender ||
-															""
-														}
+														value={profile?.gender || ""}
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														placeholder="Gender"
 														onChange={(e) => {
 															setProfile({
 																...profile,
-																gender: e.target
-																	.value,
+																gender: e.target.value,
 															});
 														}}
 													>
 														<option value="Prefer Not To Say">
 															Prefer Not To Say
 														</option>
-														<option value="Male">
-															Male
-														</option>
-														<option value="Female">
-															Female
-														</option>
-														<option value="Non-Binary">
-															Non-Binary
-														</option>
-														<option value="Other">
-															Other
-														</option>
+														<option value="Male">Male</option>
+														<option value="Female">Female</option>
+														<option value="Non-Binary">Non-Binary</option>
+														<option value="Other">Other</option>
 													</select>
 												</div>
 											</div>
@@ -625,48 +523,22 @@ export default function Profile(): JSX.Element {
 															id="countryCodes"
 															name="countryCodes"
 															value={countryCode}
-															onChange={(e) =>
-																setCountryCode(
-																	e.target
-																		.value
-																)
-															}
+															onChange={(e) => setCountryCode(e.target.value)}
 															className="countryCode"
 														>
 															{[
 																...new Set(
-																	Object.values(
-																		countries
-																	)
+																	Object.values(countries)
 																		.sort(
-																			(
-																				a: any,
-																				b: any
-																			) =>
-																				a.phone.split(
-																					","
-																				)[0] -
-																				b.phone.split(
-																					","
-																				)[0]
+																			(a: any, b: any) =>
+																				a.phone.split(",")[0] -
+																				b.phone.split(",")[0]
 																		)
-																		.map(
-																			(
-																				item
-																			) =>
-																				item.phone.split(
-																					","
-																				)[0]
-																		)
+																		.map((item) => item.phone.split(",")[0])
 																),
 															].map((data) => {
 																return (
-																	<option
-																		key={
-																			data
-																		}
-																		value={`+${data}`}
-																	>
+																	<option key={data} value={`+${data}`}>
 																		+{data}
 																	</option>
 																);
@@ -676,17 +548,12 @@ export default function Profile(): JSX.Element {
 															type="text"
 															name="mobile"
 															id="mobile"
-															value={
-																profile?.mobile ||
-																""
-															}
+															value={profile?.mobile?.slice(4) || ""}
 															placeholder="Mobile Number"
 															onChange={(e) => {
 																setProfile({
 																	...profile,
-																	mobile: e
-																		.target
-																		.value,
+																	mobile: e.target.value,
 																});
 															}}
 															className="input100 minusML w-100 -ml-3 shadow-none border5px pe-5 border-0 colorblue"
@@ -701,8 +568,7 @@ export default function Profile(): JSX.Element {
 													</h5>
 													<input
 														value={
-															profile?.address_line_1 ===
-															" "
+															profile?.address_line_1 === " "
 																? ""
 																: profile?.address_line_1
 														}
@@ -712,9 +578,7 @@ export default function Profile(): JSX.Element {
 														onChange={(e) => {
 															setProfile({
 																...profile,
-																address_line_1:
-																	e.target
-																		.value,
+																address_line_1: e.target.value,
 															});
 														}}
 													/>
@@ -726,19 +590,14 @@ export default function Profile(): JSX.Element {
 														Pincode
 													</h5>
 													<input
-														value={
-															profile?.pin_code ||
-															""
-														}
+														value={profile?.pin_code || ""}
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														type="number"
 														placeholder="Pincode"
 														onChange={(e) => {
 															setProfile({
 																...profile,
-																pin_code:
-																	e.target
-																		.value,
+																pin_code: e.target.value,
 															});
 														}}
 													/>
@@ -748,20 +607,14 @@ export default function Profile(): JSX.Element {
 														City
 													</h5>
 													<input
-														value={
-															profile?.city ===
-															" "
-																? ""
-																: profile?.city
-														}
+														value={profile?.city === " " ? "" : profile?.city}
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														type="text"
 														placeholder="Town / City"
 														onChange={(e) => {
 															setProfile({
 																...profile,
-																city: e.target
-																	.value,
+																city: e.target.value,
 															});
 														}}
 													/>
@@ -773,20 +626,14 @@ export default function Profile(): JSX.Element {
 														State
 													</h5>
 													<input
-														value={
-															profile?.state ===
-															" "
-																? ""
-																: profile?.state
-														}
+														value={profile?.state === " " ? "" : profile?.state}
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														type="text"
 														placeholder="State"
 														onChange={(e) => {
 															setProfile({
 																...profile,
-																state: e.target
-																	.value,
+																state: e.target.value,
 															});
 														}}
 													/>
@@ -797,10 +644,7 @@ export default function Profile(): JSX.Element {
 													</h5>
 													<input
 														value={
-															profile?.country ===
-															" "
-																? ""
-																: profile?.country
+															profile?.country === " " ? "" : profile?.country
 														}
 														className="input100 w-100 border5px ps-3 border-0 colorblue"
 														type="text"
@@ -808,9 +652,7 @@ export default function Profile(): JSX.Element {
 														onChange={(e) => {
 															setProfile({
 																...profile,
-																country:
-																	e.target
-																		.value,
+																country: e.target.value,
 															});
 														}}
 													/>
@@ -828,18 +670,13 @@ export default function Profile(): JSX.Element {
 									</div>
 									<div
 										className={`tab-pane fade text-center bgcolorgreyish border5px p-4 ${
-											option === "myorders" &&
-											"show active"
+											option === "myorders" && "show active"
 										}`}
 										id="pills-myorders"
 										role="tabpanel"
 										aria-labelledby="pills-myorders-tab"
-										onMouseEnter={() =>
-											setChangeImage4(!changeImage4)
-										}
-										onMouseLeave={() =>
-											setChangeImage4(!changeImage4)
-										}
+										onMouseEnter={() => setChangeImage4(!changeImage4)}
+										onMouseLeave={() => setChangeImage4(!changeImage4)}
 									>
 										{myOrders?.length === 0 ? (
 											<div className="row pt-5">
@@ -855,35 +692,21 @@ export default function Profile(): JSX.Element {
 														alt="No_Products_Bought"
 													/>
 													<h3 className="mt-4 pt-3 text-center colorblue">
-														Looks like you haven't
-														ordered anything, until
-														now!
+														Looks like you haven't ordered anything, until now!
 													</h3>
 												</div>
 											</div>
 										) : (
 											<>
-												{myOrders.map(
-													(
-														order: Order,
-														index: number
-													) => {
-														return (
-															<MyOrderCard
-																key={index}
-																order={order}
-															/>
-														);
-													}
-												)}
+												{myOrders.map((order: Order, index: number) => {
+													return <MyOrderCard key={index} order={order} />;
+												})}
 											</>
 										)}
 									</div>
 									<div
 										className={`tab-pane fade text-center bgcolorgreyish border5px p-3 ${
-											location.pathname.includes(
-												"orderdetail"
-											) && "show active"
+											location.pathname.includes("orderdetail") && "show active"
 										}`}
 										id="pills-orderdetail"
 										role="tabpanel"
@@ -893,18 +716,13 @@ export default function Profile(): JSX.Element {
 									</div>
 									<div
 										className={`tab-pane fade text-center bgcolorgreyish border5px p-3 ${
-											option === "productwishlist" &&
-											"show active"
+											option === "productwishlist" && "show active"
 										}`}
 										id="pills-productwishlist"
 										role="tabpanel"
 										aria-labelledby="pills-productwishlist-tab"
-										onMouseEnter={() =>
-											setChangeImage1(!changeImage1)
-										}
-										onMouseLeave={() =>
-											setChangeImage1(!changeImage1)
-										}
+										onMouseEnter={() => setChangeImage1(!changeImage1)}
+										onMouseLeave={() => setChangeImage1(!changeImage1)}
 									>
 										{wishlistItems?.length <= 0 ? (
 											<div className="row mt-2">
@@ -932,19 +750,11 @@ export default function Profile(): JSX.Element {
 											</div>
 										) : (
 											<>
-												{wishlistItems?.map(
-													(
-														item: string,
-														index: number
-													) => {
-														return (
-															<ProfileWishlistCard
-																key={index}
-																guid={item}
-															/>
-														);
-													}
-												)}
+												{wishlistItems?.map((item: string, index: number) => {
+													return (
+														<ProfileWishlistCard key={index} guid={item} />
+													);
+												})}
 											</>
 										)}
 									</div>
@@ -1016,8 +826,7 @@ export default function Profile(): JSX.Element {
 									</div> */}
 									<div
 										className={`tab-pane fade text-center bgcolorgreyish border5px p-3 ${
-											option === "changepassword" &&
-											"show active"
+											option === "changepassword" && "show active"
 										}`}
 										id="pills-changepassword"
 										role="tabpanel"
@@ -1029,18 +838,11 @@ export default function Profile(): JSX.Element {
 													<div className="position-relative mb-4">
 														<input
 															className="input100 w-100 border5px border-0 colorblue"
-															type={
-																showOldPassword
-																	? "text"
-																	: "password"
-															}
+															type={showOldPassword ? "text" : "password"}
 															placeholder="Old Password"
 															value={oldPassword}
 															onChange={(e) => {
-																setOldPassword(
-																	e.target
-																		.value
-																);
+																setOldPassword(e.target.value);
 															}}
 															required
 														/>
@@ -1052,9 +854,7 @@ export default function Profile(): JSX.Element {
 														</span>
 														<span
 															onClick={() =>
-																setShowOldPassword(
-																	!showOldPassword
-																)
+																setShowOldPassword(!showOldPassword)
 															}
 															className="symbol-input1000 d-flex align-items-center position-absolute colorblue h-100"
 														>
@@ -1072,18 +872,11 @@ export default function Profile(): JSX.Element {
 													<div className="position-relative mb-4">
 														<input
 															className="input100 w-100 border5px border-0 colorblue"
-															type={
-																showPassword1
-																	? "text"
-																	: "password"
-															}
+															type={showPassword1 ? "text" : "password"}
 															placeholder="New Password"
 															value={password1}
 															onChange={(e) => {
-																setpassword1(
-																	e.target
-																		.value
-																);
+																setpassword1(e.target.value);
 															}}
 															required
 														/>
@@ -1094,11 +887,7 @@ export default function Profile(): JSX.Element {
 															</span>
 														</span>
 														<span
-															onClick={() =>
-																setShowPassword1(
-																	!showPassword1
-																)
-															}
+															onClick={() => setShowPassword1(!showPassword1)}
 															className="symbol-input1000 d-flex align-items-center position-absolute colorblue h-100"
 														>
 															<span>
@@ -1115,18 +904,11 @@ export default function Profile(): JSX.Element {
 													<div className="position-relative mb-4">
 														<input
 															className="input100 w-100 border5px border-0 colorblue"
-															type={
-																showPassword2
-																	? "text"
-																	: "password"
-															}
+															type={showPassword2 ? "text" : "password"}
 															placeholder="Confirm New Password"
 															value={password2}
 															onChange={(e) => {
-																setpassword2(
-																	e.target
-																		.value
-																);
+																setpassword2(e.target.value);
 															}}
 															required
 														/>
@@ -1137,11 +919,7 @@ export default function Profile(): JSX.Element {
 															</span>
 														</span>
 														<span
-															onClick={() =>
-																setShowPassword2(
-																	!showPassword2
-																)
-															}
+															onClick={() => setShowPassword2(!showPassword2)}
 															className="symbol-input1000 d-flex align-items-center position-absolute colorblue h-100"
 														>
 															<span>
@@ -1162,25 +940,13 @@ export default function Profile(): JSX.Element {
 													<div className="d-grid">
 														<button
 															onClick={(e) => {
-																setLoading(
-																	true
-																);
-																changePassword(
-																	e
-																);
+																setLoading(true);
+																changePassword(e);
 															}}
 															className="mybtnsame fontsize16 bglightblue colorblue bgyellow border5px border-0 text-uppercase d-inline-block"
-															disabled={
-																loading
-																	? true
-																	: false
-															}
+															disabled={loading ? true : false}
 														>
-															{loading ? (
-																<DataLoader2 />
-															) : (
-																"Confirm"
-															)}
+															{loading ? <DataLoader2 /> : "Confirm"}
 														</button>
 													</div>
 												</div>
@@ -1189,19 +955,16 @@ export default function Profile(): JSX.Element {
 									</div>
 									<div
 										className={`tab-pane fade text-center bgcolorgreyish border5px p-3 ${
-											option === "changeemail" &&
-											"show active"
+											option === "changeemail" && "show active"
 										}`}
 										id="pills-changeemail"
 										role="tabpanel"
 										aria-labelledby="pills-changeemail-tab"
 									>
 										<p className="colorblue text-center mb-4">
-											Please verify your email before
-											submission. If the wrong email is
-											provided you will not be able to
-											login again. In such an event, you
-											can contact
+											Please verify your email before submission. If the wrong
+											email is provided you will not be able to login again. In
+											such an event, you can contact
 											<a
 												className="fw-bold lightbluehover colorblue"
 												target="_blank"
@@ -1218,9 +981,7 @@ export default function Profile(): JSX.Element {
 													<div className="position-relative mb-4">
 														<input
 															className="input100 w-100 border5px border-0 colorblue"
-															defaultValue={
-																profile?.email
-															}
+															defaultValue={profile?.email}
 															type="email"
 															placeholder="Old Email"
 															required
@@ -1239,10 +1000,7 @@ export default function Profile(): JSX.Element {
 															placeholder="New Email"
 															value={newEmail1.toLowerCase()}
 															onChange={(e) => {
-																setNewEmail1(
-																	e.target
-																		.value
-																);
+																setNewEmail1(e.target.value);
 															}}
 															required
 														/>
@@ -1260,10 +1018,7 @@ export default function Profile(): JSX.Element {
 															placeholder="Confirm New Email"
 															value={newEmail2.toLowerCase()}
 															onChange={(e) => {
-																setNewEmail2(
-																	e.target
-																		.value
-																);
+																setNewEmail2(e.target.value);
 															}}
 															required
 														/>
@@ -1281,23 +1036,13 @@ export default function Profile(): JSX.Element {
 													<div className="d-grid">
 														<button
 															onClick={(e) => {
-																setLoading(
-																	true
-																);
+																setLoading(true);
 																changeEmail(e);
 															}}
 															className="mybtnsame fontsize16 bglightblue colorblue bgyellow border5px border-0 text-uppercase d-inline-block"
-															disabled={
-																loading
-																	? true
-																	: false
-															}
+															disabled={loading ? true : false}
 														>
-															{loading ? (
-																<DataLoader2 />
-															) : (
-																"Confirm"
-															)}
+															{loading ? <DataLoader2 /> : "Confirm"}
 														</button>
 													</div>
 												</div>

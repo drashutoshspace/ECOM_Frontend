@@ -72,10 +72,7 @@ export default function AllProducts(): JSX.Element {
 				<section className="section overflow-hidden">
 					<div className="row">
 						<div className="col-lg-2 text-center">
-							<h2
-								className="mb-3 colorblue"
-								style={{ fontSize: "35px" }}
-							>
+							<h2 className="mb-3 colorblue" style={{ fontSize: "35px" }}>
 								Browse
 							</h2>
 							<ul className="text-lg-left list-unstyled text-center">
@@ -96,67 +93,41 @@ export default function AllProducts(): JSX.Element {
 									</button>
 								</li>
 								{allProductCategories &&
-									allProductCategories.map(
-										(item: any, index: any) => {
-											return (
-												<li key={index}>
-													<button
-														className={`colorblue fontsize16 bgnone border-0 lightbluehover ${
-															category ===
-																item?.category &&
-															"colorlightblue"
-														}`}
-														onClick={() => {
-															setCategory(
-																item?.category
-															);
-															setCurrentPage(0);
-															navigate(
-																`/shop/${item?.category}`
-															);
-														}}
-													>
-														{item?.category}
-													</button>
-												</li>
-											);
-										}
-									)}
+									allProductCategories.map((item: any, index: any) => {
+										return (
+											<li key={index}>
+												<button
+													className={`colorblue fontsize16 bgnone border-0 lightbluehover ${
+														category === item?.category && "colorlightblue"
+													}`}
+													onClick={() => {
+														setCategory(item?.category);
+														setCurrentPage(0);
+														navigate(`/shop/${item?.category}`);
+													}}
+												>
+													{item?.category}
+												</button>
+											</li>
+										);
+									})}
 							</ul>
 						</div>
 						<div className="col-lg-10">
 							<div className="row mx-2 justify-content-center">
 								{allProducts?.length > 0 ? (
 									<>
-										{allProducts?.map(
-											(
-												product: Product,
-												index: number
-											) => {
-												return (
-													<ProductListCard
-														product={product}
-														key={index}
-													/>
-												);
-											}
-										)}
+										{allProducts?.map((product: Product, index: number) => {
+											return <ProductListCard product={product} key={index} />;
+										})}
 										<ReactPaginate
-											previousLabel={
-												<i className="fas fa-arrow-left"></i>
-											}
-											nextLabel={
-												<i className="fas fa-arrow-right"></i>
-											}
+											previousLabel={<i className="fas fa-arrow-left"></i>}
+											nextLabel={<i className="fas fa-arrow-right"></i>}
 											pageCount={pageCount}
 											pageRangeDisplayed={1}
 											marginPagesDisplayed={2}
-											onPageChange={(selectedItem: {
-												selected: number;
-											}) =>
-												setCurrentPage(
-													selectedItem.selected
-												)
+											onPageChange={(selectedItem: { selected: number }) =>
+												setCurrentPage(selectedItem.selected)
 											}
 											containerClassName={
 												"pagination fontsize16 d-flex justify-content-center align-items-center mb-0 pb-0 mt-4 pt-4 p-0"
@@ -170,18 +141,10 @@ export default function AllProducts(): JSX.Element {
 											previousClassName={
 												"bgyellow hovergoup d-flex align-items-center mx-2 fontsize16 h-100 px-2 border5px bglightblue"
 											}
-											previousLinkClassName={
-												"pagination__link colorblue"
-											}
-											nextLinkClassName={
-												"pagination__link colorblue"
-											}
-											disabledClassName={
-												"pagination__link--disabled"
-											}
-											activeClassName={
-												"pagination__link--active lightbluebg"
-											}
+											previousLinkClassName={"pagination__link colorblue"}
+											nextLinkClassName={"pagination__link colorblue"}
+											disabledClassName={"pagination__link--disabled"}
+											activeClassName={"pagination__link--active lightbluebg"}
 										/>
 									</>
 								) : (

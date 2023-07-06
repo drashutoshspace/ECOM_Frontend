@@ -198,9 +198,7 @@ export default function Checkout(): JSX.Element {
 					setCouponDiscount(
 						(data?.discount / 100) *
 							(parseFloat(allCartItemsTotalPrice.toFixed(2)) -
-								parseFloat(
-									allCartItemsTotalDiscount.toFixed(2)
-								))
+								parseFloat(allCartItemsTotalDiscount.toFixed(2)))
 					);
 				}
 				setCouponApplied(true);
@@ -274,9 +272,8 @@ export default function Checkout(): JSX.Element {
 										</h2>
 										<div className="text-center">
 											<p className="colorblue pb-3">
-												If you want to update your
-												billing address click the button
-												below.
+												If you want to update your billing address click the
+												button below.
 											</p>
 											<Link
 												to="/profile/account"
@@ -290,13 +287,11 @@ export default function Checkout(): JSX.Element {
 													type="checkbox"
 													checked={checkBoxState}
 													onChange={() => {
-														setCheckBoxState(
-															!checkBoxState
-														);
+														setCheckBoxState(!checkBoxState);
 													}}
 												/>
-												&nbsp;&nbsp;Is your shipping
-												address same as billing address?
+												&nbsp;&nbsp;Is your shipping address same as billing
+												address?
 											</p>
 										</div>
 									</div>
@@ -315,13 +310,10 @@ export default function Checkout(): JSX.Element {
 													onChange={(e) => {
 														setShippingAddress({
 															...shippingAddress,
-															first_name:
-																e.target.value,
+															first_name: e.target.value,
 														});
 													}}
-													value={
-														shippingAddress?.first_name
-													}
+													value={shippingAddress?.first_name}
 													required
 												/>
 											</div>
@@ -338,13 +330,10 @@ export default function Checkout(): JSX.Element {
 													onChange={(e) => {
 														setShippingAddress({
 															...shippingAddress,
-															last_name:
-																e.target.value,
+															last_name: e.target.value,
 														});
 													}}
-													value={
-														shippingAddress?.last_name
-													}
+													value={shippingAddress?.last_name}
 													required
 												/>
 											</div>
@@ -363,13 +352,11 @@ export default function Checkout(): JSX.Element {
 													onChange={(e) => {
 														setShippingAddress({
 															...shippingAddress,
-															address_line_1:
-																e.target.value,
+															address_line_1: e.target.value,
 														});
 													}}
 													value={
-														shippingAddress?.address_line_1 ===
-														" "
+														shippingAddress?.address_line_1 === " "
 															? ""
 															: shippingAddress?.address_line_1
 													}
@@ -391,13 +378,10 @@ export default function Checkout(): JSX.Element {
 													onChange={(e) => {
 														setShippingAddress({
 															...shippingAddress,
-															pin_code:
-																e.target.value,
+															pin_code: e.target.value,
 														});
 													}}
-													value={
-														shippingAddress?.pin_code
-													}
+													value={shippingAddress?.pin_code}
 													required
 												/>
 											</div>
@@ -416,13 +400,11 @@ export default function Checkout(): JSX.Element {
 													onChange={(e) => {
 														setShippingAddress({
 															...shippingAddress,
-															city: e.target
-																.value,
+															city: e.target.value,
 														});
 													}}
 													value={
-														shippingAddress?.city ===
-														" "
+														shippingAddress?.city === " "
 															? ""
 															: shippingAddress?.city
 													}
@@ -444,13 +426,11 @@ export default function Checkout(): JSX.Element {
 													onChange={(e) => {
 														setShippingAddress({
 															...shippingAddress,
-															state: e.target
-																.value,
+															state: e.target.value,
 														});
 													}}
 													value={
-														shippingAddress?.state ===
-														" "
+														shippingAddress?.state === " "
 															? ""
 															: shippingAddress?.state
 													}
@@ -470,13 +450,11 @@ export default function Checkout(): JSX.Element {
 													onChange={(e) => {
 														setShippingAddress({
 															...shippingAddress,
-															country:
-																e.target.value,
+															country: e.target.value,
 														});
 													}}
 													value={
-														shippingAddress?.country ===
-														" "
+														shippingAddress?.country === " "
 															? ""
 															: shippingAddress?.country
 													}
@@ -496,45 +474,22 @@ export default function Checkout(): JSX.Element {
 														id="countryCodes"
 														name="countryCodes"
 														value={countryCode}
-														onChange={(e) =>
-															setCountryCode(
-																e.target.value
-															)
-														}
+														onChange={(e) => setCountryCode(e.target.value)}
 														className="countryCode"
 													>
 														{[
 															...new Set(
-																Object.values(
-																	countries
-																)
+																Object.values(countries)
 																	.sort(
-																		(
-																			a: any,
-																			b: any
-																		) =>
-																			a.phone.split(
-																				","
-																			)[0] -
-																			b.phone.split(
-																				","
-																			)[0]
+																		(a: any, b: any) =>
+																			a.phone.split(",")[0] -
+																			b.phone.split(",")[0]
 																	)
-																	.map(
-																		(
-																			item
-																		) =>
-																			item.phone.split(
-																				","
-																			)[0]
-																	)
+																	.map((item) => item.phone.split(",")[0])
 															),
 														].map((data) => {
 															return (
-																<option
-																	key={data}
-																	value={`+${data}`}
-																>
+																<option key={data} value={`+${data}`}>
 																	+{data}
 																</option>
 															);
@@ -544,16 +499,12 @@ export default function Checkout(): JSX.Element {
 														type="text"
 														name="mobile"
 														id="mobile"
-														value={
-															shippingAddress?.mobile ||
-															""
-														}
+														value={shippingAddress?.mobile || ""}
 														placeholder="Mobile Number"
 														onChange={(e) => {
 															setShippingAddress({
 																...shippingAddress,
-																mobile: e.target
-																	.value,
+																mobile: e.target.value,
 															});
 														}}
 														className="input100 minusML w-100 -ml-3 shadow-none border5px pe-5 border-0 colorblue"
@@ -593,66 +544,46 @@ export default function Checkout(): JSX.Element {
 										</h2>
 										{cartItems.length > 0 && (
 											<>
-												<h5 className="colorblue mb-2 text-start">
-													Products
-												</h5>
+												<h5 className="colorblue mb-2 text-start">Products</h5>
 												<ul className="list-unstyled colorblue fontsize14">
-													{cartItems.map(
-														(
-															item: cartItem,
-															index: any
-														) => {
-															return (
-																<li
-																	key={index}
-																	className="d-flex justify-content-between"
-																	data-bs-toggle="tooltip"
-																	data-bs-placement="top"
-																	title={
-																		item?.Product_Name
-																	}
+													{cartItems.map((item: cartItem, index: any) => {
+														return (
+															<li
+																key={index}
+																className="d-flex justify-content-between"
+																data-bs-toggle="tooltip"
+																data-bs-placement="top"
+																title={item?.Product_Name}
+															>
+																<Link
+																	to={`/shop/products/${item?.guid}`}
+																	className="colorblue lightbluehover"
 																>
-																	<Link
-																		to={`/shop/products/${item?.guid}`}
-																		className="colorblue lightbluehover"
-																	>
-																		{truncate(
-																			item?.Product_Name,
-																			25
-																		)}
-																	</Link>
-																	x&nbsp;
-																	{
-																		item?.quantity
-																	}
-																	<span>
-																		₹&nbsp;
-																		{item?.Product_SellingPrice.toLocaleString(
-																			undefined,
-																			{
-																				maximumFractionDigits: 2,
-																			}
-																		)}
-																	</span>
-																</li>
-															);
-														}
-													)}
+																	{truncate(item?.Product_Name, 25)}
+																</Link>
+																x&nbsp;
+																{item?.quantity}
+																<span>
+																	₹&nbsp;
+																	{item?.Product_SellingPrice.toLocaleString(
+																		undefined,
+																		{
+																			maximumFractionDigits: 2,
+																		}
+																	)}
+																</span>
+															</li>
+														);
+													})}
 												</ul>
 											</>
 										)}
 										<div className="d-flex py-3 justify-content-between align-items-center bordertopcheckout">
-											<h3 className="mb-0 colorblue">
-												Subtotal
-											</h3>
+											<h3 className="mb-0 colorblue">Subtotal</h3>
 											<p className="mb-0 colorblue">
 												₹{" "}
 												{(
-													parseFloat(
-														allCartItemsTotalPrice.toFixed(
-															2
-														)
-													) -
+													parseFloat(allCartItemsTotalPrice.toFixed(2)) -
 													allCartItemsTotalDiscount
 												).toLocaleString(undefined, {
 													maximumFractionDigits: 2,
@@ -661,24 +592,17 @@ export default function Checkout(): JSX.Element {
 										</div>
 										{couponApplied ? (
 											<div className="py-3 bordertopcheckout">
-												<h3 className="mb-0 colorblue">
-													Discount
-												</h3>
+												<h3 className="mb-0 colorblue">Discount</h3>
 												<div className="d-flex justify-content-between align-items-center">
 													<p className="mt-1 mb-0 colorblue">
-														Coupon Code "{mycoupon}"
-														applied!
+														Coupon Code "{mycoupon}" applied!
 													</p>
 													{couponDiscount > 0 && (
 														<button
 															className="ms-2 colorblue border-0 border5px bgyellow bglightblue"
 															onClick={() => {
-																setCouponDiscount(
-																	0
-																);
-																setCouponApplied(
-																	false
-																);
+																setCouponDiscount(0);
+																setCouponApplied(false);
 															}}
 															style={{
 																width: 25,
@@ -690,43 +614,29 @@ export default function Checkout(): JSX.Element {
 													)}
 													<p className="mb-0 accepted">
 														-&nbsp;&nbsp;&nbsp;₹{" "}
-														{couponDiscount.toLocaleString(
-															undefined,
-															{
-																maximumFractionDigits: 2,
-															}
-														)}
+														{couponDiscount.toLocaleString(undefined, {
+															maximumFractionDigits: 2,
+														})}
 													</p>
 												</div>
 											</div>
 										) : (
 											<div className="d-flex py-3 justify-content-between align-items-center bordertopcheckout">
-												<h3 className="mb-0 colorblue">
-													Discount
-												</h3>
+												<h3 className="mb-0 colorblue">Discount</h3>
 												<p className="mb-0 accepted">
 													-&nbsp;&nbsp;&nbsp;₹{" "}
-													{couponDiscount.toLocaleString(
-														undefined,
-														{
-															maximumFractionDigits: 2,
-														}
-													)}
+													{couponDiscount.toLocaleString(undefined, {
+														maximumFractionDigits: 2,
+													})}
 												</p>
 											</div>
 										)}
 										<div className="d-flex py-3 justify-content-between align-items-center bordertopcheckout">
-											<h3 className="mb-0 colorblue">
-												Total
-											</h3>
+											<h3 className="mb-0 colorblue">Total</h3>
 											<p className="mb-0 colorblue">
 												₹&nbsp;
 												{Math.abs(
-													parseFloat(
-														allCartItemsTotalPrice.toFixed(
-															2
-														)
-													) -
+													parseFloat(allCartItemsTotalPrice.toFixed(2)) -
 														allCartItemsTotalDiscount -
 														couponDiscount
 												).toLocaleString(undefined, {
@@ -747,13 +657,8 @@ export default function Checkout(): JSX.Element {
 																type="text"
 																placeholder="Coupon Code"
 																value={mycoupon}
-																onChange={(
-																	e
-																) => {
-																	setMyCoupon(
-																		e.target
-																			.value
-																	);
+																onChange={(e) => {
+																	setMyCoupon(e.target.value);
 																}}
 																required
 															/>
@@ -761,24 +666,12 @@ export default function Checkout(): JSX.Element {
 														<div className="col-lg-3 col-5">
 															<button
 																className="mybtnsame fontsize16 w-100 h-100 bglightblue colorblue bgyellow border5px border-0 text-uppercase"
-																onClick={(
-																	e
-																) => {
-																	CouponValidity(
-																		e
-																	);
+																onClick={(e) => {
+																	CouponValidity(e);
 																}}
-																disabled={
-																	loading
-																		? true
-																		: false
-																}
+																disabled={loading ? true : false}
 															>
-																{loading ? (
-																	<DataLoader2 />
-																) : (
-																	"Apply"
-																)}
+																{loading ? <DataLoader2 /> : "Apply"}
 															</button>
 														</div>
 													</div>

@@ -138,8 +138,7 @@ function StyledDropzone(props: any) {
 			</p>
 			<p className="m-0 p-2 text-center colorblue">
 				Drop your image or video here, or{" "}
-				<span className="colorlightblue">browse!</span> Please add only
-				1 item.
+				<span className="colorlightblue">browse!</span> Please add only 1 item.
 			</p>
 			<aside
 				style={{
@@ -212,15 +211,10 @@ const RepBug = () => {
 								<div className="card bgcolorgreyish border-0 border5px p-4">
 									<div className="card-body p-0">
 										<p className="text-center mb-0 colorblue fontsize16 pt-0 p-3">
-											To give you the best possible
-											experience, we are constantly
-											evolving and making changes to our
-											site/app. If you find any bug, we
-											will be happy to correct it.
-											<b className="colorlightblue">
-												{" "}
-												Thanks! Keep Shopping!
-											</b>
+											To give you the best possible experience, we are
+											constantly evolving and making changes to our site/app. If
+											you find any bug, we will be happy to correct it.
+											<b className="colorlightblue"> Thanks! Keep Shopping!</b>
 										</p>
 										<p className="text-center mb-0 colorblue fontsize16 mb-3">
 											- Team MeeMo Kidz
@@ -230,14 +224,9 @@ const RepBug = () => {
 												<div className="col-lg-12">
 													<div className="position-relative mb-3">
 														<p className="text-center fontsize16 colorblue mb-4">
-															Describe the bug you
-															saw while you were
-															using our site/app?
-															(Please mention the
-															action you were
-															doing and the
-															location at which
-															you were doing the
+															Describe the bug you saw while you were using our
+															site/app? (Please mention the action you were
+															doing and the location at which you were doing the
 															action.)
 														</p>
 														<textarea
@@ -249,10 +238,7 @@ const RepBug = () => {
 															placeholder="Comments"
 															value={text}
 															onChange={(e) => {
-																setText(
-																	e.target
-																		.value
-																);
+																setText(e.target.value);
 															}}
 															required
 														/>
@@ -261,38 +247,21 @@ const RepBug = () => {
 												<div className="col-lg-12">
 													<div className="position-relative mb-4">
 														<p className="text-center fontsize16 colorblue mb-4">
-															If you can add a
-															screenshot or a
-															screen recording of
-															the bug, we will be
-															able to find it and
-															correct it, swiftly!
+															If you can add a screenshot or a screen recording
+															of the bug, we will be able to find it and correct
+															it, swiftly!
 														</p>
-														<StyledDropzone
-															handleDropImage={
-																handleDropImage
-															}
-														/>
+														<StyledDropzone handleDropImage={handleDropImage} />
 													</div>
 												</div>
 												<div className="col-lg-12">
 													<div className="d-grid">
 														<button
-															disabled={
-																loading
-																	? true
-																	: false
-															}
-															onClick={
-																handleReportBug
-															}
+															disabled={loading ? true : false}
+															onClick={handleReportBug}
 															className="mybtnsame fontsize16 bglightblue colorblue bgyellow border5px border-0 text-uppercase d-inline-block"
 														>
-															{loading ? (
-																<DataLoader2 />
-															) : (
-																"Submit"
-															)}
+															{loading ? <DataLoader2 /> : "Submit"}
 														</button>
 													</div>
 												</div>

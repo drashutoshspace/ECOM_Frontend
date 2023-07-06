@@ -117,9 +117,7 @@ const dataSlice = createSlice({
 			let indexOfProduct = state.cart[state.userProfile.id].findIndex(
 				(item: cartItem) => item.guid === action.payload.guid
 			);
-			if (
-				state.cart[state.userProfile.id][indexOfProduct].quantity === 1
-			) {
+			if (state.cart[state.userProfile.id][indexOfProduct].quantity === 1) {
 				state.cart[state.userProfile.id].splice(
 					state.cart[state.userProfile.id].findIndex(
 						(item: cartItem) => item.guid === action.payload.guid
@@ -156,8 +154,7 @@ const dataSlice = createSlice({
 			}>
 		) {
 			state.wishlist[state.userProfile.id].push(action.payload.guid);
-			state.allWishlistItemsCount =
-				state.wishlist[state.userProfile.id].length;
+			state.allWishlistItemsCount = state.wishlist[state.userProfile.id].length;
 		},
 		removeProductFromWishlist(
 			state,
@@ -171,18 +168,13 @@ const dataSlice = createSlice({
 				),
 				1
 			);
-			state.allWishlistItemsCount =
-				state.wishlist[state.userProfile.id].length;
+			state.allWishlistItemsCount = state.wishlist[state.userProfile.id].length;
 		},
 		clearWishlist(state) {
 			state.wishlist[state.userProfile.id] = [];
-			state.allWishlistItemsCount =
-				state.wishlist[state.userProfile.id].length;
+			state.allWishlistItemsCount = state.wishlist[state.userProfile.id].length;
 		},
-		setAllProductCategories(
-			state,
-			action: PayloadAction<Product_Category[]>
-		) {
+		setAllProductCategories(state, action: PayloadAction<Product_Category[]>) {
 			state.allProductCategories = action.payload;
 		},
 		loginFromRedux(

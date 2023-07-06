@@ -19,9 +19,7 @@ export default function Breadcrumb({
 		>
 			<div className="row breadcrumb__text text-center">
 				<h2
-					className={
-						myowntoggle ? "mb-0 faqs" : "mb-0 text-uppercase"
-					}
+					className={myowntoggle ? "mb-0 faqs" : "mb-0 text-uppercase"}
 					style={{
 						fontSize: isDesktopOrLaptop
 							? "35px"

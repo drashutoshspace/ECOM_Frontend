@@ -8,16 +8,14 @@ export default function Footer(): JSX.Element {
 	const subscribe = async (e: any) => {
 		e.preventDefault();
 		if (email.includes("@")) {
-			await emailSubscription({ email: email.toLowerCase() }).then(
-				(res) => {
-					if (res?.status === 201) {
-						setEmail("");
-						return toast.success("Subscription Added");
-					} else {
-						return toast.error(res.email[0]);
-					}
+			await emailSubscription({ email: email.toLowerCase() }).then((res) => {
+				if (res?.status === 201) {
+					setEmail("");
+					return toast.success("Subscription Added");
+				} else {
+					return toast.error(res.email[0]);
 				}
-			);
+			});
 		} else {
 			return toast.warning("You have not entered an email.");
 		}
@@ -278,8 +276,8 @@ export default function Footer(): JSX.Element {
 				<div className="row pb-2 fontsize14">
 					<div className="col text-center">
 						<p className="m-0 letterspacing1 coloryellow">
-							Copyright © 2023 <b>MeeMo Kidz</b> | All Rights
-							Reserved | Designed by&nbsp;
+							Copyright © 2023 <b>MeeMo Kidz</b> | All Rights Reserved |
+							Designed by&nbsp;
 							<a
 								className="lightbluehover letterspacing1 coloryellow"
 								href="https://www.tristack.tech"

@@ -35,10 +35,7 @@ export const insertStars = (
 			);
 		} else if (component === "showStars1") {
 			stars.push(
-				<li
-					key={i}
-					className="list-inline-item fontsize16 hvr-icon-grow me-1"
-				>
+				<li key={i} className="list-inline-item fontsize16 hvr-icon-grow me-1">
 					<i className={`fa${i <= number ? "s" : "r"} fa-star`} />
 				</li>
 			);
@@ -86,8 +83,7 @@ export const calculateCartValues = (cart: cartItem[]) => {
 		);
 		allCartItemsTotalDiscount = cart.reduce(
 			(total: number, item: cartItem) =>
-				total +
-				(item.Product_MRP - item.Product_SellingPrice) * item.quantity,
+				total + (item.Product_MRP - item.Product_SellingPrice) * item.quantity,
 			0
 		);
 	}

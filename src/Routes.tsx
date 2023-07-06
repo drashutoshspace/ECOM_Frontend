@@ -65,18 +65,12 @@ export default function Routes(): JSX.Element {
 				<Route
 					path="/"
 					element={
-						!!!sessionStorage.getItem("loader") ? (
-							<PreLoader />
-						) : (
-							<Home />
-						)
+						!!!sessionStorage.getItem("loader") ? <PreLoader /> : <Home />
 					}
 				/>
 				<Route
 					path="/signin"
-					element={
-						userId !== -1 ? <Navigate to={"/"} /> : <LoginPage />
-					}
+					element={userId !== -1 ? <Navigate to={"/"} /> : <LoginPage />}
 				/>
 				<Route path="/shop/:linkCategory" element={<AllProducts />} />
 				<Route
@@ -95,10 +89,7 @@ export default function Routes(): JSX.Element {
 						</PrivateRoute>
 					}
 				/>
-				<Route
-					path="/shop/products/:guid"
-					element={<ProductSingle />}
-				/>
+				<Route path="/shop/products/:guid" element={<ProductSingle />} />
 				<Route path="/aboutus" element={<AboutUs />} />
 				<Route path="/emailconfirm" element={<VerifyEmailConfirm />} />
 				<Route path="/testimonials" element={<Testimonials />} />
@@ -111,18 +102,12 @@ export default function Routes(): JSX.Element {
 				<Route path="/faqs" element={<Faqs />} />
 				<Route path="/reportabug" element={<RepBug />} />
 				<Route path="/feedback" element={<Feedback />} />
-				<Route
-					path="/auth/forgot-password"
-					element={<PasswordReset />}
-				/>
+				<Route path="/auth/forgot-password" element={<PasswordReset />} />
 				<Route
 					path="/auth/password/reset/confirm/:params"
 					element={<PasswordResetConfirm />}
 				/>
-				<Route
-					path="/auth/verify-email/:key"
-					element={<VerifyEmail />}
-				/>
+				<Route path="/auth/verify-email/:key" element={<VerifyEmail />} />
 				<Route
 					path="/profile/:option"
 					element={

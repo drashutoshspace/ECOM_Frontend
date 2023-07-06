@@ -75,10 +75,7 @@ export async function contactUs(data: {
 }
 
 export async function cnrData(): Promise<any> {
-	return await getWithoutAuthorization(
-		CnR_API,
-		"get cancellations and refund"
-	);
+	return await getWithoutAuthorization(CnR_API, "get cancellations and refund");
 }
 
 export async function getBanner(): Promise<any> {

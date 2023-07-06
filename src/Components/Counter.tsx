@@ -105,22 +105,15 @@ export default function Counter(): JSX.Element {
 												}}
 											>
 												{({ countUpRef, start }) => (
-													<VisibilitySensor
-														onChange={start}
-														delayedCall
-													>
-														<span
-															ref={countUpRef}
-														/>
+													<VisibilitySensor onChange={start} delayedCall>
+														<span ref={countUpRef} />
 													</VisibilitySensor>
 												)}
 											</CountUp>
 										</span>
 										&nbsp;+
 									</h2>
-									<h5 className="mb-0 mt-2 coloryellow">
-										YEARS OF EXPERIENCE
-									</h5>
+									<h5 className="mb-0 mt-2 coloryellow">YEARS OF EXPERIENCE</h5>
 								</div>
 							</div>
 						</div>
@@ -149,22 +142,15 @@ export default function Counter(): JSX.Element {
 												}}
 											>
 												{({ countUpRef, start }) => (
-													<VisibilitySensor
-														onChange={start}
-														delayedCall
-													>
-														<span
-															ref={countUpRef}
-														/>
+													<VisibilitySensor onChange={start} delayedCall>
+														<span ref={countUpRef} />
 													</VisibilitySensor>
 												)}
 											</CountUp>
 										</span>
 										&nbsp;+
 									</h2>
-									<h5 className="mb-0 mt-2 coloryellow">
-										HAPPY CUSTOMERS
-									</h5>
+									<h5 className="mb-0 mt-2 coloryellow">HAPPY CUSTOMERS</h5>
 								</div>
 							</div>
 						</div>
@@ -193,13 +179,8 @@ export default function Counter(): JSX.Element {
 												}}
 											>
 												{({ countUpRef, start }) => (
-													<VisibilitySensor
-														onChange={start}
-														delayedCall
-													>
-														<span
-															ref={countUpRef}
-														/>
+													<VisibilitySensor onChange={start} delayedCall>
+														<span ref={countUpRef} />
 													</VisibilitySensor>
 												)}
 											</CountUp>

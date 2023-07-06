@@ -48,8 +48,7 @@ export default function Testimonials({
 											alt=""
 										/>
 										<h3 className="mt-4 mb-0 pt-3 text-center colorblue">
-											No testimonials have been added by
-											the administrator yet!
+											No testimonials have been added by the administrator yet!
 										</h3>
 									</div>
 								</div>

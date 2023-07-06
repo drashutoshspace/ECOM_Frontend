@@ -85,11 +85,8 @@ export default function PasswordReset(): JSX.Element {
 											<div className="row">
 												<div className="col-lg-12">
 													<p className="colorblue text-center">
-														Please enter your email
-														address. You will
-														receive a link to create
-														a new password via
-														email.
+														Please enter your email address. You will receive a
+														link to create a new password via email.
 													</p>
 													<div className="position-relative mb-4">
 														<input
@@ -98,10 +95,7 @@ export default function PasswordReset(): JSX.Element {
 															placeholder="Registered Email"
 															value={email.toLowerCase()}
 															onChange={(e) => {
-																setEmail(
-																	e.target
-																		.value
-																);
+																setEmail(e.target.value);
 															}}
 															required
 														/>
@@ -116,29 +110,18 @@ export default function PasswordReset(): JSX.Element {
 												<div className="col-lg-12 mb-0">
 													<div className="d-grid">
 														<button
-															disabled={
-																loading
-																	? true
-																	: false
-															}
-															onClick={
-																forgotPassword
-															}
+															disabled={loading ? true : false}
+															onClick={forgotPassword}
 															className="mybtnsame fontsize16 bglightblue colorblue bgyellow border5px border-0 text-uppercase d-inline-block"
 														>
-															{loading ? (
-																<DataLoader2 />
-															) : (
-																"Send"
-															)}
+															{loading ? <DataLoader2 /> : "Send"}
 														</button>
 													</div>
 												</div>
 												<div className="col-12 text-center">
 													<p className="mb-0 mt-4">
 														<span className="colorblue me-2">
-															Remember your
-															password ?
+															Remember your password ?
 														</span>
 														<Link
 															to="/signin"

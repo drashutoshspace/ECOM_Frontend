@@ -8,8 +8,7 @@ export default function TestimonialsList(): JSX.Element {
 	const [allTestimonials, setAllTestimonials] = useState<Testimonials[]>([]);
 	var settings = {
 		dots: true,
-		dotsClass:
-			"d-flex mb-0 mt-3 dotcss list-unstyled justify-content-center",
+		dotsClass: "d-flex mb-0 mt-3 dotcss list-unstyled justify-content-center",
 		arrows: false,
 		infinite: false,
 		speed: 500,
@@ -61,9 +60,7 @@ export default function TestimonialsList(): JSX.Element {
 							data-aos-duration="1000"
 							data-aos-once="true"
 						>
-							<h1 className="title text-center colorblue">
-								Our Testimonials
-							</h1>
+							<h1 className="title text-center colorblue">Our Testimonials</h1>
 						</div>
 					</div>
 				</div>
@@ -73,10 +70,7 @@ export default function TestimonialsList(): JSX.Element {
 							{allTestimonials.map(
 								(testimonial: Testimonials, index: number) => {
 									return (
-										<TestimonialsCard
-											key={index}
-											testimonial={testimonial}
-										/>
+										<TestimonialsCard key={index} testimonial={testimonial} />
 									);
 								}
 							)}
