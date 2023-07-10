@@ -11,11 +11,8 @@ import {
 	CnR_API,
 	GetBanners_API,
 } from "../../backend";
-import {
-	getWithoutAuthorization,
-	postWithoutAuthorization,
-	postWithAuthorization,
-} from "../generics";
+import { getWithoutAuthorization, postWithoutAuthorization } from "../generics";
+import { toast } from "react-toastify";
 
 export async function tncData(): Promise<any> {
 	return await getWithoutAuthorization(TnC_API, "get terms & conditions");
@@ -26,7 +23,22 @@ export async function testimonialData(): Promise<any> {
 }
 
 export async function reportABug(data: FormData): Promise<any> {
-	return await postWithAuthorization(ReportABug_API, data, "report a bug");
+	const tokenValue = localStorage
+		.getItem("currentToken")!
+		.replace(/['"]+/g, "");
+	try {
+		const response = await fetch(ReportABug_API, {
+			method: "POST",
+			headers: {
+				Authorization: "Token " + tokenValue,
+			},
+			body: data,
+		});
+		return await response.json();
+	} catch (err) {
+		toast.error(`Cannot report a bug currently!`);
+		return console.log(err);
+	}
 }
 
 export async function privacyPolicyData(): Promise<any> {

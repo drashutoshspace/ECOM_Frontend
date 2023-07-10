@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { profileData, signIn } from "../APIs/user/user";
-import GoogleLogin from "react-google-login";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 import { useMediaQuery } from "react-responsive";
 import DataLoader2 from "./DataLoader2";
-import { googleLogin } from "../APIs/user/user";
 import { loginFromRedux } from "../Data/storingData";
 import { useDispatch } from "react-redux";
 
@@ -57,22 +55,6 @@ export default function Login({
 				}
 			}
 		});
-	};
-	const responseGoogle = async (response: any) => {
-		// await googleLogin({
-		// 	access_token: response.accessToken,
-		// 	code: response.code,
-		// 	id_token: response.tokenId,
-		// }).then((res: any) => {
-		// 	if (res?.status === 200) {
-		// 		if (async () => await isAuthenticated()) {
-		// 			handleNotification("Login Successful", "success");
-		// 			return <Navigate to="/" />;
-		// 		}
-		// 	} else {
-		// 		return toast.error(res?.error);
-		// 	}
-		// });
 	};
 	const [showPassword, setShowPassword] = useState(false);
 	const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
@@ -177,39 +159,6 @@ export default function Login({
 											>
 												{loading ? <DataLoader2 /> : "Login"}
 											</button>
-										</div>
-									</div>
-									<div className="col-lg-12 mt-2 text-center">
-										<h3 className="colorblue mb-1 mt-1">Or Login With</h3>
-										<div className="row">
-											<div className="col-12 mt-1">
-												<div className="d-grid">
-													<GoogleLogin
-														clientId="643639185226-rqi76uj45a2pbvmqrsvku1mqg4kgspvf.apps.googleusercontent.com"
-														render={(renderProps) => (
-															<button
-																onClick={renderProps.onClick}
-																className="socialbutton bglightblue border-0 colorblue bgyellow cursorpointer border5px d-flex justify-content-center align-items-center px-2 my-2"
-															>
-																<img
-																	src="images/Google_Button.svg"
-																	height="20px"
-																	alt="Google"
-																	style={{
-																		backgroundColor: "#fff",
-																		padding: "2px",
-																		borderRadius: "2px",
-																	}}
-																/>
-																&nbsp;&nbsp;
-																<b>Google</b>
-															</button>
-														)}
-														onSuccess={responseGoogle}
-														onFailure={responseGoogle}
-													/>
-												</div>
-											</div>
 										</div>
 									</div>
 									<div className="col-12 text-center">
@@ -323,39 +272,6 @@ export default function Login({
 											>
 												{loading ? <DataLoader2 /> : "Login"}
 											</button>
-										</div>
-									</div>
-									<div className="col-lg-12 mt-4 text-center">
-										<h3 className="colorblue mb-1 mt-1">Or Login With</h3>
-										<div className="row">
-											<div className="col-12 mt-3">
-												<div className="d-grid">
-													<GoogleLogin
-														clientId="643639185226-rqi76uj45a2pbvmqrsvku1mqg4kgspvf.apps.googleusercontent.com"
-														render={(renderProps) => (
-															<button
-																onClick={renderProps.onClick}
-																className="socialbutton bglightblue border-0 colorblue bgyellow cursorpointer border5px d-flex justify-content-center align-items-center px-2 my-2"
-															>
-																<img
-																	src="images/Google_Button.svg"
-																	height="20px"
-																	alt="Google"
-																	style={{
-																		backgroundColor: "#fff",
-																		padding: "2px",
-																		borderRadius: "2px",
-																	}}
-																/>
-																&nbsp;&nbsp;
-																<b>Google</b>
-															</button>
-														)}
-														onSuccess={responseGoogle}
-														onFailure={responseGoogle}
-													/>
-												</div>
-											</div>
 										</div>
 									</div>
 									<div className="col-12 text-center">

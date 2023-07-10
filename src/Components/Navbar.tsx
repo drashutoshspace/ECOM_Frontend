@@ -25,9 +25,10 @@ export default function Navbar(): JSX.Element {
 	const allProductCategories = useSelector(
 		(state: Store) => state.allProductCategories
 	);
-	const logoutUser = (e: any) => {
+	const logoutUser = async (e: any) => {
 		e.preventDefault();
-		signOut((data: any) => {
+		await signOut().then((data: any) => {
+			localStorage.removeItem("currentToken");
 			dispatch(logoutFromRedux());
 			navigate("/signin");
 			return toast.success(data?.detail);
@@ -128,8 +129,6 @@ export default function Navbar(): JSX.Element {
 			}
 		}
 	});
-	console.log(mySearchInput);
-
 	return (
 		<>
 			{isDesktopOrLaptop && (
@@ -417,7 +416,7 @@ export default function Navbar(): JSX.Element {
 								<li>
 									<Link
 										to="/profile/account"
-										className="colorblue fontsize12 lightbluehover dropdown-item"
+										className="colorblue fontsize14 lightbluehover dropdown-item"
 									>
 										<i className="fas fa-user" />
 										&nbsp;&nbsp;Account
@@ -429,7 +428,7 @@ export default function Navbar(): JSX.Element {
 								<li>
 									<Link
 										to="/profile/myorders"
-										className="colorblue fontsize12 lightbluehover dropdown-item"
+										className="colorblue fontsize14 lightbluehover dropdown-item"
 									>
 										<i className="fas fa-shopping-cart" />
 										&nbsp;&nbsp;My Orders
@@ -438,7 +437,7 @@ export default function Navbar(): JSX.Element {
 								<li>
 									<Link
 										to="/profile/productwishlist"
-										className="colorblue fontsize12 lightbluehover dropdown-item"
+										className="colorblue fontsize14 lightbluehover dropdown-item"
 									>
 										<i className="fas fa-box-heart" />
 										<span className="topnumbercart">
@@ -450,7 +449,7 @@ export default function Navbar(): JSX.Element {
 								{/* <li>
 									<Link
 										to="/profile/buyagain"
-										className="colorblue fontsize12 lightbluehover dropdown-item"
+										className="colorblue fontsize14 lightbluehover dropdown-item"
 									>
 										<i className="fas fa-cart-plus" />
 										&nbsp;&nbsp;Buy Again
@@ -464,7 +463,7 @@ export default function Navbar(): JSX.Element {
 										<li>
 											<Link
 												to="/profile/changepassword"
-												className="colorblue fontsize12 lightbluehover dropdown-item"
+												className="colorblue fontsize14 lightbluehover dropdown-item"
 											>
 												<i className="fas fa-lock" />
 												&nbsp;&nbsp;Change Password
@@ -473,7 +472,7 @@ export default function Navbar(): JSX.Element {
 										<li>
 											<Link
 												to="/profile/changeemail"
-												className="colorblue fontsize12 lightbluehover dropdown-item"
+												className="colorblue fontsize14 lightbluehover dropdown-item"
 											>
 												<i className="fas fa-envelope" />
 												&nbsp;&nbsp;Change Email
@@ -745,7 +744,7 @@ export default function Navbar(): JSX.Element {
 										<li>
 											<Link
 												to="/profile/account"
-												className="colorblue fontsize12 lightbluehover dropdown-item"
+												className="colorblue fontsize14 lightbluehover dropdown-item"
 											>
 												<i className="fas fa-user" />
 												&nbsp;&nbsp;Account
@@ -757,7 +756,7 @@ export default function Navbar(): JSX.Element {
 										<li>
 											<Link
 												to="/profile/myorders"
-												className="colorblue fontsize12 lightbluehover dropdown-item"
+												className="colorblue fontsize14 lightbluehover dropdown-item"
 											>
 												<i className="fas fa-shopping-cart" />
 												&nbsp;&nbsp;My Orders
@@ -766,7 +765,7 @@ export default function Navbar(): JSX.Element {
 										<li>
 											<Link
 												to="/profile/productwishlist"
-												className="colorblue fontsize12 lightbluehover dropdown-item"
+												className="colorblue fontsize14 lightbluehover dropdown-item"
 											>
 												<i className="fas fa-box-heart" />
 												<span className="topnumbercart">
@@ -778,7 +777,7 @@ export default function Navbar(): JSX.Element {
 										{/* <li>
 											<Link
 												to="/profile/buyagain"
-												className="colorblue fontsize12 lightbluehover dropdown-item"
+												className="colorblue fontsize14 lightbluehover dropdown-item"
 											>
 												<i className="fas fa-cart-plus" />
 												&nbsp;&nbsp;Buy Again
@@ -792,7 +791,7 @@ export default function Navbar(): JSX.Element {
 												<li>
 													<Link
 														to="/profile/changepassword"
-														className="colorblue fontsize12 lightbluehover dropdown-item"
+														className="colorblue fontsize14 lightbluehover dropdown-item"
 													>
 														<i className="fas fa-lock" />
 														&nbsp;&nbsp;Change Password
@@ -801,7 +800,7 @@ export default function Navbar(): JSX.Element {
 												<li>
 													<Link
 														to="/profile/changeemail"
-														className="colorblue fontsize12 lightbluehover dropdown-item"
+														className="colorblue fontsize14 lightbluehover dropdown-item"
 													>
 														<i className="fas fa-envelope" />
 														&nbsp;&nbsp;Change Email
@@ -811,7 +810,7 @@ export default function Navbar(): JSX.Element {
 										)}
 										<li>
 											<small
-												className="cursorpointer colorblue fontsize12 lightbluehover dropdown-item"
+												className="cursorpointer colorblue fontsize14 lightbluehover dropdown-item"
 												onClick={(e) => logoutUser(e)}
 											>
 												<i className="fas fa-sign-out-alt" />

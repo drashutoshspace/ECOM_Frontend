@@ -16,7 +16,7 @@ export default function OrderDetailCard({ id }: { id?: string }): JSX.Element {
 			});
 		};
 		getMyOrders();
-	}, []);
+	}, [id]);
 	return (
 		<>
 			{!loading ? (

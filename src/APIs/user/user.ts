@@ -6,7 +6,6 @@ import {
 	MyOrders_API,
 	PasswordChange_API,
 	ProfileData_API,
-	GoogleAuth_API,
 	EmailVerify_API,
 } from "../../backend";
 import {
@@ -14,6 +13,7 @@ import {
 	postWithoutAuthorization,
 	postWithAuthorization,
 } from "../generics";
+import { toast } from "react-toastify";
 
 export async function signUp(data: {
 	username: string;
@@ -32,11 +32,21 @@ export async function signIn(data: {
 	return postWithoutAuthorization(Login_API, data, "login");
 }
 
-export async function signOut(next: (data: any) => void): Promise<any> {
-	if (typeof window !== undefined) {
-		const data = await postWithAuthorization(Logout_API, undefined, "logout");
-		localStorage.removeItem("token");
-		next(data);
+export async function signOut(): Promise<any> {
+	const tokenValue = localStorage
+		.getItem("currentToken")!
+		.replace(/['"]+/g, "");
+	try {
+		const response = await fetch(Logout_API, {
+			method: "POST",
+			headers: {
+				Authorization: "Token " + tokenValue,
+			},
+		});
+		return await response.json();
+	} catch (err) {
+		toast.error(`Cannot update profile currently!`);
+		return console.log(err);
 	}
 }
 
@@ -72,22 +82,20 @@ export async function profileData(): Promise<any> {
 }
 
 export async function profileDataUpdate(data: FormData): Promise<any> {
-	return await postWithAuthorization(ProfileData_API, data, "update profile");
-}
-
-export async function googleLogin(data: {
-	access_token: string;
-	code: string;
-	id_token: string;
-}): Promise<void> {
-	localStorage.setItem(
-		"currentToken",
-		(
-			(await postWithoutAuthorization(
-				GoogleAuth_API,
-				data,
-				"login from Google"
-			)) as any
-		).data.key
-	);
+	const tokenValue = localStorage
+		.getItem("currentToken")!
+		.replace(/['"]+/g, "");
+	try {
+		const response = await fetch(ProfileData_API, {
+			method: "POST",
+			headers: {
+				Authorization: "Token " + tokenValue,
+			},
+			body: data,
+		});
+		return await response.json();
+	} catch (err) {
+		toast.error(`Cannot update profile currently!`);
+		return console.log(err);
+	}
 }

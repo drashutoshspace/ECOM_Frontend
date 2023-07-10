@@ -16,7 +16,7 @@ import DataLoader2 from "../Components/DataLoader2";
 import { useSelector, useDispatch } from "react-redux";
 import { Store } from "../Interfaces/Store";
 import { Order } from "../Interfaces/Orders";
-import { updateProfile } from "../Data/storingData";
+import { updateProfile, logoutFromRedux } from "../Data/storingData";
 import { User } from "../Interfaces/User";
 import { userOrders } from "../APIs/user/user";
 import { countries } from "countries-list";
@@ -37,7 +37,6 @@ export default function Profile(): JSX.Element {
 	const [countryCode, setCountryCode] = useState("+91");
 	const [loading, setLoading] = useState(false);
 	const [imageChanged, setImageChanged] = useState(false);
-	const [toggle, setToggle] = useState(false);
 	const [myOrders, setMyOrders] = useState<Order[]>([]);
 	const [image, setImage] = useState("");
 	const [originalImage, setOriginalImage] = useState(profile.image);
@@ -67,9 +66,9 @@ export default function Profile(): JSX.Element {
 				!imageChanged && uploadData.set(key, "");
 			}
 		}
-		await profileDataUpdate(uploadData).then((d: any) => {
-			setToggle(!toggle);
-			dispatch(updateProfile({ profileData: profile }));
+		await profileDataUpdate(uploadData).then((data: any) => {
+			setLoading(false);
+			dispatch(updateProfile({ profileData: data[0] }));
 			return toast.success("Your profile has been updated.");
 		});
 		setImageChanged(false);
@@ -98,11 +97,13 @@ export default function Profile(): JSX.Element {
 			newemail1: newEmail1.toLowerCase(),
 			newemail2: newEmail2.toLowerCase(),
 		}).then((data: any) => {
-			setNewEmail1("");
-			setNewEmail2("");
 			if (data?.detail) {
 				setLoading(false);
-				return toast.success(data.detail);
+				setNewEmail1("");
+				setNewEmail2("");
+				dispatch(logoutFromRedux());
+				navigate("/signin");
+				return toast.success("Verify your email first!");
 			}
 			if (data?.newemail1) {
 				setLoading(false);
@@ -171,7 +172,15 @@ export default function Profile(): JSX.Element {
 													className="custom-file-upload fas"
 												>
 													<div className="img-wrap img-upload">
-														<img src={originalImage} alt="Profile_Pic" />
+														<img
+															src={
+																image
+																	? // @ts-ignore
+																	  URL.createObjectURL(image)
+																	: originalImage
+															}
+															alt="Profile_Pic"
+														/>
 													</div>
 													<input
 														className="d-none"
@@ -199,6 +208,7 @@ export default function Profile(): JSX.Element {
 															<button
 																className="mybtnsame mt-2 fontsize14 bglightblue colorblue bgyellow border5px border-0 text-uppercase"
 																onClick={(e) => {
+																	setLoading(true);
 																	handleProfileUpdate(e);
 																}}
 															>

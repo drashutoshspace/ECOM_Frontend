@@ -1,17 +1,11 @@
 import { useState } from "react";
 import { signUp } from "../APIs/user/user";
 import { Link, useNavigate } from "react-router-dom";
-import GoogleLogin from "react-google-login";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 import DataLoader2 from "./DataLoader2";
-import { googleLogin } from "../APIs/user/user";
 
-export default function Signup({
-	handleToggle,
-	isAuthenticated,
-	handleNotification,
-}: any): JSX.Element {
+export default function Signup({ handleToggle }: any): JSX.Element {
 	const [values, setValues] = useState({
 		username: "",
 		email: "",
@@ -100,22 +94,6 @@ export default function Signup({
 			setLoading(false);
 			return toast.error(`Please check password field!`);
 		}
-	};
-	const responseGoogle = async (response: any) => {
-		// await googleLogin({
-		// 	access_token: response.accessToken,
-		// 	code: response.code,
-		// 	id_token: response.tokenId,
-		// }).then((res: any) => {
-		// 	if (res?.status === 200) {
-		// 		if (async () => await isAuthenticated()) {
-		// 			handleNotification("Login Successful", "success");
-		// 			return navigate("/");
-		// 		}
-		// 	} else {
-		// 		return toast.error(res?.error);
-		// 	}
-		// });
 	};
 	const [showPassword1, setShowPassword1] = useState(false);
 	const seePassword1 = () => {
@@ -265,39 +243,6 @@ export default function Signup({
 										>
 											{loading ? <DataLoader2 /> : "Register"}
 										</button>
-									</div>
-								</div>
-								<div className="col-lg-12 mt-4 text-center">
-									<h3 className="colorblue my-1">Or Sign Up With</h3>
-									<div className="row">
-										<div className="col-12 mt-3">
-											<div className="d-grid">
-												<GoogleLogin
-													clientId="643639185226-rqi76uj45a2pbvmqrsvku1mqg4kgspvf.apps.googleusercontent.com"
-													render={(renderProps) => (
-														<button
-															onClick={renderProps.onClick}
-															className="socialbutton bglightblue border-0 colorblue bgyellow cursorpointer border5px d-flex justify-content-center align-items-center px-2 my-2"
-														>
-															<img
-																src="images/Google_Button.svg"
-																height="20px"
-																alt="Google"
-																style={{
-																	backgroundColor: "#fff",
-																	padding: "2px",
-																	borderRadius: "2px",
-																}}
-															/>
-															&nbsp;&nbsp;
-															<b>Google</b>
-														</button>
-													)}
-													onSuccess={responseGoogle}
-													onFailure={responseGoogle}
-												/>
-											</div>
-										</div>
 									</div>
 								</div>
 								<div className="col-12 text-center">

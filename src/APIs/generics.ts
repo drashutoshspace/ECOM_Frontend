@@ -42,8 +42,8 @@ export async function getWithoutAuthorization(
 
 export async function postWithAuthorization(
 	endpoint: string,
-	payload?: object,
-	operation?: string
+	payload: object,
+	operation: string
 ): Promise<any> {
 	const tokenValue = localStorage
 		.getItem("currentToken")!
@@ -53,20 +53,10 @@ export async function postWithAuthorization(
 			method: "POST",
 			headers: {
 				Accept: "application/json",
-				"Content-Type":
-					endpoint.slice(34, endpoint.length - 1) !== "get_profile" ||
-					"reportabug"
-						? "application/json"
-						: "multipart/form-data",
+				"Content-Type": "application/json",
 				Authorization: "Token " + tokenValue,
 			},
-			body:
-				endpoint.slice(34, endpoint.length - 1) !== "get_profile" ||
-				"reportabug"
-					? payload
-						? JSON.stringify(payload)
-						: null
-					: (payload as any),
+			body: JSON.stringify(payload),
 		});
 		return await response.json();
 	} catch (err) {

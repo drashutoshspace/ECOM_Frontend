@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
 import { Order } from "../Interfaces/Orders";
+import { invoiceRequest } from "../APIs/ecommerce/ecommerce";
+import { toast } from "react-toastify";
 
 export default function MyOrderCard({ order }: { order: Order }): JSX.Element {
+	const requestInvoice = async (e: any) => {
+		e.preventDefault();
+		await invoiceRequest({ order_id: order.order_id }).then(async (data) => {
+			return toast.success("Invoice will be sent on your email!");
+		});
+	};
 	return (
-		<div className="row bgcolorwhite shadow border5px text-start p-2">
+		<div className="row bgcolorwhite shadow border5px text-start p-2 mt-4">
 			<div className="col-lg-6">
 				<p className="mypara fw-bold colorblue my-2">
 					Order ID:&nbsp;&nbsp;
@@ -71,12 +79,13 @@ export default function MyOrderCard({ order }: { order: Order }): JSX.Element {
 			</div>
 			<div className="col-lg-12" style={{ borderTop: "1px solid #00ebc7" }}>
 				<p className="mypara fw-bold colorblue my-2">
-					<Link
-						to={`/profile/orderdetail/invoice/${order.model_id}`}
+					<span
+						onClick={(e) => requestInvoice(e)}
+						style={{ cursor: "pointer" }}
 						className="colorlightblue text-decoration-underline yellowhover"
 					>
 						Invoice
-					</Link>
+					</span>
 				</p>
 			</div>
 		</div>

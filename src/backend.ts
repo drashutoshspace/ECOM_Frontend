@@ -10,9 +10,6 @@ export const PasswordResetConfirm_API = `${BACKEND}auth/password/reset/confirm/`
 export const PasswordChange_API = `${BACKEND}auth/password/change/`;
 export const EmailChange_API = `${BACKEND}api/email_change/`;
 
-//Social Authentication APIs
-export const GoogleAuth_API = `${BACKEND}auth/google/`;
-
 //USER DETAILS APIs
 export const ProfileData_API = `${BACKEND}api/get_profile/`;
 
