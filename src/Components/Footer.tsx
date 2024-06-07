@@ -276,8 +276,8 @@ export default function Footer(): JSX.Element {
 				<div className="row pb-2 fontsize14">
 					<div className="col text-center">
 						<p className="m-0 letterspacing1 coloryellow">
-							Copyright © 2023 <b>MeeMo Kidz</b> | All Rights Reserved |
-							Designed by&nbsp;
+							Copyright © 2024 <b>MeeMo Kidz</b> | All Rights Reserved |
+{/* 							Designed by&nbsp;
 							<a
 								className="lightbluehover letterspacing1 coloryellow"
 								href="https://www.tristack.tech"
@@ -285,7 +285,7 @@ export default function Footer(): JSX.Element {
 								target="_blank"
 							>
 								<b>triStack.tech</b>
-							</a>
+							</a> */}
 						</p>
 					</div>
 				</div>
